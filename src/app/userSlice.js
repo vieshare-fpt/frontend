@@ -1,34 +1,35 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-
+import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
     name: 'user',
     initialState: {
-        login: {
-            currentUser: null,
-            isFetching: false,
+        currentUser: {
+            userInfo: null,
+            isFetching:false,
             error: false,
         }
     },
     reducers: {
-        loginStart: (state) => {
-            state.login.isFetching = true;
+        getUserInfoStart: (state) => {
+            state.currentUser.isFetching = true;
+
         },
-        loginSuccess: (state, action) => {
-            state.login.isFetching = false;
-            state.login.currentUser = action.payload;
-            state.login.error = false;
+        getUserInfoSuccess: (state, action) => {
+            state.currentUser.isFetching = false;
+            state.currentUser.userInfo = action.payload;
+
         },
-        loginFailure: (state, action) => {
-            state.login.isFetching = false;
-            state.login.error = true;
+        getUserInfoFalse: (state, action) => {
+            state.currentUser.isFetching = false;
+            state.currentUser.error = true;
         }
-    },
+    }
 })
 
 export const {
-    loginStart,
-    loginFailure,
-    loginSuccess,
-} = userSlice.actions
+    getUserInfoStart,
+    getUserInfoSuccess,
+    getUserInfoFalse
+} = userSlice.actions;
+
 export default userSlice.reducer
