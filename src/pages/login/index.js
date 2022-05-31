@@ -2,6 +2,7 @@ import { Container, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
 import FormLogin from '../../features/login/components/formLogin'
+import Logo from '../../features/login/components/logo'
 
 export default function loginPage() {
     return (
@@ -18,6 +19,7 @@ export default function loginPage() {
           {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar> */}
+          <Logo/>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
