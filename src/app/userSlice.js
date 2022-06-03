@@ -7,6 +7,11 @@ const userSlice = createSlice({
             userInfo: null,
             isFetching:false,
             error: false,
+        },
+        currentUserInfoLimit: {
+            userInfo: null,
+            isFetching:false,
+            error: false,
         }
     },
     reducers: {
@@ -19,17 +24,35 @@ const userSlice = createSlice({
             state.currentUser.userInfo = action.payload;
 
         },
-        getUserInfoFalse: (state, action) => {
+        getUserInfoFalse: (state) => {
             state.currentUser.isFetching = false;
             state.currentUser.error = true;
-        }
+        },
+        
+        getUserInfoLimitStart: (state) => {
+            state.currentUserInfoLimit.isFetching = true;
+
+        },
+        getUserInfoLimitSuccess: (state, action) => {
+            state.currentUserInfoLimit.isFetching = false;
+            state.currentUserInfoLimit.userInfo = action.payload;
+
+        },
+        getUserInfoLimitFalse: (state) => {
+            state.currentUserInfoLimit.isFetching = false;
+            state.currentUserInfoLimit.error = true;
+        },
+        
     }
 })
 
 export const {
     getUserInfoStart,
     getUserInfoSuccess,
-    getUserInfoFalse
+    getUserInfoFalse,
+    getUserInfoLimitStart,
+    getUserInfoLimitSuccess,
+    getUserInfoLimitFalse,
 } = userSlice.actions;
 
 export default userSlice.reducer

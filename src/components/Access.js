@@ -7,7 +7,7 @@ const styles = {
     color: 'Black', cursor: 'pointer',
     borderBottom: "solid 0px green",
     textTransform: "uppercase",
-    transition: "border-width 0.1s linear",
+    transition: "border-width 0.2s linear",
     color: 'black',
     fontWeight: '400',
     margin: "0 10px"

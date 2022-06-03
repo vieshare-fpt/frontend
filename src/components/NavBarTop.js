@@ -51,14 +51,10 @@ const MyLogo = styled(Typography)({
 
 
 });
-const MyLink = styled(LinkMUI)((theme) => ({
-  '&:hover': {
-    color: 'green !important',
-  }
-}))
+
 
 const NavBarTop = () => {
-  const user = useSelector((state) => state.user.currentUser.userInfo);
+  const user = useSelector((state) => state.user.currentUserInfoLimit.userInfo?.data.jwtPayload);
 
   const [searchValue, setSearchValue] = React.useState('');
 
@@ -109,7 +105,7 @@ const NavBarTop = () => {
           {user ? (
             <>
               <Box>
-                <UserPopup type={user.data.isPremium} fullname={user.data.name} avatar={user.data.avatar} email={user.data.email}/>
+                <UserPopup type={user.isPremium} fullname={user.name} avatar={user.avatar} email={user.email}/>
               </Box>
             </>
           ) : (

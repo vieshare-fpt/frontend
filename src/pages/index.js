@@ -20,11 +20,12 @@ const MyUl = styled('ul')({
 function LandingPage({ trendingPosts, suggestPosts }) {
   const watchMore = (
     <Typography sx={{
-      cursor:'pointer',
-      color:blue[700],
+      cursor: 'pointer',
+      color: blue[700],
       ':hover': {
-      color: 'green'
-    }}}>Xem thêm...</Typography>
+        color: 'green'
+      }
+    }}>Xem thêm...</Typography>
   )
   return (
     <Layout>
@@ -49,13 +50,16 @@ function LandingPage({ trendingPosts, suggestPosts }) {
         <Typography variant='h4' sx={{ mb: 2 }}>Gợi ý cho bạn</Typography>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           {suggestPosts.map(suggestion => (
-            <Grid item xs={12} sm={12} md={4} key={suggestion.id}>
-              <PostCards note={suggestion} />
-            </Grid>
+            <Link key={suggestion.id} href={`/post/${suggestion.id}`}>
+              <Grid item xs={12} sm={12} md={4} key={suggestion.id}>
+                <PostCards note={suggestion} />
+              </Grid>
+            </Link>
+
           ))}
         </Grid>
         {/* link to page suggestion */}
-        <Grid container justifyContent="flex-end">
+        < Grid container justifyContent="flex-end" >
           <Link href='/suggest' >{watchMore}</Link>
         </Grid>
 
