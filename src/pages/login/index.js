@@ -4,11 +4,42 @@ import Link from 'next/link'
 import React from 'react'
 import FormLogin from '../../features/login/components/formLogin'
 import styles from '../../styles/Logo.module.css'
+import * as yup from 'yup';
+import { useDispatch } from 'react-redux'
+import { useFormik } from 'formik'
+import { useRouter } from 'next/router';
+import { loginUser } from '../../app/apiRequest'
+
+
+const validationSchema = yup.object({
+  email: yup
+    .string('Enter your email')
+    .email('Enter a valid email')
+    .required('Email is required'),
+  password: yup
+    .string('Enter your password')
+    .min(7, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+});
 
 export default function loginPage() {
-  
+  const navigate = useRouter();
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      const newUser = {
+        email: values.email,
+        password: values.password,
+      }
+      loginUser(newUser, navigate)
+    },
+  });
   return (
- 
+
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
@@ -29,7 +60,7 @@ export default function loginPage() {
         <Typography component="h1" variant="h5">
           Đăng Nhập
         </Typography>
-        <FormLogin />
+        <FormLogin formik={formik} />
         <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">

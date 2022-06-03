@@ -14,30 +14,13 @@ const instance = axios.create({
     baseURL: 'https://backend-vieshare-stg.vi-vu.vn/api'
 });
 
-export const getUserInfo = async (config) => {
-
-    const response = await instance.get('/users/info', config)
-    dispatch(getUserInfoSuccess(response.data))
-
-}
 
 
-export const getUserInfoLimit = async (accessToken, dispatch) => {
-    dispatch(getUserInfoLimitStart());
-    try {
-        const response = await instance.post('/auth/validate', {
-            token: accessToken
-        })
-
-        dispatch(getUserInfoLimitSuccess(response.data))
-    } catch (error) {
-        dispatch(getUserInfoLimitFalse())
-    }
-}
 
 
-export const loginUser = async (user, dispatch, navigate) => {
-    dispatch(loginStart());
+
+
+export const loginUser = async (user, navigate) => {
     try {
         const res = await instance.post('/auth/login', user)
         const token = res.data.data.token
@@ -47,25 +30,35 @@ export const loginUser = async (user, dispatch, navigate) => {
             setCookieData('token', token)
             setCookieData('refreshToken', refreshToken)
         }
-
-        getUserInfoLimit(token, dispatch)
         navigate.push('/')
-
-
     } catch (err) {
-        dispatch(loginFailure(err));
+        console.log(err);
     }
 }
 
-export const registerUser = async (user, dispatch, navigate) => {
+export const requestUserInfoLimit = async (accessToken, dispatch) => {
+    dispatch(getUserInfoLimitStart());
     try {
-        await instance.post('/users/register', user)
-        dispatch(registerSuccess())
-        navigate.push('/login')
-    } catch (err) {
-        dispatch(registerFailure(err));
+        const response = await instance.post('/auth/validate', {
+            token: accessToken
+        })
+        
+        dispatch(getUserInfoLimitSuccess(response.data))
+    } catch (error) {
+        dispatch(getUserInfoLimitFalse())
     }
 }
+
+
+export const registerUser = async (user, navigate) => {
+
+    await instance.post('/users/register', user)
+    navigate.push('/login')
+
+}
+
+
+
 
 export const renewAccessToken = async (refreshToken) => {
 

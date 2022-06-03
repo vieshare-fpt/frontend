@@ -6,6 +6,9 @@ import postApi from './api/postsApi'
 import { blue } from '@mui/material/colors';
 import Layout from '../components/Layout'
 import PostCards from '../components/PostCards'
+import { useDispatch } from 'react-redux';
+import { requestUserInfoLimit } from '../app/apiRequest';
+import { getCookieData } from '../app/cookies';
 
 const MyContainer = styled('div')({
   margin: '0 5%'
@@ -18,6 +21,10 @@ const MyUl = styled('ul')({
 
 
 function LandingPage({ trendingPosts, suggestPosts }) {
+
+
+
+
   const watchMore = (
     <Typography sx={{
       cursor: 'pointer',

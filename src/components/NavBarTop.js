@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import { InputAdornment, styled, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search'
 import Link from 'next/link';
-import { default as LinkMUI } from '@mui/material/Link';
 import UserPopup from './UserPopup';
 import NavLine from './AppBar/NavLine';
 import NavMenu from './AppBar/NavMenu';

@@ -5,10 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import * as yup from 'yup';
-import { useFormik } from 'formik';
-import { loginUser } from '../../../app/apiRequest';
-import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux'
+
 const validationSchema = yup.object({
     email: yup
         .string('Enter your email')
@@ -22,23 +19,8 @@ const validationSchema = yup.object({
 
 
 
-export default function FormLogin() {
-    const navigate = useRouter();
-    const dispatch = useDispatch();
-    const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: '',
-        },
-        validationSchema: validationSchema,
-        onSubmit: (values) => {
-            const newUser = {
-                email: values.email,
-                password: values.password,
-            }
-            loginUser(newUser, dispatch, navigate)
-        },
-    });
+export default function FormLogin({formik}) {
+  
 
     return (
         <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
