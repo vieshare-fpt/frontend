@@ -2,7 +2,7 @@ import { Container, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import Link from 'next/link'
 import React from 'react'
-import FormLogin from 'src/components/login/formLogin'
+import FormLogin from 'src/components/login/FormLogin'
 import styles from 'src/styles/Logo.module.css'
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux'
