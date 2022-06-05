@@ -6,10 +6,10 @@ import Typography from '@mui/material/Typography';
 import { InputAdornment, styled, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search'
 import Link from 'next/link';
-import UserPopup from './UserPopup';
-import NavLine from './AppBar/NavLine';
-import NavMenu from './AppBar/NavMenu';
-import Access from './Access.js';
+import UserPopup from 'src/components/UserPopup';
+import NavLine from 'src/components/AppBar/NavLine';
+import NavMenu from 'src/components/AppBar/NavMenu';
+import Access from 'src/components/Access.js';
 import { useSelector } from 'react-redux';
 
 
