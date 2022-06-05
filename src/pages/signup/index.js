@@ -52,7 +52,6 @@ export default function signUp() {
     const file = e.target.files[0]
     const formdata = new FormData()
     formdata.append('image', file)
-    ax
     setAvatar(file)
   }
 
@@ -78,7 +77,7 @@ export default function signUp() {
         avatar: avatar,
 
       }
-      registerUser(newUser, dispatch, navigate)
+      registerUser(newUser, navigate, dispatch)
     },
   });
   return (

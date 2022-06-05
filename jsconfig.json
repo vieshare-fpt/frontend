@@ -20,9 +20,9 @@
     "incremental": true
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
+    "next-env.d.js",
+    "**/*.js",
+    "**/*.jsx"
 , "src/pages/_app.js", "src/pages/index.js", "src/app/store.js"  ],
   "exclude": [
     "node_modules"

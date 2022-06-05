@@ -42,7 +42,7 @@ export const cardHover = {
     ':hover': {
         transform: 'scale(1.10)',
         boxShadow: 20,
-        transition: 'all 0.7s'
+        transition: 'all 0.25s'
 
     }
 }
