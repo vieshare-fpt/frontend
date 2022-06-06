@@ -4,18 +4,6 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
-import * as yup from 'yup';
-
-const validationSchema = yup.object({
-    email: yup
-        .string('Enter your email')
-        .email('Enter a valid email')
-        .required('Email is required'),
-    password: yup
-        .string('Enter your password')
-        .min(7, 'Password should be of minimum 8 characters length')
-        .required('Password is required'),
-});
 
 
 
@@ -28,7 +16,7 @@ export default function FormLogin({formik}) {
                 margin="normal"
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Địa chỉ Email"
                 name="email"
                 autoFocus
                 value={formik.values.email}
@@ -40,7 +28,7 @@ export default function FormLogin({formik}) {
                 margin="normal"
                 fullWidth
                 name="password"
-                label="Password"
+                label="Mật khẩu"
                 type="password"
                 id="password"
                 value={formik.values.password}
@@ -50,7 +38,7 @@ export default function FormLogin({formik}) {
             />
             <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                label="Nhớ thông tin đăng nhập"
             />
             <Button
                 type="submit"
@@ -58,7 +46,7 @@ export default function FormLogin({formik}) {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
             >
-                Sign In
+                Đăng Nhập
             </Button>
 
         </Box>

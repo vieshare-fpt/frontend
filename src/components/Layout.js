@@ -19,9 +19,13 @@ export default function Layout({ children }) {
   useEffect(() => {
     const token = getCookieData('token')
    requestUserInfoLimit(token, dispatch)
-  }, [])
+  }, []);
   return (
     <div>
+      <Head>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <title>VieShare</title>
+      </Head>
       <header>
         <NavBarTop />
       </header>

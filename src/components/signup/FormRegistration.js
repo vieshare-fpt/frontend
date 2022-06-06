@@ -104,7 +104,7 @@ export default function FormRegistration({ formik, dob, setDob, handleAvatar, av
                             required
                             fullWidth
                             name="passwordConfirmation"
-                            label="Nhập lại Mật Khẩu"
+                            label="Xác nhận Mật Khẩu"
                             type="password"
                             id="passwordConfirmation"
                             autoComplete="new-password"
@@ -142,7 +142,8 @@ export default function FormRegistration({ formik, dob, setDob, handleAvatar, av
                     <Grid item xs={12}>
                         <FormControlLabel
                             control={<Checkbox value="allowExtraEmails" color="primary" />}
-                            label="I want to receive inspiration, marketing promotions and updates via email."
+                            label="Tôi muốn nhận các cập nhật mới qua email"
+                            //I want to receive inspiration, marketing promotions and updates via email.
                         />
                     </Grid>
 
@@ -155,7 +156,7 @@ export default function FormRegistration({ formik, dob, setDob, handleAvatar, av
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
             >
-                Sign Up
+                Đăng ký
             </Button>
 
         </div>

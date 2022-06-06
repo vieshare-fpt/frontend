@@ -9,6 +9,9 @@ import formatDate from 'src/utils/FormatDateHelper.js'
 import { registerUser } from 'src/services/apiRequest';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import SignupStyle from 'src/styles/Signup.module.css'
+import styles from 'src/styles/Logo.module.css'
+
 
 YupPassword(yup)
 
@@ -81,32 +84,39 @@ export default function signUp() {
     },
   });
   return (
-
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-
-        <Typography component="h1" variant="h5">
-          Đăng ký
-        </Typography>
-        {/* <FormRegistration/> */}
-        <form onSubmit={formik.handleSubmit} noValidate>
-          <FormRegistration formik={formik} dob={dob} setDob={setDob} avatar={avatar} handleAvatar={handleAvatar} />
-        </form>
-        <Grid container justifyContent="flex-end">
-          <Grid item>
-            <Link href="/login" variant="body2">
-              Already have an account? Sign in
+    <div className={SignupStyle.setBackground}>
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <p className={styles.logo}>
+            <Link href='/'>
+              VieShare
             </Link>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
+          </p>
+          <div className={SignupStyle.form}>
+            <Typography sx={{ mb: 2 }} component="h1" variant="h5">
+              Đăng ký
+            </Typography>
+            {/* <FormRegistration/> */}
+            <form onSubmit={formik.handleSubmit} noValidate>
+              <FormRegistration formik={formik} dob={dob} setDob={setDob} avatar={avatar} handleAvatar={handleAvatar} />
+            </form>
+            <Grid container justifyContent="center">
+              <Grid item>
+                <Link href="/login" variant="body2">
+                  Đã có tài khoản? Đăng nhập
+                </Link>
+              </Grid>
+            </Grid>
+          </div>
+        </Box>
+      </Container>
+    </div>
   );
 }

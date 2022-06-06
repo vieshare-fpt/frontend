@@ -7,27 +7,27 @@ export default function Category() {
     return (
         <Grid container >
             <Grid item lg={2}  >
-                <Typography variant="h4" sx={{ fontSize: 18 }}><Link href='/'>Tất cả thể loại</Link></Typography>
+                <Typography variant="h4" sx={{ margin:1, fontSize: 18 }}><Link href='/'>Tất cả thể loại</Link></Typography>
             </Grid>
             <Grid item lg={2} display="flex"
                 justifyContent="center">
-                <Typography variant="h4" sx={{ fontSize: 18 }}><Link href='/'>Catetory</Link></Typography>
+                <Typography variant="h4" sx={{ margin:1, fontSize: 18 }}><Link href='/'>Catetory</Link></Typography>
             </Grid>
             <Grid item lg={2} display="flex"
                 justifyContent="center">
-                <Typography variant="h4" sx={{ fontSize: 18 }}><Link href='/'>Catetory</Link></Typography>
+                <Typography variant="h4" sx={{ margin:1, fontSize: 18 }}><Link href='/'>Catetory</Link></Typography>
             </Grid>
             <Grid item lg={2} display="flex"
                 justifyContent="center">
-                <Typography variant="h4" sx={{ fontSize: 18 }}><Link href='/'>Catetory</Link></Typography>
+                <Typography variant="h4" sx={{ margin:1, fontSize: 18 }}><Link href='/'>Catetory</Link></Typography>
             </Grid>
             <Grid item lg={2} display="flex"
                 justifyContent="center">
-                <Typography variant="h4" sx={{ fontSize: 18 }}><Link href='/'>Catetory</Link></Typography>
+                <Typography variant="h4" sx={{ margin:1, fontSize: 18 }}><Link href='/'>Catetory</Link></Typography>
             </Grid>
             <Grid item lg={2} display="flex"
                 justifyContent="center">
-                <Typography variant="h4" sx={{ fontSize: 18 }}><Link href='/'>Catetory</Link></Typography>
+                <Typography variant="h4" sx={{ margin:1, fontSize: 18 }}><Link href='/'>Catetory</Link></Typography>
             </Grid>
         </Grid>
     )
