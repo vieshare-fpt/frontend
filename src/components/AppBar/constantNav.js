@@ -1,3 +1,3 @@
 export const pages = [
-    { nameNav: 'Trở thành tác giả', url: '/' }, { nameNav: 'Mua Premium', url: '/pricing' }
+    { nameNav: 'Trở thành tác giả', url: '/content-writer' }, { nameNav: 'Mua Premium', url: '/pricing' }
 ]

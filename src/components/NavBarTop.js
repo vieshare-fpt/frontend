@@ -6,11 +6,10 @@ import Typography from '@mui/material/Typography';
 import { InputAdornment, styled, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search'
 import Link from 'next/link';
-import { default as LinkMUI } from '@mui/material/Link';
-import UserPopup from './UserPopup';
-import NavLine from './AppBar/NavLine';
-import NavMenu from './AppBar/NavMenu';
-import Access from './Access.js';
+import UserPopup from 'src/components/UserPopup';
+import NavLine from 'src/components/AppBar/NavLine';
+import NavMenu from 'src/components/AppBar/NavMenu';
+import Access from 'src/components/Access.js';
 import { useSelector } from 'react-redux';
 
 
@@ -51,14 +50,10 @@ const MyLogo = styled(Typography)({
 
 
 });
-const MyLink = styled(LinkMUI)((theme) => ({
-  '&:hover': {
-    color: 'green !important',
-  }
-}))
+
 
 const NavBarTop = () => {
-  const user = useSelector((state) => state.user.currentUser.userInfo);
+  const user = useSelector((state) => state.user.currentUserInfoLimit.userInfo?.data.jwtPayload);
 
   const [searchValue, setSearchValue] = React.useState('');
 
@@ -109,7 +104,7 @@ const NavBarTop = () => {
           {user ? (
             <>
               <Box>
-                <UserPopup type={user.data.isPremium} fullname={user.data.name} avatar={user.data.avatar} email={user.data.email}/>
+                <UserPopup type={user.isPremium} fullname={user.name} avatar={user.avatar} email={user.email}/>
               </Box>
             </>
           ) : (

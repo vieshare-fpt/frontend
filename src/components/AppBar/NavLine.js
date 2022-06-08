@@ -6,7 +6,7 @@ import { Grid, IconButton, styled, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { default as LinkMUI } from '@mui/material/Link';
-import {pages} from '../AppBar/constantNav'
+import {pages} from 'src/components/AppBar/constantNav'
 
 export default function NavLine() {
     return (
