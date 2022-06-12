@@ -11,31 +11,35 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import SignupStyle from 'src/styles/Signup.module.css'
 import styles from 'src/styles/Logo.module.css'
+import { ENTER_YOUR_NAME, NAME_REQUIRED, ENTER_PHONENUMBER, MIN_LENGHT_PHONENUMBER,
+  PHONENUMBER_REQUIRED, ENTER_YOUR_EMAIL_VALIDATION, ENTER_VALID_EMAIL, EMAIL_REQUIRED, 
+  ENTER_PASSWORD_VALIDATION, MIN_PASSWORD, PASSWORD_REQUIRED, MIN_UPPERCASE, MIN_NUMBERS, 
+  MIN_SYMBOLS, PASSWORD_CONFIRM_FAILED} from 'src/locales/errors'
 
 
 YupPassword(yup)
 
 const validationSchema = yup.object({
   fullname: yup
-    .string('Nhập họ và tên')
-    .required('Yêu cầu nhập tên'),
+    .string(ENTER_YOUR_NAME)
+    .required(NAME_REQUIRED),
   phone: yup
-    .string('Nhập số điện thoại của bạn')
-    .min(10, 'Số điện thoại không hợp lệ')
-    .required('Yêu cầu nhập số điện thoại'),
+    .string(ENTER_PHONENUMBER)
+    .min(10, MIN_LENGHT_PHONENUMBER)
+    .required(PHONENUMBER_REQUIRED),
   email: yup
-    .string('Nhập email của bạn')
-    .email('Email không hợp lệ')
-    .required('Yêu cầu nhập email'),
+    .string(ENTER_YOUR_EMAIL_VALIDATION)
+    .email(ENTER_VALID_EMAIL)
+    .required(EMAIL_REQUIRED),
   password: yup
-    .string('Nhập mật khẩu')
-    .minSymbols(1, 'Mật khẩu ít nhất 1 kí tự đặc biệt')
-    .minUppercase(1, 'Mật khẩu ít nhất 1 kí tự viết hoa')
-    .minNumbers(1, 'Mật khẩu ít nhất có một con số')
-    .min(7, "Mật khẩu ít nhất 7 kí tự")
-    .required('Yêu cầu mật khẩu'),
+    .string(ENTER_PASSWORD_VALIDATION)
+    .minSymbols(1, MIN_SYMBOLS)
+    .minUppercase(1, MIN_UPPERCASE)
+    .minNumbers(1, MIN_NUMBERS)
+    .min(7, MIN_PASSWORD)
+    .required(PASSWORD_REQUIRED),
   passwordConfirmation: yup.string()
-    .oneOf([yup.ref('password'), null], 'Xác nhận mật khẩu không hợp lệ'),
+    .oneOf([yup.ref('password'), null], PASSWORD_CONFIRM_FAILED),
 
 });
 

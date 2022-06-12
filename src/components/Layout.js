@@ -23,7 +23,6 @@ export default function Layout({ children }) {
   return (
     <div>
       <Head>
-        <script src="https://accounts.google.com/gsi/client" async defer></script>
         <title>VieShare</title>
       </Head>
       <header>

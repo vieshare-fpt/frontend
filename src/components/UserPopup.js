@@ -28,7 +28,7 @@ const features = [{
     name: 'Gia hạn Premium', url: '/'
 },
 {
-    name: 'Chỉnh sử thông tin', url: '/'
+    name: 'Chỉnh sửa thông tin', url: '/'
 },
 ]
 export default function UserPopup({ fullname, email, avatar, type }) {

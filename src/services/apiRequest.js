@@ -30,6 +30,22 @@ export const loginUser = async (user, navigate) => {
     }
 }
 
+export const googleUser = async (credential, navigate) => {
+    try {
+        const res = await instance.post('/auth/google', credential)
+        const token = res.data.data.token
+        const refreshToken = res.data.data.refreshToken
+
+        if (typeof token === 'string' && typeof refreshToken === 'string') {
+            setCookieData('token', token)
+            setCookieData('refreshToken', refreshToken)
+        }
+        navigate.push('/')
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 export const requestUserInfoLimit = async (accessToken, dispatch) => {
     dispatch(getUserInfoLimitStart());
     try {

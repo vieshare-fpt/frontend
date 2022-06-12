@@ -10,10 +10,11 @@ import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
 import { loginUser, googleUser } from 'src/services/apiRequest'
 import LoginStyles from 'src/styles/Login.module.css'
-import GoogleLogin from 'src/components/login/GoogleLogin'
 import { ENTER_YOUR_EMAIL_VALIDATION, ENTER_VALID_EMAIL, EMAIL_REQUIRED, 
 ENTER_PASSWORD_VALIDATION, MIN_PASSWORD, PASSWORD_REQUIRED 
 } from 'src/locales/errors'
+import { GoogleLogin } from '@react-oauth/google';
+
 
 const validationSchema = yup.object({
   email: yup
@@ -80,9 +81,19 @@ export default function loginPage() {
                 </Link>
               </Grid>
             </Grid>
-            <hr/>
-            Hoặc
-            <GoogleLogin/>
+            <hr style={{width:370}}/>
+            <GoogleLogin
+              onSuccess={Response => {
+                
+                const Newuser = {
+                  credential: Response.credential,
+                }
+                googleUser(Newuser, useNavigate)
+              }}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            />
           </div>
         </Box>
       </Container>
