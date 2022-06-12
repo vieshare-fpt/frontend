@@ -2,6 +2,8 @@ import 'src/styles/globals.css'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Provider } from 'react-redux'
 import store from 'src/stores/store';
+import { GoogleOAuthProvider } from '@react-oauth/google'
+
 const theme = createTheme({
 
   typography: {
@@ -13,11 +15,17 @@ const theme = createTheme({
 function App({ Component, pageProps }) {
   
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </Provider>
+    <>
+      <GoogleOAuthProvider
+        clientId="284359152447-u83rbntt90ti88oagma0el08lhd72047.apps.googleusercontent.com"
+      >
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </Provider>
+      </GoogleOAuthProvider>
+    </>
   )
 }
 

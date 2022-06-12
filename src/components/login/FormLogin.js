@@ -44,7 +44,7 @@ export default function FormLogin({formik}) {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 1.5, mb: 2 }}
             >
                 Đăng Nhập
             </Button>

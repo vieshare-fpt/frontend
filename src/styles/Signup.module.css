@@ -1,0 +1,19 @@
+.setBackground{
+    background-image: url("/loginBackground.jpg");
+    background-size: cover;
+    height: 75rem;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    position: relative; 
+    background-position:center;
+}
+
+.form{
+    background-color: white;
+    padding: 2rem;
+    width: 30rem;
+    border-radius: 1.5rem;
+}
