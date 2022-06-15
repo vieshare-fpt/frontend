@@ -6,13 +6,10 @@ import postApi from 'src/services/postsApi'
 import { blue } from '@mui/material/colors';
 import Layout from 'src/components/Layout'
 import PostCards from 'src/components/PostCards'
-import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux';
-import { requestUserInfoLimit } from 'src/services/apiRequest';
-import { getCookieData } from 'src/services/cookies';
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import { googleUser } from 'src/services/apiRequest'
-
+import { useRouter } from 'next/router'
+import { getCookieData } from 'src/services/cookies';
 
 const MyContainer = styled('div')({
   margin: '0 5%'
@@ -23,6 +20,8 @@ const MyUl = styled('ul')({
 })
 
 const LandingPage = ({ trendingPosts, suggestPosts }) => {
+  const useNavigate = useRouter();
+
   const watchMore = (
     <Typography sx={{
       cursor: 'pointer',
@@ -32,7 +31,18 @@ const LandingPage = ({ trendingPosts, suggestPosts }) => {
       }
     }}>Xem thêm...</Typography>
   )
-  
+
+  if (!getCookieData('token')) {
+    useGoogleOneTapLogin({
+      onSuccess: response => {
+        const newUser = {
+          credential: response.credential,
+        }
+        googleUser(newUser, null)
+      }
+    })
+  }
+
   return (
     <Layout>
       <MyContainer sx={{ mt: 6 }}>

@@ -83,12 +83,11 @@ export default function loginPage() {
             </Grid>
             <hr style={{width:370}}/>
             <GoogleLogin
-              onSuccess={Response => {
-                
-                const Newuser = {
-                  credential: Response.credential,
+              onSuccess={response => {
+                const newUser = {
+                  credential: response.credential,
                 }
-                googleUser(Newuser, useNavigate)
+                googleUser(newUser, useNavigate)
               }}
               onError={() => {
                 console.log('Login Failed');

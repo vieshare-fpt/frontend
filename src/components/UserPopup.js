@@ -4,6 +4,9 @@ import { Avatar, Box, CardHeader, IconButton, Menu, MenuItem, Typography, Button
 import Link from 'next/link';
 import Divider from '@mui/material/Divider';
 import { green, teal } from '@mui/material/colors';
+import { userLogout } from 'src/services/apiRequest';
+import { removeCookieData, getCookieData } from 'src/services/cookies';
+
 
 const paper = {
     elevation: 0,
@@ -21,6 +24,7 @@ const paper = {
         }
     }
 }
+
 const features = [{
     name: 'Lịch sử của tôi', url: '/'
 },
@@ -37,9 +41,24 @@ export default function UserPopup({ fullname, email, avatar, type }) {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+    
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const refreshToken = getCookieData('refreshToken');
+    const token = getCookieData('token');
+    
+    const handleLogout = () => { 
+        //Call api 
+        userLogout(refreshToken, token);
+        //remove token
+        if(getCookieData('token')){
+            removeCookieData('token');
+            removeCookieData('refreshToken');
+            
+        }
+    }
     return (
         <div>
             <Tooltip title="Settings">
@@ -70,7 +89,9 @@ export default function UserPopup({ fullname, email, avatar, type }) {
                                 color: teal[800],
                             }
                         }} variant='h6' color="initial">
-                            <Link href='/'>Đăng Xuất</Link>
+                            <button
+                            onClick={handleLogout}
+                            >Đăng xuất</button>
                         </Typography>
                     </div>
                     <Divider />

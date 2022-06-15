@@ -2,8 +2,6 @@ import React, { useEffect, useLayoutEffect } from 'react'
 import Head from 'next/head'
 import NavBarTop from 'src/components/NavBarTop'
 import NavBottom from 'src/components/NavBottom'
-import { useRouter } from 'next/router';
-import NextBreadcrumbs from "src/components/Breadcrumbs";
 import { useDispatch, useSelector } from 'react-redux';
 import { getCookieData } from 'src/services/cookies'
 const NAVBAR_TEXTS = [
