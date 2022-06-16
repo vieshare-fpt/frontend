@@ -46,7 +46,11 @@ export default function loginPage() {
   
   return (
 
-    <div className={LoginStyles.setBackground}>
+    <div
+    sx={{
+      width:{ xs: '40rem', sm: '50rem', md: '70rem', lg: '75rem' }
+    }}
+    className={LoginStyles.setBackground}>
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
@@ -81,7 +85,7 @@ export default function loginPage() {
                 </Link>
               </Grid>
             </Grid>
-            <hr style={{width:370}}/>
+            <hr style={{width:370, marginBottom:10}}/>
             <GoogleLogin
               onSuccess={response => {
                 const newUser = {

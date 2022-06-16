@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Provider } from 'react-redux'
 import store from 'src/stores/store';
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import Head from 'next/head'
 
 const theme = createTheme({
 
@@ -13,9 +14,12 @@ const theme = createTheme({
 })
 
 function App({ Component, pageProps }) {
-  
+  const component = 'Trang chủ';
   return (
     <>
+      <Head>
+        <title>VieShare - {component}</title>
+      </Head>
       <GoogleOAuthProvider
         clientId="284359152447-u83rbntt90ti88oagma0el08lhd72047.apps.googleusercontent.com"
       >

@@ -20,14 +20,11 @@ export default function Layout({ children }) {
   }, []);
   return (
     <div>
-      <Head>
-        <title>VieShare</title>
-      </Head>
-      <header>
+      <header position="fixed">
         <NavBarTop />
       </header>
 
-      <main>{children}</main>
+      <main >{children}</main>
       <footer>
         <NavBottom />
       </footer>

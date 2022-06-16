@@ -10,10 +10,12 @@ const styles = {
     transition: "border-width 0.2s linear",
     color: 'black',
     fontWeight: '400',
-    margin: "0 10px"
-    , ":hover": {
-        borderBottomWidth: '4px'
-    }
+    margin: "0 10px", 
+    ":hover": {
+        borderBottomWidth: '3px'
+    },
+    fontSize: { xs: 'x-small', sm:'small', md: 'small', lg: 'medium' },
+    
 }
 
 const stylesButton = {
@@ -23,13 +25,13 @@ const stylesButton = {
     color: green[900],
     borderRadius: "8px",
     border: 'green solid 2px',
-    padding: '10px 10px',
-    marginRight: '10px',
+    margin: "0 10px",
     cursor: 'pointer',
     ':hover': {
         backgroundColor: green[400],
         color: 'white'
-    }
+    },
+    fontSize: { xs: 'x-small', sm:'small', md: 'small', lg: 'medium' },
 }
 export default function Access() {
     return (

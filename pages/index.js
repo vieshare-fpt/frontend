@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 import { getCookieData } from 'src/services/cookies';
 
 const MyContainer = styled('div')({
-  margin: '0 5%'
+  margin: "0 5%"
 })
 
 const MyUl = styled('ul')({
@@ -20,7 +20,6 @@ const MyUl = styled('ul')({
 })
 
 const LandingPage = ({ trendingPosts, suggestPosts }) => {
-  const useNavigate = useRouter();
 
   const watchMore = (
     <Typography sx={{
@@ -47,7 +46,13 @@ const LandingPage = ({ trendingPosts, suggestPosts }) => {
     <Layout>
       <MyContainer sx={{ mt: 6 }}>
         {/* to show 3 trending  */}
-        <Typography variant='h4' sx={{ mb: 2 }}>Trending</Typography>
+        <Typography variant='h4' 
+        sx={{ 
+          mt:{xs: '30%', sm: '20%', md: '10%', lg: '8%'}, 
+          mb: 2 }}
+        >
+          Trending
+        </Typography>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           {trendingPosts.map(trending => (
             <Link key={trending.id} href={`/post/${trending.id}`}>

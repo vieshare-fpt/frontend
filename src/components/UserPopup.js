@@ -19,7 +19,7 @@ const paper = {
 
 
         '& .MuiMenuItem-root:not(#flash)': {
-            ml: '8px',
+            ml: '5px',
             my: 2
         }
     }
@@ -72,7 +72,7 @@ export default function UserPopup({ fullname, email, avatar, type }) {
                 onClose={handleClose}
                 PaperProps={paper}
             >
-                <Box sx={{ px: 2 }} >
+                <Box sx={{ px: 0 }} >
                     <div
                         style={{
                             display: 'flex',
@@ -89,9 +89,7 @@ export default function UserPopup({ fullname, email, avatar, type }) {
                                 color: teal[800],
                             }
                         }} variant='h6' color="initial">
-                            <button
-                            onClick={handleLogout}
-                            >Đăng xuất</button>
+                            <Button onClick={handleLogout} >Đăng xuất</Button>
                         </Typography>
                     </div>
                     <Divider />

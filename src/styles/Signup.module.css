@@ -17,3 +17,27 @@
     width: 30rem;
     border-radius: 1.5rem;
 }
+
+@media screen and (max-width: 600px) {
+    .setBackground{
+        width: 40rem;
+        height: 90rem;
+    }
+    
+    .form{
+        margin: 7rem;
+    }
+
+    
+}
+
+@media screen and (min-height:1368px) {
+    .setBackground{
+        width: 60rem;
+        height: 100rem;
+    }
+    .form{
+        margin: 9rem;
+        width: 30rem;
+    }
+}
