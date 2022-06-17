@@ -11,8 +11,13 @@ const MyContainer = styled('div')({
 export default function TrendingPage({ trendingPosts }) {
   return (
     <Layout>
-      <MyContainer sx={{ mt: 6 }}>
-        <Typography variant='h4' sx={{ mb: 2 }}>Trending</Typography>
+      <MyContainer sx={{ mt: 6, mb: 2 }}>
+        <Typography 
+        variant='h4' 
+        sx={{ 
+          mb: 2, 
+          mt:{xs: '30%', sm: '20%', md: '10%', lg: '8%'},
+        }}>Trending</Typography>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           {trendingPosts.map(trending => (
             <Link key={trending.id} href={`/post/${trending.id}`}>

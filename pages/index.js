@@ -6,16 +6,13 @@ import postApi from 'src/services/postsApi'
 import { blue } from '@mui/material/colors';
 import Layout from 'src/components/Layout'
 import PostCards from 'src/components/PostCards'
-import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux';
-import { requestUserInfoLimit } from 'src/services/apiRequest';
-import { getCookieData } from 'src/services/cookies';
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import { googleUser } from 'src/services/apiRequest'
-
+import { useRouter } from 'next/router'
+import { getCookieData } from 'src/services/cookies';
 
 const MyContainer = styled('div')({
-  margin: '0 5%'
+  margin: "0 5%"
 })
 
 const MyUl = styled('ul')({
@@ -23,6 +20,7 @@ const MyUl = styled('ul')({
 })
 
 const LandingPage = ({ trendingPosts, suggestPosts }) => {
+
   const watchMore = (
     <Typography sx={{
       cursor: 'pointer',
@@ -32,12 +30,29 @@ const LandingPage = ({ trendingPosts, suggestPosts }) => {
       }
     }}>Xem thêm...</Typography>
   )
-  
+
+  if (!getCookieData('token')) {
+    useGoogleOneTapLogin({
+      onSuccess: response => {
+        const newUser = {
+          credential: response.credential,
+        }
+        googleUser(newUser, null)
+      }
+    })
+  }
+
   return (
     <Layout>
       <MyContainer sx={{ mt: 6 }}>
         {/* to show 3 trending  */}
-        <Typography variant='h4' sx={{ mb: 2 }}>Trending</Typography>
+        <Typography variant='h4' 
+        sx={{ 
+          mt:{xs: '30%', sm: '20%', md: '10%', lg: '8%'}, 
+          mb: 2 }}
+        >
+          Trending
+        </Typography>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           {trendingPosts.map(trending => (
             <Link key={trending.id} href={`/post/${trending.id}`}>

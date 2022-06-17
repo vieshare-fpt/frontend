@@ -9,7 +9,7 @@ const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 export default function NavBottom() {
   return (
     <Offset>
-      <AppBar position="fixed" elevation={0} color="primary" sx={{ top: 'auto', bottom: 0, backgroundColor: 'white', height: '60px' }}>
+      <AppBar position="relative" elevation={0} color="primary" sx={{ top: 'auto', bottom: 0, backgroundColor: 'white', height: '60px' }}>
         <Toolbar>
 
           <Box sx={{ flexGrow: 1 }} />

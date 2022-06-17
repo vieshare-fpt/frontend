@@ -15,6 +15,7 @@ const instance = axios.create({
 });
 
 export const loginUser = async (user, navigate) => {
+
     try {
         const res = await instance.post('/auth/login', user)
         const token = res.data.data.token
@@ -40,7 +41,32 @@ export const googleUser = async (credential, navigate) => {
             setCookieData('token', token)
             setCookieData('refreshToken', refreshToken)
         }
-        navigate.push('/')
+        if (navigate) navigate.push('/')
+        else {
+            window.location.reload()
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const userLogout = async (refreshToken, token) => {
+    try {
+        console.log(token);
+        console.log(refreshToken);
+        const webApiUrl = '/auth/logout'
+        await instance.post(webApiUrl ,{refreshToken}, 
+            { headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token} `} 
+            }).then((res) => {
+                console.log(res.data)
+              })
+              .catch((error) => {
+                console.error(error)
+              })
+        
+        window.location.reload()
     } catch (err) {
         console.log(err);
     }

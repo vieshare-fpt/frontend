@@ -1,6 +1,7 @@
 .setBackground{
     background-image: url("/loginBackground.jpg");
     background-size: cover;
+    margin: 0;
     height: 65rem;
     text-align: center;
     align-items: center;
@@ -19,4 +20,29 @@
     display: flex;
     flex-direction: column;
     align-items: center;   
+}
+
+
+@media screen and (max-width: 600px) {
+    .setBackground{
+        width: 40rem;
+        height: 90rem;
+    }
+    
+    .form{
+        margin: 10rem;
+    }
+
+    
+}
+
+@media screen and (min-height:1368px) {
+    .setBackground{
+        width: 60rem;
+        height: 100rem;
+    }
+    .form{
+        margin: 15rem;
+        width: 30rem;
+    }
 }

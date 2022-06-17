@@ -4,6 +4,9 @@ import { Avatar, Box, CardHeader, IconButton, Menu, MenuItem, Typography, Button
 import Link from 'next/link';
 import Divider from '@mui/material/Divider';
 import { green, teal } from '@mui/material/colors';
+import { userLogout } from 'src/services/apiRequest';
+import { removeCookieData, getCookieData } from 'src/services/cookies';
+
 
 const paper = {
     elevation: 0,
@@ -16,11 +19,12 @@ const paper = {
 
 
         '& .MuiMenuItem-root:not(#flash)': {
-            ml: '8px',
+            ml: '5px',
             my: 2
         }
     }
 }
+
 const features = [{
     name: 'Lịch sử của tôi', url: '/'
 },
@@ -37,9 +41,24 @@ export default function UserPopup({ fullname, email, avatar, type }) {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+    
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const refreshToken = getCookieData('refreshToken');
+    const token = getCookieData('token');
+    
+    const handleLogout = () => { 
+        //Call api 
+        userLogout(refreshToken, token);
+        //remove token
+        if(getCookieData('token')){
+            removeCookieData('token');
+            removeCookieData('refreshToken');
+            
+        }
+    }
     return (
         <div>
             <Tooltip title="Settings">
@@ -53,7 +72,7 @@ export default function UserPopup({ fullname, email, avatar, type }) {
                 onClose={handleClose}
                 PaperProps={paper}
             >
-                <Box sx={{ px: 2 }} >
+                <Box sx={{ px: 0 }} >
                     <div
                         style={{
                             display: 'flex',
@@ -70,7 +89,7 @@ export default function UserPopup({ fullname, email, avatar, type }) {
                                 color: teal[800],
                             }
                         }} variant='h6' color="initial">
-                            <Link href='/'>Đăng Xuất</Link>
+                            <Button onClick={handleLogout} >Đăng xuất</Button>
                         </Typography>
                     </div>
                     <Divider />

@@ -1,11 +1,6 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { Grid, IconButton, styled, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
-import { default as LinkMUI } from '@mui/material/Link';
 import {pages} from 'src/components/AppBar/constantNav'
 
 export default function NavLine() {
@@ -16,7 +11,7 @@ export default function NavLine() {
                     component='span'
                     key={page.nameNav}
                     sx={{
-                        my: 1, mx: 1.5, color: 'black',
+                        my: 1, mx: 1, color: 'black',
                         textTransform: 'uppercase',
                         fontWeight: '400',
                         ':hover': {
@@ -31,7 +26,6 @@ export default function NavLine() {
                 </Typography>
 
             ))}
-
         </nav>
 
     )

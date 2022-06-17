@@ -35,6 +35,9 @@ const MyTextField = styled(TextField)(
     },
     ['& fieldset']: {
       borderRadius: 12
+    },
+    '@media(minWidth: 1260px)':{
+
     }
   }
 )
@@ -64,7 +67,7 @@ const NavBarTop = () => {
 
   return (
     <div>
-      <AppBar position="static" elevation={0} sx={{ backgroundColor: 'white' }}>
+      <AppBar position="fixed" elevation={0} sx={{ backgroundColor: 'white' }}>
         <Toolbar disableGutters>
           {/* this is logo */}
           <MyLogo
@@ -74,17 +77,22 @@ const NavBarTop = () => {
             </Link>
           </MyLogo>
           {/* this is icon and menu button  */}
-          <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'flex', lg: 'none' } }}>
+          <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'center', lg: 'none' } }}>
             <NavMenu />
           </Box>
           {/* This is search box */}
-          <Box sx={{ m: 2, flexGrow: 1 }} >
+          <Box sx={{ m: 1, flexGrow: 1 }} >
             <form noValidate autoComplete="off" onSubmit={handleSubmit}>
               <MyTextField
                 id="searchContent"
                 size='small'
                 label='Tìm kiếm'
-                sx={{ width: { lg: '60ch', md: 'none', xs: '30ch' }, backgroundColor: '#f5f5f5', borderRadius: '12px' }}
+                sx={{ 
+                  width: { lg: '50ch', md: 'none', xs: '25ch' }, 
+                  backgroundColor: '#f5f5f5', 
+                  borderRadius: '12px',
+                   
+                }}
                 value={searchValue}
                 color="success"
                 onInput={e => setSearchValue(e.target.value)}
@@ -97,20 +105,19 @@ const NavBarTop = () => {
           </Box>
           <Box sx={{ flexGrow: { xs: '0', md: '1', lg: '1' } }} />
           {/* this is navigation */}
-          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'none', lg: 'flex' } }}>
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex-end' } }}>
             <NavLine />
           </Box>
           {/* this is userPopup  when was login */}
-          {user ? (
+          {!user ? (
             <>
-              <Box>
-                <UserPopup type={user.isPremium} fullname={user.name} avatar={user.avatar} email={user.email}/>
-              </Box>
+              <Access />
             </>
+            
           ) : (
             <>
-              <Box sx={{ flexGrow: 0 }}>
-                <Access />
+              <Box sx={{ margin: '0'}}>
+                <UserPopup type={user.isPremium} fullname={user.name} avatar={user.avatar} email={user.email}/>
               </Box>
             </>
           )}
