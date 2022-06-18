@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import store from 'src/stores/store';
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import Head from 'next/head'
+import 'react-quill/dist/quill.snow.css';
 
 const theme = createTheme({
 

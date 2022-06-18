@@ -31,7 +31,6 @@ const userSlice = createSlice({
         
         getUserInfoLimitStart: (state) => {
             state.currentUserInfoLimit.isFetching = true;
-
         },
         getUserInfoLimitSuccess: (state, action) => {
             state.currentUserInfoLimit.isFetching = false;
