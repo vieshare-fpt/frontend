@@ -17,17 +17,16 @@ export  function MainLayout({ children }) {
     const token = getCookieData('token')
    requestUserInfoLimit(token, dispatch)
   }, []);
-
   return (
     <div>
       <header position="fixed">
         <NavBarTop />
       </header>
+      
       <main >{children}</main>
       <footer>
         <NavBottom />
       </footer>
-
     </div>
   )
 }

@@ -10,7 +10,7 @@ const MyContainer = styled('div')({
 })
 export default function TrendingPage({ trendingPosts }) {
   return (
-      <MyContainer sx={{ mt: 6, mb: 2 }}>
+      <MyContainer >
         <Typography 
         variant='h4' 
         sx={{ 

@@ -42,7 +42,7 @@ export default function ResponsiveDrawer(props) {
       <Divider />
       <List>
         {subPages.map((item) => (
-          <Link href={item.link}>
+          <Link href={item.link} key={item.link}>
             <ListItem key={item.link} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
