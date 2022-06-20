@@ -56,7 +56,7 @@ const MyLogo = styled(Typography)({
 
 
 const NavBarTop = () => {
-  const user = useSelector((state) => state.user.currentUserInfoLimit.userInfo?.data.jwtPayload);
+  const user = useSelector((state) => state.user.currentUserInfoLimit.userInfo?.jwtPayload);
 
   const [searchValue, setSearchValue] = React.useState('');
 

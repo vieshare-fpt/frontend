@@ -4,7 +4,7 @@ import { Avatar, Box, CardHeader, IconButton, Menu, MenuItem, Typography, Button
 import Link from 'next/link';
 import Divider from '@mui/material/Divider';
 import { green, teal } from '@mui/material/colors';
-import { userLogout } from 'src/services/apiRequest';
+import { userLogout } from 'src/services/accessApi';
 import { removeCookieData, getCookieData } from 'src/services/cookies';
 
 

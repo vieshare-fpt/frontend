@@ -1,7 +1,7 @@
 import { Grid, styled, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import PostCards from 'src/components/PostCards'
-import Layout from 'src/components/Layout'
+import Layout from 'src/components/layouts/main'
 import postApi from 'src/services/postsApi'
 
 const MyContainer = styled('div')({
@@ -10,7 +10,6 @@ const MyContainer = styled('div')({
 export default function Suggest({suggestPosts}) {
 
   return (
-    <Layout>
       
       <MyContainer  sx={{ mt: 6 }}>
         <Typography variant='h4' sx={{ mb: 2 }}>Gợi ý cho bạn</Typography>
@@ -23,7 +22,6 @@ export default function Suggest({suggestPosts}) {
         </Grid>
 
       </MyContainer >
-    </Layout>
   )
 }
 

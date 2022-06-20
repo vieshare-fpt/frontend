@@ -4,12 +4,12 @@ import Link from 'next/link'
 import { default as LinkMUI } from '@mui/material/Link';
 import postApi from 'src/services/postsApi'
 import { blue } from '@mui/material/colors';
-import Layout from 'src/components/Layout'
 import PostCards from 'src/components/PostCards'
 import { useGoogleOneTapLogin } from '@react-oauth/google';
-import { googleUser } from 'src/services/apiRequest'
+import { googleUser } from 'src/services/accessApi'
 import { useRouter } from 'next/router'
 import { getCookieData } from 'src/services/cookies';
+import { MainLayout } from 'src/components/layouts';
 
 const MyContainer = styled('div')({
   margin: "0 5%"
@@ -43,7 +43,6 @@ const LandingPage = ({ trendingPosts, suggestPosts }) => {
   }
 
   return (
-    <Layout>
       <MyContainer sx={{ mt: 6 }}>
         {/* to show 3 trending  */}
         <Typography variant='h4' 
@@ -93,9 +92,10 @@ const LandingPage = ({ trendingPosts, suggestPosts }) => {
         </MyUl>
       </MyContainer>
 
-    </Layout >
   )
 }
+
+LandingPage.getLayout = MainLayout
 
 export async function getStaticProps() {
 
