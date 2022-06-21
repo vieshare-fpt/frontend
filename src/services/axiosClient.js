@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookieData } from './cookies';
+import { getCookieData, setCookieData } from './cookies';
 
 const axiosClient = axios.create({
     baseURL: 'https://backend-vieshare-stg.vi-vu.vn/api',

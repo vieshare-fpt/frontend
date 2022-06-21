@@ -117,9 +117,6 @@ const NavBarTop = () => {
               </Box>
             </>
           )}
-
-
-
         </Toolbar>
       </AppBar >
     </div>
