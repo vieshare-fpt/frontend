@@ -56,14 +56,11 @@ const MyLogo = styled(Typography)({
 
 
 const NavBarTop = () => {
-  const user = useSelector((state) => state.user.currentUserInfoLimit.userInfo?.data.jwtPayload);
+  const user = useSelector((state) => state.user.currentUserInfoLimit.userInfo?.jwtPayload);
 
   const [searchValue, setSearchValue] = React.useState('');
 
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  }
 
   return (
     <div>
@@ -82,7 +79,7 @@ const NavBarTop = () => {
           </Box>
           {/* This is search box */}
           <Box sx={{ m: 1, flexGrow: 1 }} >
-            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <form noValidate autoComplete="off" >
               <MyTextField
                 id="searchContent"
                 size='small'
@@ -91,7 +88,6 @@ const NavBarTop = () => {
                   width: { lg: '50ch', md: 'none', xs: '25ch' }, 
                   backgroundColor: '#f5f5f5', 
                   borderRadius: '12px',
-                   
                 }}
                 value={searchValue}
                 color="success"

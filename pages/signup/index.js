@@ -6,7 +6,7 @@ import FormRegistration from 'src/components/signup/FormRegistration';
 import * as yup from 'yup';
 import YupPassword from 'yup-password'
 import formatDate from 'src/utils/FormatDateHelper.js'
-import { registerUser } from 'src/services/apiRequest';
+import { registerUser } from 'src/services/accessApi';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import SignupStyle from 'src/styles/Signup.module.css'

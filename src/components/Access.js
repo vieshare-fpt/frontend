@@ -17,7 +17,6 @@ const styles = {
     fontSize: { xs: 'x-small', sm:'small', md: 'small', lg: 'medium' },
     
 }
-
 const stylesButton = {
     backgroundColor: green[100],
     transition: "background-color 0.2s linear",
@@ -43,7 +42,6 @@ export default function Access() {
             </Link>
             <Link href='/signup'>
                 <Typography component='button' display="inline" sx={stylesButton}>
-
                     Đăng Ký
                 </Typography>
             </Link>

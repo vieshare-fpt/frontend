@@ -10,10 +10,9 @@ const NAVBAR_TEXTS = [
   { page: "/suggestPage", text: "Suggestion" },
   { page: "/", text: "Login" },
 ]
-import { requestUserInfoLimit } from 'src/services/apiRequest'
-export default function Layout({ children }) {
+import { requestUserInfoLimit } from 'src/services/infoUserApi'
+export  function MainLayout({ children }) {
   const dispatch = useDispatch();
-
   useEffect(() => {
     const token = getCookieData('token')
    requestUserInfoLimit(token, dispatch)
@@ -23,12 +22,11 @@ export default function Layout({ children }) {
       <header position="fixed">
         <NavBarTop />
       </header>
-
+      
       <main >{children}</main>
       <footer>
         <NavBottom />
       </footer>
-
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { Box, CardMedia, Container, dividerClasses, Fab, Grid, SpeedDial, SpeedDialAction, SpeedDialIcon, Typography } from '@mui/material'
 import React from 'react'
-import Layout from 'src/components/Layout'
+import Layout from 'src/components/layouts/main'
 
 import { styled } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -25,7 +25,6 @@ const PostBody = {
 
 const Post = ({ post }) => {
 	return (
-		<Layout>
 			<Box sx={PostBody}>
 				<Category />
 
@@ -50,7 +49,6 @@ const Post = ({ post }) => {
 
 				</SpeedDial>
 			</Box>
-		</Layout>
 
 	)
 }

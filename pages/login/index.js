@@ -5,15 +5,15 @@ import React from 'react'
 import FormLogin from 'src/components/login/FormLogin'
 import styles from 'src/styles/Logo.module.css'
 import * as yup from 'yup';
-import { useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
-import { loginUser, googleUser } from 'src/services/apiRequest'
+import { loginUser, googleUser } from 'src/services/accessApi'
 import LoginStyles from 'src/styles/Login.module.css'
 import { ENTER_YOUR_EMAIL_VALIDATION, ENTER_VALID_EMAIL, EMAIL_REQUIRED, 
 ENTER_PASSWORD_VALIDATION, MIN_PASSWORD, PASSWORD_REQUIRED 
 } from 'src/locales/errors'
 import { GoogleLogin } from '@react-oauth/google';
+import { useDispatch } from 'react-redux'
 
 
 const validationSchema = yup.object({
