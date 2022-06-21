@@ -14,6 +14,7 @@ const postApi = {
     getPostDetail: (id) => {
         const url = '/posts/' + id;
         const token = getCookieData('token')
+        console.log(token);
         if (!token) {
             return axiosClient.get(url)
         } 

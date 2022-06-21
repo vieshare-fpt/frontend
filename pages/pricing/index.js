@@ -13,8 +13,11 @@ import React from "react";
 import Layout from "src/components/layouts/main";
 import PricingCard from "src/components/pricing/PricingCard";
 import "animate.css";
+import { useRouter } from "next/router";
 
 export default function Pricing() {
+  const routes = useRouter()
+  console.log(routes.query);
   return (
     <>
       <Container

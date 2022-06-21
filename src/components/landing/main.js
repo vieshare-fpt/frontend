@@ -1,5 +1,5 @@
 import { Grid, styled, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { default as LinkMUI } from "@mui/material/Link";
 import { blue } from "@mui/material/colors";
@@ -7,6 +7,8 @@ import PostCards from "src/components/PostCards";
 import { useGoogleOneTapLogin } from "@react-oauth/google";
 import { googleUser } from "src/services/accessApi";
 import { getCookieData } from "src/services/cookies";
+import historyApi from "src/services/historyApi";
+import { useRouter } from "next/router";
 
 const MyContainer = styled("div")({
   margin: "0 5%",
@@ -17,7 +19,9 @@ const MyUl = styled("ul")({
 });
 
 export default function LandingPage({ CurrentComponent }) {
-  const { suggestPosts, trendingPosts } = CurrentComponent;
+  const { props, history } = CurrentComponent;
+  const { trendingPosts, suggestPosts } = props;
+  const isArray = history.length > 0;
   const watchMore = (
     <Typography
       sx={{
@@ -43,13 +47,8 @@ export default function LandingPage({ CurrentComponent }) {
     });
   }
 
-  function handleClick(event) {
-    
-    
-  }
-
   return (
-    <MyContainer >
+    <MyContainer>
       {/* to show 3 trending  */}
       <Typography
         variant="h4"
@@ -66,7 +65,7 @@ export default function LandingPage({ CurrentComponent }) {
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
         {trendingPosts.map((trending) => (
-          <Link key={trending.id} href={`/post/${trending.id}`} onClick={handleClick(trending.id)}>
+          <Link key={trending.id} href={`/post/${trending.id}`}>
             <Grid item xs={12} sm={12} md={4}>
               <a>
                 <PostCards note={trending} />
@@ -103,23 +102,26 @@ export default function LandingPage({ CurrentComponent }) {
       </Grid>
 
       {/* to show the post was read */}
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        Đọc tiếp
-      </Typography>
-      <MyUl sx={{ fontSize: "17px", mx: 0 }}>
-        <LinkMUI sx={{ fontSize: "15px" }} underline="hover">
-          Xem thêm...
-        </LinkMUI>{" "}
-        <br />
-        <LinkMUI sx={{ fontSize: "15px" }} underline="hover">
-          Xem thêm...
-        </LinkMUI>
-        <br />
-        <LinkMUI sx={{ fontSize: "15px" }} underline="hover">
-          Xem thêm...
-        </LinkMUI>
-        <br />
-      </MyUl>
+      {isArray ? (
+        <>
+          <Typography variant="h4" sx={{ mb: 2 }}>
+            Đọc tiếp
+          </Typography>
+          <MyUl sx={{ fontSize: "17px", mx: 0 }}>
+            {history.map((read) => (
+              <li key={read.id}>
+                <Link href={`/post/${read.id}`}>
+                  <a>
+                    {/* {read.post.title} */}
+                  </a>
+                </Link>
+              </li>
+            ))}
+          </MyUl>
+        </>
+      ) : (
+        <></>
+      )}
     </MyContainer>
   );
 }

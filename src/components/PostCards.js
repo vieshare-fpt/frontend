@@ -56,7 +56,7 @@ export default function PostCards({ note }) {
             </Grid>
             <Grid item xs={2}>
               <Typography>
-                {note.authorName ? note.authorName : "undefined"}
+                {note.author ? note.author.name : "Le van a"}
               </Typography>
             </Grid>
           </Grid>
@@ -73,7 +73,7 @@ export default function PostCards({ note }) {
             </Grid>
           </Grid>
           <Grid container >
-            <Grid item xs={5} >
+            {/* <Grid item xs={5} >
               <Typography sx = {{fontWeight: "bold" }}>
                 {note.publishDate
                   ? "Publish date: " +
@@ -92,10 +92,10 @@ export default function PostCards({ note }) {
                     )
                   : "unknown"}
               </Typography>
-            </Grid>
-            <Grid item xs={2}>
+            </Grid> */}
+            <Grid item xs={12}>
               <Typography
-                align="left"
+                align="right"
                 sx={{ lineHeight: "1.4", paddingLeft: "0px", fontWeight: "bold" }}
               >
                 {note.views + " lượt xem"}
