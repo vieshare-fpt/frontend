@@ -55,12 +55,9 @@ const MyLogo = styled(Typography)({
 });
 
 
-const NavBarTop = () => {
-  const user = useSelector((state) => state.user.currentUserInfoLimit.userInfo?.jwtPayload);
-
+const NavBarTop = ({profile}) => {
+  // const user = useSelector((state) => state.user.currentUserInfoLimit.userInfo?.jwtPayload);
   const [searchValue, setSearchValue] = React.useState('');
-
-
 
   return (
     <div>
@@ -105,7 +102,7 @@ const NavBarTop = () => {
             <NavLine />
           </Box>
           {/* this is userPopup  when was login */}
-          {!user ? (
+          {!profile ? (
             <>
               <Access />
             </>
@@ -113,13 +110,10 @@ const NavBarTop = () => {
           ) : (
             <>
               <Box sx={{ margin: '0'}}>
-                <UserPopup type={user.isPremium} fullname={user.name} avatar={user.avatar} email={user.email}/>
+                <UserPopup type={profile.isPremium} fullname={profile.name} avatar={profile.avatar} email={profile.email}/>
               </Box>
             </>
           )}
-
-
-
         </Toolbar>
       </AppBar >
     </div>

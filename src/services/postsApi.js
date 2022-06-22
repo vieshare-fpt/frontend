@@ -1,4 +1,5 @@
 import axiosClient from "./axiosClient";
+import { getCookieData } from "./cookies";
 
 const postApi = {
     getPostsSuggestLimit: (params) => {
@@ -10,9 +11,22 @@ const postApi = {
         const url = '/posts'
         return axiosClient.get(url, {params})
     },
-    get: (id) => {
+    getPostDetail: (id) => {
         const url = '/posts/' + id;
-        return axiosClient.get(url)
+        const token = getCookieData('token')
+        console.log(token);
+        if (!token) {
+            return axiosClient.get(url)
+        } 
+        return axiosClient.get(url, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+    },
+    getPostId: (params) => {
+        const url = '/posts'
+        return axiosClient.get(url, {params})
     }
 }
 
