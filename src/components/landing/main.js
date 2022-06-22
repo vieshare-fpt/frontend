@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { default as LinkMUI } from "@mui/material/Link";
 import { blue } from "@mui/material/colors";
-import PostCards from "src/components/PostCards";
+import PostCards from "src/components/landing/components/PostCards";
 import { useGoogleOneTapLogin } from "@react-oauth/google";
 import { googleUser } from "src/services/accessApi";
 import { getCookieData } from "src/services/cookies";
@@ -36,16 +36,7 @@ export default function LandingPage({ CurrentComponent }) {
     </Typography>
   );
 
-  if (!getCookieData("token")) {
-    useGoogleOneTapLogin({
-      onSuccess: (response) => {
-        const newUser = {
-          credential: response.credential,
-        };
-        googleUser(newUser, null);
-      },
-    });
-  }
+ 
 
   return (
     <MyContainer>

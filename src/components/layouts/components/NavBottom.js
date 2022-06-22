@@ -6,8 +6,9 @@ const MyLink = styled(Link)(({ theme }) => ({
 }))
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
-export default function NavBottom() {
+export  function NavBottom() {
   return (
+
     <Offset>
       <AppBar position="relative" elevation={0} color="primary" sx={{ top: 'auto', bottom: 0, backgroundColor: 'white', height: '60px' }}>
         <Toolbar>

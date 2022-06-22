@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-const historyApi = {
+export const historyApi = {
   getHistory: (token) => {
     const url = "/history";
     return axiosClient.get(url, {
@@ -11,4 +11,3 @@ const historyApi = {
   },
 };
 
-export default historyApi;

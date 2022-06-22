@@ -7,10 +7,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { default as LinkMUI } from '@mui/material/Link';
 
-import {pages} from 'src/components/AppBar/constantNav'
+import {pages} from 'src/components/layouts/components/constantNav'
 
 
-export default function NavMenu() {
+export  function NavMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {

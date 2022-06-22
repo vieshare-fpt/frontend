@@ -7,6 +7,7 @@ const cookieConfig = {
   expires: 7,
 }
 
+
 export const setCookieData = (key, value) => {
   cookie.set(key, value, cookieConfig)
 }

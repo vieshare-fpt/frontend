@@ -2,7 +2,7 @@ import * as React from 'react';
 import dynamic from 'next/dynamic'
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, TextField, Typography, Toolbar, Button, IconButton } from '@mui/material';
-import creatorApi from 'src/services/creatorApi'
+import { creatorApi } from 'src/services';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 

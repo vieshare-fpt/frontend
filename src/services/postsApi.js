@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 import { getCookieData } from "./cookies";
 
-const postApi = {
+export const postApi = {
     getPostsSuggestLimit: (params) => {
         const url = '/posts/suggest'
         return axiosClient.get(url, {params})
@@ -30,4 +30,3 @@ const postApi = {
     }
 }
 
-export default postApi
