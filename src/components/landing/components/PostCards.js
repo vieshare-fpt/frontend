@@ -1,110 +1,60 @@
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Link,
-  CardHeader,
-  Typography,
-} from "@mui/material";
+import Link from "next/link";
 import React from "react";
-import { styled, Grid } from "@mui/material";
-import styleds from "styled-components";
-import { style } from "@mui/system";
-import Image from "next/image";
-
-const MyText = styled("p")({
-  display: "-webkit-box",
-  WebkitLineClamp: "2",
-  WebkitBoxOrient: "vertical",
-  overflow: "hidden",
-});
-
-const MyTextTitle = styled("h2")({
-  display: "-webkit-box",
-  WebkitLineClamp: "1",
-  WebkitBoxOrient: "vertical",
-  overflow: "hidden",
-  margin: "0 0",
-});
-
-
-
+import styles from "../../../styles/PostCard.module.css";
+import Typography from "@mui/material/Typography";
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 export default function PostCards({ note }) {
   return (
-    <Card
-      elevation={1}
-      sx={{
-        cursor: "pointer",
-        borderRadius: "16px",
-        height: 220,
-        transition: "0.2s linear" /* vendorless fallback */,
-        backgroundImage: "url(/loginBackground.jpg)",
-        ":hover": {
-          transform: "scale(1.10)",
-          boxShadow: 20,
-        },
-      }}
-    >
-      
-        <Grid container spacing={0} sx={{ padding: 2 }}>
-          <Grid container>
-            <Grid item xs={6}>
-              <img
-                src={
-                  note.type === "Premium" ? "/premiumPost.svg" : "/freePost.svg"
-                }
-                alt=''
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Typography  align="right" sx={{fontWeight: 'bold'}}>
-                {note.author ? note.author.name : "Le van a"}
-              </Typography>
-            </Grid>
-          </Grid>
+    <>
+      <div className={styles["blog-card"]}>
+        <div className={styles.meta}>
+          <div
+            className={styles.photo}
+            style={{
+              backgroundImage: "url(/loginBackground.jpg)",
+            }}
+          ></div>
+          <ul className={styles.details}>
+            <li className={styles.author}>
+              <a>{note.author.name}</a>
+            </li>
+            <li className={styles.date}>
+              {new Intl.DateTimeFormat("en-US").format(
+                new Date(`${note.publishDate}`)
+              )}
+            </li>
+            <li className={styles.views}>{note.views} lượt xem</li>
+          </ul>
+        </div>
 
-          <Grid item xs={12}>
-            <MyTextTitle>{note.title}</MyTextTitle>
-          </Grid>
-          <Grid item xs={12}>
-            <MyText>{note.description}</MyText>
-          </Grid>
-          <Grid container>
-            <Grid item xs={12}>
-              <br />
-            </Grid>
-          </Grid>
-          <Grid container >
-            {/* <Grid item xs={5} >
-              <Typography sx = {{fontWeight: "bold" }}>
-                {note.publishDate
-                  ? "Publish date: " +
-                    new Intl.DateTimeFormat("en-US").format(
-                      new Date(note.lastUpdated)
-                    )
-                  : "unknown"}
-              </Typography>
-            </Grid>
-            <Grid item xs={5}>
-              <Typography sx = {{fontWeight: "bold" }}>
-                {!note.lastUpdated.empty
-                  ? "Last update: " +
-                    new Intl.DateTimeFormat("en-US").format(
-                      new Date(note.lastUpdated)
-                    )
-                  : "unknown"}
-              </Typography>
-            </Grid> */}
-            <Grid item xs={12}>
-              <Typography
-                align="right"
-                sx={{ lineHeight: "1.4", paddingLeft: "0px", fontWeight: "bold" }}
-              >
-                {note.views + " lượt xem"}
-              </Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-    </Card>
+        <div className={styles.description}>
+          <Link href={note.category.id}>
+            <Typography
+              variant="h4"
+              component="a"
+              sx={{ cursor: "pointer" }}
+              color="initial"
+            >
+              {note.category.name}
+              {note.type === "Premium" ? (
+                <span style={{fontSize: "20px", color: "#ffc107", lineHeight: "1px" }}>
+                <WorkspacePremiumIcon fontSize='small'sx={{ color: "#ffc107" }} />
+                Premium
+                </span>
+              ) : (
+                <></>
+              )}
+            </Typography>
+          </Link>
+          <h2>{note.title}</h2>
+          <p>{note.description}</p>
+          <div className={styles["read-more"]}>
+            <Link Link href={`post/${note.id}`}>
+              <a>Read More</a>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

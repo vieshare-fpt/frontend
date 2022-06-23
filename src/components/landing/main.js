@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { default as LinkMUI } from "@mui/material/Link";
 import { blue } from "@mui/material/colors";
-import PostCards from "src/components/landing/components/PostCards";
 import { useGoogleOneTapLogin } from "@react-oauth/google";
 import { googleUser } from "src/services/accessApi";
 import { getCookieData } from "src/services/cookies";
 import historyApi from "src/services/historyApi";
 import { useRouter } from "next/router";
+import PostCards from "./components/PostCards";
 
 const MyContainer = styled("div")({
   margin: "0 5%",
@@ -36,8 +36,6 @@ export default function LandingPage({ CurrentComponent }) {
     </Typography>
   );
 
- 
-
   return (
     <MyContainer>
       {/* to show 3 trending  */}
@@ -56,13 +54,9 @@ export default function LandingPage({ CurrentComponent }) {
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
         {trendingPosts.map((trending) => (
-          <Link key={trending.id} href={`/post/${trending.id}`}>
-            <Grid item xs={12} sm={12} md={4}>
-              <a>
-                <PostCards note={trending} />
-              </a>
-            </Grid>
-          </Link>
+          <Grid item xs={12} sm={12} md={4} key={trending.id}>
+              <PostCards note={trending} />
+          </Grid>
         ))}
       </Grid>
       {/* link to page trending */}
@@ -80,11 +74,9 @@ export default function LandingPage({ CurrentComponent }) {
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
         {suggestPosts.map((suggestion) => (
-          <Link key={suggestion.id} href={`/post/${suggestion.id}`}>
-            <Grid item xs={12} sm={12} md={4} key={suggestion.id}>
-              <PostCards note={suggestion} />
-            </Grid>
-          </Link>
+          <Grid item xs={12} sm={12} md={4} key={suggestion.id}>
+            <PostCards note={suggestion} />
+          </Grid>
         ))}
       </Grid>
       {/* link to page suggestion */}
@@ -102,9 +94,7 @@ export default function LandingPage({ CurrentComponent }) {
             {history.map((read) => (
               <li key={read.id}>
                 <Link href={`/post/${read.id}`}>
-                  <a>
-                    {/* {read.post.title} */}
-                  </a>
+                  <a>{/* {read.post.title} */}</a>
                 </Link>
               </li>
             ))}
