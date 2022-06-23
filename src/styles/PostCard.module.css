@@ -14,11 +14,16 @@
   overflow: hidden;
   z-index: 0;
 }
+
 .blog-card a {
   color: inherit;
+  text-decoration: none;
+
 }
 .blog-card a:hover {
   color: #5ad67d;
+  text-decoration: none;
+
 }
 .blog-card:hover .photo {
   transform: scale(1.3) rotate(3deg);
@@ -60,6 +65,8 @@
 .blog-card .details a {
   -webkit-text-decoration: dotted underline;
   text-decoration: dotted underline;
+    text-decoration: none;
+
 }
 .blog-card .details ul li {
   display: inline-block;
@@ -97,6 +104,7 @@
   background: #fff;
   position: relative;
   z-index: 1;
+  
 }
 .blog-card .description h1,
 .blog-card .description h2 {
@@ -165,7 +173,7 @@
 .blog-card:hover .details {
   left: 0%;
 }
-@media (min-width: 640px) {
+@media (min-width: 1000px) {
   .blog-card {
     flex-direction: row;
     max-width: 700px;

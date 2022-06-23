@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, IconButton, styled, Typography } from '@mui/material';
 import Link from 'next/link';
-import {pages} from 'src/components/layouts/components/constantNav'
+import {pages} from 'src/components/layouts/components/constant'
 
 export function NavLine() {
     return (

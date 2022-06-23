@@ -37,9 +37,18 @@ export default function PostCards({ note }) {
             >
               {note.category.name}
               {note.type === "Premium" ? (
-                <span style={{fontSize: "20px", color: "#ffc107", lineHeight: "1px" }}>
-                <WorkspacePremiumIcon fontSize='small'sx={{ color: "#ffc107" }} />
-                Premium
+                <span
+                  style={{
+                    fontSize: "12px",
+                    color: "#ffc107",
+                    lineHeight: "1px",
+                  }}
+                >
+                  <WorkspacePremiumIcon
+                    fontSize="medium"
+                    sx={{ color: "#ffc107" }}
+                  />
+                  Premium
                 </span>
               ) : (
                 <></>
@@ -49,7 +58,7 @@ export default function PostCards({ note }) {
           <h2>{note.title}</h2>
           <p>{note.description}</p>
           <div className={styles["read-more"]}>
-            <Link Link href={`post/${note.id}`}>
+            <Link href={`/post/${note.id}`}>
               <a>Read More</a>
             </Link>
           </div>

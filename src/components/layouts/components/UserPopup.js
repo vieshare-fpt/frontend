@@ -51,9 +51,10 @@ export  function UserPopup({ fullname, email, avatar, type, logout }) {
    
     return (
         <div>
-            <Tooltip title="Settings">
-                <IconButton onClick={handleClick}>
-                    <Avatar src={avatar} />
+            <Tooltip title="Settings" sx={{p:'4px'}}>
+                
+                <IconButton onClick={handleClick} sx={{width:'40px', height:'40px'}}>
+                    <Avatar src={avatar}/> 
                 </IconButton>
             </Tooltip>
             <Menu

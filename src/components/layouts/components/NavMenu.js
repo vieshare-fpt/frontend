@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { default as LinkMUI } from '@mui/material/Link';
 
-import {pages} from 'src/components/layouts/components/constantNav'
+import {pages} from 'src/components/layouts/components/constant'
 
 
 export  function NavMenu() {
