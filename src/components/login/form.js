@@ -7,8 +7,7 @@ import Box from '@mui/material/Box';
 
 
 
-export default function FormLogin({formik}) {
-  
+export function FormLogin({formik, onError}) {
 
     return (
         <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -31,6 +30,7 @@ export default function FormLogin({formik}) {
                 label="Mật khẩu"
                 type="password"
                 id="password"
+                autoComplete='on'
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 error={formik.touched.password && Boolean(formik.errors.password)}
@@ -44,11 +44,11 @@ export default function FormLogin({formik}) {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 1.5, mb: 2 }}
+                sx={{ mt: 1.5, mb: 1 }}
             >
                 Đăng Nhập
             </Button>
-
+            {onError ? (<p style={{color: 'red', fontSize: '13px'}}> Đăng nhập thất bại: sai tên tài khoản hoặc mật khẩu</p>) : (<></>) }
         </Box>
     );
 }

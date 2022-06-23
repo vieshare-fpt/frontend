@@ -3,6 +3,7 @@ import { getCookieData, setCookieData } from './cookies';
 
 const axiosClient = axios.create({
     baseURL: 'https://backend-vieshare-stg.vi-vu.vn/api',
+    "Content-Type": "application/json"
 });
 
 const renewAccessToken = async (refreshToken) => {
@@ -30,26 +31,26 @@ axiosClient.interceptors.response.use((response) => {
     throw error;
 });
 
-axiosClient.interceptors.response.use(
-    (response) => response,
-    async (error) => {
-        if (error.response.status === 401) {
-            const refreshToken = getCookieData('refreshToken')
-            if (refreshToken) {
-                refreshTokenRequest =
-                    refreshTokenRequest || renewAccessToken(refreshToken)
-                const newToken = await refreshTokenRequest
-                refreshTokenRequest = null
+// axiosClient.interceptors.response.use(
+//     (response) => response,
+//     async (error) => {
+//         if (error.response.status === 401) {
+//             const refreshToken = getCookieData('refreshToken')
+//             if (refreshToken) {
+//                 refreshTokenRequest =
+//                     refreshTokenRequest || renewAccessToken(refreshToken)
+//                 const newToken = await refreshTokenRequest
+//                 refreshTokenRequest = null
                 
-                const { config } = error
-                config.headers.Authorization = `Bearer ${newToken}`
-                setCookieData('token', newToken)
-                return getUserInfo(config)
-            }
-        }
-        return Promise.reject(error)
-    },
-)
+//                 const { config } = error
+//                 config.headers.Authorization = `Bearer ${newToken}`
+//                 setCookieData('token', newToken)
+//                 return getUserInfo(config)
+//             }
+//         }
+//         return Promise.reject(error)
+//     },
+// )
 
 export default axiosClient;
 

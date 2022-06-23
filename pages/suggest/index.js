@@ -1,8 +1,8 @@
 import { Grid, styled, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import PostCards from 'src/components/PostCards'
-import Layout from 'src/components/layouts/main'
-import postApi from 'src/services/postsApi'
+import PostCards from 'src/components/landing/components/PostCards'
+import Layout from 'src/components/layouts/main-layout'
+import {postApi} from 'src/services/index.js'
 
 const MyContainer = styled('div')({
   margin: '0 5%'
@@ -10,7 +10,6 @@ const MyContainer = styled('div')({
 export default function Suggest({suggestPosts}) {
 
   return (
-      
       <MyContainer  sx={{ mt: 6 }}>
         <Typography variant='h4' sx={{ mb: 2 }}>Gợi ý cho bạn</Typography>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>

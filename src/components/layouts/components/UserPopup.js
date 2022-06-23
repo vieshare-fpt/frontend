@@ -4,8 +4,8 @@ import { Avatar, Box, CardHeader, IconButton, Menu, MenuItem, Typography, Button
 import Link from 'next/link';
 import Divider from '@mui/material/Divider';
 import { green, teal } from '@mui/material/colors';
-import { userLogout } from 'src/services/accessApi';
 import { removeCookieData, getCookieData } from 'src/services/cookies';
+import { accessAPI } from 'src/services';
 
 
 const paper = {
@@ -35,7 +35,7 @@ const features = [{
     name: 'Chỉnh sửa thông tin', url: '/'
 },
 ]
-export default function UserPopup({ fullname, email, avatar, type }) {
+export  function UserPopup({ fullname, email, avatar, type, logout }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -46,19 +46,9 @@ export default function UserPopup({ fullname, email, avatar, type }) {
         setAnchorEl(null);
     };
 
-    const refreshToken = getCookieData('refreshToken');
-    const token = getCookieData('token');
+ 
     
-    const handleLogout = () => { 
-        //Call api 
-        userLogout(refreshToken, token);
-        //remove token
-        if(getCookieData('token')){
-            removeCookieData('token');
-            removeCookieData('refreshToken');
-            
-        }
-    }
+   
     return (
         <div>
             <Tooltip title="Settings">
@@ -89,7 +79,7 @@ export default function UserPopup({ fullname, email, avatar, type }) {
                                 color: teal[800],
                             }
                         }} variant='h6' color="initial">
-                            <Button onClick={handleLogout} >Đăng xuất</Button>
+                            <Button onClick={logout} >Đăng xuất</Button>
                         </Typography>
                     </div>
                     <Divider />

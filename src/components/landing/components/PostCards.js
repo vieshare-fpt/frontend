@@ -10,6 +10,7 @@ import React from "react";
 import { styled, Grid } from "@mui/material";
 import styleds from "styled-components";
 import { style } from "@mui/system";
+import Image from "next/image";
 
 const MyText = styled("p")({
   display: "-webkit-box",
@@ -47,15 +48,16 @@ export default function PostCards({ note }) {
       
         <Grid container spacing={0} sx={{ padding: 2 }}>
           <Grid container>
-            <Grid item xs={10}>
+            <Grid item xs={6}>
               <img
                 src={
                   note.type === "Premium" ? "/premiumPost.svg" : "/freePost.svg"
                 }
+                alt=''
               />
             </Grid>
-            <Grid item xs={2}>
-              <Typography>
+            <Grid item xs={6}>
+              <Typography  align="right" sx={{fontWeight: 'bold'}}>
                 {note.author ? note.author.name : "Le van a"}
               </Typography>
             </Grid>
