@@ -4,7 +4,6 @@ import { accessAPI } from "src/services";
 import { getCookieData, removeCookieData } from "src/services/cookies";
 import style from "../../styles/Layout.module.css";
 import { infoUserApi, requestUserInfoLimit } from "src/services/infoUserApi";
-import { NavBarTop } from "./components/NavBarTop";
 import { NavBottom } from "./components/NavBottom";
 import { getUserInfoLimitFalse, getUserInfoLimitStart, getUserInfoLimitSuccess } from "src/stores/userSlice";
 import { NavScrollExample } from "./components";
