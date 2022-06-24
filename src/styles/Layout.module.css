@@ -1,7 +1,7 @@
 .content {
-    min-height: calc(100vh - 70px);
-    padding: 40px 0px 0 0px;
+    min-height: calc(100vh - 65px);
+    padding: 54px 0px 0px 0px;
   }
   .footer {
-    height: 50px;
+    height: 40px;
   }

@@ -34,16 +34,7 @@ const MyTextField = styled(TextField)({
   },
   "@media(minWidth: 1260px)": {},
 });
-const MyLogo = styled(Typography)({
-  color: "#2E7D32",
-  fontFamily: "Salsa",
-  fontSize: "36px",
-  fontWeight: "400",
-  lineHeight: "44px",
-  letterSpacing: "0em",
-  textAlign: "left",
-  marginLeft: 20,
-});
+
 
 export const NavBarTop = ({ profile, logout }) => {
   const [searchValue, setSearchValue] = React.useState("");
@@ -68,7 +59,7 @@ export const NavBarTop = ({ profile, logout }) => {
           {/* This is search box */}
           <Box sx={{ m: 1, flexGrow: 1 }}>
             <form noValidate autoComplete="off">
-              <MyTextField
+            <MyTextField
                 id="searchContent"
                 size="small"
                 label="Tìm kiếm"

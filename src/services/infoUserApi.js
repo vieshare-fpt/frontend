@@ -8,5 +8,10 @@ export const infoUserApi = {
         return axiosClient.post('/auth/validate', {
             token: accessToken
         })
+    },
+    info(accessToken) {
+        return axiosClient.get('users/info', {
+            headers: { 'Authorization': 'Bearer ' + accessToken }
+        })
     }
 }

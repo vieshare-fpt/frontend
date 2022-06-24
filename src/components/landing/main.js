@@ -42,7 +42,7 @@ export default function LandingPage({ CurrentComponent }) {
       <Typography
         variant="h4"
         sx={{
-          mt: { xs: "30%", sm: "20%", md: "10%", lg: "8%" },
+          mt: { xs: "30%", sm: "20%", md: "10%", lg: "6%" },
           mb: 2,
         }}
       >
