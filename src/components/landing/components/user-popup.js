@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Divider from '@mui/material/Divider';
 import { green, teal } from '@mui/material/colors';
 import { removeCookieData, getCookieData } from 'src/services/cookies';
-import { accessAPI } from 'src/services';
+import { accessApi } from 'src/services';
 
 
 const paper = {
@@ -35,7 +35,7 @@ const features = [{
     name: 'Chỉnh sửa thông tin', url: '/profile'
 },
 ]
-export  function UserPopup({ fullname, email, avatar, type, logout }) {
+export function UserPopup({ fullname, email, avatar, type }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -46,7 +46,24 @@ export  function UserPopup({ fullname, email, avatar, type, logout }) {
         setAnchorEl(null);
     };
 
- 
+    const handleLogout = () => {
+        const token = getCookieData("token");
+        const refreshToken = getCookieData("refreshToken");
+        (async () => {
+          await accessApi
+            .logout(refreshToken, token)
+            .then(function (response) {
+              console.log(response);
+              removeCookieData("token");
+              removeCookieData("refreshToken");
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        })();
+      };
+    
     
    
     return (
@@ -80,7 +97,7 @@ export  function UserPopup({ fullname, email, avatar, type, logout }) {
                                 color: teal[800],
                             }
                         }} variant='h6' color="initial">
-                            <Button onClick={logout} >Đăng xuất</Button>
+                            <Button onClick={handleLogout} >Đăng xuất</Button>
                         </Typography>
                     </div>
                     <Divider />

@@ -9,3 +9,10 @@
         display: none;
     }
 }
+
+.appbar {
+  background: "white";
+  box-Shadow: "none";
+  borderBottom: "1px solid #E7EBF0";
+  color: 'red' !important;
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Trending(props) {
+export default function CategoryAll(props) {
     return (
       <div>[categoryId]</div>
     )
