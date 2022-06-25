@@ -1,7 +1,7 @@
 import { Grid, styled, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import PostCards from 'src/components/landing/components/PostCards'
-import Layout from 'src/components/layouts/main-layout'
+import Layout from 'src/components/layouts/reader-layout'
 import {postApi} from 'src/services/index.js'
 
 const MyContainer = styled('div')({

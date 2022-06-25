@@ -6,7 +6,7 @@ const MyLink = styled(Link)(({ theme }) => ({
 }))
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
-export  function NavBottom() {
+export function NavBottom() {
   return (
 
     <Offset>

@@ -1,4 +1,4 @@
-import { Grid, styled, Typography } from "@mui/material";
+import { Container, Grid, styled, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { default as LinkMUI } from "@mui/material/Link";
@@ -10,9 +10,7 @@ import historyApi from "src/services/historyApi";
 import { useRouter } from "next/router";
 import PostCards from "./components/PostCards";
 
-const MyContainer = styled("div")({
-  margin: "0 5%",
-});
+
 
 const MyUl = styled("ul")({
   listStyleType: "none",
@@ -37,7 +35,7 @@ export default function LandingPage({ CurrentComponent }) {
   );
 
   return (
-    <MyContainer>
+    <Container maxWidth='xl'>
       {/* to show 3 trending  */}
       <Typography
         variant="h4"
@@ -103,6 +101,6 @@ export default function LandingPage({ CurrentComponent }) {
       ) : (
         <></>
       )}
-    </MyContainer>
+    </Container>
   );
 }

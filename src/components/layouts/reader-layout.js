@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { accessAPI } from "src/services";
 import { getCookieData, removeCookieData } from "src/services/cookies";
 import style from "../../styles/Layout.module.css";
-import { infoUserApi, requestUserInfoLimit } from "src/services/infoUserApi";
-import { NavBottom } from "./components/NavBottom";
+import { infoUserApi } from "src/services/infoUserApi";
 import { getUserInfoLimitFalse, getUserInfoLimitStart, getUserInfoLimitSuccess } from "src/stores/userSlice";
-import { NavScrollExample } from "./components";
+import { NavBarTop } from "./components/reader/index";
+import { NavBottom } from "./components/reader/index";
 export function MainLayout({ children }) {
   const dispatch = useDispatch();
 
@@ -52,7 +52,7 @@ export function MainLayout({ children }) {
   return (
     <div>
       <header position="fixed">
-        <NavScrollExample profile={user} logout={handleLogout}/>
+        <NavBarTop profile={user} logout={handleLogout}/>
         {/* <NavBarTop profile={user} logout={handleLogout} /> */}
       </header>
       <div className={style["content"]}>
