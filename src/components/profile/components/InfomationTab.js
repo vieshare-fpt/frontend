@@ -18,46 +18,45 @@ import { useDispatch } from 'react-redux';
 import { getUserInfoFullFalse, getUserInfoFullSuccess } from 'src/stores/userSlice';
 import { toast } from 'react-toastify';
 
-export default function InfomationTab({ profile }) {
+export default function InfomationTab({ formik, profile }) {
 
-    const [name, setName] = React.useState(profile?.name);
-    const [gender, setGender] = React.useState(profile?.gender);
-    const [phoneNumber, setPhoneNumber] = React.useState(profile?.phone);
-    const [datePickerValue, setDatePickerValue] = React.useState(profile?.dateOfBirth);
-    console.log('date : ', datePickerValue)
     const genderList = [
         {
             value: 'male',
-            label: 'male',
+            label: 'Nam',
         },
         {
             value: 'female',
-            label: 'female',
+            label: 'Nữ',
         },
         {
             value: 'other',
-            label: 'other',
+            label: 'Khác',
         }
     ];
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const handleCanel = () => {
+    const handleCancel = () => {
         handleClose();
-
     }
     const dispatch = useDispatch();
     const handleSave = async () => {
-
+        if (formik.errors.gender ||
+            formik.errors.phone ||
+            formik.errors.name ||
+            formik.errors.dob
+        ) {
+            return
+        }
         const newInfo =
         {
-            "name": name,
-            "dob": datePickerValue,
-            "gender": gender,
-            "phone": phoneNumber
+            "name": formik.values.name,
+            "dob": formik.values.dob?.toISOString()?.split('T')[0],
+            "gender": formik.values.gender,
+            "phone": formik.values.phone
         }
-
         const update = await (await profileAPI.updateUserInfo(newInfo)).data;
         if (update)
             await infoUserApi
@@ -82,26 +81,30 @@ export default function InfomationTab({ profile }) {
         handleClose();
 
     }
-
-
+    const displayProfile = {
+        gender: (genderList.filter(item => item.value === profile?.gender))[0]?.label,
+        phone: profile?.phone,
+        dateOfBirth: profile?.dateOfBirth,
+        type: profile?.isPremium ? "Trả phí" : "Miễn phí"
+    }
     return (
         <>
             <Card sx={{ width: '100%', border: 1, mt: 1, borderColor: 'grey.500' }}>
                 <HeadersTab
                     image={<InfoIcon sx={{ fontSize: '48px' }}></InfoIcon>}
-                    title='Your information'
-                    subTitle='Info about you'
+                    title='Thông tin của bạn'
+                    subTitle='Chi tiết thông tin'
                 />
 
                 <List sx={{ width: '100%' }}>
-                    <ItemTab icon={<WcIcon />} name="Gender" value={profile?.gender} divider={true}></ItemTab>
-                    <ItemTab icon={<LocalPhoneIcon />} name="Phone number" value={profile?.phone} divider={true}></ItemTab>
-                    <ItemTab icon={<CelebrationIcon />} name="Date of birth" value={profile?.dateOfBirth} divider={true}></ItemTab>
-                    <ItemTab icon={<BookmarksIcon />} name="Package" value={profile?.isPremium ? "Premium" : "Free"}></ItemTab>
+                    <ItemTab icon={<WcIcon />} name="Giới tính" value={displayProfile.gender} divider={true}></ItemTab>
+                    <ItemTab icon={<LocalPhoneIcon />} name="Số điện thoại" value={displayProfile.phone} divider={true}></ItemTab>
+                    <ItemTab icon={<CelebrationIcon />} name="Ngày sinh" value={displayProfile.dateOfBirth} divider={true}></ItemTab>
+                    <ItemTab icon={<BookmarksIcon />} name="Gói" value={displayProfile.type}></ItemTab>
                 </List>
                 <CardActions sx={{ borderTop: 1, borderColor: 'grey.500', justifyContent: "flex-end" }}  >
                     <Button onClick={handleOpen} size="small" color="primary" >
-                        Edit
+                        Chỉnh sửa
                     </Button>
                 </CardActions>
             </Card >
@@ -112,57 +115,79 @@ export default function InfomationTab({ profile }) {
                 aria-describedby="modal-modal-description"
             >
                 <Card className={styles["modal-card"]}>
-                    <CardContent className={styles["modal-card-content"]}>
-                        <TextField
-                            required
-                            label="Name"
-                            variant="outlined"
-                            value={name}
-                            onChange={(event) => setName(event.target.value)}
-                        />
-
-                        <TextField
-                            required
-                            select
-                            label="Gender"
-                            value={gender}
-                            onChange={(event) => setGender(event.target.value)}
-                        >
-                            {genderList.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                        <TextField
-                            required
-                            label="Phone number"
-                            variant="outlined"
-                            value={phoneNumber}
-                            onChange={(event) => setPhoneNumber(event.target.value)}
-                        />
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-
-                            <DatePicker
+                    <form onSubmit={formik.handleSubmit} noValidate>
+                        <CardContent className={styles["modal-card-content"]}>
+                            <TextField
                                 required
-                                disableFuture
-                                label="Responsive"
-                                openTo="year"
-                                views={['year', 'month', 'day']}
-                                value={datePickerValue}
-                                onChange={(newValue) => {
-                                    setDatePickerValue(newValue);
-                                }}
-                                renderInput={(params) => <TextField {...params} />}
+                                label="Họ và tên"
+                                variant="outlined"
+                                id="name"
+                                name="name"
+                                value={formik.values.name}
+                                onChange={formik.handleChange}
+                                error={formik.touched.name && Boolean(formik.errors.name)}
+                                helperText={formik.touched.name && formik.errors.name}
                             />
 
-                        </LocalizationProvider>
-                    </CardContent>
+                            <TextField
+                                required
+                                select
+                                label="Giới tính"
+                                variant="outlined"
+                                id="gender"
+                                name="gender"
+                                value={formik.values.gender}
+                                onChange={formik.handleChange}
+                                error={formik.touched.gender && Boolean(formik.errors.gender)}
+                                helperText={formik.touched.gender && formik.errors.gender}
+                            >
+                                {genderList.map((option) => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                            <TextField
+                                required
+                                label="Số điện thoại"
+                                variant="outlined"
+                                id="phone"
+                                name="phone"
+                                value={formik.values.phone}
+                                onChange={formik.handleChange}
+                                error={formik.touched.phone && Boolean(formik.errors.phone)}
+                                helperText={formik.touched.phone && formik.errors.phone}
+                            />
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
 
-                    <CardActions sx={{ justifyContent: 'flex-end' }}>
-                        <Button size="small" onClick={() => handleCanel()}>Cancel</Button>
-                        <Button size="small" onClick={() => handleSave()}>Save</Button>
-                    </CardActions>
+                                <DatePicker
+                                    required
+                                    disableFuture
+                                    label="Ngày sinh"
+                                    openTo="year"
+                                    views={['year', 'month', 'day']}
+                                    renderInput={(params) => <TextField {...params} />}
+                                    id="dob"
+                                    name="dob"
+                                    value={formik.values.dob}
+                                    onChange={(val) => {
+
+                                        formik.setFieldValue('dob', val);
+                                    }}
+                                    error={formik.touched.dob && Boolean(formik.errors.dob)}
+                                    helperText={formik.touched.dob && formik.errors.dob}
+
+                                />
+
+                            </LocalizationProvider>
+                        </CardContent>
+
+                        <CardActions sx={{ justifyContent: 'flex-end' }}>
+                            <Button size="small" onClick={() => handleCancel()}>Hủy</Button>
+                            <Button size="small" type="submit" onClick={handleSave}>Lưu</Button>
+                        </CardActions>
+
+                    </form>
                 </Card>
             </Modal>
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, CardActions, CardContent, List, Modal, TextFieldPropsColorOverrides } from '@mui/material';
+import { Button, CardActions, CardContent, List, Modal, TextField } from '@mui/material';
 import styles from "../../../styles/Profile.module.css";
 import Card from '@mui/material/Card';
 import PasswordIcon from '@mui/icons-material/Password';
@@ -9,34 +9,14 @@ import HeadersTab from './HeaderTab';
 import { profileAPI } from 'src/services/profileApi';
 import { toast } from 'react-toastify';
 
-export default function SecurityTab() {
-    const [oldPassword, setOldPassword] = React.useState('');
-    const [newPassword, setNewPassword] = React.useState('');
-    const [confirmNewPassword, setConfirmNewPassword] = React.useState('');
-    const [open, setOpen] = React.useState(false);
-    const [touched, setTouched] = React.useState({
-        oldPassword: false,
-        newPassword: false,
-        confirmNewPassword: false,
-    })
-    const [errors, setErrors] = React.useState({
-        oldPassword: ' ',
-        newPassword: ' ',
-        confirmNewPassword: ' ',
-    })
 
+export default function SecurityTab({ formik, profile }) {
+
+    const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const handleCanel = () => {
+    const handleCancel = () => {
         handleClose();
-        setOldPassword('');
-        setNewPassword('');
-        setConfirmNewPassword('');
-        setTouched({
-            oldPassword: false,
-            newPassword: false,
-            confirmNewPassword: false
-        })
     }
     const updatePasswordSuccess = (message) => {
         toast.success(message, {
@@ -61,10 +41,19 @@ export default function SecurityTab() {
         });
     }
     const handleSave = async () => {
-        const newPasswordRequest = {
-            currentPassword: oldPassword,
-            newPassword: newPassword,
+
+        if (!profile.isDefaultPassword && formik.errors.oldPassword || formik.errors.newPassword || formik.errors.confirmNewPassword) {
+            return
         }
+        const newPasswordRequest = !profile.isDefaultPassword ?
+            {
+                currentPassword: formik.values.oldPassword,
+                newPassword: formik.values.newPassword,
+            } :
+            {
+                newPassword: formik.values.newPassword,
+            };
+
         profileAPI.updatePassword(newPasswordRequest)
             .then(res => {
                 console.log(res)
@@ -74,40 +63,12 @@ export default function SecurityTab() {
                 updatePassworFailed(err.response.data.data?.toString() || err.response.data.message)
             })
 
+        formik.values = formik.initialValues
 
-
-        handleCanel();
-    }
-    const validate = () => {
-
-        if (touched.oldPassword && !oldPassword.trim()) {
-            errors.oldPassword = 'Please fill out thif field';
-        } else {
-            errors.oldPassword = ' '
-        }
-
-        if (touched.newPassword && !newPassword.trim()) {
-
-            errors.newPassword = 'Please fill out thif field';
-
-        } else {
-            errors.newPassword = ' ';
-        }
-
-        if (touched.confirmNewPassword && !confirmNewPassword.trim()) {
-
-            errors.confirmNewPassword = 'Please fill out thif field';
-
-        } else if (touched.confirmNewPassword && confirmNewPassword !== newPassword) {
-            errors.confirmNewPassword = 'Confirmation new password does not match';
-        } else {
-            errors.confirmNewPassword = ' ';
-        }
-
-
+        handleCancel();
     }
 
-    validate();
+
     return (
         <>
             <Card sx={{ maxWidth: '100%', border: 1, mt: 1, borderColor: 'grey.500' }}>
@@ -139,47 +100,53 @@ export default function SecurityTab() {
                 aria-describedby="modal-modal-description"
             >
                 <Card className={styles["modal-card"]}>
-                    <CardContent className={styles["modal-card-content"]}>
-                        <TextField
-                            required
-                            label="Old password"
-                            variant="outlined"
-                            type="password"
-                            value={oldPassword}
-                            onChange={(event) => setOldPassword(event.target.value)}
-                            onBlur={() => setTouched({ ...touched, oldPassword: true })}
-                            helperText={errors.oldPassword}
-                            error={!!errors.oldPassword.trim()}
-                        />
-                        <TextField
-                            required
-                            label="New password"
-                            variant="outlined"
-                            type="password"
-                            value={newPassword}
-                            onChange={(event) => setNewPassword(event.target.value)}
-                            onBlur={() => setTouched({ ...touched, newPassword: true })}
-                            helperText={errors.newPassword}
-                            error={!!errors.newPassword.trim()}
-                        />
-                        <TextField
-                            required
-                            label="Confirm new password"
-                            variant="outlined"
-                            type="password"
-                            value={confirmNewPassword}
-                            onChange={(event) => setConfirmNewPassword(event.target.value)}
-                            onBlur={() => setTouched({ ...touched, confirmNewPassword: true })}
-                            helperText={errors.confirmNewPassword}
-                            error={!!errors.confirmNewPassword.trim()}
+                    <form onSubmit={formik.handleSubmit} noValidate>
+                        <CardContent className={styles["modal-card-content"]}>
+                            {!profile.isDefaultPassword ?
+                                <TextField
+                                    required
+                                    label="Mật khẩu"
+                                    variant="outlined"
+                                    id="oldPassword"
+                                    name="oldPassword"
+                                    value={formik.values.oldPassword}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.oldPassword && Boolean(formik.errors.oldPassword)}
+                                    helperText={formik.touched.oldPassword && formik.errors.oldPassword}
+                                />
+                                : <></>
+                            }
 
-                        />
-                    </CardContent>
+                            <TextField
+                                required
+                                label="Mật khẩu mới"
+                                variant="outlined"
+                                id="newPassword"
+                                name="newPassword"
+                                value={formik.values.newPassword}
+                                onChange={formik.handleChange}
+                                error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
+                                helperText={formik.touched.newPassword && formik.errors.newPassword}
+                            />
+                            <TextField
+                                required
+                                label="Xác nhận mật khẩu mới"
+                                variant="outlined"
+                                id="confirmNewPassword"
+                                name="confirmNewPassword"
+                                value={formik.values.confirmNewPassword}
+                                onChange={formik.handleChange}
+                                error={formik.touched.confirmNewPassword && Boolean(formik.errors.confirmNewPassword)}
+                                helperText={formik.touched.confirmNewPassword && formik.errors.confirmNewPassword}
 
-                    <CardActions sx={{ justifyContent: 'flex-end' }}>
-                        <Button size="small" onClick={() => handleCanel()}>Cancel</Button>
-                        <Button size="small" onClick={() => handleSave()}>Save</Button>
-                    </CardActions>
+                            />
+                        </CardContent>
+
+                        <CardActions sx={{ justifyContent: 'flex-end' }}>
+                            <Button size="small" onClick={() => handleCancel()}>Hủy</Button>
+                            <Button size="small" type="submit" onClick={handleSave}>Lưu</Button>
+                        </CardActions>
+                    </form>
                 </Card>
             </Modal>
         </>
