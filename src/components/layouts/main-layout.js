@@ -4,15 +4,15 @@ import { accessAPI } from "src/services";
 import { getCookieData, removeCookieData } from "src/services/cookies";
 import style from "../../styles/Layout.module.css";
 import { infoUserApi, requestUserInfoLimit } from "src/services/infoUserApi";
-import { NavBarTop } from "./components/NavBarTop";
 import { NavBottom } from "./components/NavBottom";
 import { getUserInfoLimitFalse, getUserInfoLimitStart, getUserInfoLimitSuccess } from "src/stores/userSlice";
+import { NavScrollExample } from "./components";
 export function MainLayout({ children }) {
   const dispatch = useDispatch();
 
 
   const user = useSelector(
-    (state) => state.user.currentUserInfoLimit.userInfo?.jwtPayload
+    (state) => state.user.currentUserInfoLimit?.userInfo
   );
   useEffect(() => {
     const token = getCookieData("token");
@@ -21,7 +21,7 @@ export function MainLayout({ children }) {
       dispatch(getUserInfoLimitStart());
       
       await infoUserApi
-        .validate(token)
+        .info(token)
         .then((response) => {
           dispatch(getUserInfoLimitSuccess(response.data));
         })
@@ -52,7 +52,8 @@ export function MainLayout({ children }) {
   return (
     <div>
       <header position="fixed">
-        <NavBarTop profile={user} logout={handleLogout} />
+        <NavScrollExample profile={user} logout={handleLogout}/>
+        {/* <NavBarTop profile={user} logout={handleLogout} /> */}
       </header>
       <div className={style["content"]}>
         <main>{children}</main>

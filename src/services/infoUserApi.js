@@ -10,12 +10,11 @@ export const infoUserApi = {
             token: accessToken
         })
     },
+
     info() {
         const token = getCookieData('token')
-        return axiosClient.get('/users/info', {
-            headers: {
-                "Authorization": "Bearer " + token,
-            },
+        return axiosClient.get('users/info', {
+            headers: { 'Authorization': 'Bearer ' + token }
         })
     }
 }

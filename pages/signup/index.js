@@ -98,11 +98,9 @@ export default function signUp() {
             alignItems: 'center',
           }}
         >
-          <p className={styles.logo}>
             <Link href='/'>
-              VieShare
+              <a className={styles.logo}>VieShare</a>
             </Link>
-          </p>
           <div className={SignupStyle.form}>
             <Typography sx={{ mb: 2 }} component="h1" variant="h5">
               Đăng ký
