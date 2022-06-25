@@ -8,7 +8,7 @@ import {
   ENTER_PASSWORD_VALIDATION,
   PASSWORD_REQUIRED,
 } from "src/locales/errors";
-import { accessAPI } from "src/services";
+import { accessApi } from "src/services";
 import Page from "../src/components/login/main";
 import { setCookieData } from "src/services/cookies";
 import { useRouter } from "next/router";
@@ -36,7 +36,7 @@ export default function LoginPage() {
         password: values.password,
       };
       (async () => {
-        await accessAPI
+        await accessApi
           .login(user)
           .then(function (response) {
             setCookieData("token", response.data.token);

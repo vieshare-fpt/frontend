@@ -1,8 +1,8 @@
 import { Grid, styled, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import PostCards from 'src/components/landing/components/PostCards'
+import { PostCards } from 'src/components/landing/components'
 import Layout from 'src/components/layouts/reader-layout'
-import {postApi} from 'src/services/index.js'
+import {postApi} from 'src/services'
 
 const MyContainer = styled('div')({
   margin: '0 5%'
