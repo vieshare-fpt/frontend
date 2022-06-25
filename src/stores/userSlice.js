@@ -3,18 +3,24 @@ import { createSlice } from '@reduxjs/toolkit';
 const userSlice = createSlice({
     name: 'user',
     initialState: {
+        currentUserInfoFull: {
+            userInfo: null,
+            isFetching: false,
+            error: false,
+        },
         currentUser: {
             userInfo: null,
-            isFetching:false,
+            isFetching: false,
             error: false,
         },
         currentUserInfoLimit: {
             userInfo: null,
-            isFetching:false,
+            isFetching: false,
             error: false,
         }
     },
     reducers: {
+
         getUserInfoStart: (state) => {
             state.currentUser.isFetching = true;
 
@@ -28,7 +34,7 @@ const userSlice = createSlice({
             state.currentUser.isFetching = false;
             state.currentUser.error = true;
         },
-        
+
         getUserInfoLimitStart: (state) => {
             state.currentUserInfoLimit.isFetching = true;
         },
@@ -41,7 +47,13 @@ const userSlice = createSlice({
             state.currentUserInfoLimit.isFetching = false;
             state.currentUserInfoLimit.error = true;
         },
-        
+        getUserInfoFullSuccess: (state, action) => {
+            state.currentUserInfoFull.userInfo = action.payload;
+        },
+        getUserInfoFullFalse: (state) => {
+            state.currentUserInfoLimit.isFetching = false;
+            state.currentUserInfoLimit.error = true;
+        },
     }
 })
 
@@ -52,6 +64,8 @@ export const {
     getUserInfoLimitStart,
     getUserInfoLimitSuccess,
     getUserInfoLimitFalse,
+    getUserInfoFullSuccess,
+    getUserInfoFullFalse
 } = userSlice.actions;
 
 export default userSlice.reducer
