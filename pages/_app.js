@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import "src/styles/globals.css";
 import ScopedCssBaseline from "@mui/material/ScopedCssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -12,15 +11,6 @@ import { EmptyLayout } from "src/components/layouts";
 const theme = createTheme({
   typography: {
     fontFamily: "Roboto:ital",
-  },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 576,
-      md: 768,
-      lg: 1200,
-      xl: 1400,
-    },
   },
 });
 

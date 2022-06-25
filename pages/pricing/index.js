@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-import Layout from "src/components/layouts/main-layout";
+import Layout from "src/components/layouts/reader-layout";
 import PricingCard from "src/components/pricing/PricingCard";
 import "animate.css";
 import { useRouter } from "next/router";

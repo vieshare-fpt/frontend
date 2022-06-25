@@ -3,7 +3,7 @@ import React from "react";
 import styles from "../../../styles/PostCard.module.css";
 import Typography from "@mui/material/Typography";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
-export default function PostCards({ note }) {
+export function PostCards({ note }) {
   return (
     <>
       <div className={styles["blog-card"]}>
@@ -59,7 +59,7 @@ export default function PostCards({ note }) {
           <p>{note.description}</p>
           <div className={styles["read-more"]}>
             <Link href={`/post/${note.id}`}>
-              <a>Read More</a>
+              <a>Đọc thêm</a>
             </Link>
           </div>
         </div>

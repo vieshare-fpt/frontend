@@ -1,1 +1,1 @@
-export * from './navbar-top'
+export * from './footer'

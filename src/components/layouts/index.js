@@ -1,2 +1,2 @@
-export * from './main-layout'
+export * from './reader-layout'
 export * from './empty-layout'

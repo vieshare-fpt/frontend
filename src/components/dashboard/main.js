@@ -22,7 +22,7 @@ const drawerWidth = 240;
 export default function ResponsiveDrawer(props) {
   const { window, CurrentComponent } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
+  console.log(CurrentComponent);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };

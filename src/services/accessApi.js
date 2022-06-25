@@ -1,7 +1,7 @@
 import { setCookieData } from "src/services/cookies";
 import axiosClient from "./axiosClient";
 
-export const accessAPI = {
+export const accessApi = {
   login(payload) {
     return axiosClient.post("/auth/login", payload);
   },

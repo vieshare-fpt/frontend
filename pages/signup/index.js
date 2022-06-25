@@ -6,7 +6,6 @@ import FormRegistration from 'src/components/signup/FormRegistration';
 import * as yup from 'yup';
 import YupPassword from 'yup-password'
 import formatDate from 'src/utils/FormatDateHelper.js'
-import { accessAPI } from 'src/services/index';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import SignupStyle from 'src/styles/Signup.module.css'
@@ -15,6 +14,7 @@ import { ENTER_YOUR_NAME, NAME_REQUIRED, ENTER_PHONENUMBER, MIN_LENGHT_PHONENUMB
   PHONENUMBER_REQUIRED, ENTER_YOUR_EMAIL_VALIDATION, ENTER_VALID_EMAIL, EMAIL_REQUIRED, 
   ENTER_PASSWORD_VALIDATION, MIN_PASSWORD, PASSWORD_REQUIRED, MIN_UPPERCASE, MIN_NUMBERS, 
   MIN_SYMBOLS, PASSWORD_CONFIRM_FAILED} from 'src/locales/errors'
+import { accessApi } from 'src/services';
 
 
 YupPassword(yup)
@@ -83,7 +83,7 @@ export default function signUp() {
         avatar: avatar,
 
       }
-      accessAPI.registerUser(newUser, navigate, dispatch)
+      accessApi.registerUser(newUser, navigate, dispatch)
       
     },
   });
