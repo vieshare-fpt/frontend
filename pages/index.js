@@ -1,6 +1,4 @@
 import { useGoogleOneTapLogin } from "@react-oauth/google";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import LandingPage from "src/components/landing/pages/landing";
 import { MainLayout } from "src/components/layouts";
 import { getCookieData } from "src/services/cookies";

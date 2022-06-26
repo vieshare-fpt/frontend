@@ -32,7 +32,7 @@ const features = [{
     name: 'Gia hạn Premium', url: '/'
 },
 {
-    name: 'Chỉnh sửa thông tin', url: '/'
+    name: 'Chỉnh sửa thông tin', url: '/profile'
 },
 ]
 export function UserPopup({ fullname, email, avatar, type }) {

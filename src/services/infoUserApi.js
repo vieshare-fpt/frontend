@@ -1,6 +1,7 @@
 import { getUserInfoLimitFalse, getUserInfoLimitStart, getUserInfoLimitSuccess } from "src/stores/userSlice";
 import axiosClient from "./axiosClient";
-
+import { getCookieData, removeCookieData } from "src/services/cookies";
+import axios from "axios";
 
 
 export const infoUserApi = {
@@ -9,9 +10,11 @@ export const infoUserApi = {
             token: accessToken
         })
     },
-    info(accessToken) {
+
+    info() {
+        const token = getCookieData('token')
         return axiosClient.get('users/info', {
-            headers: { 'Authorization': 'Bearer ' + accessToken }
+            headers: { 'Authorization': 'Bearer ' + token }
         })
     }
 }
