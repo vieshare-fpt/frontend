@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { infoUserApi } from "src/services/infoUserApi";
 import { getUserInfoFullFalse, getUserInfoFullSuccess } from "src/stores/userSlice";
 import 'react-toastify/dist/ReactToastify.css';
-import ReactLoading from 'react-loading';
 import { ToastContainer } from "react-toastify";
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
@@ -22,7 +21,7 @@ import {
     ENTER_PASSWORD_VALIDATION, MIN_PASSWORD, PASSWORD_REQUIRED, MIN_UPPERCASE, MIN_NUMBERS,
     MIN_SYMBOLS, PASSWORD_CONFIRM_FAILED, ENTER_NEW_PASSWORD_VALIDATION, NEW_PASSWORD_REQUIRED, CONFIRM_NEW_PASSWORD_VALIDATION
 } from 'src/locales/errors'
-import { MainLayout } from "src/components/layouts";
+import Loader from "src/components/common/Loader";
 
 
 YupPassword(yup)
@@ -75,22 +74,22 @@ export default function Profile() {
     );
 
     useEffect(() => {
-        (async () => {
-
-            await infoUserApi
-                .info()
-                .then((response) => {
-                    dispatch(getUserInfoFullSuccess(response.data));
-                })
-                .catch((error) => {
-                    dispatch(getUserInfoFullFalse());
-                });
-        })();
+        if (!user)
+            (async () => {
+                await infoUserApi
+                    .info()
+                    .then((response) => {
+                        dispatch(getUserInfoFullSuccess(response.data));
+                    })
+                    .catch((error) => {
+                        dispatch(getUserInfoFullFalse());
+                    });
+            })();
     });
 
     const formikInfomation = useFormik({
         enableReinitialize: true,
-        initialErrors:{
+        initialErrors: {
             name: '',
             gender: '',
             phone: '',
@@ -121,7 +120,7 @@ export default function Profile() {
             newPassword: '',
             confirmNewPassword: '',
         },
-        initialErrors:{
+        initialErrors: {
             oldPassword: ' ',
             newPassword: ' ',
             confirmNewPassword: ' ',
@@ -136,27 +135,11 @@ export default function Profile() {
     });
 
     if (!user) {
-        return (
-            <Grid
-                container
-                spacing={0}
-                direction="column"
-                alignItems="center"
-                justifyContent="center"
-                style={{ minHeight: '100vh' }}
-            >
-
-                <Grid item xs={3}>
-                    <ReactLoading type="bubbles" color="#000" />
-                </Grid>
-
-            </Grid>)
+        return <Loader />
     }
 
     return (
         <>
-          
-            {/* Same as */}
             <ToastContainer />
             <Container sx={{ mt: 12 }}>
                 <CardHeader
@@ -190,3 +173,4 @@ export default function Profile() {
         </>
     );
 }
+
