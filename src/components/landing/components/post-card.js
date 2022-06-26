@@ -39,7 +39,7 @@ export function PostCards({ note }) {
             dolorum architecto obcaecati enim dicta praesentium, quam nobis!
             Neque ad aliquam facilis numquam. Veritatis, sit.
           </p> */}
-          <Stack direction='row' spacing={1}>
+          <Stack direction='row' spacing={1} sx={{mb:1}}>
             <Link href={note.category.id}>
               <Typography
                 variant="h2"
@@ -52,7 +52,7 @@ export function PostCards({ note }) {
             {note.type === "Premium" ? (
               <span
                 style={{
-                  fontSize: "10px",
+                  fontSize: "20px",
                   color: "#ffc107",
                   lineHeight: "1px",
                 }}
@@ -61,6 +61,7 @@ export function PostCards({ note }) {
                   fontSize="medium"
                   sx={{ color: "#ffc107" }}
                 />
+                Premium
               </span>
             ) : (
               <></>

@@ -5,8 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import AttributionIcon from "@mui/icons-material/Attribution";
-import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
+
 import { Container } from "@mui/system";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import {
@@ -32,13 +31,17 @@ import {
 import { UserPopup } from "./components/user-popup";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { getCookieData } from "src/services/cookies";
 import {
   getUserInfoLimitFalse,
   getUserInfoLimitStart,
   getUserInfoLimitSuccess,
 } from "src/stores/userSlice";
-import {  infoUserApi } from "src/services";
+import { infoUserApi } from "src/services";
+import { devTeamPage, DrawerDesktop, DrawerMobile, pages } from "./components";
+import MiniDrawer from "./components/drawer-desktop";
+import { green } from "@mui/material/colors";
+import { Footer } from "../layouts/components";
+import { MainLayout } from "../layouts";
 
 const theme = createTheme({});
 
@@ -57,15 +60,16 @@ const logo = (
     </Typography>
   </Link>
 );
-const drawerWidth = "100%";
 const AppBarMUI = styled(AppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
 }));
 
 export default function NavBarTop(prop) {
   const { props, CurrentComponent, window } = prop;
+  const [open, setOpen] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [mobileSearchBoxOpen, setMobileSearchBoxOpen] = React.useState(false);
+
   //   const window = null
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -73,28 +77,14 @@ export default function NavBarTop(prop) {
   const user = useSelector(
     (state) => state.user.currentUserInfoLimit?.userInfo
   );
-  const pages = [
-    {
-      key: 0,
-      nameNav: "Trở thành tác giả",
-      icon: <AttributionIcon />,
-      url: "/content-writer",
-    },
-    {
-      key: 1,
-      nameNav: "Mua Premium",
-      icon: <WorkspacePremiumIcon />,
-      url: "/pricing",
-    },
-  ];
+
   let result = pages;
 
   React.useEffect(() => {
-    const token = getCookieData("token");
     (async () => {
       dispatch(getUserInfoLimitStart());
       await infoUserApi
-        .info(token)
+        .info()
         .then((response) => {
           dispatch(getUserInfoLimitSuccess(response.data));
         })
@@ -103,12 +93,14 @@ export default function NavBarTop(prop) {
         });
     })();
   }, []);
-
-  const handleDrawerToggle = () => {
+  const handleDrawer = () => {
+    setOpen(!open);
+  };
+  const handleDrawerToggleMobile = () => {
     setMobileOpen(!mobileOpen);
     setMobileSearchBoxOpen(false);
   };
-  const handleDrawerSearchBoxToggle = () => {
+  const handleDrawerSearchBoxToggleMobile = () => {
     setMobileSearchBoxOpen(!mobileSearchBoxOpen);
     setMobileOpen(false);
   };
@@ -131,20 +123,19 @@ export default function NavBarTop(prop) {
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
-          placeholder="Search…"
+          placeholder="Tìm kiếm..."
           inputProps={{ "aria-label": "search" }}
         />
       </Search>
     </form>
   );
-  const linkPage = result.map((subpage) => {
+  const linkPage = devTeamPage.map((subpage) => {
     return (
-      <Link key={subpage.nameNav} href={subpage.url}>
+      <Link key={subpage.key} href={subpage.url}>
         <Button
           color="success"
           sx={{
             fontSize: "16px",
-            ml: 1,
             borderRadius: 8,
             color: "",
             textTransform: "none",
@@ -192,6 +183,38 @@ export default function NavBarTop(prop) {
   };
 
   const drawer = (
+    <List>
+      {result.map((subpage) => (
+        <ListItem key={subpage.key} disablePadding sx={{ display: "block" }}>
+          <Link href={subpage.url}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                {subpage.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={subpage.nameNav}
+                sx={{ opacity: open ? 1 : 0, color: "#2e7d32" }}
+              />
+            </ListItemButton>
+          </Link>
+        </ListItem>
+      ))}
+    </List>
+  );
+
+  const drawerMobile = (
     <div>
       <Toolbar />
       <Divider />
@@ -211,7 +234,7 @@ export default function NavBarTop(prop) {
     </div>
   );
 
-  const drawerSearch = (
+  const drawerSearchMobile = (
     <div>
       <Toolbar />
       <Divider />
@@ -244,32 +267,52 @@ export default function NavBarTop(prop) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBarMUI
-          position="fixed"
-          // color="transparent" elevation={0}
-          style={{
-            background: "white",
-            boxShadow: "none",
-            // borderBottom: "1px solid #E7EBF0",
-          }}
-        >
-          <Container maxWidth="xl" disableGutters>
-            <Toolbar variant="regular">
+      <Box sx={{ display: "flex" }}>
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBarMUI
+            position="fixed"
+            // color="transparent" elevation={0}
+
+            style={{
+              background: "white",
+              boxShadow: "none",
+              // borderBottom: "1px solid #E7EBF0",
+            }}
+          >
+            <Toolbar variant="regular" disableGutters sx={{ px: "12px" }}>
               {/* desktop open */}
-              <Box sx={{ display: { xs: "none", md: `flex` } }}>{logo}</Box>
-              <Box sx={{ display: { xs: "none", md: `flex` } }}>{linkPage}</Box>
+              <Box sx={{ display: { xs: "none", md: `flex` } }}>
+                <IconButton onClick={handleDrawer} sx={{ marginRight: "20px" }}>
+                  <MenuIcon color="success" />
+                </IconButton>
+                {logo}
+
+                <Typography
+                  component="p"
+                  sx={{
+                    color: "#E7EBF0",
+                    fontWeight: 200,
+                    fontSize: "30px",
+                    marginLeft: "40px",
+                  }}
+                >
+                  |
+                </Typography>
+                {linkPage}
+              </Box>
+
               {/* searchbox mobile open */}
               <Box sx={{ display: { xs: "flex", md: "none", flexGrow: 1 } }}>
                 <IconButton
                   color="inherit"
                   aria-label="open drawer"
                   edge="start"
-                  onClick={handleDrawerToggle}
+                  sx={{ ml: "0" }}
+                  onClick={handleDrawerToggleMobile}
                 >
                   <MenuIcon color="success" />
                 </IconButton>
-                <IconButton onClick={handleDrawerSearchBoxToggle}>
+                <IconButton onClick={handleDrawerSearchBoxToggleMobile}>
                   <SearchIcon color="success" />
                 </IconButton>
               </Box>
@@ -292,52 +335,30 @@ export default function NavBarTop(prop) {
               {/* mobile open*/}
               {access("flex", "none")}
             </Toolbar>
-          </Container>
-        </AppBarMUI>
-      </Box>
-
-      <Box>
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          anchor="top"
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: "block", md: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
+          </AppBarMUI>
+        </Box>
+        <Box>
+          {/* <DrawerDesktop  handle={handleDrawer} open={open} list={drawer} /> */}
+          <MiniDrawer open={open} list={drawer} />
+          <DrawerMobile
+            handleSearchBox={handleDrawerSearchBoxToggleMobile}
+            handleMobile={handleDrawerToggleMobile}
+            open={mobileOpen}
+            openSearchBox={mobileSearchBoxOpen}
+            container={container}
+            list={drawerMobile}
+            searchBox={drawerSearchMobile}
+          />
+        </Box>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, background: "rgba(242, 242, 242, .5)" }}
         >
-          {drawer}
-        </Drawer>
-
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileSearchBoxOpen}
-          anchor="top"
-          onClose={handleDrawerSearchBoxToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: "block", md: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          {drawerSearch}
-        </Drawer>
+          <MainLayout>
+            <CurrentComponent props={props} />
+          </MainLayout>
+        </Box>
       </Box>
-      <CurrentComponent props={props} />
     </ThemeProvider>
   );
 }

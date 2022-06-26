@@ -21,7 +21,7 @@ export default function Landing(props) {
   return <Page CurrentComponent={LandingPage} props={props} />;
 }
 
-Landing.getLayout = MainLayout;
+// Landing.getLayout = MainLayout;
 
 export async function getStaticProps() {
   const suggestPosts = await postApi.getPostsSuggestLimit({
