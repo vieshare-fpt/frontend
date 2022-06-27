@@ -42,6 +42,7 @@
   background-size: cover;
   background-position: center;
   transition: transform 0.75s;
+  transition-delay: 0.2s;
 }
 .blog-card .details,
 .blog-card .details ul {
@@ -56,6 +57,8 @@
   left: -100%;
   margin: auto;
   transition: left 0.75s;
+  transition-delay: 0.2s;
+
   background: rgba(0, 0, 0, 0.6);
   color: #fff;
   padding: 10px;
@@ -65,8 +68,7 @@
 .blog-card .details a {
   -webkit-text-decoration: dotted underline;
   text-decoration: dotted underline;
-    text-decoration: none;
-
+  text-decoration: none;
 }
 .blog-card .details ul li {
   display: inline-block;
@@ -104,7 +106,6 @@
   background: #fff;
   position: relative;
   z-index: 1;
-  
 }
 .blog-card .description h1,
 .blog-card .description h2 {
@@ -124,13 +125,21 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical; 
+  -webkit-box-orient: vertical;
 }
+.blog-card .description h3 {
+  height:37.344px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
 .blog-card .description > p {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical; 
+  -webkit-box-orient: vertical;
 }
 
 .blog-card .description .read-more {

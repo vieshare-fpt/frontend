@@ -5,15 +5,19 @@ const AppBarMUI = styled(AppBar)(({ theme }) => ({
   boxShadow: "none",
 }));
 export function CategoryBar({ categories }) {
-  console.log(categories);
-
   return (
     <AppBarMUI
       position="static"
       disableGutters
-      sx={{ borderTop: "1px solid #E7EBF0" , borderBottom: "1px solid #E7EBF0", backgroundColor: "white", marginBottom:"20px"}}
+      sx={{
+        borderTop: "1px solid #E7EBF0",
+        borderBottom: "1px solid #E7EBF0",
+        backgroundColor: "white",
+        marginBottom: "20px",
+        padding: 0
+      }}
     >
-      <Toolbar disableGutters variant='dense' sx={{padding: '0 10px'}}>
+      <Toolbar disableGutters variant="dense" sx={{ padding: "0 20px" }}>
         <Stack direction="row" spacing={1}>
           <Chip
             label="All"
