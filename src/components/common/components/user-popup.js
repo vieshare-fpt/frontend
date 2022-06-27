@@ -6,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import { green, teal } from '@mui/material/colors';
 import { removeCookieData, getCookieData } from 'src/services/cookies';
 import { accessApi } from 'src/services';
+import Image from 'next/image';
 
 
 const paper = {
@@ -88,7 +89,7 @@ export function UserPopup({ fullname, email, avatar, type }) {
                             flexWrap: 'wrap',
                             margin: '10px 10px'
                         }}>
-                        <img src={type ? "/premium.svg" : "/free.svg"} width={100} height={30} />
+                        <Image src={type ? "/premium.svg" : "/free.svg"} alt="" width={100} height={30} />
                         <Box sx={{ flexGrow: 1 }} />
                         <Typography sx={{
                             color: green[800],
@@ -102,7 +103,7 @@ export function UserPopup({ fullname, email, avatar, type }) {
                     </div>
                     <Divider />
                     <MenuItem>
-                        <Avatar sx={{ width: 70, height: 70 }} />
+                        <Avatar sx={{ width: 70, height: 70 }} src={avatar} />
                         <div style={{ marginLeft: 10 }}>
                             <Typography variant='h5'>{fullname}</Typography>
                             <Typography>{email}</Typography>

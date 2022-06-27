@@ -4,8 +4,11 @@ import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
+import { List, ListItem, ListItemButton } from "@mui/material";
+import Link from "next/link";
 
 const drawerWidth = 220;
+
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -55,7 +58,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function MiniDrawer(props) {
+export function DrawerDesktop(props) {
   const { open, list } = props;
 
   return (

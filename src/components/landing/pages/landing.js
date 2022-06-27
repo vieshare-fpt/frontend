@@ -1,17 +1,24 @@
-import { Container, Grid, styled, Typography } from "@mui/material";
+import {
+  AppBar,
+  Container,
+  Grid,
+  styled,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { blue } from "@mui/material/colors";
 import { getCookieData } from "src/services/cookies";
 import { historyApi } from "src/services";
-import { CategoryBar, PostCards } from "../components";
+import { PostCards } from "../components";
 
 const MyUl = styled("ul")({
   listStyleType: "none",
 });
 
 export default function LandingPage({ props }) {
-  const { suggestPosts, trendingPosts, categories } = props;
+  const { suggestPosts, trendingPosts } = props;
   const [history, setHistory] = useState([]);
   useEffect(() => {
     const token = getCookieData("token");
@@ -48,9 +55,7 @@ export default function LandingPage({ props }) {
 
   return (
     <>
-      <CategoryBar categories={categories} />
-
-      <Container maxWidth="">
+      <Container maxWidth="" sx={{ marginTop: 10 }}>
         {/* to show 3 trending  */}
 
         <Typography variant="h4">Trending</Typography>
@@ -88,7 +93,7 @@ export default function LandingPage({ props }) {
         <Grid container justifyContent="flex-end">
           <Link href="/suggest">{watchMore}</Link>
         </Grid>
-    
+
         {/* to show the post was read */}
         {isArray ? (
           <>
