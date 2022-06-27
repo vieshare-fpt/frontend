@@ -15,7 +15,7 @@ import {
   PASSWORD_REQUIRED,
 } from "src/locales/errors";
 import { GoogleLogin } from "@react-oauth/google";
-import { accessAPI } from "src/services";
+import { accessApi } from "src/services";
 import { FormLogin } from "src/components/login";
 
 export default function LoginComponent({ CurrentComponent }) {

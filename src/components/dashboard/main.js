@@ -101,7 +101,7 @@ export default function ResponsiveDrawer(props) {
           {drawer}
         </Drawer>
       </Box>
-      <CurrentComponent handleDrawerToggle={handleDrawerToggle}></CurrentComponent>
+      <CurrentComponent handleDrawerToggle={handleDrawerToggle} props={props}></CurrentComponent>
     </Box>
   );
 }

@@ -1,18 +1,30 @@
 import { useGoogleOneTapLogin } from "@react-oauth/google";
 import LandingPage from "src/components/landing/pages/landing";
-import { MainLayout } from "src/components/layouts";
-import { getCookieData } from "src/services/cookies";
 import { accessApi, categoryApi, postApi } from "src/services";
 import Page from "../src/components/landing/main";
+import { setCookieData } from "src/services/cookies";
 
 export default function Landing(props) {
   if (!getCookieData("token")) {
     useGoogleOneTapLogin({
       onSuccess: (response) => {
-        const newUser = {
+        const user = {
           credential: response.credential,
         };
         accessApi.googleUser(newUser, null);
+        (async () => {
+          await accessApi
+            .loginByGoogle(user)
+            .then(function (response) {
+              setCookieData("token", response.data.token);
+              setCookieData("refreshToken", response.data.refreshToken);
+    
+              window.location.reload();
+            })
+            .catch(function (error) {
+              console.log(error.response.status); // 401
+            });
+        })();
       },
     });
   }
