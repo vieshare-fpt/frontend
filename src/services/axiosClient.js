@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookieData, setCookieData } from './cookies';
+import { getCookieData } from "src/services/cookies";
 
 const axiosClient = axios.create({
     baseURL: 'https://backend-vieshare-stg.vi-vu.vn/api',
@@ -15,7 +15,12 @@ const renewAccessToken = async (refreshToken) => {
 
 
 axiosClient.interceptors.request.use(async (config) => {
-    // Handle token here ...
+    const token = getCookieData("token");
+    if (token) {
+      // @ts-ignore
+      // eslint-disable-next-line no-param-reassign
+      config.headers.Authorization = `Bearer ${token}`
+    }
     return config;
 })
 
