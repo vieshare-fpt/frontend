@@ -5,6 +5,7 @@ import { getCookieData } from "src/services/cookies";
 import { categoryApi, postApi } from "src/services";
 import Page from "../src/components/landing/main";
 import { setCookieData } from "src/services/cookies";
+import { accessApi } from 'src/services';
 
 export default function Landing(props) {
   if (!getCookieData("token")) {
@@ -14,7 +15,7 @@ export default function Landing(props) {
           credential: response.credential,
         };
         (async () => {
-          await accessAPI
+          await accessApi
             .loginByGoogle(user)
             .then(function (response) {
               setCookieData("token", response.data.token);
