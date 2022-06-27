@@ -58,7 +58,7 @@ export default function LoginPage() {
       credential: response.credential,
     };
     (async () => {
-      await accessAPI
+      await accessApi
         .loginByGoogle(user)
         .then(function (response) {
           setCookieData("token", response.data.token);
