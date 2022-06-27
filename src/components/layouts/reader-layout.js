@@ -1,3 +1,4 @@
+import { AppBar, Toolbar } from "@mui/material";
 import React, { useEffect } from "react";
 import style from "../../styles/Layout.module.css";
 import { Footer } from "./components";
@@ -8,7 +9,11 @@ export function MainLayout({ children }) {
     <div>
 
       <div className={style["content"]}>
-        <main>{children}</main>
+        <main>
+         
+          {children}
+        
+        </main>
       </div>
       <div className={style["footer"]}>
         <Footer />

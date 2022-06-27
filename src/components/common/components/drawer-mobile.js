@@ -8,14 +8,12 @@ export function DrawerMobile(props) {
     handleMobile,
     open,
     openSearchBox,
-    container,
     list,
     searchBox,
   } = props;
   return (
     <>
       <Drawer
-        container={container}
         variant="temporary"
         open={open}
         anchor="top"
@@ -35,7 +33,6 @@ export function DrawerMobile(props) {
       </Drawer>
 
       <Drawer
-        container={container}
         variant="temporary"
         open={openSearchBox}
         anchor="top"

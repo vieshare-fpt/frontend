@@ -2,7 +2,7 @@ import { useGoogleOneTapLogin } from "@react-oauth/google";
 import LandingPage from "src/components/landing/pages/landing";
 import { MainLayout } from "src/components/layouts";
 import { getCookieData } from "src/services/cookies";
-import { categoryApi, postApi } from "src/services";
+import { accessApi, categoryApi, postApi } from "src/services";
 import Page from "../src/components/landing/main";
 
 export default function Landing(props) {
@@ -12,16 +12,15 @@ export default function Landing(props) {
         const newUser = {
           credential: response.credential,
         };
-        accessAPI.googleUser(newUser, null);
+        accessApi.googleUser(newUser, null);
       },
     });
   }
 
   // return <Page CurrentComponent={{ props, history }} />;
-  return <Page CurrentComponent={LandingPage} props={props} />;
+  return <Page CurrentComponent={LandingPage} prop={props} />;
 }
 
-// Landing.getLayout = MainLayout;
 
 export async function getStaticProps() {
   const suggestPosts = await postApi.getPostsSuggestLimit({
