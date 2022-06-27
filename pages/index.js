@@ -1,5 +1,6 @@
 import { useGoogleOneTapLogin } from "@react-oauth/google";
 import LandingPage from "src/components/landing/pages/landing";
+import { getCookieData } from "src/services/cookies";
 import { accessApi, categoryApi, postApi } from "src/services";
 import Page from "../src/components/landing/main";
 import { setCookieData } from "src/services/cookies";
