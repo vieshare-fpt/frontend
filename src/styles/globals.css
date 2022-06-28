@@ -9,12 +9,12 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 .bg-salmon {
-  background-color: green;
-  color: white;
+  background-color: green !important;
+  color: white !important;
 }
 .bg-salmon:hover { 
   background-color: rgb(17,157,36) !important ;
-  color: white;
+  color: white !important;
 }
 .animate__animated.animate__fadeInUp {
   --animate-duration: 1.5s;
