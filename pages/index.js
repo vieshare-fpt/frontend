@@ -36,14 +36,9 @@ export default function Landing(props) {
 
 
 export async function getStaticProps() {
-  const suggestPosts = await postApi.getPostsSuggestLimit({
-    per_page: 3,
-    page: 1,
-  });
-  const trendingPosts = await postApi.getPostsTrendingLimit({
-    order_by: "views",
-    sort: "DESC",
-    per_page: 3,
+
+  const posts = await postApi.getPosts({
+    per_page: 9,
     page: 1,
   });
   const categories = await categoryApi.getCategory({
@@ -52,8 +47,7 @@ export async function getStaticProps() {
   })
   return {
     props: {
-      suggestPosts: suggestPosts.data,
-      trendingPosts: trendingPosts.data,
+      post: posts.data,
       categories: categories.data
     },
   };
