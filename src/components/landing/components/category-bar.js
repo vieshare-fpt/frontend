@@ -30,7 +30,7 @@ export function CategoryBar({ categories }) {
       <Toolbar disableGutters variant="dense" sx={{ padding: "0 20px" }}>
         <Stack direction="row" spacing={1}>
           <Chip
-            label="All"
+            label="Tất cả"
             className="chip bg-salmon"
             variant="outlined"
             color="success"
@@ -39,7 +39,7 @@ export function CategoryBar({ categories }) {
                 .querySelectorAll(".chip")
                 .forEach((el) => el.classList.remove("bg-salmon"));
               e.currentTarget.classList.add("bg-salmon");
-              dispatch(setCurrentCategory(null));
+              dispatch(setCurrentCategory(""));
             }}
           />
 

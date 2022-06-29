@@ -1,7 +1,7 @@
 import AttributionIcon from "@mui/icons-material/Attribution";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { green } from "@mui/material/colors";
-
+import HistoryIcon from '@mui/icons-material/History';
 export const pages = [
     {
       key: 0,
@@ -15,6 +15,12 @@ export const pages = [
       icon: <WorkspacePremiumIcon sx={{color: green[700]}} />,
       url: "/pricing",
     },
+    {
+      key: 2,
+      nameNav: "Bài viết đã đọc",
+      icon: <HistoryIcon sx={{color: green[700]}}/>,
+      url: "/history",
+    }
   ];
 
 

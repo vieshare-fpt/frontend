@@ -35,3 +35,8 @@ a {
   padding-right: 0 !important;
 }
 
+.spinner {
+  background: rgba(4, 201, 37, 0.02);
+  width: 100vh;
+  height: 100vh;
+}
