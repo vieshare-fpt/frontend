@@ -7,113 +7,128 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { blue } from "@mui/material/colors";
-import { getCookieData } from "src/services/cookies";
-import { historyApi } from "src/services";
-import { PostCards } from "../components";
+import { postApi } from "src/services";
+import { PostCards, Progress } from "../components";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useSelector } from "react-redux";
 
-const MyUl = styled("ul")({
-  listStyleType: "none",
-});
+
 
 export default function LandingPage({ props }) {
-  const { suggestPosts, trendingPosts } = props;
-  const [history, setHistory] = useState([]);
-  useEffect(() => {
-    const token = getCookieData("token");
-    let err = null;
-    (async () => {
-      const response = await historyApi
-        .getHistory(token)
-        .catch(function (error) {
-          console.log(error.response.status); // 401
-          if (error.response.status == 401) {
-            err = error.response.data;
-          }
-        });
-      if (!err) {
-        setHistory(response.data);
-      }
-    })();
-  }, []);
+  const { post } = props;
+  const [posts, setPost] = useState(post);
+  const [hasMore, sethasMore] = useState(true);
+  const [page, setpage] = useState(2);
+  const [spinner, setSpinner] = useState(false);
+  const categoryId = useSelector((state) => state.category.data);
 
-  const isArray = history.length > 0;
-  const watchMore = (
-    <Typography
-      sx={{
-        cursor: "pointer",
-        color: blue[700],
-        ":hover": {
-          color: "green",
-        },
-      }}
-    >
-      Xem thêm...
-    </Typography>
-  );
 
-  return (
-    <>
-      <Container maxWidth="" sx={{ marginTop: 10 }}>
-        {/* to show 3 trending  */}
+  if (categoryId) {
+    useEffect(() => {
+      console.log(categoryId.currentCategory);
+      setSpinner(true);
+      (async () => {
+        await postApi
+          .getPosts({
+            category_id: categoryId ? categoryId.currentCategory : "",
+            per_page: 9,
+            page: 1,
+          })
+          .then((response) => {
+            setPost(response.data);
+            setSpinner(false);
+          });
+      })();
+    }, [categoryId]);
+  }
+  const fetchPosts = async () => {
+    await postApi
+      .getPosts({
+        category_id: categoryId ? categoryId.currentCategory : "",
+        per_page: 9,
+        page: page,
+      })
+      .then((response) => {
+        if (response.data.length === 0 || response.data.length < 1) {
+          sethasMore(false);
+        } else {
+          setPost(posts.concat(response.data));
+          setpage(page + 1);
+        }
+      })
+      .catch(function (error) {
+        console.log(error.response.status); // 401
+        if (error.response.status == 401) {
+          err = error.response.data;
+        }
+      });
+  };
 
-        <Typography variant="h4">Trending</Typography>
-
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-        >
-          {trendingPosts.map((trending) => (
-            <Grid item xs={12} sm={12} md={4} key={trending.id}>
-              <PostCards note={trending} />
-            </Grid>
-          ))}
-        </Grid>
-        {/* link to page trending */}
-        <Grid container justifyContent="flex-end">
-          <Link href="/trending">{watchMore}</Link>
-        </Grid>
-
-        {/* to show 3 suggestions */}
-        <Typography variant="h4">Gợi ý cho bạn</Typography>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-        >
-          {suggestPosts.map((suggestion) => (
-            <Grid item xs={12} sm={12} md={4} key={suggestion.id}>
-              <PostCards note={suggestion} />
-            </Grid>
-          ))}
-        </Grid>
-        {/* link to page suggestion */}
-        <Grid container justifyContent="flex-end">
-          <Link href="/suggest">{watchMore}</Link>
-        </Grid>
-
-        {/* to show the post was read */}
-        {isArray ? (
+  const Post = () => {
+    if (posts.length === 0) {
+      return (
+        <>
+          <Grid item xs={12} sm={12} md={4}>
+            <div style={{ width: "570px" }}></div>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <div style={{ width: "570px" }}></div>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <div style={{ width: "760px" }}></div>
+          </Grid>
+          ;
+        </>
+      );
+    } else if (posts.length < 3) {
+      {
+        return (
           <>
-            <Typography variant="h4" sx={{ mb: 2 }}>
-              Đọc tiếp
-            </Typography>
-            <MyUl sx={{ fontSize: "17px", mx: 0 }}>
-              {history.map((read) => (
-                <li key={read.id}>
-                  <Link href={`/post/${read.id}`}>
-                    <a>{/* {read.post.title} */}</a>
-                  </Link>
-                </li>
-              ))}
-            </MyUl>
+            {posts.map((post) => (
+              <Grid item xs={12} sm={12} md={4} key={post.id}>
+                <PostCards note={post} />
+              </Grid>
+            ))}
+            <Grid item xs={12} sm={12} md={4}>
+              <div style={{ width: "520px" }}></div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <div style={{ width: "520px" }}></div>
+            </Grid>
           </>
-        ) : (
-          <></>
-        )}
+        );
+      }
+    } else {
+      return (
+        <>
+          {posts.map((post) => (
+            <Grid item xs={12} sm={12} md={4} key={post.id}>
+              <PostCards note={post} />
+            </Grid>
+          ))}
+        </>
+      );
+    }
+  };
+  return (
+    <div>
+      {spinner && <div className="spinner"></div>}
+      <Container maxWidth="" sx={{ marginTop: 7 }}>
+        <InfiniteScroll
+          dataLength={30}
+          next={fetchPosts}
+          hasMore={hasMore}
+          loader={<Progress />}
+        >
+          <Grid
+            container
+            spacing={{ xs: 2, md: 3 }}
+            columns={{ xs: 4, sm: 8, md: 12 }}
+          >
+            <Post />
+          </Grid>
+        </InfiniteScroll>
       </Container>
-    </>
+    </div>
   );
 }

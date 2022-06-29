@@ -105,8 +105,8 @@ export function UserPopup({ fullname, email, avatar, type }) {
                     <MenuItem>
                         <Avatar sx={{ width: 70, height: 70 }} src={avatar} />
                         <div style={{ marginLeft: 10 }}>
-                            <Typography variant='h5'>{fullname}</Typography>
-                            <Typography>{email}</Typography>
+                            <Typography variant='h2'sx={{fontSize:'20px'}}>{fullname}</Typography>
+                            <Typography variant='h3'sx={{fontSize:'16px', margin: '6px 0px'}}>{email}</Typography>
                         </div>
                     </MenuItem>
                     <Divider />

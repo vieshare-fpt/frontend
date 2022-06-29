@@ -1,10 +1,21 @@
 import { AppBar, Chip, Stack, styled, Toolbar } from "@mui/material";
 import Link from "next/link";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setCurrentCategory } from "src/stores/categorySlice";
 const AppBarMUI = styled(AppBar)(({ theme }) => ({
   zIndex: theme.zIndex.appBar - 1,
   boxShadow: "none",
 }));
+import { useRouter } from "next/router";
+
 export function CategoryBar({ categories }) {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const handleOnclick = (event, id) => {
+    event.preventDefault();
+  };
+
   return (
     <AppBarMUI
       disableGutters
@@ -12,32 +23,42 @@ export function CategoryBar({ categories }) {
         borderTop: "1px solid #E7EBF0",
         borderBottom: "1px solid #E7EBF0",
         backgroundColor: "white",
-        padding: 0
+        padding: 0,
       }}
       position="static"
     >
       <Toolbar disableGutters variant="dense" sx={{ padding: "0 20px" }}>
         <Stack direction="row" spacing={1}>
           <Chip
-            label="All"
-            component="a"
-            href="#basic-chip"
+            label="Tất cả"
+            className="chip bg-salmon"
             variant="outlined"
             color="success"
-            clickable
+            onClick={(e) => {
+              document
+                .querySelectorAll(".chip")
+                .forEach((el) => el.classList.remove("bg-salmon"));
+              e.currentTarget.classList.add("bg-salmon");
+              dispatch(setCurrentCategory(""));
+            }}
           />
 
           {categories.map((category) => (
-            <Link href={`category/${category.id}`} key={category.id}>
+            <div key={category.id}>
               <Chip
-                label={`${category.name}`}
-                component="a"
-                href="#basic-chip"
-                variant="outlined"
+                className="chip"
                 color="success"
-                clickable
+                label={`${category.name}`}
+                variant="outlined"
+                onClick={(e) => {
+                  document
+                    .querySelectorAll(".chip")
+                    .forEach((el) => el.classList.remove("bg-salmon"));
+                  e.currentTarget.classList.add("bg-salmon");
+                  dispatch(setCurrentCategory(category.id));
+                }}
               />
-            </Link>
+            </div>
           ))}
         </Stack>
       </Toolbar>

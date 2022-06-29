@@ -6,7 +6,7 @@ export const postApi = {
         const url = '/posts/suggest'
         return axiosClient.get(url, {params})
     },
-    getPostsTrendingLimit: (params) => {
+    getPosts: (params) => {
      
         const url = '/posts'
         return axiosClient.get(url, {params})

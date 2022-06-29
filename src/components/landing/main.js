@@ -21,7 +21,7 @@ export default function Main(props) {
         <CategoryBar categories={categories} />
       </div>
       <MainLayout>
-        <CurrentComponent props={prop} />
+          <CurrentComponent props={prop} />
       </MainLayout>
     </Navigation>
   );
