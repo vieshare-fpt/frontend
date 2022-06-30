@@ -1,21 +1,14 @@
 import { AppBar, Chip, Stack, styled, Toolbar } from "@mui/material";
-import Link from "next/link";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentCategory } from "src/stores/categorySlice";
 const AppBarMUI = styled(AppBar)(({ theme }) => ({
   zIndex: theme.zIndex.appBar - 1,
   boxShadow: "none",
 }));
-import { useRouter } from "next/router";
 
 export function CategoryBar({ categories }) {
-  const router = useRouter();
   const dispatch = useDispatch();
-  const handleOnclick = (event, id) => {
-    event.preventDefault();
-  };
-
+  const categoryId = useSelector((state) => state.category.data.currentCategory);
   return (
     <AppBarMUI
       disableGutters
@@ -31,7 +24,7 @@ export function CategoryBar({ categories }) {
         <Stack direction="row" spacing={1}>
           <Chip
             label="Tất cả"
-            className="chip bg-salmon"
+            className={`chip ${categoryId === "" ? "bg-salmon" : ""}`}
             variant="outlined"
             color="success"
             onClick={(e) => {
@@ -46,7 +39,7 @@ export function CategoryBar({ categories }) {
           {categories.map((category) => (
             <div key={category.id}>
               <Chip
-                className="chip"
+                className={`chip ${categoryId === category.id ? "bg-salmon" : ""}`}
                 color="success"
                 label={`${category.name}`}
                 variant="outlined"

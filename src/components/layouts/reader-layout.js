@@ -15,9 +15,8 @@ export function MainLayout({ children }) {
         
         </main>
       </div>
-      <div className={style["footer"]}>
-        <Footer />
-      </div>
+      {/* <div className={style["footer"]}>
+      </div> */}
     </div>
   );
 }
