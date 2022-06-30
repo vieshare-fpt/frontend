@@ -5,7 +5,7 @@ import { Box, LinearProgress } from "@mui/material";
 
 export function Progress() {
   return (
-    <div style={{ textAlign: "center", marginTop: "1px" }}>
+    <div style={{ textAlign: "center", marginTop: "" }}>
       <LinearProgress color="success" />
     </div>
   );
