@@ -1,7 +1,9 @@
 import axiosClient from "./axiosClient";
+import { getCookieData } from "./cookies";
 
 export const historyApi = {
-  getHistory: (token) => {
+  getHistory: () => {
+    const token = getCookieData('token')
     const url = "/history";
     return axiosClient.get(url, {
       headers: {

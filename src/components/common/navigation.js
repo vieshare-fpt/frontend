@@ -34,7 +34,7 @@ const AppBar = styled(
 }));
 
 export  function Navigation({children}) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [mobileSearchBoxOpen, setMobileSearchBoxOpen] = React.useState(false);
   let result = pages;

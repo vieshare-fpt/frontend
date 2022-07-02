@@ -29,7 +29,7 @@ export default function Landing(props) {
       },
     });
   }
-
+  
   // return <Page CurrentComponent={{ props, history }} />;
   return <Page CurrentComponent={LandingPage} prop={props} />;
 }

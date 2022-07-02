@@ -8,7 +8,17 @@ const AppBarMUI = styled(AppBar)(({ theme }) => ({
 
 export function CategoryBar({ categories }) {
   const dispatch = useDispatch();
-  const categoryId = useSelector((state) => state.category.data.currentCategory);
+  const categoryId = useSelector(
+    (state) => state.category.data.currentCategory
+  );
+
+  const handleClick = (e, id) => {
+    document
+      .querySelectorAll(".chip")
+      .forEach((el) => el.classList.remove("bg-salmon"));
+      e.currentTarget.classList.add("bg-salmon");
+    dispatch(setCurrentCategory(id));
+  };
   return (
     <AppBarMUI
       disableGutters
@@ -24,32 +34,22 @@ export function CategoryBar({ categories }) {
         <Stack direction="row" spacing={1}>
           <Chip
             label="Tất cả"
-            className={`chip ${categoryId === "" ? "bg-salmon" : ""}`}
+            className={`chip ${categoryId === ("" || null) ? "bg-salmon" : ""}`}
             variant="outlined"
             color="success"
-            onClick={(e) => {
-              document
-                .querySelectorAll(".chip")
-                .forEach((el) => el.classList.remove("bg-salmon"));
-              e.currentTarget.classList.add("bg-salmon");
-              dispatch(setCurrentCategory(""));
-            }}
+            onClick={(e) => handleClick(e, '')}
           />
 
           {categories.map((category) => (
             <div key={category.id}>
               <Chip
-                className={`chip ${categoryId === category.id ? "bg-salmon" : ""}`}
+                className={`chip ${
+                  categoryId === category.id ? "bg-salmon" : ""
+                }`}
                 color="success"
                 label={`${category.name}`}
                 variant="outlined"
-                onClick={(e) => {
-                  document
-                    .querySelectorAll(".chip")
-                    .forEach((el) => el.classList.remove("bg-salmon"));
-                  e.currentTarget.classList.add("bg-salmon");
-                  dispatch(setCurrentCategory(category.id));
-                }}
+                onClick={(e) => handleClick(e, category.id)}
               />
             </div>
           ))}
