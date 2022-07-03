@@ -19,7 +19,7 @@ const linkPage = devTeamPage.map((subpage) => {
           textTransform: "none",
         }}
       >
-        {subpage.nameNav}
+        {subpage.name}
       </Button>
     </Link>
   );

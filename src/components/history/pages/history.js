@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Typography } from "@mui/material";
-import { getCookieData } from "src/services/cookies";
 import { Table } from "../components";
 import { historyApi } from "src/services";
 import { useRouter } from "next/router";
 
-
 export default function DislayHistory() {
-  const [render, setRender] = useState(<></>);
+  const [data, setData] = useState([]);
 
   const router = useRouter();
   function handleClick(event, id) {
@@ -66,6 +64,9 @@ export default function DislayHistory() {
       field: "action",
       headerName: "Hành động",
       sortable: false,
+      headerClassName: 'super-app-theme--header',
+      align: "center",
+      headerAlign: 'center',
       width: 150,
       renderCell: (params) => (
         <Button
@@ -80,26 +81,24 @@ export default function DislayHistory() {
     },
   ];
 
-  if (getCookieData("token")) {
-    useEffect(() => {
-      (async () => {
-        await historyApi.getHistory().then((response) => {
-          setRender(
-            <Container maxWidth="lg">
-              <Typography
-                variant="h2"
-                sx={{ fontSize: "45px", pt: 7, pb: 3, textAlign: "center" }}
-              >
-                Lịch sử
-              </Typography>
-              <div style={{ width: "100%" }}>
-                <Table data={response.data} columns={columns} />
-              </div>
-            </Container>
-          );
-        });
-      })();
-    }, []);
-  }
-  return render;
+  useEffect(() => {
+    (async () => {
+      await historyApi.getHistory().then((response) => {
+        setData(response.data);
+      });
+    })();
+  }, []);
+  return (
+    <Container maxWidth="lg">
+      <Typography
+        variant="h2"
+        sx={{ fontSize: "45px", pt: 7, pb: 3, textAlign: "center" }}
+      >
+        Lịch sử
+      </Typography>
+      <div style={{ width: "100%" }}>
+        <Table data={data} columns={columns} />
+      </div>
+    </Container>
+  );
 }

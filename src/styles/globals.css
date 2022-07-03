@@ -35,20 +35,3 @@ a {
   padding-right: 0 !important;
 }
 
-.spinner {
-  background: white;
-  width: 96%;
-  height: 85%;
-  position: absolute;
-  z-index: 100;
-}
-.loading {
-  position: absolute;
-  margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 200px;
-  height: 200px;
-}

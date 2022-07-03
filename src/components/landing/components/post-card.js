@@ -31,14 +31,7 @@ export function PostCards({ note }) {
         </div>
 
         <div className={styles.description}>
-          {/* <h1>Learning to Code</h1>
-          <h2>Opening a door to the future</h2>
-          <p>
     
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum
-            dolorum architecto obcaecati enim dicta praesentium, quam nobis!
-            Neque ad aliquam facilis numquam. Veritatis, sit.
-          </p> */}
           <Stack direction='row' spacing={1} sx={{mb:1}}>
             <Link href={note.category.id}>
               <Typography
@@ -52,7 +45,7 @@ export function PostCards({ note }) {
             {note.type === "Premium" ? (
               <span
                 style={{
-                  fontSize: "20px",
+                  fontSize: "6px",
                   color: "#ffc107",
                   lineHeight: "1px",
                 }}
@@ -61,7 +54,6 @@ export function PostCards({ note }) {
                   fontSize="medium"
                   sx={{ color: "#ffc107" }}
                 />
-                Premium
               </span>
             ) : (
               <></>

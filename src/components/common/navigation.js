@@ -21,10 +21,13 @@ import { DrawerMobile } from "./components";
 import SearchIcon from "@mui/icons-material/Search";
 import { pages } from "./components";
 import { DrawerDesktop } from "./components";
-import { getUserInfoLimitFalse, getUserInfoLimitStart, getUserInfoLimitSuccess } from "src/stores/userSlice";
+import {
+  getUserInfoLimitFalse,
+  getUserInfoLimitStart,
+  getUserInfoLimitSuccess,
+} from "src/stores/userSlice";
 import { infoUserApi } from "src/services";
-
-
+import { useRouter } from "next/router";
 
 const AppBar = styled(
   MuiAppBar,
@@ -33,13 +36,13 @@ const AppBar = styled(
   zIndex: theme.zIndex.drawer + 1,
 }));
 
-export  function Navigation({children}) {
+export function Navigation({ children }) {
   const [open, setOpen] = React.useState(true);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [mobileSearchBoxOpen, setMobileSearchBoxOpen] = React.useState(false);
   let result = pages;
   const dispatch = useDispatch();
-
+  const router = useRouter();
   const user = useSelector(
     (state) => state.user.currentUserInfoLimit?.userInfo
   );
@@ -73,11 +76,11 @@ export  function Navigation({children}) {
   };
 
   if (user?.isPremium) {
-    result = pages.filter((page) => page.key !== 1);
+    result = pages.filter((page) => page.key !== 2);
   }
 
   if (user?.roles.includes("Writer")) {
-    result = pages.filter((page) => page.key !== 0);
+    result = pages.filter((page) => page.key !== 1);
   }
   const access = (
     <>
@@ -95,7 +98,7 @@ export  function Navigation({children}) {
               color="success"
               sx={{ textTransform: "none", borderRadius: 16 }}
             >
-              Sign in
+              Đăng nhập
             </Button>
           </Link>
           <Link href="/signup">
@@ -104,7 +107,7 @@ export  function Navigation({children}) {
               color="success"
               sx={{ textTransform: "none", borderRadius: 16 }}
             >
-              Sign up
+              Đăng ký
             </Button>
           </Link>
         </Stack>
@@ -114,9 +117,21 @@ export  function Navigation({children}) {
 
   const drawer = (
     <List>
-      <Box sx={{ minHeight: open ? "calc(86vh)" : "" }}>
+      <Box
+        sx={{
+          minHeight: open ? "calc(86vh)" : "",
+          ".Mui-selected": {
+            backgroundColor: "rgb(50, 214, 61, 0.08) !important",
+          },
+        }}
+      >
         {result.map((subpage) => (
-          <ListItem key={subpage.key} disablePadding sx={{ display: "block" }}>
+          <ListItem
+            key={subpage.key}
+            selected={subpage.url === router.asPath}
+            disablePadding
+            sx={{ display: "block" }}
+          >
             <Link href={subpage.url}>
               <ListItemButton
                 sx={{
@@ -135,7 +150,7 @@ export  function Navigation({children}) {
                   {subpage.icon}
                 </ListItemIcon>
                 <ListItemText
-                  primary={subpage.nameNav}
+                  primary={subpage.name}
                   sx={{ opacity: open ? 1 : 0, color: "#2e7d32" }}
                 />
               </ListItemButton>
@@ -177,7 +192,7 @@ export  function Navigation({children}) {
             <Link href={text.url}>
               <ListItemButton>
                 <ListItemIcon>{text.icon}</ListItemIcon>
-                <ListItemText primary={text.nameNav} />
+                <ListItemText primary={text.name} />
               </ListItemButton>
             </Link>
           </ListItem>
@@ -230,7 +245,11 @@ export  function Navigation({children}) {
         }}
       >
         <Toolbar variant="regular" disableGutters sx={{ px: "12px" }}>
-          <ToolBarDesktop onSubmit={handleSubmit} onClick={handleDrawer} access={access} />
+          <ToolBarDesktop
+            onSubmit={handleSubmit}
+            onClick={handleDrawer}
+            access={access}
+          />
           <ToolBarMobile
             onClick={handleDrawerMobile}
             onClickSearchBox={handleDrawerSearchBoxMobile}
@@ -249,8 +268,7 @@ export  function Navigation({children}) {
         searchBox={drawerSearchMobile}
       />
 
-      <Box component="main" sx={{ flexGrow: 1, pt:3 , pb:3 }}>
-
+      <Box component="main" sx={{ flexGrow: 1, pt: 3, pb: 3 }}>
         {children}
       </Box>
     </Box>

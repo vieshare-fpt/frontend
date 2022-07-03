@@ -1,0 +1,21 @@
+.content {
+  min-height: calc(100vh - 64px);
+  padding: 85px 0px 0px 0px;
+  position: relative;
+}
+
+
+.spinner {
+  background: white;
+  width: 100%;
+  height: 90%;
+  position: absolute;
+  z-index: 2022;
+  padding: 20% 20%;
+}
+.loading {
+  position: absolute;
+  margin: auto;
+  width: 200px;
+  height: 200px;
+}

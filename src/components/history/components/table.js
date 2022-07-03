@@ -11,7 +11,7 @@ const styles = {
     borderRadius: "16px",
     padding: "16px",
   ".MuiDataGrid-columnHeaders": {
-    borderRadius: '8px',
+    borderRadius: '8px 8px 6px 6px',
     backgroundColor: green[600],
     color: "white",
   },
