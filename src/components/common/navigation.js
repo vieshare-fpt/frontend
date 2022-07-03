@@ -119,7 +119,7 @@ export function Navigation({ children }) {
     <List sx={{padding:0}}>
       <Box
         sx={{
-          minHeight: open ? "calc(86vh)" : "",
+          minHeight: open ? "calc(88vh)" : "",
           ".Mui-selected": {
             backgroundColor: "rgb(50, 214, 61, 0.08) !important",
           },
@@ -159,7 +159,7 @@ export function Navigation({ children }) {
         ))}
       </Box>
 
-      <ListItem>
+      {/* <ListItem>
         <Typography
           sx={{
             opacity: open ? 1 : 0,
@@ -178,7 +178,7 @@ export function Navigation({ children }) {
           <br />
           @Copyright © 2022 Team 1.
         </Typography>
-      </ListItem>
+      </ListItem> */}
     </List>
   );
 
@@ -268,7 +268,7 @@ export function Navigation({ children }) {
         searchBox={drawerSearchMobile}
       />
 
-      <Box component="main" sx={{ flexGrow: 1, pt: 3, pb: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, pt: 3, pb: 0,  }}>
         {children}
       </Box>
     </Box>
