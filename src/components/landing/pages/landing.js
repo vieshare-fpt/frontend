@@ -1,10 +1,10 @@
-import { CircularProgress, Container, Grid, Stack } from "@mui/material";
+import { Box, CircularProgress, Container, Grid, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { postApi } from "src/services";
 import { PostCards, Progress } from "../components";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
-
+import style from "../components/Landing.module.css";
 export default function LandingPage({ props }) {
   const { post } = props;
   const [posts, setPost] = useState([]);
@@ -57,12 +57,14 @@ export default function LandingPage({ props }) {
   };
 
   return (
-    <div>
+    <div className={style["content"]}>
       {spinner && (
-        <div className="spinner">
-          <div className="loading">
-            <CircularProgress color="success" />
-          </div>
+        <div className={style["spinner"]}>
+          <Container maxWidth="lg">
+            <Box sx={{display: 'flex', justifyContent: 'center'}}>
+              <CircularProgress color="success" />
+            </Box>
+          </Container>
         </div>
       )}
       <Container maxWidth="">

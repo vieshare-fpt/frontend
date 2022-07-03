@@ -3,7 +3,7 @@ import { Box, LinearProgress } from "@mui/material";
 
 export function Progress() {
   return (
-    <div style={{ position: 'absolute', width: '85%', height: '20%', top: 115 }}>
+    <div style={{width: '100%', height: '20%' }}>
       <LinearProgress color="success" />
     </div>
   );
