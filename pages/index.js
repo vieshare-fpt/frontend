@@ -30,7 +30,6 @@ export default function Landing(props) {
       },
     });
   }
-  
   // return <Page CurrentComponent={{ props, history }} />;
   return <Page CurrentComponent={LandingPage} prop={props} />;
 }
@@ -42,13 +41,14 @@ export async function getStaticProps() {
     per_page: 9,
     page: 1,
   });
+
   const categories = await categoryApi.getCategory({
     per_page: 10,
     page:1
   })
   return {
     props: {
-      post: posts.data,
+      posts: posts,
       categories: categories.data
     },
   };
