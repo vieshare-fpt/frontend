@@ -7,7 +7,7 @@ export default function Main(props) {
   const { categories } = prop;
 
   return (
-    <>
+    <div >
       <Box
         sx={{
           width: "100%",
@@ -19,6 +19,6 @@ export default function Main(props) {
         <CategoryBar categories={categories} />
       </Box>
         <CurrentComponent props={prop} />
-    </>
+    </div>
   );
 }

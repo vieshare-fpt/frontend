@@ -3,7 +3,7 @@ import React from "react";
 import styles from "../../../styles/PostCard.module.css";
 import Typography from "@mui/material/Typography";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
-import { Box } from "@mui/material";
+import { Box, Button, Tooltip } from "@mui/material";
 import { Stack } from "@mui/material";
 import moment from "moment";
 export function PostCards({ note }) {
@@ -14,20 +14,9 @@ export function PostCards({ note }) {
           <div
             className={styles.photo}
             style={{
-              backgroundImage: "url(/loginBackground.jpg)",
+              backgroundImage: `url(${note.thumbnail})`,
             }}
           ></div>
-          <ul className={styles.details}>
-            <li className={styles.date}>
-            {moment(note.publishDate).fromNow()}
-            </li>
-            <li className={styles.author}>
-              <a>{note.author.name}</a>
-            </li>
-
-            <li className={styles.views}>{note.views} lượt xem</li>
-            <li></li>
-          </ul>
         </div>
 
         <div className={styles.description}>
@@ -68,6 +57,24 @@ export function PostCards({ note }) {
           >
             {note.title}
           </Typography>
+          <Stack direction="row"  sx={{ mt: 1, color: "#606060" }}>
+            <Link href={`/`}>
+              <Tooltip title={`${note.author.name}`}>
+                <Typography
+                  variant="a"
+                  component="p"
+                  sx={{ cursor: "pointer" }}
+                >
+                  {note.author.name}
+                </Typography>
+              </Tooltip>
+            </Link>
+          </Stack>
+
+          <Stack direction="row" spacing={1} sx={{ mb: 1, color: "#606060" }}>
+            <p>{note.views} lượt xem •</p>
+            <p>{moment(note.publishDate).fromNow()}</p>
+          </Stack>
 
           <Box
             sx={{
