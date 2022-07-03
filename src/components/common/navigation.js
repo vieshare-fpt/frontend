@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiAppBar from "@mui/material/AppBar";
@@ -37,16 +37,16 @@ const AppBar = styled(
 }));
 
 export function Navigation({ children }) {
-  const [open, setOpen] = React.useState(true);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [mobileSearchBoxOpen, setMobileSearchBoxOpen] = React.useState(false);
+  const [open, setOpen] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSearchBoxOpen, setMobileSearchBoxOpen] = useState(false);
   let result = pages;
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector(
     (state) => state.user.currentUserInfoLimit?.userInfo
   );
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       dispatch(getUserInfoLimitStart());
       await infoUserApi
@@ -58,7 +58,7 @@ export function Navigation({ children }) {
           dispatch(getUserInfoLimitFalse());
         });
     })();
-  }, []);
+  }, [dispatch]);
 
   const handleSubmit = (e) => {
     console.log("a");
@@ -116,7 +116,7 @@ export function Navigation({ children }) {
   );
 
   const drawer = (
-    <List>
+    <List sx={{padding:0}}>
       <Box
         sx={{
           minHeight: open ? "calc(86vh)" : "",

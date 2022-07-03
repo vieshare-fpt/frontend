@@ -1,21 +1,26 @@
-import { Box, CircularProgress, Container, Grid, Stack } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
+import { Container } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { postApi } from "src/services";
-import { PostCards, Progress } from "../components";
+import style from "../components/Landing.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
-import style from "../components/Landing.module.css";
+import { postApi } from "src/services";
+import { PostCards, Progress } from "../components";
+function isHasMore(data) {
+  return data.metaData.page === data.metaData.total_pages;
+}
 export default function LandingPage({ props }) {
-  const { post } = props;
-  const [posts, setPost] = useState([]);
-  const [hasMore, sethasMore] = useState(true);
+  const { posts } = props;
+  const [data, setData] = useState([]);
+  const [hasMore, setHasMore] = useState(
+    !isHasMore(posts)
+  );
   const [page, setpage] = useState(2);
   const [spinner, setSpinner] = useState(false);
   const categoryId = useSelector((state) => state.category.data);
-
-  if (categoryId) {
-    useEffect(() => {
-      console.log(categoryId.currentCategory);
+  //loading post when any chip category is clicked
+  useEffect(() => {
+    if (categoryId.currentCategory) {
       setSpinner(true);
       (async () => {
         await postApi
@@ -25,15 +30,21 @@ export default function LandingPage({ props }) {
             page: 1,
           })
           .then((response) => {
-            setPost(response.data);
+            setData(response.data);
+            setHasMore(
+              !isHasMore(response)
+            );
             setSpinner(false);
           });
       })();
-    }, [categoryId]);
-  } else {
-    setPost(post);
-  }
-  const fetchPosts = async () => {
+    } else {
+      setData(posts.data);
+      setHasMore(!isHasMore(posts));
+    }
+  }, [categoryId, posts, posts.data]);
+
+  //loading more post when scroll
+  const fetchMoreData = async () => {
     await postApi
       .getPosts({
         category_id: categoryId ? categoryId.currentCategory : "",
@@ -41,10 +52,10 @@ export default function LandingPage({ props }) {
         page: page,
       })
       .then((response) => {
-        if (response.data.length === 0 || response.data.length < 1) {
-          sethasMore(false);
-        } else {
-          setPost(posts.concat(response.data));
+        console.log(response);
+        setData(data.concat(response.data));
+        setHasMore(!isHasMore(response));
+        if (!isHasMore(response)) {
           setpage(page + 1);
         }
       })
@@ -55,38 +66,39 @@ export default function LandingPage({ props }) {
         }
       });
   };
-
   return (
-    <div className={style["content"]}>
-      {spinner && (
-        <div className={style["spinner"]}>
-          <Container maxWidth="lg">
-            <Box sx={{display: 'flex', justifyContent: 'center'}}>
-              <CircularProgress color="success" />
-            </Box>
-          </Container>
-        </div>
-      )}
-      <Container maxWidth="">
-        <InfiniteScroll
-          dataLength={posts.length}
-          next={fetchPosts}
-          hasMore={hasMore}
-          loader={<Progress />}
-        >
-          <Grid
-            container
-            spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}
+    <div>
+      <div className={style["content"]}>
+        {spinner && (
+          <div className={style["spinner"]}>
+            <Container maxWidth="lg">
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <CircularProgress color="success" />
+              </Box>
+            </Container>
+          </div>
+        )}
+        <Container maxWidth="">
+          <InfiniteScroll
+            dataLength={data.length}
+            next={fetchMoreData}
+            hasMore={hasMore}
+            loader={<Progress />}
           >
-            {posts.map((post) => (
-              <Grid item xs={12} sm={12} md={4} key={post.id}>
-                <PostCards note={post} />
-              </Grid>
-            ))}
-          </Grid>
-        </InfiniteScroll>
-      </Container>
+            <Grid
+              container
+              spacing={{ xs: 2, md: 3 }}
+              columns={{ xs: 4, sm: 8, md: 12 }}
+            >
+              {data.map((post) => (
+                <Grid item xs={12} sm={12} md={4} key={post.id}>
+                  <PostCards note={post} />
+                </Grid>
+              ))}
+            </Grid>
+          </InfiniteScroll>
+        </Container>
+      </div>
     </div>
   );
 }
