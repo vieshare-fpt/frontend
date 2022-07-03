@@ -1,39 +1,105 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "../components";
-import { Container } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import { getCookieData } from "src/services/cookies";
+import { Table } from "../components";
+import { historyApi } from "src/services";
 import { useRouter } from "next/router";
-const columns = [
-  { field: "id", headerName: "User ID", width: 150 },
-  { field: "name", headerName: "Name", width: 150 },
-  { field: "username", headerName: "Username", width: 150 },
-  { field: "email", headerName: "E-mail", width: 200 },
-];
-const userTableStyles = {
-  height: "650px",
-};
+
+
 export default function DislayHistory() {
-  const [users, setUsers] = useState([]);
+  const [render, setRender] = useState(<></>);
+
   const router = useRouter();
+  function handleClick(event, id) {
+    event.preventDefault();
+    router.push("/post/" + id);
+  }
+  const columns = [
+    {
+      field: "number",
+      headerName: "No.",
+      width: 88,
+      sortable: false,
+      valueGetter: (params) => {
+        return params.api.getRowIndex(params.row.id) + 1;
+      },
+    },
+    {
+      field: "title",
+      headerName: "Tiêu đề",
+      width: 300,
+      type: "string",
+      valueGetter: (params) => {
+        return params.row.post.title;
+      },
+    },
+    {
+      field: ".post.__category__.name",
+      headerName: "Thể loại",
+      width: 150,
+      type: "string",
+      valueGetter: (params) => {
+        return params.row.post.__category__.name;
+      },
+    },
+    {
+      field: "author",
+      headerName: "Tác giả",
+      width: 150,
+      valueGetter: (params) => params.row.post.__author__.name,
+    },
 
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((json) => setUsers(json))
-      .catch(() => onError());
-  }, []);
+    {
+      field: "type",
+      headerName: "Loại",
+      width: 100,
+      valueGetter: (params) => params.row.post.type,
+    },
+    {
+      field: "lastDateRead",
+      headerName: "Lần đọc cuối cùng",
+      width: 180,
+      type: "dateTime",
+      valueGetter: ({ value }) => value && new Date(value),
+    },
+    {
+      field: "action",
+      headerName: "Hành động",
+      sortable: false,
+      width: 150,
+      renderCell: (params) => (
+        <Button
+          variant="contained"
+          color="success"
+          sx={{ textTransform: "none", borderRadius: 16, boxShadow: "none" }}
+          onClick={(e) => handleClick(e, params.row.post.id)}
+        >
+          Xem bài viết
+        </Button>
+      ),
+    },
+  ];
 
-  if (!getCookieData("token")) {
-    return (<></>)
-  } else
-    return (
-      <Container>
-        <Table
-          rows={users}
-          columns={columns}
-          loading={!users.length}
-          sx={userTableStyles}
-        />
-      </Container>
-    );
+  if (getCookieData("token")) {
+    useEffect(() => {
+      (async () => {
+        await historyApi.getHistory().then((response) => {
+          setRender(
+            <Container maxWidth="lg">
+              <Typography
+                variant="h2"
+                sx={{ fontSize: "45px", pt: 7, pb: 3, textAlign: "center" }}
+              >
+                Lịch sử
+              </Typography>
+              <div style={{ width: "100%" }}>
+                <Table data={response.data} columns={columns} />
+              </div>
+            </Container>
+          );
+        });
+      })();
+    }, []);
+  }
+  return render;
 }
