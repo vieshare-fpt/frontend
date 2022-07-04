@@ -1,16 +1,17 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, TextField, Link, Typography, Toolbar, Button, IconButton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
-    { field: 'id', headerName: '#', width: 70, description: 'Thứ tự bài viết' },
+    // { field: 'id', headerName: '#', width: 50, marginLeft: 20, description: 'Thứ tự bài viết' },
     { 
-        field: 'tittle', 
+        field: 'title', 
         headerName: 'Tiêu đề', 
         width: 250, 
         editable: true,
-        description: 'Tiêu đề bài viết'
+        description: 'Tiêu đề bài viết',
+        disableClickEventBubbling: true,
     },
     { 
         field: 'description', 
@@ -18,7 +19,8 @@ const columns = [
         width: 400, 
         editable: true,
         sortable: false,
-        description: 'Mô tả ngắn về bài viết'
+        description: 'Mô tả ngắn về bài viết',
+        disableClickEventBubbling: true,
     },
     { 
         field: 'category', 
@@ -26,11 +28,12 @@ const columns = [
         width: 150, 
         editable: true,
         sortable: false,
-        description: 'Thể loại bài viết'
+        description: 'Thể loại bài viết',
+        disableClickEventBubbling: true,
     },
     // {
     //     field: 'edit', 
-    //     headerName: 'Hoạt động',
+    //     headerName: 'Chỉnh sửa',
     //     editable: false,
     //     sortable: false,
     //     width: 100,
@@ -39,26 +42,35 @@ const columns = [
     // }
 ];
 
-const rows = [
-    {id: 1, tittle: 'Về nhà ăn cơm mẹ nấu', description: 'Ăn sơn hào muôn phương không bằng về ăn cơm mẹ nấu', category: 'Blog'},
-    {id: 2, tittle: 'Về nhà ăn cơm mẹ nấu', description: 'Ăn sơn hào muôn phương không bằng về ăn cơm mẹ nấu', category: 'Blog'},
-    {id: 3, tittle: 'Về nhà ăn cơm mẹ nấu', description: 'Ăn sơn hào muôn phương không bằng về ăn cơm mẹ nấu', category: 'Blog'},
-    {id: 4, tittle: 'Biết địch biết ta, trăm trận trăm thắng', description: 'Hãy tìm hiểu đối phương trước khi đối đầu trực diện', category: 'Chiến thuật'},
-    {id: 5, tittle: 'Biết địch biết ta, trăm trận trăm thắng', description: 'Hãy tìm hiểu đối phương trước khi đối đầu trực diện', category: 'Chiến thuật'},
-    {id: 6, tittle: 'Biết địch biết ta, trăm trận trăm thắng', description: 'Hãy tìm hiểu đối phương trước khi đối đầu trực diện', category: 'Chiến thuật'},
-    {id: 7, tittle: 'Biết địch biết ta, trăm trận trăm thắng', description: 'Hãy tìm hiểu đối phương trước khi đối đầu trực diện', category: 'Chiến thuật'},
-    {id: 8, tittle: 'Về nhà ăn cơm mẹ nấu', description: 'Ăn sơn hào muôn phương không bằng về ăn cơm mẹ nấu', category: 'Blog'},
+const handleEdit = () => {
+    on
+}
+//Demo post
+const row = [
+    { id:1, title: 'Về nhà ăn cơm mẹ nấu', description: 'Ăn sơn hào muôn phương không bằng về ăn cơm mẹ nấu', category: 'Blog'},
+    { id:2, title: 'Biết địch biết ta, trăm trận trăm thắng', description: 'Hãy tìm hiểu đối phương trước khi đối đầu trực diện', category: 'Chiến thuật'},
 ]
+
+//Get author Id from 
+var authorID = null;
+if (typeof window !== 'undefined') {
+    authorID = localStorage.getItem('authorID');
+    // console.log(authorID);
+}
+else{
+    console.log("Error get author ID");
+}
+
 export default function MyContents(props) {
-    
-    if (typeof window !== 'undefined') {
-        console.log('You are on the browser')
-        console.log(window.localStorage.getItem('userID'));
-        // 👉️ can use localStorage here
-      } else {
-        console.log('You are on the server')
-        // 👉️ can't use localStorage
-      }
+    const { post } = props.props.props; 
+    var listPosts = [];
+    for(let i = 0; i < post.length; i++) {
+        if(post[i].author.id == authorID && post[i].status == 'Publish') {
+            const postObj = {id:i, postid: post[i].id, title: post[i].title, description: post[i].description, category: post[i].category.name};
+            listPosts.push(postObj);
+        }
+    }
+    // console.log(listPosts);
     return (
         <Box
             component="main"
@@ -86,12 +98,14 @@ export default function MyContents(props) {
                 height:650, width: '100%',
             }}>
                 <DataGrid
-                    rows={rows}
+                    aria-labelledby
+                    rows={listPosts}
                     columns={columns}
-                    pageSize={10}
+                    pageSize={100}
                     rowsPerPageOptions={[10]}
                     checkboxSelection
-                    button
+                    autoPageSize={true}
+                    
                 />
             </Box>
         </Box>

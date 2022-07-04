@@ -57,6 +57,9 @@ export function UserPopup({ fullname, email, avatar, type }) {
               console.log(response);
               removeCookieData("token");
               removeCookieData("refreshToken");
+              if (typeof window !== 'undefined') {
+                localStorage.removeItem("authorID");
+              }
               window.location.reload();
             })
             .catch((error) => {

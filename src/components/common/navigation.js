@@ -109,6 +109,8 @@ export function Navigation({children}) {
   }
 
   if (user?.roles.includes("Writer")) {
+    const authorID = user.id;
+    window.localStorage.setItem("authorID", authorID);
     result = pages.filter((page) => page.key !== 0);
   }
 
