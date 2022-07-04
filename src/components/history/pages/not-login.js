@@ -9,7 +9,7 @@ export default function NotLogin() {
     router.push("/login");
   }
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" >
       <Box sx={{ my: 25 }}>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <HistoryIcon sx={{ fontSize: "100px", color: green[600] }} />
@@ -24,9 +24,9 @@ export default function NotLogin() {
             color: green[600],
           }}
         >
-          Lịch sử xem không thể xem được
+          Bạn không thể xem được nhật ký xem
           <br />
-          khi đăng xuất
+          khi đã đăng xuất
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Button

@@ -1,4 +1,3 @@
-import { setCookieData } from "src/services/cookies";
 import axiosClient from "./axiosClient";
 
 export const accessApi = {
@@ -8,18 +7,13 @@ export const accessApi = {
   loginByGoogle(credential) {
     return axiosClient.post("/auth/google", credential);
   },
-  logout(refreshToken, token) {
+  logout(refreshToken) {
     return axiosClient.post(
       "/auth/logout",
       {
         "refreshToken": refreshToken,
         "notificationToken": "string",
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
     );
   },
   register(payload) {

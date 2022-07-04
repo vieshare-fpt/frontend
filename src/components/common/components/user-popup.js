@@ -48,11 +48,10 @@ export function UserPopup({ fullname, email, avatar, type }) {
     };
 
     const handleLogout = () => {
-        const token = getCookieData("token");
         const refreshToken = getCookieData("refreshToken");
         (async () => {
           await accessApi
-            .logout(refreshToken, token)
+            .logout(refreshToken)
             .then(function (response) {
               console.log(response);
               removeCookieData("token");

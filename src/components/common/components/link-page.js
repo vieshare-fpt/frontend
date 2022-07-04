@@ -6,7 +6,7 @@ import HomeIcon from '@mui/icons-material/Home';
 export const pages = [
   {
     key: 0,
-    name: "Home",
+    name: "Trang chủ",
     icon: <HomeIcon sx={{ color: green[700] }} />,
     url: "/",
   },
