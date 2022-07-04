@@ -1,214 +1,155 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-
-import { Container } from "@mui/system";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import {
-  Divider,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-  Typography,
-  TextField,
-  InputAdornment,
-} from "@mui/material";
-import Link from "next/link";
-import SearchIcon from "@mui/icons-material/Search";
-import {
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
-} from "./components/styles-searchbox";
-import { UserPopup } from "./components/user-popup";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Link from "next/link";
+import { styles, ToolBarDesktop } from "./components";
+import { UserPopup } from "./components";
+import {
+  Button,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { ToolBarMobile } from "./components";
+import { DrawerMobile } from "./components";
+import SearchIcon from "@mui/icons-material/Search";
+import { pages } from "./components";
+import { DrawerDesktop } from "./components";
 import {
   getUserInfoLimitFalse,
   getUserInfoLimitStart,
   getUserInfoLimitSuccess,
 } from "src/stores/userSlice";
 import { infoUserApi } from "src/services";
-import { devTeamPage, DrawerDesktop, DrawerMobile, pages } from "./components";
-
-
-const theme = createTheme({});
-
-const logo = (
-  <Link href="/">
-    <Typography
-      component="a"
-      sx={{
-        color: "Green",
-        fontSize: "25px",
-        fontFamily: "Salsa",
-        cursor: "pointer",
-      }}
-    >
-      VieShare
-    </Typography>
-  </Link>
-);
-const AppBarMUI = styled(AppBar)(({ theme }) => ({
+import { useRouter } from "next/router";
+import { getCookieData } from "src/services/cookies";
+const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
 }));
 
-export function Navigation({children}) {
-  const [open, setOpen] = React.useState(false);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [mobileSearchBoxOpen, setMobileSearchBoxOpen] = React.useState(false);
-
-  //   const window = null
-  // const container =
-  //   window !== undefined ? () => window().document.body : undefined;
+export function Navigation({ children }) {
+  const [open, setOpen] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSearchBoxOpen, setMobileSearchBoxOpen] = useState(false);
+  let result = pages;
   const dispatch = useDispatch();
+  const router = useRouter();
   const user = useSelector(
     (state) => state.user.currentUserInfoLimit?.userInfo
   );
+  useEffect(() => {
+    if (getCookieData("token")) {
+      (async () => {
+        dispatch(getUserInfoLimitStart());
+        await infoUserApi
+          .info()
+          .then((response) => {
+            dispatch(getUserInfoLimitSuccess(response.data));
+          })
+          .catch(function (error) {
+            dispatch(getUserInfoLimitFalse());
+          });
+      })();
+    }
+  }, [dispatch]);
 
-  let result = pages;
-
-  React.useEffect(() => {
-    (async () => {
-      dispatch(getUserInfoLimitStart());
-      await infoUserApi
-        .info()
-        .then((response) => {
-          dispatch(getUserInfoLimitSuccess(response.data));
-        })
-        .catch(function (error) {
-          dispatch(getUserInfoLimitFalse());
-        });
-    })();
-  }, []);
-  const handleDrawer = () => {
-    setOpen(!open);
-  };
-  const handleDrawerToggleMobile = () => {
-    setMobileOpen(!mobileOpen);
-    setMobileSearchBoxOpen(false);
-  };
-  const handleDrawerSearchBoxToggleMobile = () => {
-    setMobileSearchBoxOpen(!mobileSearchBoxOpen);
-    setMobileOpen(false);
-  };
   const handleSubmit = (e) => {
     console.log("a");
   };
+  const handleDrawer = () => {
+    setOpen(!open);
+  };
+  const handleDrawerMobile = () => {
+    setMobileOpen(!mobileOpen);
+    setMobileSearchBoxOpen(false);
+  };
+  const handleDrawerSearchBoxMobile = () => {
+    setMobileSearchBoxOpen(!mobileSearchBoxOpen);
+    setMobileOpen(false);
+  };
 
   if (user?.isPremium) {
-    result = pages.filter((page) => page.key !== 1);
+    result = pages.filter((page) => page.key !== 2);
   }
 
   if (user?.roles.includes("Writer")) {
-    const authorID = user.id;
-    window.localStorage.setItem("authorID", authorID);
-    result = pages.filter((page) => page.key !== 0);
+    result = pages.filter((page) => page.key !== 1);
   }
-
-  const searchForm = (
-    <form onSubmit={handleSubmit} style={{ marginRight: "10px" }}>
-      <Search>
-        <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper>
-        <StyledInputBase
-          placeholder="Tìm kiếm..."
-          inputProps={{ "aria-label": "search" }}
+  const access = (
+    <>
+      {user ? (
+        <UserPopup
+          type={user.isPremium}
+          fullname={user.name}
+          avatar={user.avatar}
+          email={user.email}
         />
-      </Search>
-    </form>
+      ) : (
+        <Stack direction="row" spacing={2}>
+          <Link href="/login">
+            <Button
+              color="success"
+              variant="outlined"
+              sx={{ textTransform: "none", borderRadius: 16 }}
+            >
+              Đăng nhập
+            </Button>
+          </Link>
+        </Stack>
+      )}
+    </>
   );
-  const linkPage = devTeamPage.map((subpage) => {
-    return (
-      <Link key={subpage.key} href={subpage.url}>
-        <Button
-          color="success"
-          sx={{
-            fontSize: "16px",
-            borderRadius: 8,
-            color: "",
-            textTransform: "none",
-          }}
-        >
-          {subpage.nameNav}
-        </Button>
-      </Link>
-    );
-  });
-
-  const access = (effectOne, effectTwo) => {
-    return (
-      <Box sx={{ display: { xs: `${effectOne}`, md: `${effectTwo}` } }}>
-        {user ? (
-          <UserPopup
-            type={user.isPremium}
-            fullname={user.name}
-            avatar={user.avatar}
-            email={user.email}
-          />
-        ) : (
-          <Stack direction="row" spacing={2}>
-            <Link href="/login">
-              <Button
-                color="success"
-                sx={{ textTransform: "none", borderRadius: 16 }}
-              >
-                Sign in
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button
-                variant="outlined"
-                color="success"
-                sx={{ textTransform: "none", borderRadius: 16 }}
-              >
-                Sign up
-              </Button>
-            </Link>
-          </Stack>
-        )}
-      </Box>
-    );
-  };
 
   const drawer = (
-    <List>
-      {result.map((subpage) => (
-        <ListItem key={subpage.key} disablePadding sx={{ display: "block" }}>
-          <Link href={subpage.url}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                {subpage.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={subpage.nameNav}
-                sx={{ opacity: open ? 1 : 0, color: "#2e7d32" }}
-              />
-            </ListItemButton>
-          </Link>
-        </ListItem>
-      ))}
+    <List sx={{ padding: 0 }}>
+      <Box sx={styles.box(open)}>
+        {result.map((subpage) => (
+          <ListItem
+            key={subpage.key}
+            selected={subpage.url === router.asPath}
+            disablePadding
+            sx={styles.listItem}
+          >
+            <Link href={subpage.url}>
+              <ListItemButton sx={styles.listItemButton(open)}>
+                <ListItemIcon sx={styles.listItemIcon(open)}>
+                  {subpage.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={subpage.name}
+                  sx={styles.listItemText(open)}
+                />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+        ))}
+      </Box>
+
+      <ListItem>
+        <Typography sx={styles.footer(open)}>
+          <span>
+            <Link href="/history">
+              <a>Privacy Policy |</a>
+            </Link>
+            <Link href="/">
+              <a> Terms & Conditions</a>
+            </Link>
+          </span>
+          <br />
+          @Copyright © 2022 Team 1.
+        </Typography>
+      </ListItem>
     </List>
   );
 
@@ -222,7 +163,7 @@ export function Navigation({children}) {
             <Link href={text.url}>
               <ListItemButton>
                 <ListItemIcon>{text.icon}</ListItemIcon>
-                <ListItemText primary={text.nameNav} />
+                <ListItemText primary={text.name} />
               </ListItemButton>
             </Link>
           </ListItem>
@@ -234,7 +175,7 @@ export function Navigation({children}) {
 
   const drawerSearchMobile = (
     <div>
-      <Toolbar />
+      <Toolbar /> {/*Create space from the top for align search box*/}
       <Divider />
       <List sx={{ textAlign: "center" }}>
         <form onSubmit={handleSubmit}>
@@ -249,14 +190,7 @@ export function Navigation({children}) {
                 </InputAdornment>
               ),
             }}
-            sx={{
-              width: "95%",
-
-              [`& fieldset`]: {
-                borderRadius: 8,
-              },
-              [`&:hover fieldset`]: {},
-            }}
+            sx={styles.drawerSearchMobile}
           />
         </form>
       </List>
@@ -264,98 +198,36 @@ export function Navigation({children}) {
   );
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ display: "flex" }}>
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBarMUI
-            position="fixed"
-            // color="transparent" elevation={0}
-
-            style={{
-              background: "white",
-              boxShadow: "none",
-              // borderBottom: "1px solid #E7EBF0",
-            }}
-          >
-            <Toolbar variant="regular" disableGutters sx={{ px: "12px" }}>
-              {/* desktop open */}
-              <Box sx={{ display: { xs: "none", md: `flex` } }}>
-                <IconButton onClick={handleDrawer} sx={{ marginRight: "20px" }}>
-                  <MenuIcon color="success" />
-                </IconButton>
-                {logo}
-
-                <Typography
-                  component="p"
-                  sx={{
-                    color: "#E7EBF0",
-                    fontWeight: 200,
-                    fontSize: "30px",
-                    marginLeft: "40px",
-                  }}
-                >
-                  |
-                </Typography>
-                {linkPage}
-              </Box>
-
-              {/* searchbox mobile open */}
-              <Box sx={{ display: { xs: "flex", md: "none", flexGrow: 1 } }}>
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  edge="start"
-                  sx={{ ml: "0" }}
-                  onClick={handleDrawerToggleMobile}
-                >
-                  <MenuIcon color="success" />
-                </IconButton>
-                <IconButton onClick={handleDrawerSearchBoxToggleMobile}>
-                  <SearchIcon color="success" />
-                </IconButton>
-              </Box>
-
-              <Box sx={{ flexGrow: { xs: "none", md: 1 } }} />
-
-              {/* logo mobile Open */}
-              <Box sx={{ display: { xs: "flex", md: `none`, flexGrow: 1 } }}>
-                {logo}
-              </Box>
-
-              {/* desktop open */}
-              <Box sx={{ display: { xs: "none", md: `flex` } }}>
-                {/* SearchBox */}
-                {searchForm}
-                {/* button access */}
-                {access("none", "flex")}
-              </Box>
-
-              {/* mobile open*/}
-              {access("flex", "none")}
-            </Toolbar>
-          </AppBarMUI>
-        </Box>
-        <Box>
-          {/* <DrawerDesktop  handle={handleDrawer} open={open} list={drawer} /> */}
-          <DrawerDesktop open={open} list={drawer} />
-          <DrawerMobile
-            handleSearchBox={handleDrawerSearchBoxToggleMobile}
-            handleMobile={handleDrawerToggleMobile}
-            open={mobileOpen}
-            openSearchBox={mobileSearchBoxOpen}
-            // container={container}
-            list={drawerMobile}
-            searchBox={drawerSearchMobile}
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <AppBar position="fixed" sx={styles.appBar}>
+        <Toolbar variant="regular" disableGutters sx={{ px: "12px" }}>
+          <ToolBarDesktop
+            onSubmit={handleSubmit}
+            onClick={handleDrawer}
+            access={access}
           />
-        </Box>
-        <Box
-          component="main"
-          sx={{ flexGrow: 1, background: "rgba(242, 242, 242, .5)" }}
-        >
-            {children}
+          <ToolBarMobile
+            onClick={handleDrawerMobile}
+            onClickSearchBox={handleDrawerSearchBoxMobile}
+            access={access}
+          />
+        </Toolbar>
+      </AppBar>
 
-        </Box>
+      <DrawerDesktop open={open} list={drawer} />
+      <DrawerMobile
+        handleSearchBox={handleDrawerSearchBoxMobile}
+        handleMobile={handleDrawerMobile}
+        open={mobileOpen}
+        openSearchBox={mobileSearchBoxOpen}
+        list={drawerMobile}
+        searchBox={drawerSearchMobile}
+      />
+
+      <Box component="main" sx={{ flexGrow: 1, pt: 3, pb: 0 }}>
+        {children}
       </Box>
-    </ThemeProvider>
+    </Box>
   );
 }

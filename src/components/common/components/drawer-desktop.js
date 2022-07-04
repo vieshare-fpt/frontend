@@ -1,14 +1,10 @@
-
 import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
-import { List, ListItem, ListItemButton } from "@mui/material";
-import Link from "next/link";
 
-const drawerWidth = 220;
 
+const drawerWidth = 218;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -40,7 +36,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -63,16 +58,8 @@ export function DrawerDesktop(props) {
 
   return (
     <Box sx={{ display: { xs: "none", md: `flex` } }}>
-      <Drawer
-        variant="permanent"
-        open={open}
-        sx={{ "& .MuiDrawer-paper": { borderWidth: 0 , padding:0} }}
-      >
-        <DrawerHeader>
-          {/* <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton> */}
-        </DrawerHeader>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader />
         {list}
       </Drawer>
     </Box>

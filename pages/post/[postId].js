@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { MainLayout } from "src/components/layouts";
+import {  ReaderLayout } from "src/components/layouts";
 import { getCookieData } from "src/services/cookies";
 import postApi from "src/services/postsApi";
 
@@ -22,7 +22,7 @@ function PostDetailPage() {
 }
 
 export default PostDetailPage;
-PostDetailPage.getLayout = MainLayout;
+PostDetailPage.getLayout = ReaderLayout;
 // export const getStaticPaths = async () => {
 //   console.log("\nGET STATIC PATHS");
 //   const response = await postApi.getPostId();

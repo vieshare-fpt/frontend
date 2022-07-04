@@ -2,11 +2,14 @@
 
 html,
 body {
-
-
+  min-height:100%;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+body {
+  height:100vh;
+  background: rgb(0,0,0, 0.02) !important;
 }
 .bg-salmon {
   background-color: green !important;
@@ -35,8 +38,3 @@ a {
   padding-right: 0 !important;
 }
 
-.spinner {
-  background: rgba(4, 201, 37, 0.02);
-  width: 100vh;
-  height: 100vh;
-}

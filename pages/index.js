@@ -4,6 +4,7 @@ import { getCookieData } from "src/services/cookies";
 import { accessApi, categoryApi, postApi } from "src/services";
 import Page from "../src/components/landing/main";
 import { setCookieData } from "src/services/cookies";
+import { ReaderLayout } from "src/components/layouts";
 
 export default function Landing(props) {
   if (!getCookieData("token")) {
@@ -29,11 +30,10 @@ export default function Landing(props) {
       },
     });
   }
-
   // return <Page CurrentComponent={{ props, history }} />;
   return <Page CurrentComponent={LandingPage} prop={props} />;
 }
-
+Landing.getLayout= ReaderLayout
 
 export async function getStaticProps() {
 
@@ -41,13 +41,14 @@ export async function getStaticProps() {
     per_page: 9,
     page: 1,
   });
+
   const categories = await categoryApi.getCategory({
     per_page: 10,
     page:1
   })
   return {
     props: {
-      post: posts.data,
+      posts: posts,
       categories: categories.data
     },
   };

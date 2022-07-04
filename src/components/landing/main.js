@@ -1,6 +1,5 @@
+import { Box } from "@mui/material";
 import React from "react";
-import { Navigation } from "../common";
-import { MainLayout } from "../layouts";
 import { CategoryBar } from "./components";
 
 export default function Main(props) {
@@ -8,21 +7,18 @@ export default function Main(props) {
   const { categories } = prop;
 
   return (
-    <Navigation>
-      <div
-        style={{
+    <div >
+      <Box
+        sx={{
           width: "100%",
-          backgroundColor: "red",
           position: "fixed",
           zIndex: 2,
-          margin: "64px 0 0 0",
+          marginTop: { xs: "30px", sm: "40px", md: "40px" },
         }}
       >
         <CategoryBar categories={categories} />
-      </div>
-      <MainLayout>
-          <CurrentComponent props={prop} />
-      </MainLayout>
-    </Navigation>
+      </Box>
+        <CurrentComponent props={prop} />
+    </div>
   );
 }

@@ -3,8 +3,13 @@ import React from "react";
 import styles from "../../../styles/PostCard.module.css";
 import Typography from "@mui/material/Typography";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
-import { Box } from "@mui/system";
+import { Box, Tooltip } from "@mui/material";
 import { Stack } from "@mui/material";
+import moment from "moment";
+import 'moment/locale/vi'  // without this line it didn't work
+
+moment.locale('vi')
+
 export function PostCards({ note }) {
   return (
     <>
@@ -13,38 +18,17 @@ export function PostCards({ note }) {
           <div
             className={styles.photo}
             style={{
-              backgroundImage: "url(/loginBackground.jpg)",
+              backgroundImage: `url(${note.thumbnail})`,
             }}
           ></div>
-          <ul className={styles.details}>
-            <li className={styles.author}>
-              <a>{note.author.name}</a>
-            </li>
-            <li className={styles.date}>
-              {new Intl.DateTimeFormat("en-US").format(
-                new Date(`${note.publishDate}`)
-              )}
-            </li>
-            <li className={styles.views}>{note.views} lượt xem</li>
-            <li></li>
-          </ul>
         </div>
 
         <div className={styles.description}>
-          {/* <h1>Learning to Code</h1>
-          <h2>Opening a door to the future</h2>
-          <p>
-    
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum
-            dolorum architecto obcaecati enim dicta praesentium, quam nobis!
-            Neque ad aliquam facilis numquam. Veritatis, sit.
-          </p> */}
-          <Stack direction='row' spacing={1} sx={{mb:1}}>
+          <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
             <Link href={note.category.id}>
               <Typography
                 variant="h2"
                 // component="h3"
-      
               >
                 Thể loại | {note.category.name}
               </Typography>
@@ -52,7 +36,7 @@ export function PostCards({ note }) {
             {note.type === "Premium" ? (
               <span
                 style={{
-                  fontSize: "20px",
+                  fontSize: "6px",
                   color: "#ffc107",
                   lineHeight: "1px",
                 }}
@@ -61,7 +45,6 @@ export function PostCards({ note }) {
                   fontSize="medium"
                   sx={{ color: "#ffc107" }}
                 />
-                Premium
               </span>
             ) : (
               <></>
@@ -78,6 +61,24 @@ export function PostCards({ note }) {
           >
             {note.title}
           </Typography>
+          <Stack direction="row"  sx={{ mt: 1, color: "#606060" }}>
+            <Link href={`/`}>
+              <Tooltip title={`${note.author.name}`}>
+                <Typography
+                  variant="a"
+                  component="p"
+                  sx={{ cursor: "pointer" }}
+                >
+                  {note.author.name}
+                </Typography>
+              </Tooltip>
+            </Link>
+          </Stack>
+
+          <Stack direction="row" spacing={1} sx={{ mb: 1, color: "#606060" }}>
+            <p>{note.views} lượt xem •</p>
+            <p>{moment(note.publishDate).fromNow()}</p>
+          </Stack>
 
           <Box
             sx={{
