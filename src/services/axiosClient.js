@@ -6,12 +6,7 @@ const axiosClient = axios.create({
     "Content-Type": "application/json"
 });
 
-const renewAccessToken = async (refreshToken) => {
-    const response = await axiosClient.post('/auth/token', {
-        refreshToken: refreshToken
-    })
-    return response.data.token
-}
+
 
 
 axiosClient.interceptors.request.use(async (config) => {
@@ -25,37 +20,29 @@ axiosClient.interceptors.request.use(async (config) => {
 })
 
 
+const refreshAccessToken = async () => {
+    getCookieData('refreshToken')
+    const response = await axiosClient.post('/auth/token', {
+        refreshToken: refreshToken
+    })
+    return response.data.token
+}
+
 axiosClient.interceptors.response.use((response) => {
     if (response && response.data) {
         return response.data;
     }
     console.log(response);
     return response;
-}, (error) => {
-    // Handle errors
-    throw error;
-});
-
-// axiosClient.interceptors.response.use(
-//     (response) => response,
-//     async (error) => {
-//         if (error.response.status === 401) {
-//             const refreshToken = getCookieData('refreshToken')
-//             if (refreshToken) {
-//                 refreshTokenRequest =
-//                     refreshTokenRequest || renewAccessToken(refreshToken)
-//                 const newToken = await refreshTokenRequest
-//                 refreshTokenRequest = null
-                
-//                 const { config } = error
-//                 config.headers.Authorization = `Bearer ${newToken}`
-//                 setCookieData('token', newToken)
-//                 return getUserInfo(config)
-//             }
-//         }
-//         return Promise.reject(error)
-//     },
-// )
-
+  }, async function (error) {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const access_token = await refreshAccessToken();            
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
+      return axiosApiInstance(originalRequest);
+    }
+    return Promise.reject(error);
+  });
 export default axiosClient;
 

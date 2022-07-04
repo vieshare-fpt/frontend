@@ -2,10 +2,7 @@ import axiosClient from "./axiosClient";
 import { getCookieData } from "./cookies";
 
 export const postApi = {
-    getPostsSuggestLimit: (params) => {
-        const url = '/posts/suggest'
-        return axiosClient.get(url, {params})
-    },
+ 
     getPosts: (params) => {
      
         const url = '/posts'
@@ -24,9 +21,6 @@ export const postApi = {
             }
         })
     },
-    getPostId: (params) => {
-        const url = '/posts'
-        return axiosClient.get(url, {params})
-    }
+   
 }
 

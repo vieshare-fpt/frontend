@@ -15,11 +15,6 @@ export const accessApi = {
         "refreshToken": refreshToken,
         "notificationToken": "string",
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
     );
   },
   register(payload) {
