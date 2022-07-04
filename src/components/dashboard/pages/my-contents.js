@@ -62,10 +62,12 @@ else{
 }
 
 export default function MyContents(props) {
+    console.log(props);
     const { post } = props.props.props; 
+    const { postStatus} = props.props.props;
     var listPosts = [];
     for(let i = 0; i < post.length; i++) {
-        if(post[i].author.id == authorID && post[i].status == 'Publish') {
+        if(post[i].author.id == authorID && post[i].status == postStatus) {
             const postObj = {id:i, postid: post[i].id, title: post[i].title, description: post[i].description, category: post[i].category.name};
             listPosts.push(postObj);
         }

@@ -19,7 +19,7 @@ export async function getStaticProps() {
   return {
     props: {
       post: posts.data,
-      postStatus: "Publish",
+      postStatus: "Draft",
     },
   };
 }
