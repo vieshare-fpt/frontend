@@ -24,6 +24,7 @@ import {
 } from 'src/locales/errors'
 import Loader from "src/components/common/Loader";
 import EditAvatar from "src/components/profile/components/EditAvatar";
+import { ReaderLayout } from "src/components/layouts";
 
 
 YupPassword(yup)
@@ -145,7 +146,7 @@ export default function Profile() {
     return (
         <>
             <ToastContainer />
-            <Container sx={{ pt: 12 }}>
+            <Container sx={{ pt: 6 }}>
                 <CardHeader
                     avatar={
                         <>
@@ -188,3 +189,4 @@ export default function Profile() {
     );
 }
 
+Profile.getLayout= ReaderLayout
