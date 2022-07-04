@@ -5,16 +5,21 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Link from "next/link";
-import { ToolBarDesktop } from "./components";
+import { styles, ToolBarDesktop } from "./components";
 import { UserPopup } from "./components";
-import { Button, InputAdornment, Stack, TextField } from "@mui/material";
+import {
+  Button,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { ToolBarMobile } from "./components";
 import { DrawerMobile } from "./components";
@@ -28,11 +33,8 @@ import {
 } from "src/stores/userSlice";
 import { infoUserApi } from "src/services";
 import { useRouter } from "next/router";
-
-const AppBar = styled(
-  MuiAppBar,
-  {}
-)(({ theme }) => ({
+import { getCookieData } from "src/services/cookies";
+const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
 }));
 
@@ -47,17 +49,19 @@ export function Navigation({ children }) {
     (state) => state.user.currentUserInfoLimit?.userInfo
   );
   useEffect(() => {
-    (async () => {
-      dispatch(getUserInfoLimitStart());
-      await infoUserApi
-        .info()
-        .then((response) => {
-          dispatch(getUserInfoLimitSuccess(response.data));
-        })
-        .catch(function (error) {
-          dispatch(getUserInfoLimitFalse());
-        });
-    })();
+    if (getCookieData("token")) {
+      (async () => {
+        dispatch(getUserInfoLimitStart());
+        await infoUserApi
+          .info()
+          .then((response) => {
+            dispatch(getUserInfoLimitSuccess(response.data));
+          })
+          .catch(function (error) {
+            dispatch(getUserInfoLimitFalse());
+          });
+      })();
+    }
   }, [dispatch]);
 
   const handleSubmit = (e) => {
@@ -96,18 +100,10 @@ export function Navigation({ children }) {
           <Link href="/login">
             <Button
               color="success"
+              variant="outlined"
               sx={{ textTransform: "none", borderRadius: 16 }}
             >
               Đăng nhập
-            </Button>
-          </Link>
-          <Link href="/signup">
-            <Button
-              variant="outlined"
-              color="success"
-              sx={{ textTransform: "none", borderRadius: 16 }}
-            >
-              Đăng ký
             </Button>
           </Link>
         </Stack>
@@ -116,42 +112,23 @@ export function Navigation({ children }) {
   );
 
   const drawer = (
-    <List sx={{padding:0}}>
-      <Box
-        sx={{
-          minHeight: open ? "calc(88vh)" : "",
-          ".Mui-selected": {
-            backgroundColor: "rgb(50, 214, 61, 0.08) !important",
-          },
-        }}
-      >
+    <List sx={{ padding: 0 }}>
+      <Box sx={styles.box(open)}>
         {result.map((subpage) => (
           <ListItem
             key={subpage.key}
             selected={subpage.url === router.asPath}
             disablePadding
-            sx={{ display: "block" }}
+            sx={styles.listItem}
           >
             <Link href={subpage.url}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
+              <ListItemButton sx={styles.listItemButton(open)}>
+                <ListItemIcon sx={styles.listItemIcon(open)}>
                   {subpage.icon}
                 </ListItemIcon>
                 <ListItemText
                   primary={subpage.name}
-                  sx={{ opacity: open ? 1 : 0, color: "#2e7d32" }}
+                  sx={styles.listItemText(open)}
                 />
               </ListItemButton>
             </Link>
@@ -159,26 +136,20 @@ export function Navigation({ children }) {
         ))}
       </Box>
 
-      {/* <ListItem>
-        <Typography
-          sx={{
-            opacity: open ? 1 : 0,
-            color: "rgb(62, 80, 96)",
-            fontSize: "11px",
-          }}
-        >
+      <ListItem>
+        <Typography sx={styles.footer(open)}>
           <span>
             <Link href="/history">
-              <a style={{ opacity: open ? 1 : 0 }}>Privacy Policy |</a>
+              <a>Privacy Policy |</a>
             </Link>
             <Link href="/">
-              <a style={{ opacity: open ? 1 : 0 }}> Terms & Conditions</a>
+              <a> Terms & Conditions</a>
             </Link>
           </span>
           <br />
           @Copyright © 2022 Team 1.
         </Typography>
-      </ListItem> */}
+      </ListItem>
     </List>
   );
 
@@ -204,7 +175,7 @@ export function Navigation({ children }) {
 
   const drawerSearchMobile = (
     <div>
-      <Toolbar />
+      <Toolbar /> {/*Create space from the top for align search box*/}
       <Divider />
       <List sx={{ textAlign: "center" }}>
         <form onSubmit={handleSubmit}>
@@ -219,14 +190,7 @@ export function Navigation({ children }) {
                 </InputAdornment>
               ),
             }}
-            sx={{
-              width: "95%",
-
-              [`& fieldset`]: {
-                borderRadius: 8,
-              },
-              [`&:hover fieldset`]: {},
-            }}
+            sx={styles.drawerSearchMobile}
           />
         </form>
       </List>
@@ -236,14 +200,7 @@ export function Navigation({ children }) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        style={{
-          background: "white",
-          boxShadow: "none",
-          borderBottom: "1px solid #E7EBF0",
-        }}
-      >
+      <AppBar position="fixed" sx={styles.appBar}>
         <Toolbar variant="regular" disableGutters sx={{ px: "12px" }}>
           <ToolBarDesktop
             onSubmit={handleSubmit}
@@ -268,7 +225,7 @@ export function Navigation({ children }) {
         searchBox={drawerSearchMobile}
       />
 
-      <Box component="main" sx={{ flexGrow: 1, pt: 3, pb: 0,  }}>
+      <Box component="main" sx={{ flexGrow: 1, pt: 3, pb: 0 }}>
         {children}
       </Box>
     </Box>

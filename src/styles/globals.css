@@ -9,7 +9,7 @@ body {
 }
 body {
   height:100vh;
-  background: rgb(0,0,0, 0.02)
+  background: rgb(0,0,0, 0.02) !important;
 }
 .bg-salmon {
   background-color: green !important;
@@ -31,9 +31,6 @@ a {
   box-sizing: border-box;
 }
 
-.quill > .ql-toolbar:first-child {
-  display: none !important;
-}
 .MuiPaper-root{
   padding-right: 0 !important;
 }
