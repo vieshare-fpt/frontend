@@ -1,11 +1,9 @@
 import {
   Box,
   IconButton,
-  Typography,
 } from "@mui/material";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import Link from "next/link";
 import SearchIcon from "@mui/icons-material/Search";
 import Logo from "./logo";
 
@@ -17,7 +15,7 @@ export function ToolBarMobile(props) {
   return (
     <>
       <Box sx={{ display: { xs: "flex", md: "none", flexGrow: 1 } }}>
-        <IconButton onClick={onClick} sx={{ marginRight: "20px" }}>
+        <IconButton onClick={onClick} sx={{ marginRight: "5px" }}>
           <MenuIcon color="success" />
         </IconButton>
         <IconButton onClick={onClickSearchBox}>

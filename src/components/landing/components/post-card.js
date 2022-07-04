@@ -3,9 +3,13 @@ import React from "react";
 import styles from "../../../styles/PostCard.module.css";
 import Typography from "@mui/material/Typography";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
-import { Box, Button, Tooltip } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 import { Stack } from "@mui/material";
 import moment from "moment";
+import 'moment/locale/vi'  // without this line it didn't work
+
+moment.locale('vi')
+
 export function PostCards({ note }) {
   return (
     <>
