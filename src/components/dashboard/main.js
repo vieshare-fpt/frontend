@@ -45,7 +45,7 @@ export default function ResponsiveDrawer(props) {
 
   const drawer = (
     <div>
-      <Toolbar sx={{ display:"flex", justifyContent:"center" }} disableGutters>
+      <Toolbar sx={{ display:"flex", justifyContent:"center" }}>
         <MyLogo >
           <Link href='/' sx={{ textDecoration:'auto', color: "forestgreen",}}>
             VieShare

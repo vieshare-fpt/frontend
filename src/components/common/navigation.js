@@ -205,7 +205,7 @@ export function Navigation({ children }) {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" sx={styles.appBar}>
-        <Toolbar variant="regular" disableGutters sx={{ px: "12px" }}>
+        <Toolbar variant="regular" sx={{ px: "12px" }}>
           <ToolBarDesktop
             onSubmit={handleSubmit}
             onClick={handleDrawer}

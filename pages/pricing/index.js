@@ -21,7 +21,6 @@ export default function Pricing() {
   return (
     <>
       <Container
-        disableGutters
         maxWidth="sm"
         component="main"
         sx={{
