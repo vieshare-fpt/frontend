@@ -9,13 +9,22 @@ body {
 }
 body {
   height:100vh;
-  background: rgb(0,0,0, 0.02) !important;
+  background: rgb(0,0,0, 0.02);
+
 }
-.bg-salmon {
+#__next {
+  height : 100%;
+}
+#__next .MuiScopedCssBaseline-root {
+  height : 100%;
+  background: rgb(0,0,0, 0.001);
+} 
+
+.bg-green {
   background-color: green !important;
   color: white !important;
 }
-.bg-salmon:hover { 
+.bg-green:hover { 
   background-color: rgb(17,157,36) !important ;
   color: white !important;
 }
@@ -29,6 +38,8 @@ a {
 
 * {
   box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: blue;
 }
 
 .quill > .ql-toolbar:first-child {
@@ -38,3 +49,17 @@ a {
   padding-right: 0 !important;
 }
 
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: none;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8c8c8c; 
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #aaaaaa;
+  border-radius: 20px;
+}
