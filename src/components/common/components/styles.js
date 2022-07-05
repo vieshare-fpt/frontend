@@ -1,7 +1,7 @@
 export const styles = {
   box: (open) => {
     return {
-      minHeight: open ? "calc(88vh)" : "",
+      minHeight: open ? "calc(100vh - 120px)" : "",
       ".Mui-selected": {
         backgroundColor: "rgb(50, 214, 61, 0.08) !important",
       },
