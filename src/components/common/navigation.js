@@ -50,23 +50,23 @@ export function Navigation({ children }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector(
-    (state) => state.user.currentUserInfoLimit?.userInfo
+    (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
-  useEffect(() => {
-    if (getCookieData("token")) {
-      (async () => {
-        dispatch(getUserInfoLimitStart());
-        await infoUserApi
-          .info()
-          .then((response) => {
-            dispatch(getUserInfoLimitSuccess(response.data));
-          })
-          .catch(function (error) {
-            dispatch(getUserInfoLimitFalse());
-          });
-      })();
-    }
-  }, [dispatch]);
+  // useEffect(() => {
+  //   if (getCookieData("token")) {
+  //     (async () => {
+  //       dispatch(getUserInfoLimitStart());
+  //       await infoUserApi
+  //         .info()
+  //         .then((response) => {
+  //           dispatch(getUserInfoLimitSuccess(response.data));
+  //         })
+  //         .catch(function (error) {
+  //           dispatch(getUserInfoLimitFalse());
+  //         });
+  //     })();
+  //   }
+  // }, [dispatch]);
 
   const handleSubmit = (e) => {
     console.log("a");
