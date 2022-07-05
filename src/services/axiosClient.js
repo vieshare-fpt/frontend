@@ -27,7 +27,6 @@ axiosClient.interceptors.response.use(
     if (response && response.data) {
       return response.data;
     }
-    console.log(response);
     return response;
   },
   async (error) => {
@@ -35,7 +34,6 @@ axiosClient.interceptors.response.use(
     const config = error?.config;
 
     const message = error.response.data.message;
-    console.log(message, config);
     if (message !== "Token invalid or expired.") {
       throw error;
     }
