@@ -76,7 +76,8 @@ export function UserPopup({ fullname, email, avatar, type }) {
           dispatch(clearInfoSuccess());
           removeCookieData("token");
           removeCookieData("refreshToken");
-          // window.location.reload();
+          localStorage.removeItem("authorID");
+          window.location.reload();
         })
         .catch((error) => {
           dispatch(clearInfoFailed());

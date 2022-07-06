@@ -1,64 +1,128 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { Box, TextField, Link, Typography, Toolbar, Button, IconButton } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { 
+    DataGrid, 
+    GridToolbar,
+} from '@mui/x-data-grid'
 
 const columns = [
-    { field: 'id', headerName: '#', width: 70, description: 'Thứ tự bài viết' },
+    { field: 'id', headerName: '#', width: 50, marginLeft: 20, description: 'Thứ tự bài viết' },
     { 
-        field: 'tittle', 
+        field: 'title', 
         headerName: 'Tiêu đề', 
-        width: 250, 
-        editable: true,
-        description: 'Tiêu đề bài viết'
+        description: 'Tiêu đề bài viết',
+        width: 350, 
+        editable: false,
     },
     { 
         field: 'description', 
         headerName: 'Mô tả', 
+        description: 'Mô tả ngắn về bài viết',
         width: 400, 
-        editable: true,
-        sortable: false,
-        description: 'Mô tả ngắn về bài viết'
+        editable: false,
+        sortable: true,
     },
     { 
         field: 'category', 
         headerName: 'Thể loại', 
+        description: 'Thể loại bài viết',
         width: 150, 
-        editable: true,
-        sortable: false,
-        description: 'Thể loại bài viết'
+        editable: false,
+        sortable: true,
     },
-    // {
-    //     field: 'edit', 
-    //     headerName: 'Hoạt động',
-    //     editable: false,
-    //     sortable: false,
-    //     width: 100,
-    //     description: 'Chỉnh sửa nội dung',
-    //     renderCells: {handleEdit}
-    // }
+    {
+        field: 'read', 
+        headerName: 'Đọc', 
+        description: 'Xem chi tiết bài viết',
+        editable: false,
+        sortable: false,
+        width: 50,
+        renderCell: (cellValue) => {
+            return (
+                <Button 
+                    onClick={(event) => {
+                        handleRead(event, cellValue);
+                    }} 
+                    color="success" 
+                    startIcon={< VisibilityIcon />}>
+                </Button>
+            );
+        },
+    },
+    {
+        field: 'edit', 
+        headerName: 'Sửa', 
+        description: 'Chỉnh sửa bài viết',
+        editable: false,
+        sortable: false,
+        width: 50,
+        disableClickEventBubbling: true,
+        renderCell: () => {
+            return <Button color="secondary" startIcon={< EditIcon />}></Button>;
+        },
+    },
+    {
+        field: 'delete', 
+        headerName: 'xóa', 
+        description: 'Xóa bài viết',
+        editable: false,
+        sortable: false,
+        width: 50,
+        disableClickEventBubbling: true,
+        renderCell: () => {
+            return <Button color="error" startIcon={< DeleteIcon />}></Button>;
+          },
+    },
 ];
 
-const rows = [
-    {id: 1, tittle: 'Về nhà ăn cơm mẹ nấu', description: 'Ăn sơn hào muôn phương không bằng về ăn cơm mẹ nấu', category: 'Blog'},
-    {id: 2, tittle: 'Về nhà ăn cơm mẹ nấu', description: 'Ăn sơn hào muôn phương không bằng về ăn cơm mẹ nấu', category: 'Blog'},
-    {id: 3, tittle: 'Về nhà ăn cơm mẹ nấu', description: 'Ăn sơn hào muôn phương không bằng về ăn cơm mẹ nấu', category: 'Blog'},
-    {id: 4, tittle: 'Biết địch biết ta, trăm trận trăm thắng', description: 'Hãy tìm hiểu đối phương trước khi đối đầu trực diện', category: 'Chiến thuật'},
-    {id: 5, tittle: 'Biết địch biết ta, trăm trận trăm thắng', description: 'Hãy tìm hiểu đối phương trước khi đối đầu trực diện', category: 'Chiến thuật'},
-    {id: 6, tittle: 'Biết địch biết ta, trăm trận trăm thắng', description: 'Hãy tìm hiểu đối phương trước khi đối đầu trực diện', category: 'Chiến thuật'},
-    {id: 7, tittle: 'Biết địch biết ta, trăm trận trăm thắng', description: 'Hãy tìm hiểu đối phương trước khi đối đầu trực diện', category: 'Chiến thuật'},
-    {id: 8, tittle: 'Về nhà ăn cơm mẹ nấu', description: 'Ăn sơn hào muôn phương không bằng về ăn cơm mẹ nấu', category: 'Blog'},
+const handleRead = (event, cellValue) => {
+    location.href = (`/post/${cellValue.row.postId}`);
+}
+
+const handleCellClick = (param, event) => {
+    event.stopPropagation();
+};
+  
+const handleRowClick = (param, event) => {
+    event.stopPropagation();
+};
+
+//Demo post
+const row = [
+    { id:1, title: 'Về nhà ăn cơm mẹ nấu', description: 'Ăn sơn hào muôn phương không bằng về ăn cơm mẹ nấu', category: 'Blog'},
+    { id:2, title: 'Biết địch biết ta, trăm trận trăm thắng', description: 'Hãy tìm hiểu đối phương trước khi đối đầu trực diện', category: 'Chiến thuật'},
 ]
-export default function MyContents(props) {
+
+//Get author Id from localStorage
+var authorID = null;
+if (typeof window !== 'undefined') {
+    authorID = localStorage.getItem('authorID');
     
-    if (typeof window !== 'undefined') {
-        console.log('You are on the browser')
-        console.log(window.localStorage.getItem('userID'));
-        // 👉️ can use localStorage here
-      } else {
-        console.log('You are on the server')
-        // 👉️ can't use localStorage
-      }
+}
+else{
+    console.log("Error get author ID");
+}
+console.log(authorID);
+
+
+
+export default function MyContents(props) {
+    console.log(props);
+    const { post } = props.props.props;
+    console.log(post);
+    const { postStatus } = props.props.props;
+    var listPosts = [];
+    for(let i = 0; i < post.length; i++) {
+        if(post[i].author.id == authorID && post[i].status == postStatus) {
+            const postObj = {id:i, postId: post[i].id, title: post[i].title, description: post[i].description, category: post[i].category.name};
+            listPosts.push(postObj);
+        }
+    }
+    console.log(listPosts);
     return (
         <Box
             component="main"
@@ -86,12 +150,16 @@ export default function MyContents(props) {
                 height:650, width: '100%',
             }}>
                 <DataGrid
-                    rows={rows}
+                    aria-labelledby
+                    rows={listPosts}
                     columns={columns}
-                    pageSize={10}
+                    pageSize={100}
                     rowsPerPageOptions={[10]}
-                    checkboxSelection
-                    button
+                    onCellClick={handleCellClick}
+                    onRowClick={handleRowClick}
+                    components={{
+                    Toolbar: GridToolbar
+                    }}
                 />
             </Box>
         </Box>

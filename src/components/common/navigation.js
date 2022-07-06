@@ -88,6 +88,7 @@ export function Navigation({ children }) {
   }
 
   if (user?.roles.includes("Writer")) {
+    localStorage.setItem("authorID", user.id)
     result = pages.filter((page) => page.key !== 1);
   }
   const access = (
