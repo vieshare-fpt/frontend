@@ -6,9 +6,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 import { postApi } from "src/services";
 import { PostCards, Progress } from "../components";
-function isHasMore(data) {
-  return data.metaData.page === data.metaData.total_pages;
-}
+
+
 export default function LandingPage({ props }) {
   const { posts } = props;
   const [data, setData] = useState([]);
@@ -16,6 +15,11 @@ export default function LandingPage({ props }) {
   const [page, setpage] = useState(2);
   const [spinner, setSpinner] = useState(false);
   const categoryId = useSelector((state) => state.category.data);
+  //check page has more 
+  function isHasMore(data) {
+    return data.metaData.page === data.metaData.total_pages;
+  }
+  
   //loading post when any chip category is clicked
   useEffect(() => {
     if (categoryId.currentCategory) {
@@ -58,7 +62,7 @@ export default function LandingPage({ props }) {
       .catch(function (error) {
         console.log(error.response.status); // 401
         if (error.response.status == 401) {
-          err = error.response.data;
+          console.log(error.response.data);
         }
       });
   };
