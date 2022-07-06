@@ -38,7 +38,7 @@ Landing.getLayout= ReaderLayout
 export async function getStaticProps() {
 
   const posts = await postApi.getPosts({
-    per_page: 9,
+    per_page: 12,
     page: 1,
   });
 

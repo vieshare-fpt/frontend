@@ -24,7 +24,7 @@ export function PostCards({ note }) {
         </div>
 
         <div className={styles.description}>
-          <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
+          <Stack direction="row" spacing={1} sx={{ mb:2 }}>
             <Link href={note.category.id}>
               <Typography
                 variant="h2"

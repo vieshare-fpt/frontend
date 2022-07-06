@@ -10,11 +10,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import LoginIcon from "@mui/icons-material/Login";
 import Link from "next/link";
 import { devTeamPage, styles, ToolBarDesktop } from "./components";
 import { UserPopup } from "./components";
 import {
   Button,
+  IconButton,
   InputAdornment,
   Stack,
   TextField,
@@ -67,8 +69,11 @@ export function Navigation({ children }) {
   };
   //open or close drawer when clicked menuIcon
   const handleDrawer = () => {
-    if (!asPath) dispatch(setOpen(!open));
-    setOpenDrawerTemporary(!openDrawerTemporary);
+    if (!asPath) {
+      dispatch(setOpen(!open));
+    } else {
+      setOpenDrawerTemporary(!openDrawerTemporary);
+    }
   };
   const handleDrawerMobile = () => {
     setOpenDrawerMobile(!openDrawerMobile);
@@ -90,7 +95,7 @@ export function Navigation({ children }) {
   }
 
   if (user?.roles.includes("Writer")) {
-    localStorage.setItem("authorID", user.id)
+    localStorage.setItem("authorID", user.id);
     result = pages.filter((page) => page.key !== 1);
   }
   const access = (
@@ -104,15 +109,24 @@ export function Navigation({ children }) {
         />
       ) : (
         <Stack direction="row" spacing={2}>
-          <Link href="/login">
-            <Button
-              color="success"
-              variant="outlined"
-              sx={{ textTransform: "none", borderRadius: 16 }}
-            >
-              Đăng nhập
-            </Button>
-          </Link>
+          <Box sx={{ display: { sm: "flex", md: "none" } }}>
+            <Link href="/login">
+              <IconButton color="success" variant="outlined">
+                <LoginIcon />
+              </IconButton>
+            </Link>
+          </Box>
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Link href="/login">
+              <Button
+                color="success"
+                variant="outlined"
+                sx={{ textTransform: "none", borderRadius: 16 }}
+              >
+                Đăng nhập
+              </Button>
+            </Link>
+          </Box>
         </Stack>
       )}
     </>
