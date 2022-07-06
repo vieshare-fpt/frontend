@@ -13,7 +13,7 @@ export default function Main(props) {
           width: "100%",
           position: "fixed",
           zIndex: 2,
-          marginTop: { xs: "30px", sm: "40px", md: "40px" },
+          marginTop: { xs: "40px", sm: "40px", md: "40px" },
         }}
       >
         <CategoryBar categories={categories} />

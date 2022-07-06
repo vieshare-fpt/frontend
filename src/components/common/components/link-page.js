@@ -44,6 +44,6 @@ export const devTeamPage = [
   {
     key: 3,
     name: "Về chúng tôi",
-    url: "/",
+    url: "/about",
   },
 ];

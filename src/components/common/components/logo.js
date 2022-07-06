@@ -10,7 +10,7 @@ export default function Logo() {
           component="a"
           sx={{
             color: "Green",
-            fontSize: "25px",
+            fontSize: "28px",
             fontFamily: "Salsa",
             cursor: "pointer",
           }}

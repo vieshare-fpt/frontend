@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiAppBar from "@mui/material/AppBar";
@@ -11,7 +11,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Link from "next/link";
-import { styles, ToolBarDesktop } from "./components";
+import { devTeamPage, styles, ToolBarDesktop } from "./components";
 import { UserPopup } from "./components";
 import {
   Button,
@@ -26,14 +26,8 @@ import { DrawerMobile } from "./components";
 import SearchIcon from "@mui/icons-material/Search";
 import { pages } from "./components";
 import { DrawerDesktop } from "./components";
-import {
-  getUserInfoLimitFalse,
-  getUserInfoLimitStart,
-  getUserInfoLimitSuccess,
-} from "src/stores/userSlice";
-import { infoUserApi } from "src/services";
+
 import { useRouter } from "next/router";
-import { getCookieData } from "src/services/cookies";
 import { setOpen } from "src/stores/drawerSlice";
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
@@ -41,48 +35,56 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
 
 export function Navigation({ children }) {
   // const [open, setOpen] = useState(true);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileSearchBoxOpen, setMobileSearchBoxOpen] = useState(false);
-  const open = useSelector(
-    (state) => state.drawer.data?.open
-  );
+  const [openDrawerMobile, setOpenDrawerMobile] = useState(false);
+  const [openDrawerTemporary, setOpenDrawerTemporary] = useState(false);
+  const [openMobileSearchBox, setOpenMobileSearchBox] = useState(false);
+  const [openDrawerContact, setOpenDrawerContact] = useState(false);
+  const open = useSelector((state) => state.drawer.data?.open);
   let result = pages;
+  const url = {
+    about: "/about",
+    post: "/post/",
+  };
   const dispatch = useDispatch();
   const router = useRouter();
+  const asPath =
+    router.asPath.includes(url.post) || router.asPath.includes(url.about);
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
-  // useEffect(() => {
-  //   if (getCookieData("token")) {
-  //     (async () => {
-  //       dispatch(getUserInfoLimitStart());
-  //       await infoUserApi
-  //         .info()
-  //         .then((response) => {
-  //           dispatch(getUserInfoLimitSuccess(response.data));
-  //         })
-  //         .catch(function (error) {
-  //           dispatch(getUserInfoLimitFalse());
-  //         });
-  //     })();
-  //   }
-  // }, [dispatch]);
 
   const handleSubmit = (e) => {
     console.log("a");
   };
+  //close drawer when clicked a button of drawer
+  const handleClick = (url) => {
+    if (asPath) setOpenDrawerTemporary(!openDrawerTemporary);
+    router.push(url);
+  };
+  //open or close drawer when clicked outside of drawer
+  const handleDrawerTemporary = () => {
+    setOpenDrawerTemporary(!openDrawerTemporary);
+  };
+  //open or close drawer when clicked menuIcon
   const handleDrawer = () => {
-    dispatch(setOpen(!open))
+    if (!asPath) dispatch(setOpen(!open));
+    setOpenDrawerTemporary(!openDrawerTemporary);
   };
   const handleDrawerMobile = () => {
-    setMobileOpen(!mobileOpen);
-    setMobileSearchBoxOpen(false);
+    setOpenDrawerMobile(!openDrawerMobile);
+    setOpenMobileSearchBox(false);
+    setOpenDrawerContact(false);
   };
   const handleDrawerSearchBoxMobile = () => {
-    setMobileSearchBoxOpen(!mobileSearchBoxOpen);
-    setMobileOpen(false);
+    setOpenMobileSearchBox(!openMobileSearchBox);
+    setOpenDrawerMobile(false);
+    setOpenDrawerContact(false);
   };
-
+  const handleDrawerContacts = () => {
+    setOpenDrawerContact(!openDrawerContact);
+    setOpenDrawerMobile(false);
+    setOpenMobileSearchBox(false);
+  };
   if (user?.isPremium) {
     result = pages.filter((page) => page.key !== 2);
   }
@@ -115,47 +117,55 @@ export function Navigation({ children }) {
     </>
   );
 
-  const drawer = (
-    <List sx={{ padding: 0 }}>
-      <Box sx={styles.box(open)}>
-        {result.map((subpage) => (
-          <ListItem
-            key={subpage.key}
-            selected={subpage.url === router.asPath}
-            disablePadding
-            sx={styles.listItem}
-          >
-            <Link href={subpage.url}>
-              <ListItemButton sx={styles.listItemButton(open)}>
-                <ListItemIcon sx={styles.listItemIcon(open)}>
+  const drawer = (styles) => {
+    return (
+      <List sx={{ padding: 0 }}>
+        <Box sx={styles.box(open, asPath)}>
+          {result.map((subpage, index) => (
+            <ListItem
+              key={subpage.key}
+              selected={subpage.url === router.asPath}
+              disablePadding
+              sx={styles.listItem}
+            >
+              <ListItemButton
+                onClick={() => handleClick(subpage.url)}
+                sx={styles.listItemButton(open, asPath)}
+              >
+                <ListItemIcon sx={styles.listItemIcon(open, asPath)}>
                   {subpage.icon}
                 </ListItemIcon>
                 <ListItemText
                   primary={subpage.name}
-                  sx={styles.listItemText(open)}
+                  sx={styles.listItemText(open, asPath)}
                 />
               </ListItemButton>
-            </Link>
-          </ListItem>
-        ))}
-      </Box>
+              {index === 2 ? (
+                <Divider variant="inset" textAlign="left" />
+              ) : (
+                <></>
+              )}
+            </ListItem>
+          ))}
+        </Box>
 
-      <ListItem>
-        <Typography sx={styles.footer(open)}>
-          <span>
-            <Link href="/history">
-              <a>Privacy Policy |</a>
-            </Link>
-            <Link href="/">
-              <a> Terms & Conditions</a>
-            </Link>
-          </span>
-          <br />
-          @Copyright © 2022 Team 1.
-        </Typography>
-      </ListItem>
-    </List>
-  );
+        <ListItem>
+          <Typography sx={styles.footer(open, asPath)}>
+            <span>
+              <Link href="/history">
+                <a>Privacy Policy |</a>
+              </Link>
+              <Link href="/">
+                <a> Terms & Conditions</a>
+              </Link>
+            </span>
+            <br />
+            @Copyright © 2022 Team 1.
+          </Typography>
+        </ListItem>
+      </List>
+    );
+  };
 
   const drawerMobile = (
     <div>
@@ -200,32 +210,66 @@ export function Navigation({ children }) {
       </List>
     </div>
   );
-
+  const drawerContact = (
+    <div>
+      <Toolbar />
+      <Divider />
+      <List>
+        {devTeamPage.map((text) => (
+          <ListItem key={text.key} disablePadding>
+            <Link href={text.url}>
+              <ListItemButton>
+                <ListItemText primary={text.name} />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+    </div>
+  );
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" sx={styles.appBar}>
-        <Toolbar variant="regular" disableGutters sx={{ px: "12px" }}>
+        <Toolbar
+          variant="dense"
+          disableGutters
+          sx={{ px: "14px", height: "64px" }}
+        >
           <ToolBarDesktop
             onSubmit={handleSubmit}
             onClick={handleDrawer}
             access={access}
+            router={router}
           />
           <ToolBarMobile
-            onClick={handleDrawerMobile}
-            onClickSearchBox={handleDrawerSearchBoxMobile}
+            onClickDrawerMobile={handleDrawerMobile}
+            onClickDrawerSearchBox={handleDrawerSearchBoxMobile}
+            onClickDrawerContacts={handleDrawerContacts}
             access={access}
           />
         </Toolbar>
       </AppBar>
 
-      <DrawerDesktop open={open} list={drawer} />
+      <DrawerDesktop
+        url={url}
+        asPath={asPath}
+        open={open}
+        router={router}
+        openDrawerTemporary={openDrawerTemporary}
+        list={drawer(styles)}
+        onClose={handleDrawerTemporary}
+      />
       <DrawerMobile
-        handleSearchBox={handleDrawerSearchBoxMobile}
-        handleMobile={handleDrawerMobile}
-        open={mobileOpen}
-        openSearchBox={mobileSearchBoxOpen}
-        list={drawerMobile}
+        handleDrawerSearchBox={handleDrawerSearchBoxMobile}
+        handleDrawerMobile={handleDrawerMobile}
+        handleDrawerContact={handleDrawerContacts}
+        openDrawerMobile={openDrawerMobile}
+        openDrawerContact={openDrawerContact}
+        openSearchBox={openMobileSearchBox}
+        listDrawer={drawerMobile}
+        listDrawerContact={drawerContact}
         searchBox={drawerSearchMobile}
       />
 

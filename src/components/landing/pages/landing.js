@@ -78,7 +78,7 @@ export default function LandingPage({ props }) {
             </Container>
           </div>
         )}
-        <Container maxWidth="">
+        <Box sx={{mt: 2, mx: 2}}>
           <InfiniteScroll
             dataLength={data.length}
             next={fetchMoreData}
@@ -97,7 +97,7 @@ export default function LandingPage({ props }) {
               ))}
             </Grid>
           </InfiniteScroll>
-        </Container>
+        </Box>
       </div>
     </div>
   );

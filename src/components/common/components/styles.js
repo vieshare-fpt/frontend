@@ -1,5 +1,6 @@
 export const styles = {
-  box: (open) => {
+  box: (open, asPath) => {
+    if (asPath) open = true;
     return {
       minHeight: open ? "calc(100vh - 120px)" : "",
       ".Mui-selected": {
@@ -13,7 +14,9 @@ export const styles = {
       backgroundColor: "rgb(50, 214, 61, 0.08)",
     },
   },
-  listItemButton: (open) => {
+  listItemButton: (open, asPath) => {
+    if (asPath) open = true;
+
     return {
       justifyContent: open ? "initial" : "center",
       minHeight: 48,
@@ -21,10 +24,13 @@ export const styles = {
       ".MuiTypography-root": {
         fontSize: "0.85rem",
         fontWeight: "400",
+        fontFamily: "Roboto",
       },
     };
   },
-  listItemIcon: (open) => {
+  listItemIcon: (open, asPath) => {
+    if (asPath) open = true;
+
     return {
       minWidth: 0,
       mr: open ? 3 : "auto",
@@ -34,13 +40,17 @@ export const styles = {
       },
     };
   },
-  listItemText: (open) => {
+  listItemText: (open, asPath) => {
+    if (asPath) open = true;
+
     return {
       opacity: open ? 1 : 0,
       color: "#2e7d32",
     };
   },
-  footer: (open) => {
+  footer: (open, asPath) => {
+    if (asPath) open = true;
+
     return {
       opacity: open ? 1 : 0,
       color: "rgb(62, 80, 96)",
@@ -58,6 +68,7 @@ export const styles = {
   appBar: {
     background: "white",
     boxShadow: "none",
-    borderBottom: "1px solid #E7EBF0",
-  }
+    // borderBottom: "1px solid #E7EBF0",
+  },
 };
+
