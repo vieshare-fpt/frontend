@@ -62,3 +62,16 @@ a {
   background-color: #aaaaaa;
   border-radius: 20px;
 }
+
+.slick-slide {
+  margin: 0 2px
+}
+
+.slick-track {
+  display: flex !important;
+  justify-content: center;
+}
+
+.slick-prev:before, .slick-next:before {
+  color: #3e9c31 !important;
+}

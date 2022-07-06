@@ -7,7 +7,7 @@ import Logo from "./logo";
 import MenuIcon from "@mui/icons-material/Menu";
 
 
-const drawerWidth = 206;
+const drawerWidth = 208;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
