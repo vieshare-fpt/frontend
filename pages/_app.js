@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import store, { persistor } from "src/stores/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Head from "next/head";
-import "react-quill/dist/quill.snow.css";
 import { EmptyLayout } from "src/components/layouts";
 import { PersistGate } from "redux-persist/integration/react";
 import "slick-carousel/slick/slick.css"; 
