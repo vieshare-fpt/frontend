@@ -8,6 +8,7 @@ import {
     DataGrid, 
     GridToolbar,
 } from '@mui/x-data-grid'
+import { useRouter } from 'next/router';
 
 const columns = [
     { field: 'id', headerName: '#', width: 50, marginLeft: 20, description: 'Thứ tự bài viết' },
@@ -111,6 +112,8 @@ console.log(authorID);
 
 
 export default function MyContents(props) {
+    const navigate = useRouter()
+
     console.log(props);
     const { post } = props.props.props;
     console.log(post);
@@ -145,6 +148,9 @@ export default function MyContents(props) {
                 >
                     Bài viết của tôi
                 </Typography>
+                <Button onClick={() => {
+                    navigate.push('/dashboard/new-content')
+                }}>Bài viết mới</Button>
             </Toolbar>
             <Box sx={{ 
                 height:650, width: '100%',
