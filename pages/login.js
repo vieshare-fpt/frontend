@@ -8,10 +8,12 @@ import {
   ENTER_PASSWORD_VALIDATION,
   PASSWORD_REQUIRED,
 } from "src/locales/errors";
-import { accessApi } from "src/services";
+import { accessApi, infoUserApi } from "src/services";
 import Page from "../src/components/login/main";
 import { setCookieData } from "src/services/cookies";
 import { useRouter } from "next/router";
+import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
+import { useDispatch } from "react-redux";
 
 const validationSchema = yup.object({
   email: yup
@@ -24,6 +26,21 @@ const validationSchema = yup.object({
 export default function LoginPage() {
   const [error, setError] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
+  function getInfoUser() {
+    (async () => {
+      await infoUserApi
+        .info()
+        .then((response) => {
+          dispatch(setUserInfoSuccess(response.data));
+          router.push("/");
+        })
+        .catch(function (error) {
+          dispatch(setUserInfoFailed());
+        });
+    })();
+  }
+
   const handleLogin = useFormik({
     initialValues: {
       email: "",
@@ -41,14 +58,14 @@ export default function LoginPage() {
           .then(function (response) {
             setCookieData("token", response.data.token);
             setCookieData("refreshToken", response.data.refreshToken);
-            router.push("/")
+            getInfoUser();
           })
           .catch(function (error) {
             console.log(error.response.status); // 401
             if (error.response.status == 401) {
               setError(true);
             }
-          })
+          });
       })();
     },
   });
@@ -63,8 +80,7 @@ export default function LoginPage() {
         .then(function (response) {
           setCookieData("token", response.data.token);
           setCookieData("refreshToken", response.data.refreshToken);
-
-          router.push("/");
+          getInfoUser();
         })
         .catch(function (error) {
           console.log(error.response.status); // 401

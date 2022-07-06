@@ -34,41 +34,45 @@ import {
 import { infoUserApi } from "src/services";
 import { useRouter } from "next/router";
 import { getCookieData } from "src/services/cookies";
+import { setOpen } from "src/stores/drawerSlice";
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
 }));
 
 export function Navigation({ children }) {
-  const [open, setOpen] = useState(true);
+  // const [open, setOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSearchBoxOpen, setMobileSearchBoxOpen] = useState(false);
+  const open = useSelector(
+    (state) => state.drawer.data?.open
+  );
   let result = pages;
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector(
-    (state) => state.user.currentUserInfoLimit?.userInfo
+    (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
-  useEffect(() => {
-    if (getCookieData("token")) {
-      (async () => {
-        dispatch(getUserInfoLimitStart());
-        await infoUserApi
-          .info()
-          .then((response) => {
-            dispatch(getUserInfoLimitSuccess(response.data));
-          })
-          .catch(function (error) {
-            dispatch(getUserInfoLimitFalse());
-          });
-      })();
-    }
-  }, [dispatch]);
+  // useEffect(() => {
+  //   if (getCookieData("token")) {
+  //     (async () => {
+  //       dispatch(getUserInfoLimitStart());
+  //       await infoUserApi
+  //         .info()
+  //         .then((response) => {
+  //           dispatch(getUserInfoLimitSuccess(response.data));
+  //         })
+  //         .catch(function (error) {
+  //           dispatch(getUserInfoLimitFalse());
+  //         });
+  //     })();
+  //   }
+  // }, [dispatch]);
 
   const handleSubmit = (e) => {
     console.log("a");
   };
   const handleDrawer = () => {
-    setOpen(!open);
+    dispatch(setOpen(!open))
   };
   const handleDrawerMobile = () => {
     setMobileOpen(!mobileOpen);
@@ -202,7 +206,7 @@ export function Navigation({ children }) {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" sx={styles.appBar}>
-        <Toolbar variant="regular" disableGutters sx={{ px: "12px" }}>
+        <Toolbar variant="regular" sx={{ px: "12px" }}>
           <ToolBarDesktop
             onSubmit={handleSubmit}
             onClick={handleDrawer}

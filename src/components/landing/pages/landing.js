@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Grid } from "@mui/material";
 import { Container } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import style from "../components/Landing.module.css";
+import style from "src/styles/Landing.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 import { postApi } from "src/services";
