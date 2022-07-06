@@ -30,7 +30,7 @@ export function Footer() {
             height: "50px",
           }}
         >
-          <Container maxWidth="">
+          <Container maxWidth="" disableGutters>
             <Toolbar sx={{ borderTop: "1px solid #f3f5f8" }}>
               <Typography
                 sx={{

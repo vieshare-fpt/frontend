@@ -1,13 +1,19 @@
-import * as React from "react";
+import React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
+import { IconButton } from "@mui/material";
+import Logo from "./logo";
+import MenuIcon from "@mui/icons-material/Menu";
 
 
-const drawerWidth = 218;
+const drawerWidth = 206;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
+  border: "none",
+  boxShadow: "none",
+
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
@@ -20,6 +26,8 @@ const closedMixin = (theme) => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
+  border: "none",
+
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
@@ -36,6 +44,17 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
+const DrawerTemporary = styled(MuiDrawer)(({ theme }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...{
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  },
+}));
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -54,14 +73,35 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export function DrawerDesktop(props) {
-  const { open, list } = props;
+  const { open, list, onClose, openDrawerTemporary, asPath } = props;
 
   return (
     <Box sx={{ display: { xs: "none", md: `flex` } }}>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader />
-        {list}
-      </Drawer>
+      {asPath ? (
+        <DrawerTemporary
+          anchor="left"
+          open={openDrawerTemporary}
+          onClose={onClose}
+        >
+          <DrawerHeader>
+            <IconButton onClick={onClose} sx={{ marginRight: "5px" }}>
+              <MenuIcon color="success" />
+            </IconButton>
+            <Logo />
+            <Box
+              sx={{
+                marginLeft: "25px",
+              }}
+            />
+          </DrawerHeader>
+          {list}
+        </DrawerTemporary>
+      ) : (
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader />
+          {list}
+        </Drawer>
+      )}
     </Box>
   );
 }

@@ -36,7 +36,10 @@ export function FormLogin({formik, onError}) {
                 error={formik.touched.password && Boolean(formik.errors.password)}
                 helperText={formik.touched.password && formik.errors.password}
             />
-            
+            <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Nhớ thông tin đăng nhập"
+            />
             <Button
                 type="submit"
                 fullWidth

@@ -22,7 +22,7 @@ export function CategoryBar({ categories }) {
         borderTop: "1px solid #E7EBF0",
         borderBottom: "1px solid #E7EBF0",
         backgroundColor: "white",
-        padding: 0,
+        px: 2,
         boxShadow: "none",
         width: "100%",
       }}

@@ -111,7 +111,9 @@ export default function signUp() {
             </form>
             <Grid container justifyContent="center">
               <Grid item>
-                Đã có tài khoản? <Link href="/login" variant="body2">Đăng nhập</Link>
+                <Link href="/login" variant="body2">
+                  Đã có tài khoản? Đăng nhập
+                </Link>
               </Grid>
             </Grid>
           </div>

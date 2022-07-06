@@ -1,11 +1,10 @@
 
-import { Box, Button, Checkbox, FormControlLabel, Grid, MenuItem, TextField, Typography, Link } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import * as yup from 'yup';
 import Image from 'next/image'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
 
 export default function FormRegistration({ formik, dob, setDob, handleAvatar, avatar }) {
 
@@ -143,8 +142,9 @@ export default function FormRegistration({ formik, dob, setDob, handleAvatar, av
                     <Grid item xs={12}>
                         <FormControlLabel
                             control={<Checkbox value="allowExtraEmails" color="primary" />}
+                            label="Tôi muốn nhận các cập nhật mới qua email"
+                            //I want to receive inspiration, marketing promotions and updates via email.
                         />
-                        Tôi đồng ý với các<Link href="/"> điều khoản</Link> của trang web.
                     </Grid>
 
                 </Grid>

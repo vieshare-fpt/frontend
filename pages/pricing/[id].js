@@ -5,7 +5,7 @@ import SubcriptionCard from 'src/components/subcription/SubcriptionCard'
 
 export default function paySuccess() {
   return (
-    <Container maxWidth="sm" component="main" sx={{ pt: 4, pb: 6 }}>
+    <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 4, pb: 6 }}>
         <Typography
           component="h1"
           variant="h2"
