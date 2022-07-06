@@ -234,11 +234,7 @@ export function Navigation({ children }) {
       <CssBaseline />
       <AppBar position="fixed" sx={styles.appBar}>
 
-        <Toolbar
-          variant="dense"
-          disableGutters
-          sx={{ px: "14px", height: "64px" }}
-        >
+        <Toolbar variant="dense" sx={{ px: "14px", height: "64px" }}>
           <ToolBarDesktop
             onSubmit={handleSubmit}
             onClick={handleDrawer}
