@@ -90,6 +90,7 @@ export function Navigation({ children }) {
   }
 
   if (user?.roles.includes("Writer")) {
+    localStorage.setItem("authorID", user.id)
     result = pages.filter((page) => page.key !== 1);
   }
   const access = (
@@ -232,6 +233,7 @@ export function Navigation({ children }) {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" sx={styles.appBar}>
+
         <Toolbar
           variant="dense"
           disableGutters
