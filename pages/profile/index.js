@@ -4,12 +4,13 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { Avatar, CardHeader, Container, Grid } from '@mui/material';
+import { Avatar, CardHeader, Container, Grid, IconButton, Tooltip } from '@mui/material';
 import InfomationTab from 'src/components/profile/components/InfomationTab';
 import SecurityTab from 'src/components/profile/components/SecurityTab';
+import EditIcon from '@mui/icons-material/Edit';
 import { useDispatch, useSelector } from "react-redux";
 import { infoUserApi } from "src/services/infoUserApi";
-import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
+import { getUserInfoFullFalse, setUserInfoSuccess } from "src/stores/userSlice";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
 import * as yup from 'yup';
@@ -22,6 +23,8 @@ import {
     MIN_SYMBOLS, PASSWORD_CONFIRM_FAILED, ENTER_NEW_PASSWORD_VALIDATION, NEW_PASSWORD_REQUIRED, CONFIRM_NEW_PASSWORD_VALIDATION
 } from 'src/locales/errors'
 import Loader from "src/components/common/Loader";
+import EditAvatar from "src/components/profile/components/EditAvatar";
+import { ReaderLayout } from "src/components/layouts";
 
 
 YupPassword(yup)
@@ -63,14 +66,20 @@ const securityValidationSchema = yup.object({
 
 export default function Profile() {
     const [value, setValue] = React.useState('infomation');
-
+    const [openEditAvatar, setOpenEditAvatar] = React.useState(false);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
+    const handleOpenEditAvatar = () => {
+        setOpenEditAvatar(true);
+    }
     const dispatch = useDispatch();
+    const checkUser = useSelector(
+        (state) => state.user
+    );
+    console.log('checkUser : ', checkUser);
     const user = useSelector(
-        (state) => state.persistedReducer.user.currentUserInfoFull.userInfo
+        (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
     );
 
     useEffect(() => {
@@ -82,7 +91,7 @@ export default function Profile() {
                         dispatch(setUserInfoSuccess(response.data));
                     })
                     .catch((error) => {
-                        dispatch(setUserInfoFailed());
+                        dispatch(getUserInfoFullFalse());
                     });
             })();
     });
@@ -90,11 +99,11 @@ export default function Profile() {
     const formikInfomation = useFormik({
         enableReinitialize: true,
         initialErrors: {
-            name: '',
-            gender: '',
-            phone: '',
-            email: '',
-            dob: '',
+            name: ' ',
+            gender: ' ',
+            phone: ' ',
+            email: ' ',
+            dob: ' ',
         },
         initialValues: {
             name: user?.name,
@@ -141,18 +150,27 @@ export default function Profile() {
     return (
         <>
             <ToastContainer />
-            <Container sx={{ mt: 12 }}>
+            <Container sx={{ mt: 6 }}>
                 <CardHeader
                     avatar={
-                        <Avatar aria-label="recipe" sx={{ width: 64, height: 64 }} src={user?.avatar}>
+                        <>
+                            <Tooltip title="Nhấp 2 lần để chỉnh sửa ảnh đại diện">
+                                <Avatar onDoubleClick={handleOpenEditAvatar} aria-label="recipe" sx={{ width: 100, height: 100, cursor: "pointer" }} src={user?.avatar}>
 
-                        </Avatar>
+                                </Avatar>
+                            </Tooltip>
+
+
+                        </>
+
+
                     }
                     title={user?.name}
                     titleTypographyProps={{ variant: 'h4' }}
                     subheader={user?.email}
                     subheaderTypographyProps={{ variant: 'body1' }}
                 />
+
                 <Box sx={{ width: '100%' }}>
                     <TabContext value={value}>
                         <Box>
@@ -170,7 +188,8 @@ export default function Profile() {
                     </TabContext>
                 </Box>
             </Container>
+            <EditAvatar open={openEditAvatar} oldAvatar={user?.avatar} handleEditAvatar={(value) => { setOpenEditAvatar(value) }} />
         </>
     );
 }
-
+Profile.getLayout= ReaderLayout;
