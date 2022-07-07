@@ -10,4 +10,8 @@ export const postApi = {
     const url = "/posts/" + id;
     return axiosClient.get(url);
   },
+  getPostsRelated: (id, params) => {
+    const url = "/posts/related/" + id;
+    return axiosClient.get(url, { params });
+  },
 };
