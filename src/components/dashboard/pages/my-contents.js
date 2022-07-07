@@ -7,7 +7,7 @@ import { Box, TextField, Link, Typography, Toolbar, Button, IconButton } from '@
 import { DataGrid } from '@mui/x-data-grid'
 import { postApi } from 'src/services';
 import { useDispatch, useSelector } from "react-redux";
-
+import { useRouter } from 'next/router';
 
 const columns = [
     { field: 'id', headerName: '#', width: 50, marginLeft: 20, description: 'Thứ tự bài viết' },
@@ -130,6 +130,7 @@ const handleRowClick = (param, event) => {
 // ----------------------------------------------------------------
 
 export default function MyContents(props) {
+    const navigate = useRouter()
     // ----------------------------------------------------------------
     //Get author Id from localStorage
     const dispatch = useDispatch();
@@ -177,6 +178,10 @@ export default function MyContents(props) {
                 >
                     Bài viết của tôi
                 </Typography>
+
+                <Button onClick={() => {
+                    navigate.push('/dashboard/new-content')
+                }}>Bài viết mới</Button>
             </Toolbar>
             <Box sx={{ 
                 height:650, width: '100%',
