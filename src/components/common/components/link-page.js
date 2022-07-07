@@ -2,7 +2,7 @@ import AttributionIcon from "@mui/icons-material/Attribution";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { green } from "@mui/material/colors";
 import HistoryIcon from "@mui/icons-material/History";
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 export const pages = [
   {
     key: 0,
@@ -32,18 +32,14 @@ export const pages = [
 
 export const devTeamPage = [
   {
-    key: 0,
-    name: "Góp ý",
-    url: "/",
-  },
-  {
     key: 1,
     name: "Liên hệ",
-    url: "/",
+    url: "/contact",
   },
   {
-    key: 3,
+    key: 2,
     name: "Về chúng tôi",
     url: "/about",
   },
+
 ];

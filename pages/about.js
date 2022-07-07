@@ -1,18 +1,8 @@
 import React from "react";
-import { ReaderLayout } from "src/components/layouts";
-import styles from "src/styles/About.module.css";
+import { AboutLayout, ContactLayout } from "src/components/layouts";
+import { convert } from "src/utils/ConvertClassName";
 
 export default function About() {
-  function convert(props) {
-    const myArray = props.split(" ");
-    let total = "";
-    // Add each number to the total
-    for (var i = 0; i < myArray.length; i++) {
-      total += `${styles[`${myArray[i]}`]} `;
-    }
-    // Return to the total
-    return total;
-  }
   return (
     <>
       <header className={convert("py-5")}>
@@ -96,7 +86,7 @@ export default function About() {
           </div>
           <div
             className={convert(
-              "row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center"
+              "row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-5 justify-content-center"
             )}
           >
             <div className={convert("col mb-5 mb-5 mb-xl-0")}>
@@ -119,8 +109,8 @@ export default function About() {
                   src="https://dummyimage.com/150x150/ced4da/6c757d"
                   alt="..."
                 />
-                <h5 className={convert("fw-bolder")}>Arden Vasek</h5>
-                <div className={convert("fst-italic text-muted")}>CFO</div>
+                <h5 className={convert("fw-bolder")}>Lương Nguyễn Hải Huy</h5>
+                <div className={convert("fst-italic text-muted")}>Front-end Deverloper</div>
               </div>
             </div>
             <div className={convert("col mb-5 mb-5 mb-sm-0")}>
@@ -136,6 +126,17 @@ export default function About() {
                 </div>
               </div>
             </div>
+            <div className={convert("col mb-5 mb-5 mb-sm-0")}>
+              <div className={convert("text-center")}>
+                <img
+                  className={convert("img-fluid rounded-circle mb-4 px-4")}
+                  src="https://dummyimage.com/150x150/ced4da/6c757d"
+                  alt="..."
+                />
+                <h5 className={convert("fw-bolder")}>Malvina Cilla</h5>
+                <div className={convert("fst-italic text-muted")}>CTO</div>
+              </div>
+            </div>
             <div className={convert("col mb-5")}>
               <div className={convert("text-center")}>
                 <img
@@ -147,32 +148,11 @@ export default function About() {
                 <div className={convert("fst-italic text-muted")}>CTO</div>
               </div>
             </div>
+            
           </div>
         </div>
       </section>
-      <footer className={convert("bg-dark py-4 mt-auto")}>
-        <div className={convert("container px-5")}>
-          <div
-            className={convert(
-              "row align-items-center justify-content-between flex-column flex-sm-row"
-            )}
-          >
-            <div className={convert("col-auto")}>
-              <div className={convert("small m-0 text-white")}>
-                Copyright &copy; Your Website 2022
-              </div>
-            </div>
-            <div className={convert("col-auto")}>
-              <a href="#!">Privacy</a>
-              <span className={convert("text-white mx-1")}>&middot;</span>
-              <a href="#!">Terms</a>
-              <span className={convert("text-white mx-1")}>&middot;</span>
-              <a href="#!">Contact</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </>
   );
 }
-About.getLayout = ReaderLayout;
+About.getLayout = AboutLayout;

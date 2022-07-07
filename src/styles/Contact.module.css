@@ -1,0 +1,25 @@
+.flexCenter {
+    display: flex;
+    justify-content:center
+}
+
+.text {
+    text-align: center;
+    padding: 0 50px
+}
+
+.paddingTop{
+    padding: 110px 0
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (min-width: 1600px) {
+    .container{
+      margin-top: 60px
+      }
+  }
