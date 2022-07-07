@@ -15,7 +15,7 @@ import HeadersTab from './HeaderTab';
 import { profileAPI } from 'src/services/profileApi';
 import { infoUserApi } from 'src/services';
 import { useDispatch } from 'react-redux';
-import { setUserInfoFailed, setUserInfoSuccess } from 'src/stores/userSlice';
+import { getUserInfoFullFalse, setUserInfoSuccess } from 'src/stores/userSlice';
 import { toast } from 'react-toastify';
 
 export default function InfomationTab({ formik, profile }) {
@@ -65,7 +65,7 @@ export default function InfomationTab({ formik, profile }) {
                     dispatch(setUserInfoSuccess(response.data));
                 })
                 .catch((error) => {
-                    dispatch(setUserInfoFailed());
+                    dispatch(getUserInfoFullFalse());
                 });
 
         toast.success("Success", {
