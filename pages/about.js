@@ -1,18 +1,8 @@
 import React from "react";
-import { ReaderLayout } from "src/components/layouts";
-import styles from "src/styles/About.module.css";
+import { AboutLayout, ContactLayout } from "src/components/layouts";
+import { convert } from "src/utils/ConvertClassName";
 
 export default function About() {
-  function convert(props) {
-    const myArray = props.split(" ");
-    let total = "";
-    // Add each number to the total
-    for (var i = 0; i < myArray.length; i++) {
-      total += `${styles[`${myArray[i]}`]} `;
-    }
-    // Return to the total
-    return total;
-  }
   return (
     <>
       <header className={convert("py-5")}>
@@ -165,4 +155,4 @@ export default function About() {
     </>
   );
 }
-About.getLayout = ReaderLayout;
+About.getLayout = AboutLayout;

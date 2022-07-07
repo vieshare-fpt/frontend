@@ -50,11 +50,11 @@ export function Navigation({ children }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const asPath =
-    router.asPath.includes(url.post) || router.asPath.includes(url.about);
+    router.asPath.includes(url.post) ||
+    devTeamPage.some((element) => element.url === router.asPath);
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
-
   const handleSubmit = (e) => {
     console.log("a");
   };
