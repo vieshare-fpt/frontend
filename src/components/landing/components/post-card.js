@@ -25,14 +25,12 @@ export function PostCards({ note }) {
 
         <div className={styles.description}>
           <Stack direction="row" spacing={1} sx={{ mb:2 }}>
-            <Link href={note.category.id}>
               <Typography
                 variant="h2"
                 // component="h3"
               >
                 Thể loại | {note.category.name}
               </Typography>
-            </Link>
             {note.type === "Premium" ? (
               <span
                 style={{
@@ -89,7 +87,7 @@ export function PostCards({ note }) {
               margin: "10px 0 10px 0",
             }}
           />
-          <p>{note.description}</p>
+          <p style={{height: "40px"}}>{note.description}</p>
           <div className={styles["read-more"]}>
             <Link href={`/post/${note.id}`}>
               <a>Đọc thêm</a>

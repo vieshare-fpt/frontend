@@ -96,7 +96,7 @@ export default function About() {
           </div>
           <div
             className={convert(
-              "row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center"
+              "row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-5 justify-content-center"
             )}
           >
             <div className={convert("col mb-5 mb-5 mb-xl-0")}>
@@ -119,8 +119,8 @@ export default function About() {
                   src="https://dummyimage.com/150x150/ced4da/6c757d"
                   alt="..."
                 />
-                <h5 className={convert("fw-bolder")}>Arden Vasek</h5>
-                <div className={convert("fst-italic text-muted")}>CFO</div>
+                <h5 className={convert("fw-bolder")}>Lương Nguyễn Hải Huy</h5>
+                <div className={convert("fst-italic text-muted")}>Front-end Deverloper</div>
               </div>
             </div>
             <div className={convert("col mb-5 mb-5 mb-sm-0")}>
@@ -136,6 +136,17 @@ export default function About() {
                 </div>
               </div>
             </div>
+            <div className={convert("col mb-5 mb-5 mb-sm-0")}>
+              <div className={convert("text-center")}>
+                <img
+                  className={convert("img-fluid rounded-circle mb-4 px-4")}
+                  src="https://dummyimage.com/150x150/ced4da/6c757d"
+                  alt="..."
+                />
+                <h5 className={convert("fw-bolder")}>Malvina Cilla</h5>
+                <div className={convert("fst-italic text-muted")}>CTO</div>
+              </div>
+            </div>
             <div className={convert("col mb-5")}>
               <div className={convert("text-center")}>
                 <img
@@ -147,6 +158,7 @@ export default function About() {
                 <div className={convert("fst-italic text-muted")}>CTO</div>
               </div>
             </div>
+            
           </div>
         </div>
       </section>
@@ -159,7 +171,7 @@ export default function About() {
           >
             <div className={convert("col-auto")}>
               <div className={convert("small m-0 text-white")}>
-                Copyright &copy; Your Website 2022
+                Copyright &copy; VieShare 2022
               </div>
             </div>
             <div className={convert("col-auto")}>
