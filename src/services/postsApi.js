@@ -1,5 +1,5 @@
 import axiosClient from "./axiosClient";
-import { getCookieData } from "./cookies";
+
 
 export const postApi = {
   getPosts: (params) => {
@@ -14,4 +14,8 @@ export const postApi = {
     const url = "/posts/related/" + id;
     return axiosClient.get(url, { params });
   },
+  removePost: (id) => {
+    const url = "/posts/" + id;
+    return axiosClient.delete(url, { id })
+  }
 };

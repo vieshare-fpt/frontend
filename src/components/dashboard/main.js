@@ -30,7 +30,7 @@ export default function ResponsiveDrawer(props) {
   const subPages = [
     { name: 'Bài viết của tôi', icon: TextSnippetIcon, link: '/dashboard/my-contents' },
     { name: 'Thu nhập', icon: AttachMoneyIcon, link: '/dashboard/income' },
-    { name: 'Bản nháp', icon: DesignServicesIcon, link: '/dashboard/drafts' },
+    { name: 'Bản nháp', icon: DesignServicesIcon, link: '/dashboard/draft-contents' },
     { name: 'Hồ sơ', icon: AccountBoxIcon, link: '/dashboard/writer-info' }
   ]
 

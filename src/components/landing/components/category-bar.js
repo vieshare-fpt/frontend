@@ -32,7 +32,7 @@ export function CategoryBar({ categories }) {
     infinite: false,
     speed: 500,
     slidesToShow: 10,
-    slidesToScroll: 4,
+    slidesToScroll: 2,
     initialSlide: 0,
     variableWidth: true,
     nextArrow: <CustomArrow />,
@@ -41,17 +41,15 @@ export function CategoryBar({ categories }) {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 5,
           slidesToScroll: 2,
-          initialSlide: 0,
         },
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 4,
-          slidesToScroll: 3,
-          initialSlide: 0,
+          slidesToShow: 1,
+          slidesToScroll: 0,
 
         },
       },
@@ -63,7 +61,7 @@ export function CategoryBar({ categories }) {
         sx={{
           borderTop: "1px solid #E7EBF0",
           borderBottom: "1px solid #E7EBF0",
-          backgroundColor: "white",
+          backgroundColor: "rgba(255, 255, 255, 0.98)",
           px: 2,
           boxShadow: "none",
           width: "100%",

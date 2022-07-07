@@ -14,14 +14,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import Link from "next/link";
 import { devTeamPage, styles, ToolBarDesktop } from "./components";
 import { UserPopup } from "./components";
-import {
-  Button,
-  IconButton,
-  InputAdornment,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, IconButton, InputAdornment, Stack, TextField, Typography, } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { ToolBarMobile } from "./components";
 import { DrawerMobile } from "./components";
@@ -50,7 +43,8 @@ export function Navigation({ children }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const asPath =
-    router.asPath.includes(url.post) || router.asPath.includes(url.about);
+    router.asPath.includes(url.post) ||
+    devTeamPage.some((element) => element.url === router.asPath);
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
@@ -95,7 +89,6 @@ export function Navigation({ children }) {
   }
 
   if (user?.roles.includes("Writer")) {
-    localStorage.setItem("authorID", user.id);
     result = pages.filter((page) => page.key !== 1);
   }
   const access = (

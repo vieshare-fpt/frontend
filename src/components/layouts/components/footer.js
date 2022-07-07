@@ -1,59 +1,36 @@
-import {
-  AppBar,
-  Box,
-  styled,
-  Toolbar,
-  Typography,
-  Container,
-  Stack,
-} from "@mui/material";
 import Link from "next/link";
 import React from "react";
+import { convert } from "src/utils/ConvertClassName";
 
-const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
-const style = {
-  fontSize: "12px",
-  color: "#2f9f32",
-};
 export function Footer() {
   return (
-    <Box component="main">
-      <Offset>
-        <AppBar
-          position="relative"
-          elevation={0}
-          color="primary"
-          sx={{
-            top: "auto",
-            bottom: 0,
-            backgroundColor: "white",
-            height: "50px",
-          }}
+    <footer className={convert("bg-dark py-4 mt-auto bg-white")}>
+      <div className={convert("container px-5")}>
+        <div
+          className={convert(
+            "row align-items-center justify-content-between flex-column flex-sm-row"
+          )}
         >
-          <Container maxWidth="" disableGutters>
-            <Toolbar sx={{ borderTop: "1px solid #f3f5f8" }}>
-              <Typography
-                sx={{
-                  color: "rgb(62, 80, 96)",
-                  fontSize: "12px",
-                }}
-              >
-                @Copyright © 2022 Team 1.
-              </Typography>
-              <Box sx={{ flexGrow: 1 }} />
-              <Stack direction="row" spacing={1}>
-                <Link href="/">
-                  <a style={style}>Privacy Policy</a>
-                </Link>
-                <Link href="/">
-                  <a style={style}> Terms & Conditions</a>
-                </Link>
-          
-              </Stack>
-            </Toolbar>
-          </Container>
-        </AppBar>
-      </Offset>
-    </Box>
+          <div className={convert("col-auto")}>
+            <div className={convert("small m-0 text-white")}>
+              Copyright &copy; VieShare 2022
+            </div>
+          </div>
+          <div className={convert("col-auto")}>
+            <Link href="/">
+              <a>Privacy</a>
+            </Link>
+            <span className={convert("text-white mx-1")}>&middot;</span>
+            <Link href="/">
+              <a href="#!">Terms</a>
+            </Link>
+            <span className={convert("text-white mx-1")}>&middot;</span>
+            <Link href="/">
+              <a href="#!">Contact</a>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }

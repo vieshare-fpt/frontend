@@ -66,7 +66,7 @@ export const styles = {
     [`&:hover fieldset`]: {},
   },
   appBar: {
-    background: "white",
+    background: "rgba(255, 255, 255, 0.98)",
     boxShadow: "none",
     // borderBottom: "1px solid #E7EBF0",
   },
