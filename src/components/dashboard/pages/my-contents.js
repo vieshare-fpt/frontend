@@ -141,7 +141,7 @@ export default function MyContents(props) {
     // console.log(props);
     const { post } = props.props.props;
     // console.log(post);
-    const { postStatus } = props.props.props;
+    const { postStatus, title } = props.props.props;
     var listPosts = [];
     for(let i = 0; i < post.length; i++) {
         if(post[i].author.id == authorID && post[i].status == postStatus && post[i].status != 'Delete') {
@@ -176,7 +176,7 @@ export default function MyContents(props) {
                     component="div"
                     sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                 >
-                    Bài viết của tôi
+                    {title}
                 </Typography>
 
                 <Button onClick={() => {

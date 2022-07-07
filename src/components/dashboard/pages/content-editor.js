@@ -64,11 +64,6 @@ export default function ContentEditor(props) {
                 image: imageHandler
             }
         },
-        clipboard: {
-            // toggle to add extra line breaks when pasting HTML:
-            matchVisual: false,
-        },
-
     }
 
     const formats = [
