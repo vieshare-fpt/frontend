@@ -6,6 +6,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Box, TextField, Link, Typography, Toolbar, Button, IconButton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid'
 import { postApi } from 'src/services';
+import { useDispatch, useSelector } from "react-redux";
+
 
 const columns = [
     { field: 'id', headerName: '#', width: 50, marginLeft: 20, description: 'Thứ tự bài viết' },
@@ -124,26 +126,17 @@ const handleRowClick = (param, event) => {
     event.stopPropagation();
 };
 // End handle post Operations
-// ----------------------------------------------------------------
 
-//Demo post
-const row = [
-    { id:1, title: 'Về nhà ăn cơm mẹ nấu', description: 'Ăn sơn hào muôn phương không bằng về ăn cơm mẹ nấu', category: 'Blog'},
-    { id:2, title: 'Biết địch biết ta, trăm trận trăm thắng', description: 'Hãy tìm hiểu đối phương trước khi đối đầu trực diện', category: 'Chiến thuật'},
-]
-
-//Get author Id from localStorage
-var authorID = null;
-if (typeof window !== 'undefined') {
-    authorID = localStorage.getItem('authorID');
-    
-}
-else{
-    console.log("Error get author ID");
-}
 // ----------------------------------------------------------------
 
 export default function MyContents(props) {
+    // ----------------------------------------------------------------
+    //Get author Id from localStorage
+    const dispatch = useDispatch();
+    const user = useSelector(
+    (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
+    );
+    const authorID = user.id;
     // console.log(props);
     const { post } = props.props.props;
     // console.log(post);
@@ -151,7 +144,13 @@ export default function MyContents(props) {
     var listPosts = [];
     for(let i = 0; i < post.length; i++) {
         if(post[i].author.id == authorID && post[i].status == postStatus && post[i].status != 'Delete') {
-            const postObj = {id:(i), postId: post[i].id, title: post[i].title, description: post[i].description, category: post[i].category.name};
+            const postObj = {   
+                id:(i), 
+                postId: post[i].id, 
+                title: post[i].title, 
+                description: post[i].description, 
+                category: post[i].category.name
+            };
             listPosts.push(postObj);
         }
     }
