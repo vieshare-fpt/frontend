@@ -739,13 +739,6 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
-"@types/quill@1.3.10":
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/@types/quill/-/quill-1.3.10.tgz#dc1f7b6587f7ee94bdf5291bc92289f6f0497613"
-  integrity sha512-IhW3fPW+bkt9MLNlycw8u8fWb7oO7W5URC9MfZYHBlA24rex9rs23D5DETChu1zvgVdc5ka64ICjJOgQMr6Shw==
-  dependencies:
-    parchment "^1.1.2"
-
 "@types/react-dom@<18.0.0":
   version "17.0.17"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.17.tgz#2e3743277a793a96a99f1bf87614598289da68a1"
@@ -1160,14 +1153,6 @@ cosmiconfig@^6.0.0:
     parse-json "^5.0.0"
     path-type "^4.0.0"
     yaml "^1.7.2"
-
-create-react-class@^15.6.0:
-  version "15.7.0"
-  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.7.0.tgz#7499d7ca2e69bb51d13faf59bd04f0c65a1d6c1e"
-  integrity sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==
-  dependencies:
-    loose-envify "^1.3.1"
-    object-assign "^4.1.1"
 
 cross-spawn@^7.0.2:
   version "7.0.3"
@@ -2182,12 +2167,12 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
-lodash@^4.17.11, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.17.4:
+lodash@^4.17.11, lodash@^4.17.15, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
-loose-envify@^1.1.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
+loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -2417,7 +2402,7 @@ p-try@^1.0.0:
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-1.0.0.tgz#cbc79cdbaf8fd4228e13f621f2b1a237c1b207b3"
   integrity sha512-U1etNYuMJoIz3ZXSrrySFjsXQTWOx2/jdi86L+2pRvph/qMKL6sbcCYdH23fqsbm8TH2Gn0OybpT4eSFlCVHww==
 
-parchment@^1.1.2, parchment@^1.1.4:
+parchment@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/parchment/-/parchment-1.1.4.tgz#aeded7ab938fe921d4c34bc339ce1168bc2ffde5"
   integrity sha512-J5FBQt/pM2inLzg4hEWmzQx/8h8D0CiDxaG3vyp9rKrQRSDgBlhjdP5jQGgosEajXPSQouXGHOmVdgo7QmJuOg==
@@ -2512,7 +2497,7 @@ pretty-format@^28.0.0, pretty-format@^28.1.1:
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
 
-prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -2557,11 +2542,6 @@ quill@^1.3.7:
     parchment "^1.1.4"
     quill-delta "^3.6.2"
 
-react-dom-factories@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-dom-factories/-/react-dom-factories-1.0.2.tgz#eb7705c4db36fb501b3aa38ff759616aa0ff96e0"
-  integrity sha512-Bmic2N3oKji7vw9qjDr2dmwHvOATbFSnKy7EH0uT/qjvzIUsiXp6Yquk72LJ3WfMtRnq3ujXMMo7GsJeLPfFWw==
-
 react-dom@18.1.0:
   version "18.1.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.1.0.tgz#7f6dd84b706408adde05e1df575b3a024d7e8a2f"
@@ -2602,17 +2582,10 @@ react-loading@^2.0.3:
   resolved "https://registry.yarnpkg.com/react-loading/-/react-loading-2.0.3.tgz#e8138fb0c3e4674e481b320802ac7048ae14ffb9"
   integrity sha512-Vdqy79zq+bpeWJqC+xjltUjuGApyoItPgL0vgVfcJHhqwU7bAMKzysfGW/ADu6i0z0JiOCRJjo+IkFNkRNbA3A==
 
-react-quill@^1.3.5:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/react-quill/-/react-quill-1.3.5.tgz#8c4ad759da03365b17c79c6c52afa9772259844e"
-  integrity sha512-/W/rNCW+6QpGz8yQ9tFK5Ka/h/No1RqrcOOvCIOR092OiKzRFlU2xbPEwiP3Wgy/Dx13pi1YhjReDMX/5uotJg==
-  dependencies:
-    "@types/quill" "1.3.10"
-    create-react-class "^15.6.0"
-    lodash "^4.17.4"
-    prop-types "^15.5.10"
-    quill "^1.3.7"
-    react-dom-factories "^1.0.0"
+react-quilljs@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-quilljs/-/react-quilljs-1.3.0.tgz#defff00ef86577c548bca7f5b1a615134c9be505"
+  integrity sha512-tK8wHUkyrmDQ1AqetPSAuGrsaoct6pTt80HsNKkH3rYSI8UQD2QnEgcn2hiv9goHNWt2kyl8M4Swmpw6LOIR6w==
 
 react-redux@^7.2.0:
   version "7.2.8"

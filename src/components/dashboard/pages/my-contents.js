@@ -40,7 +40,7 @@ const columns = [
         description: 'Xem chi tiết bài viết',
         editable: false,
         sortable: false,
-        width: 50,
+        width: 80,
         renderCell: (cellValue) => {
             return (
                 <Button 
@@ -59,7 +59,7 @@ const columns = [
         description: 'Chỉnh sửa bài viết',
         editable: false,
         sortable: false,
-        width: 50,
+        width: 80,
         disableClickEventBubbling: true,
         renderCell: (cellValue) => {
             return (
@@ -80,7 +80,7 @@ const columns = [
         description: 'Xóa bài viết',
         editable: false,
         sortable: false,
-        width: 50,
+        width: 80,
         disableClickEventBubbling: true,
         renderCell: (cellValue) => {
             return (
@@ -102,7 +102,7 @@ const handleRead = (event, cellValue) => {
 }
 
 const handleEdit = (event, cellValue) => {
-    console.log("Edit post: " + cellValue.row.postId);
+    location.href = (`/dashboard/edit-content/${cellValue.row.postId}`);
 }
 
 // ----------------------------------------------------------------
@@ -114,7 +114,9 @@ const handleRemove = (event, cellValue) => {
         (async () => {
             await postApi.removePost(id);
         })();
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
     }
 }
 
@@ -187,6 +189,7 @@ export default function MyContents(props) {
                 height:650, width: '100%',
             }}>
                 <DataGrid
+                    disableSelectionOnClick
                     rows={listPosts}
                     columns={columns}
                     pageSize={100}
