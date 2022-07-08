@@ -5,9 +5,7 @@ import React, { useEffect, useState } from "react";
 import { PostCards } from "src/components/common";
 import { ReaderLayout } from "src/components/layouts";
 import { postApi } from "src/services";
-function isHasMore(data) {
-  return data.metaData.page === data.metaData.total_pages;
-}
+
 export default function Results() {
   const [data, setData] = useState([]);
   const router = useRouter();
@@ -27,13 +25,17 @@ export default function Results() {
 
   return (
     <>
-    <Toolbar/>
+      <Toolbar />
       <Container maxWidth="xl">
-      <Divider textAlign="center"><Typography variant="h2" sx={{fontSize:30}}>Kết quả</Typography></Divider>
+        <Divider textAlign="center">
+          <Typography variant="h2" sx={{ fontSize: 30 }}>
+            Kết quả: {searchValue}
+          </Typography>
+        </Divider>
 
         <Grid container>
           {data.map((post) => (
-            <Grid item xs={12} md={6} key={post.id} sx={{px:2}} >
+            <Grid item xs={12} md={6} key={post.id} sx={{ px: 2 }}>
               <PostCards note={post} />
             </Grid>
           ))}

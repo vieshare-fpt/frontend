@@ -16,7 +16,6 @@ import Logo from "./logo";
 export function ToolBarDesktop(props) {
   const { onClick, access, onSubmit, router, onChange, value } = props;
 
-  
   const searchForm = (
     <form onSubmit={onSubmit} style={{ marginRight: "10px" }}>
       <Search>
@@ -67,7 +66,7 @@ export function ToolBarDesktop(props) {
         </IconButton>
         <Logo />
         <Divider
-          sx={{ ml: 3, mr: 2 }}
+          sx={{ ml: "34px", mr: 2 }}
           orientation="vertical"
           variant="middle"
           flexItem

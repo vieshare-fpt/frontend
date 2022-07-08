@@ -42,18 +42,21 @@ export function Navigation({ children }) {
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
-  const searchValue = useSelector((state) => state.post?.data.currentSearchValue)
+  const searchValue = useSelector(
+    (state) => state.post?.data.currentSearchValue
+  );
   const [openDrawerMobile, setOpenDrawerMobile] = useState(false);
   const [openDrawerTemporary, setOpenDrawerTemporary] = useState(false);
   const [openMobileSearchBox, setOpenMobileSearchBox] = useState(false);
   const [openDrawerContact, setOpenDrawerContact] = useState(false);
-console.log();
-  
+  console.log();
+
   const handleChange = (e) => {
     dispatch(setCurrentSearchValue(e.target.value));
   };
   const handleSubmit = (e) => {
     if (searchValue.payload !== "") {
+      setOpenMobileSearchBox(false);
       router.push(`/results?search=${searchValue.payload}`);
     }
     e.preventDefault();
@@ -68,7 +71,6 @@ console.log();
   const asPath =
     router.asPath.includes(url.post) ||
     devTeamPage.some((element) => element.url === router.asPath);
-
 
   //close drawer when clicked a button of drawer
   const handleClick = (url) => {
@@ -219,19 +221,20 @@ console.log();
       <Divider />
       <List sx={{ textAlign: "center" }}>
         <form onSubmit={handleSubmit}>
-          <TextField
-            color="success"
-            id=""
-            placeholder="Search"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon color="success" />
-                </InputAdornment>
-              ),
-            }}
-            sx={styles.drawerSearchMobile}
-          />
+          <Stack direction="row" sx={{px:2}}>
+            <Button type="submit" variant="contained" color="success" sx={{boxShadow: "none", borderRadius: "6px 0 0 6px"}}>
+              <SearchIcon />
+            </Button>
+            <TextField
+              color="success"
+              placeholder="Search"
+              InputProps={{
+                value: searchValue.payload,
+                onChange: handleChange,
+              }}
+              sx={styles.drawerSearchMobile}
+            />
+          </Stack>
         </form>
       </List>
     </div>
@@ -258,7 +261,11 @@ console.log();
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" sx={styles.appBar}>
-        <Toolbar variant="dense" sx={{ px: "14px", height: "64px" }}>
+        <Toolbar
+          variant="dense"
+          disableGutters
+          sx={{ px: "14px", height: "64px" }}
+        >
           <ToolBarDesktop
             onSubmit={handleSubmit}
             onChange={handleChange}
