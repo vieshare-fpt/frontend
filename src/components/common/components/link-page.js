@@ -14,7 +14,7 @@ export const pages = [
     key: 1,
     name: "Trở thành tác giả",
     icon: <AttributionIcon sx={{ color: green[700] }} />,
-    url: "/content-writer",
+    url: "/register-writer",
   },
   {
     key: 2,

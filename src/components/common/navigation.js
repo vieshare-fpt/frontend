@@ -167,7 +167,7 @@ export function Navigation({ children }) {
               </Link>
             </span>
             <br />
-            @Copyright © 2022 Team 1.
+            @Copyright © 2022 VieShare.
           </Typography>
         </ListItem>
       </List>

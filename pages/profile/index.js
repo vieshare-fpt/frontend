@@ -10,7 +10,7 @@ import SecurityTab from 'src/components/profile/components/SecurityTab';
 import EditIcon from '@mui/icons-material/Edit';
 import { useDispatch, useSelector } from "react-redux";
 import { infoUserApi } from "src/services/infoUserApi";
-import { getUserInfoFullFalse, setUserInfoSuccess } from "src/stores/userSlice";
+import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
 import * as yup from 'yup';
@@ -91,7 +91,7 @@ export default function Profile() {
                         dispatch(setUserInfoSuccess(response.data));
                     })
                     .catch((error) => {
-                        dispatch(getUserInfoFullFalse());
+                        dispatch(setUserInfoFailed());
                     });
             })();
     });
