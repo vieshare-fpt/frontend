@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import styles from "../../../styles/PostCard.module.css";
+import styles from "src/styles/PostCard.module.css";
 import Typography from "@mui/material/Typography";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { Box, Tooltip } from "@mui/material";

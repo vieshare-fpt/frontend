@@ -1,11 +1,12 @@
-import { Box, CircularProgress, Grid } from "@mui/material";
+import { Box, CircularProgress, Divider, Grid } from "@mui/material";
 import { Container } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import style from "src/styles/Landing.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 import { postApi } from "src/services";
-import { PostCards, Progress } from "../components";
+import { Progress } from "../components";
+import { PostCards } from "src/components/common";
 
 
 export default function LandingPage({ props }) {
@@ -48,7 +49,6 @@ export default function LandingPage({ props }) {
   const fetchMoreData = async () => {
     await postApi
       .getPosts({
-        category_id: categoryId ? categoryId.currentCategory : "",
         status: "Publish",
         per_page: 12,
         page: page,
