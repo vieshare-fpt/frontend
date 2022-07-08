@@ -5,14 +5,15 @@ export const commentApi = {
   postComments: (params) => {
     const url = "/comments";
     console.log(params);
-    return axiosClient.post( url, params )
+
+    return axiosClient().post(url, params);
   },
   getComments: (id, params) => {
     const url = "/comments/post/" + id;
-    return axiosClient.get(url, { params })
+    return axiosClient().get(url, { params });
   },
   removeComments: (id) => {
     const url = "/comments/" + id;
-    return axiosClient.delete(url, id )
+    return axiosClient().delete(url, id);
   },
 };

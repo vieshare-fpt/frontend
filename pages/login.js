@@ -27,10 +27,10 @@ export default function LoginPage() {
   const [error, setError] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  function getInfoUser() {
+  function getInfoUser(token, refreshToken) {
     (async () => {
       await infoUserApi
-        .info()
+        .info(token, refreshToken)
         .then((response) => {
           dispatch(setUserInfoSuccess(response.data));
           router.push("/");
@@ -56,9 +56,11 @@ export default function LoginPage() {
         await accessApi
           .login(user)
           .then(function (response) {
-            setCookieData("token", response.data.token);
-            setCookieData("refreshToken", response.data.refreshToken);
-            getInfoUser();
+            const token = response.data.token;
+            const refreshToken = response.data.refreshToken;
+            setCookieData("token", token);
+            setCookieData("refreshToken", refreshToken);
+            getInfoUser(token, refreshToken);
           })
           .catch(function (error) {
             console.log(error.response.status); // 401
@@ -78,9 +80,11 @@ export default function LoginPage() {
       await accessApi
         .loginByGoogle(user)
         .then(function (response) {
-          setCookieData("token", response.data.token);
-          setCookieData("refreshToken", response.data.refreshToken);
-          getInfoUser();
+          const token = response.data.token;
+          const refreshToken = response.data.refreshToken;
+          setCookieData("token", token);
+          setCookieData("refreshToken", refreshToken);
+          getInfoUser(token, refreshToken);
         })
         .catch(function (error) {
           console.log(error.response.status); // 401

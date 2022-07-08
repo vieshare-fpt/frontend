@@ -77,10 +77,11 @@ export function UserPopup({ fullname, email, avatar, type }) {
 
   const handleLogout = () => {
     const refreshToken = getCookieData("refreshToken");
+    const token = getCookieData("token");
     dispatch(clearInfoStart());
     (async () => {
       await accessApi
-        .logout(refreshToken)
+        .logout(refreshToken, token)
         .then(function (response) {
           console.log(response);
           dispatch(clearInfoSuccess());
