@@ -53,7 +53,7 @@ export function ToolBarDesktop(props) {
           <MenuIcon color="success" />
         </IconButton>
         <Logo />
-        <Divider sx={{ml: 3}} orientation="vertical" variant="middle" flexItem />
+        <Divider sx={{ml: 3, mr: 2}} orientation="vertical" variant="middle" flexItem />
         {linkPage}
       </Box>
       <Box sx={{ flexGrow: { xs: "none", md: 2 } }} />

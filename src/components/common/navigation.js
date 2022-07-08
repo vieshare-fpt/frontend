@@ -44,7 +44,6 @@ export function Navigation({ children }) {
   const open = useSelector((state) => state.drawer.data?.open);
   let result = pages;
   const url = {
-    about: "/about",
     post: "/post/",
   };
   const dispatch = useDispatch();
