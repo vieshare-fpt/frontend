@@ -4,6 +4,7 @@ import userReducer from "src/stores/userSlice";
 import postReducer from "src/stores/postSlice";
 import categoryReducer from "src/stores/categorySlice";
 import drawerReducer from "src/stores/drawerSlice";
+import packageReducer from "src/stores/packageSlice";
 import {
   persistStore,
   persistReducer,
@@ -25,6 +26,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
+  
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -34,6 +36,7 @@ const store = configureStore({
     post: postReducer,
     category: categoryReducer,
     drawer: drawerReducer,
+    package: packageReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
