@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Box, TextField, Link, Typography, Toolbar, Button, IconButton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid'
 import { postApi } from 'src/services';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router';
 
 const columns = [
@@ -40,7 +40,7 @@ const columns = [
         description: 'Xem chi tiết bài viết',
         editable: false,
         sortable: false,
-        width: 50,
+        width: 80,
         renderCell: (cellValue) => {
             return (
                 <Button 
@@ -59,7 +59,7 @@ const columns = [
         description: 'Chỉnh sửa bài viết',
         editable: false,
         sortable: false,
-        width: 50,
+        width: 80,
         disableClickEventBubbling: true,
         renderCell: (cellValue) => {
             return (
@@ -80,7 +80,7 @@ const columns = [
         description: 'Xóa bài viết',
         editable: false,
         sortable: false,
-        width: 50,
+        width: 80,
         disableClickEventBubbling: true,
         renderCell: (cellValue) => {
             return (
@@ -102,7 +102,7 @@ const handleRead = (event, cellValue) => {
 }
 
 const handleEdit = (event, cellValue) => {
-    console.log("Edit post: " + cellValue.row.postId);
+    location.href = (`/dashboard/edit-content/${cellValue.row.postId}`);
 }
 
 // ----------------------------------------------------------------
@@ -114,7 +114,9 @@ const handleRemove = (event, cellValue) => {
         (async () => {
             await postApi.removePost(id);
         })();
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
     }
 }
 
@@ -131,9 +133,9 @@ const handleRowClick = (param, event) => {
 
 export default function MyContents(props) {
     const navigate = useRouter()
-    
     // ----------------------------------------------------------------
     //Get author Id from localStorage
+    const dispatch = useDispatch();
     const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
     );
@@ -141,7 +143,7 @@ export default function MyContents(props) {
     // console.log(props);
     const { post } = props.props.props;
     // console.log(post);
-    const { postStatus } = props.props.props;
+    const { postStatus, title } = props.props.props;
     var listPosts = [];
     for(let i = 0; i < post.length; i++) {
         if(post[i].author.id == authorID && post[i].status == postStatus && post[i].status != 'Delete') {
@@ -176,13 +178,18 @@ export default function MyContents(props) {
                     component="div"
                     sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                 >
-                    Bài viết của tôi
+                    {title}
                 </Typography>
+
+                <Button onClick={() => {
+                    navigate.push('/dashboard/new-content')
+                }}>Bài viết mới</Button>
             </Toolbar>
             <Box sx={{ 
                 height:650, width: '100%',
             }}>
                 <DataGrid
+                    disableSelectionOnClick
                     rows={listPosts}
                     columns={columns}
                     pageSize={100}

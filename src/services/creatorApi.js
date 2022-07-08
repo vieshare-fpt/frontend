@@ -5,5 +5,9 @@ export const creatorApi = {
         const url = '/posts'
         return axiosClient.post(url, params)
     },
+    editPost: (params) => {
+        const url = '/posts'
+        return axiosClient.patch(url, params)
+    },
 }
 

@@ -1,12 +1,11 @@
 import React from 'react'
 import MyContents from 'src/components/dashboard/pages/my-contents'
 import Page from 'src/components/dashboard/main'
-import { categoryApi, postApi  } from 'src/services'
+import { postApi  } from 'src/services'
 
-const contentStatus = true;
-export default function DashBoard(props) {
+export default function DraftContents(props) {
   return <Page CurrentComponent={MyContents} 
-  props={props}
+    props={props}
   />;
 
 }
@@ -18,9 +17,9 @@ export async function getServerSideProps() {
   });
   return {
     props: {
+      title: "Bản nháp",
       post: posts.data,
       postStatus: "Draft",
     },
   };
 } 
- 24  
