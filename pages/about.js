@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { AboutLayout, ContactLayout } from "src/components/layouts";
 import { convert } from "src/utils/ConvertClassName";
@@ -93,62 +94,59 @@ export default function About() {
               <div className={convert("text-center")}>
                 <img
                   className={convert("img-fluid rounded-circle mb-4 px-4")}
-                  src="https://dummyimage.com/150x150/ced4da/6c757d"
-                  alt="..."
+                  src="/que.jpg"
+                  alt="Võ Văn Quế"
                 />
-                <h5 className={convert("fw-bolder")}>Ibbie Eckart</h5>
-                <div className={convert("fst-italic text-muted")}>
-                  Founder &amp; CEO
-                </div>
+                <h5 className={convert("fw-bolder")}> Võ Văn Quế</h5>
+                <div className={convert("fst-italic text-muted")}>Member</div>
               </div>
             </div>
             <div className={convert("col mb-5 mb-5 mb-xl-0")}>
               <div className={convert("text-center")}>
                 <img
                   className={convert("img-fluid rounded-circle mb-4 px-4")}
-                  src="https://dummyimage.com/150x150/ced4da/6c757d"
-                  alt="..."
+                  src="/huybec.jpg"
+                  alt="Lương Nguyễn Hải Huy"
                 />
                 <h5 className={convert("fw-bolder")}>Lương Nguyễn Hải Huy</h5>
-                <div className={convert("fst-italic text-muted")}>Front-end Deverloper</div>
+                <div className={convert("fst-italic text-muted")}>Member</div>
               </div>
             </div>
             <div className={convert("col mb-5 mb-5 mb-sm-0")}>
               <div className={convert("text-center")}>
                 <img
                   className={convert("img-fluid rounded-circle mb-4 px-4")}
-                  src="https://dummyimage.com/150x150/ced4da/6c757d"
-                  alt="..."
+                  src="/khoa.jpg"
+                  alt="Nguyễn Anh Khoa"
                 />
-                <h5 className={convert("fw-bolder")}>Toribio Nerthus</h5>
-                <div className={convert("fst-italic text-muted")}>
-                  Operations Manager
-                </div>
+                <h5 className={convert("fw-bolder")}>Nguyễn Anh Khoa</h5>
+                <div className={convert("fst-italic text-muted")}>Leader</div>
               </div>
             </div>
             <div className={convert("col mb-5 mb-5 mb-sm-0")}>
               <div className={convert("text-center")}>
-                <img
-                  className={convert("img-fluid rounded-circle mb-4 px-4")}
-                  src="https://dummyimage.com/150x150/ced4da/6c757d"
-                  alt="..."
-                />
-                <h5 className={convert("fw-bolder")}>Malvina Cilla</h5>
-                <div className={convert("fst-italic text-muted")}>CTO</div>
+                <picture>
+                  <img
+                    className={convert("img-fluid rounded-circle mb-4 px-4")}
+                    src="/chu.jpg"
+                    alt="Đỗ Trần Minh Chu"
+                  />
+                </picture>
+                <h5 className={convert("fw-bolder")}>Đỗ Trần Minh Chu</h5>
+                <div className={convert("fst-italic text-muted")}>Member</div>
               </div>
             </div>
             <div className={convert("col mb-5")}>
               <div className={convert("text-center")}>
                 <img
                   className={convert("img-fluid rounded-circle mb-4 px-4")}
-                  src="https://dummyimage.com/150x150/ced4da/6c757d"
-                  alt="..."
+                  src="/huy.jpg"
+                  alt="Triệu Quang Huy"
                 />
-                <h5 className={convert("fw-bolder")}>Malvina Cilla</h5>
-                <div className={convert("fst-italic text-muted")}>CTO</div>
+                <h5 className={convert("fw-bolder")}>Triệu Quang Huy</h5>
+                <div className={convert("fst-italic text-muted")}>Member</div>
               </div>
             </div>
-            
           </div>
         </div>
       </section>
