@@ -11,7 +11,7 @@ export default function DashBoard(props) {
 
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const posts = await postApi.getPosts({
     per_page: 9,
     page: 1,

@@ -15,7 +15,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import Link from 'next/link'
+import { Link, styled } from '@mui/material'
 
 const drawerWidth = 240;
 
@@ -34,10 +34,23 @@ export default function ResponsiveDrawer(props) {
     { name: 'Hồ sơ', icon: AccountBoxIcon, link: '/dashboard/writer-info' }
   ]
 
+  const MyLogo = styled(Typography)({
+    fontFamily: 'Salsa',
+    fontSize: '36px',
+    fontWeight: '400',
+    lineHeight: '44px',
+    letterSpacing: '0em',
+    textAlign: 'left',
+  });
+
   const drawer = (
     <div>
-      <Toolbar>
-        <Typography sx={{ p: 1 }}>VieShare Dashboard</Typography>
+      <Toolbar sx={{ display:"flex", justifyContent:"center" }}>
+        <MyLogo >
+          <Link href='/' sx={{ textDecoration:'auto', color: "forestgreen",}}>
+            VieShare
+          </Link>
+        </MyLogo>
       </Toolbar>
       <Divider />
       <List>
