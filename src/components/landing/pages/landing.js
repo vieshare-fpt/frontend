@@ -28,6 +28,7 @@ export default function LandingPage({ props }) {
         await postApi
           .getPosts({
             category_id: categoryId ? categoryId.currentCategory : "",
+            status: "Publish",
             per_page: 12,
             page: 1,
           })
@@ -48,6 +49,7 @@ export default function LandingPage({ props }) {
     await postApi
       .getPosts({
         category_id: categoryId ? categoryId.currentCategory : "",
+        status: "Publish",
         per_page: 12,
         page: page,
       })
