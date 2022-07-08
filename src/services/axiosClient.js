@@ -1,21 +1,20 @@
 import axios from "axios";
-import {setCookieData } from "src/services/cookies";
+import { setCookieData } from "src/services/cookies";
 const axiosClient = (token, refreshToken) => {
   const axiosClient = axios.create({
     baseURL: "https://backend-vieshare-stg.vi-vu.vn/api",
     "Content-Type": "application/json",
   });
-  
+
   axiosClient.interceptors.request.use(async (config) => {
     if (token) {
       // @ts-ignore
       // eslint-disable-next-line no-param-reassign
-      config.headers.common = {"Authorization": `Bearer ${token}`};
+      config.headers.common = { Authorization: `Bearer ${token}` };
     }
-    console.log(config.headers.common.Authorization);
     return config;
   });
-  
+
   const refreshAccessToken = async (refreshToken) => {
     const response = await axiosClient.post("/auth/token", {
       refreshToken: refreshToken,
@@ -32,7 +31,7 @@ const axiosClient = (token, refreshToken) => {
     async (error) => {
       // Handle errors
       const config = error?.config;
-  
+
       const message = error.response?.data?.message;
       if (message !== "Token invalid or expired.") {
         throw error;
@@ -50,8 +49,7 @@ const axiosClient = (token, refreshToken) => {
       return Promise.reject(error);
     }
   );
-  return axiosClient
-}
-
+  return axiosClient;
+};
 
 export default axiosClient;
