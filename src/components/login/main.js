@@ -54,8 +54,8 @@ export default function LoginComponent({ CurrentComponent }) {
               </Grid>
 
               <Grid item xs={6}>
-                <Link href="/signup" variant="body2">
-                  <a>Chưa có tài khoản ? Đăng ký</a>
+                <Link href="/register-user" variant="body2">
+                  <a>Chưa có tài khoản ?</a>
                 </Link>
               </Grid>
             </Grid>
