@@ -43,3 +43,18 @@ export const devTeamPage = [
   },
 
 ];
+
+export const pageNotDrawer  = [
+  {
+    key: 1,
+    url: "/contact",
+  },
+  {
+    key: 2,
+    url: "/about",
+  },
+  {
+    key: 3,
+    url: "/register-writer",
+  },
+]

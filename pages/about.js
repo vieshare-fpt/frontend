@@ -1,5 +1,5 @@
 import React from "react";
-import { AboutLayout } from "src/components/layouts";
+import { MainLayout } from "src/components/layouts";
 import { convert } from "src/utils/convertClassName";
 
 export default function About() {
@@ -122,4 +122,4 @@ export default function About() {
     </>
   );
 }
-About.getLayout = AboutLayout;
+About.getLayout = MainLayout;

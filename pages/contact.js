@@ -11,7 +11,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Card, LinearProgress, Toolbar } from "@mui/material";
 import styles from "src/styles/Contact.module.css";
-import { ContactLayout } from "src/components/layouts";
+import { MainLayout } from "src/components/layouts";
 import emailjs from "@emailjs/browser";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
@@ -224,4 +224,4 @@ export default function Contact() {
   );
 }
 
-Contact.getLayout = ContactLayout;
+Contact.getLayout = MainLayout;

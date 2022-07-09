@@ -3,7 +3,6 @@ import Tooltip from "@mui/material/Tooltip";
 import {
   Avatar,
   Box,
-  CardHeader,
   IconButton,
   Menu,
   MenuItem,
@@ -13,12 +12,11 @@ import {
 import Link from "next/link";
 import Divider from "@mui/material/Divider";
 import { green, teal } from "@mui/material/colors";
-import { removeCookieData, getCookieData } from "src/services/cookies";
+import { removeCookieData } from "src/services/cookies";
 import { accessApi } from "src/services";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import {
-  clearInfoFailed,
   clearInfoStart,
   clearInfoSuccess,
 } from "src/stores/userSlice";
@@ -77,12 +75,10 @@ export function UserPopup({ fullname, email, avatar, type }) {
   };
 
   const handleLogout = () => {
-    const refreshToken = getCookieData("refreshToken");
-    const token = getCookieData("token");
     dispatch(clearInfoStart());
     (async () => {
       await accessApi
-        .logout(refreshToken, token)
+        .logout()
         .then(function (response) {
           console.log(response);
           router.push("/login");
