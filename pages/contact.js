@@ -24,7 +24,6 @@ export default function Contact() {
   const user = useSelector(
     (state) => state.persistedReducer.user.currentUserInfoFull.userInfo
   );
-  console.log(user);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -53,8 +52,7 @@ export default function Contact() {
       );
     event.target.reset();
   };
-  function ContactForm() {
-    return (
+  const ContactForm =  (
       <Card
         sx={{
           width: "100%",
@@ -154,14 +152,13 @@ export default function Contact() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2, textTransform: "none" }}
               >
-                Summit
+                Gửi
               </Button>
             </div>
           </Box>
         </Box>
       </Card>
-    );
-  }
+    )
   function SendSuccess() {
     return (
       <div className={styles.paddingTop}>
@@ -202,7 +199,7 @@ export default function Contact() {
         ) : (
           <Grid container className={styles.container}>
             <Grid item md={6} order={{ xs: 2, md: 1 }}>
-              <ContactForm />
+              {ContactForm}
             </Grid>
             <Grid item md={6} order={{ xs: 1, md: 2 }}>
               <div className={styles.paddingTop}>
