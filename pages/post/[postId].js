@@ -27,10 +27,8 @@ function PostDetailPage(props) {
   useEffect(() => {
     const fetchData = async () => {
       const postId = router.query.postId;
-      const token = getCookieData("token");
-      const refreshToken = getCookieData("refreshToken");
       await postApi
-        .getPostDetail(postId, token, refreshToken)
+        .getPostDetail(postId)
         .then((res) => console.log(res))
         .catch((e) => console.error(e));
     };

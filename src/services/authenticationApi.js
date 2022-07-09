@@ -1,4 +1,5 @@
 import axiosClient from "./axiosClient";
+import { getCookieData } from "./cookies";
 
 export const accessApi = {
   login(payload) {
@@ -7,7 +8,8 @@ export const accessApi = {
   loginByGoogle(credential) {
     return axiosClient().post("/auth/google", credential);
   },
-  logout(refreshToken, token) {
+  logout(refreshToken) {
+    const token = getCookieData('token');
     return axiosClient(token, refreshToken).post(
       "/auth/logout",
       {

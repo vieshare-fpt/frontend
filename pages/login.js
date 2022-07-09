@@ -28,10 +28,10 @@ export default function LoginPage() {
   const [error, setError] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  function getInfoUser(token, refreshToken) {
+  function getInfoUser() {
     (async () => {
       await infoUserApi
-        .info(token, refreshToken)
+        .info()
         .then((response) => {
           dispatch(setUserInfoSuccess(response.data));
           router.push("/");
@@ -62,7 +62,7 @@ export default function LoginPage() {
             const refreshToken = response.data.refreshToken;
             setCookieData("token", token);
             setCookieData("refreshToken", refreshToken);
-            getInfoUser(token, refreshToken);
+            getInfoUser();
           })
           .catch(function (error) {
             console.log(error.response.status); // 401

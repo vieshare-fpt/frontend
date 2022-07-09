@@ -3,7 +3,6 @@ import Tooltip from "@mui/material/Tooltip";
 import {
   Avatar,
   Box,
-  CardHeader,
   IconButton,
   Menu,
   MenuItem,
@@ -13,12 +12,11 @@ import {
 import Link from "next/link";
 import Divider from "@mui/material/Divider";
 import { green, teal } from "@mui/material/colors";
-import { removeCookieData, getCookieData } from "src/services/cookies";
+import { removeCookieData } from "src/services/cookies";
 import { accessApi } from "src/services";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import {
-  clearInfoFailed,
   clearInfoStart,
   clearInfoSuccess,
 } from "src/stores/userSlice";
@@ -30,6 +28,8 @@ const paper = {
   sx: {
     overflow: "visible",
     filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+    width: '456px',
+    height: {xs: '280px',sm:'255px'},
     mt: 1.5,
     borderRadius: 3,
     "& .MuiAvatar-root": {
@@ -77,12 +77,10 @@ export function UserPopup({ fullname, email, avatar, type }) {
   };
 
   const handleLogout = () => {
-    const refreshToken = getCookieData("refreshToken");
-    const token = getCookieData("token");
     dispatch(clearInfoStart());
     (async () => {
       await accessApi
-        .logout(refreshToken, token)
+        .logout()
         .then(function (response) {
           console.log(response);
           router.push("/login");
@@ -98,7 +96,7 @@ export function UserPopup({ fullname, email, avatar, type }) {
 
   return (
     <div>
-      <Tooltip title="Settings" sx={{ p: "4px" }}>
+      <Tooltip title="Tài khoản" sx={{ p: "4px" }}>
         <IconButton
           onClick={handleClick}
           sx={{ width: "40px", height: "40px" }}

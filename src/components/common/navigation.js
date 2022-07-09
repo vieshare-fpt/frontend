@@ -12,7 +12,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LoginIcon from "@mui/icons-material/Login";
 import Link from "next/link";
-import { devTeamPage, styles, ToolBarDesktop } from "./components";
+import { devTeamPage, pageNotDrawer, styles, ToolBarDesktop } from "./components";
 import { UserPopup } from "./components";
 import {
   Button,
@@ -70,7 +70,7 @@ export function Navigation({ children }) {
 
   const asPath =
     router.asPath.includes(url.post) ||
-    devTeamPage.some((element) => element.url === router.asPath);
+    pageNotDrawer.some((element) => element.url === router.asPath);
 
   //close drawer when clicked a button of drawer
   const handleClick = (url) => {
