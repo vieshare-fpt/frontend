@@ -28,6 +28,8 @@ const paper = {
   sx: {
     overflow: "visible",
     filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+    width: '456px',
+    height: {xs: '280px',sm:'255px'},
     mt: 1.5,
     borderRadius: 3,
     "& .MuiAvatar-root": {
@@ -94,7 +96,7 @@ export function UserPopup({ fullname, email, avatar, type }) {
 
   return (
     <div>
-      <Tooltip title="Settings" sx={{ p: "4px" }}>
+      <Tooltip title="Tài khoản" sx={{ p: "4px" }}>
         <IconButton
           onClick={handleClick}
           sx={{ width: "40px", height: "40px" }}
