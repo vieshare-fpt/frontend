@@ -6,9 +6,9 @@ export const postApi = {
     const url = "/posts";
     return axiosClient().get(url, { params });
   },
-  getPostDetail: (id) => {
+  getPostDetail: (id, token, refreshToken) => {
     const url = "/posts/" + id;
-    return axiosClient().get(url);
+    return axiosClient(token, refreshToken).get(url);
   },
   getPostsRelated: (id, params) => {
     const url = "/posts/related/" + id;
