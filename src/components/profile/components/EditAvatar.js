@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import { profileAPI } from "src/services/profileApi";
 import { infoUserApi } from "src/services";
 import { useDispatch } from "react-redux";
-import { getUserInfoFullFalse, setUserInfoSuccess } from "src/stores/userSlice";
+import { setUserInfoSuccess, setUserInfoFailed } from "src/stores/userSlice";
 import { toast } from "react-toastify";
 
 export default function EditAvatar({ open, handleEditAvatar, oldAvatar }) {
@@ -30,15 +30,21 @@ export default function EditAvatar({ open, handleEditAvatar, oldAvatar }) {
 
         if (url) {
             const update = await (await profileAPI.updateAvatar(url)).data;
-            if (update)
+
+            if (update) {
+                const token = getCookieData('token');
+                const refreshToken = getCookieData('refreshToken');
                 await infoUserApi
-                    .info()
+                    .info(token, refreshToken)
                     .then((response) => {
                         dispatch(setUserInfoSuccess(response.data));
                     })
                     .catch((error) => {
-                        dispatch(getUserInfoFullFalse());
+                        dispatch(setUserInfoFailed());
                     });
+
+            }
+
 
             toast.success("Success", {
                 position: "top-right",
