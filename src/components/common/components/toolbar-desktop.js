@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import { Box, Button, Divider, IconButton, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { devTeamPage } from "./link-page";
@@ -53,17 +53,7 @@ export function ToolBarDesktop(props) {
           <MenuIcon color="success" />
         </IconButton>
         <Logo />
-        <Typography
-          component="p"
-          sx={{
-            color: "#E7EBF0",
-            fontWeight: 200,
-            fontSize: "30px",
-            marginLeft: "30px",
-          }}
-        >
-          |
-        </Typography>
+        <Divider sx={{ml: 3, mr: 2}} orientation="vertical" variant="middle" flexItem />
         {linkPage}
       </Box>
       <Box sx={{ flexGrow: { xs: "none", md: 2 } }} />

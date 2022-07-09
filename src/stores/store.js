@@ -4,6 +4,7 @@ import userReducer from "src/stores/userSlice";
 import postReducer from "src/stores/postSlice";
 import categoryReducer from "src/stores/categorySlice";
 import drawerReducer from "src/stores/drawerSlice";
+<<<<<<< HEAD
 import packageReducer from "src/stores/packageSlice";
 import {
   persistStore,
@@ -14,6 +15,10 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
+=======
+import { persistStore, persistReducer, FLUSH, REHYDRATE, 
+         PAUSE, PERSIST, PURGE, REGISTER, 
+>>>>>>> 7d6f6216ca6e7c8a2d842d709aecc5b33d8bbe47
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 const persistConfig = {

@@ -20,7 +20,7 @@ export default function Landing(props) {
             .then(function (response) {
               setCookieData("token", response.data.token);
               setCookieData("refreshToken", response.data.refreshToken);
-    
+
               window.location.reload();
             })
             .catch(function (error) {
@@ -33,23 +33,23 @@ export default function Landing(props) {
   // return <Page CurrentComponent={{ props, history }} />;
   return <Page CurrentComponent={LandingPage} prop={props} />;
 }
-Landing.getLayout= ReaderLayout
+Landing.getLayout = ReaderLayout;
 
-export async function getStaticProps() {
-
+export async function getServerSideProps() {
   const posts = await postApi.getPosts({
-    per_page: 9,
+    status: "Publish",
+    per_page: 12,
     page: 1,
   });
 
   const categories = await categoryApi.getCategory({
     per_page: 10,
-    page:1
-  })
+    page: 1,
+  });
   return {
     props: {
       posts: posts,
-      categories: categories.data
+      categories: categories.data,
     },
   };
 }

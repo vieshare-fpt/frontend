@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import styles from "../../../styles/PostCard.module.css";
+import styles from "../../styles/RelatedCard.module.css";
 import Typography from "@mui/material/Typography";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { Box, Tooltip } from "@mui/material";
@@ -10,10 +10,10 @@ import 'moment/locale/vi'  // without this line it didn't work
 
 moment.locale('vi')
 
-export function PostCards({ note }) {
+export function RelatedCards({ note }) {
   return (
     <>
-      <div className={styles["blog-card"]}>
+      <div className={styles["related-card"]}>
         <div className={styles.meta}>
           <div
             className={styles.photo}
@@ -25,12 +25,14 @@ export function PostCards({ note }) {
 
         <div className={styles.description}>
           <Stack direction="row" spacing={1} sx={{ mb:2 }}>
+            <Link href={note.category.id}>
               <Typography
                 variant="h2"
                 // component="h3"
               >
                 Thể loại | {note.category.name}
               </Typography>
+            </Link>
             {note.type === "Premium" ? (
               <span
                 style={{
@@ -87,7 +89,7 @@ export function PostCards({ note }) {
               margin: "10px 0 10px 0",
             }}
           />
-          <p style={{height: "40px"}}>{note.description}</p>
+          <p>{note.description}</p>
           <div className={styles["read-more"]}>
             <Link href={`/post/${note.id}`}>
               <a>Đọc thêm</a>

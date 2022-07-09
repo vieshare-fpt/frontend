@@ -75,19 +75,19 @@ export default function SecurityTab({ formik, profile }) {
                 <HeadersTab
                     image={<SecurityIcon
                         sx={{ fontSize: '48px' }}></SecurityIcon>}
-                    title='Security'
-                    subTitle='security'
+                    title='Bảo mật'
+                    subTitle='bảo mật'
                 />
 
                 <List sx={{ width: '100%' }}>
-                    <ItemTab icon={<PasswordIcon />} name='Password' value='*****'></ItemTab>
+                    <ItemTab icon={<PasswordIcon />} name='Mật khẩu' value='*****'></ItemTab>
 
                 </List>
 
 
                 <CardActions sx={{ borderTop: 1, borderColor: 'grey.500', justifyContent: "flex-end" }}  >
                     <Button onClick={handleOpen} size="small" color="primary" >
-                        Edit
+                        Chỉnh sửa
                     </Button>
                 </CardActions>
 

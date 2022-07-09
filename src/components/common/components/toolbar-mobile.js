@@ -21,10 +21,9 @@ export function ToolBarMobile(props) {
         </IconButton>
         <IconButton onClick={onClickDrawerSearchBox}>
           <SearchIcon color="success" />
-        </IconButton>
-        <IconButton onClick={onClickDrawerContacts}>
-          <EmojiPeopleRoundedIcon color="success" />
-        </IconButton>
+        </IconButton>   
+        <Box sx={{ height: 40, width: 40 }}></Box>
+
       </Box>
       {/* logo mobile Open */}
       <Box
@@ -42,7 +41,9 @@ export function ToolBarMobile(props) {
         }}
       >
         <Box sx={{ height: 40, width: 40 }}></Box>
-        <Box sx={{ height: 40, width: 40 }}></Box>
+        <IconButton onClick={onClickDrawerContacts}>
+          <EmojiPeopleRoundedIcon color="success" />
+        </IconButton>
         {access}
       </Box>
     </>

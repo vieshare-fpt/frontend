@@ -15,7 +15,8 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import Link from 'next/link'
+import Link from 'next/link';
+
 
 const drawerWidth = 240;
 
@@ -30,7 +31,7 @@ export default function ResponsiveDrawer(props) {
   const subPages = [
     { name: 'Bài viết của tôi', icon: TextSnippetIcon, link: '/dashboard/my-contents' },
     { name: 'Thu nhập', icon: AttachMoneyIcon, link: '/dashboard/income' },
-    { name: 'Bản nháp', icon: DesignServicesIcon, link: '/dashboard/drafts' },
+    { name: 'Bản nháp', icon: DesignServicesIcon, link: '/dashboard/draft-contents' },
     { name: 'Hồ sơ', icon: AccountBoxIcon, link: '/dashboard/writer-info' }
   ]
 
