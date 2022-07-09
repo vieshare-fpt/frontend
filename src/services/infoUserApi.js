@@ -5,9 +5,7 @@ import axiosClient from "./axiosClient";
 
 export const infoUserApi = {
     validate(accessToken) {
-        return axiosClient().post('/auth/validate', {
-            token: accessToken
-        })
+        return axiosClient(accessToken).post('/auth/validate')
     },
 
     info(token,refreshToken) {
