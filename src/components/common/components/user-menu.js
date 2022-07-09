@@ -3,7 +3,6 @@ import Tooltip from "@mui/material/Tooltip";
 import {
   Avatar,
   Box,
-  CardHeader,
   IconButton,
   Menu,
   MenuItem,
@@ -13,22 +12,24 @@ import {
 import Link from "next/link";
 import Divider from "@mui/material/Divider";
 import { green, teal } from "@mui/material/colors";
-import { removeCookieData, getCookieData } from "src/services/cookies";
+import { removeCookieData } from "src/services/cookies";
 import { accessApi } from "src/services";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import {
-  clearInfoFailed,
   clearInfoStart,
   clearInfoSuccess,
 } from "src/stores/userSlice";
 import { useRouter } from "next/router";
+import catchError from "src/utils/catchError";
 
 const paper = {
   elevation: 0,
   sx: {
     overflow: "visible",
     filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+    width: '456px',
+    height: {xs: '280px',sm:'255px'},
     mt: 1.5,
     borderRadius: 3,
     "& .MuiAvatar-root": {
@@ -65,7 +66,7 @@ const features = [
 export function UserPopup({ fullname, email, avatar, type }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const router = useRouter()
+  const router = useRouter();
   const dispatch = useDispatch();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -76,35 +77,32 @@ export function UserPopup({ fullname, email, avatar, type }) {
   };
 
   const handleLogout = () => {
-    const refreshToken = getCookieData("refreshToken");
-    const token = getCookieData("token");
     dispatch(clearInfoStart());
     (async () => {
       await accessApi
-        .logout(refreshToken, token)
+        .logout()
         .then(function (response) {
           console.log(response);
+          router.push("/login");
           dispatch(clearInfoSuccess());
           removeCookieData("token");
           removeCookieData("refreshToken");
         })
         .catch((error) => {
-          dispatch(clearInfoFailed());
-
-          console.error(error);
+          catchError(error, dispatch, router);
         });
     })();
   };
 
   return (
     <div>
-      <Tooltip title="Settings" sx={{ p: "4px" }}>
+      <Tooltip title="Tài khoản" sx={{ p: "4px" }}>
         <IconButton
           onClick={handleClick}
           sx={{ width: "40px", height: "40px" }}
-          aria-controls={open ? 'account-menu' : undefined}
+          aria-controls={open ? "account-menu" : undefined}
           aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
+          aria-expanded={open ? "true" : undefined}
         >
           <Avatar src={avatar} />
         </IconButton>
@@ -143,11 +141,13 @@ export function UserPopup({ fullname, email, avatar, type }) {
               variant="h6"
               color="initial"
             >
-              <Button onClick={handleLogout} color="success">Đăng xuất</Button>
+              <Button onClick={handleLogout} color="success">
+                Đăng xuất
+              </Button>
             </Typography>
           </div>
           <Divider />
-          <MenuItem onClick={() => router.push("/profile")} sx={{mt: 1}}>
+          <MenuItem onClick={() => router.push("/profile")} sx={{ mt: 1 }}>
             <Avatar src={avatar} />
             <div style={{ marginLeft: 10 }}>
               <Typography

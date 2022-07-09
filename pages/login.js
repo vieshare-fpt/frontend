@@ -14,6 +14,7 @@ import { setCookieData } from "src/services/cookies";
 import { useRouter } from "next/router";
 import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
 import { useDispatch } from "react-redux";
+import catchError from "src/utils/catchError";
 
 const validationSchema = yup.object({
   email: yup
@@ -27,16 +28,17 @@ export default function LoginPage() {
   const [error, setError] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  function getInfoUser(token, refreshToken) {
+  function getInfoUser() {
     (async () => {
       await infoUserApi
-        .info(token, refreshToken)
+        .info()
         .then((response) => {
           dispatch(setUserInfoSuccess(response.data));
           router.push("/");
         })
         .catch(function (error) {
           dispatch(setUserInfoFailed());
+          catchError(error, dispatch, router)
         });
     })();
   }
@@ -60,7 +62,7 @@ export default function LoginPage() {
             const refreshToken = response.data.refreshToken;
             setCookieData("token", token);
             setCookieData("refreshToken", refreshToken);
-            getInfoUser(token, refreshToken);
+            getInfoUser();
           })
           .catch(function (error) {
             console.log(error.response.status); // 401

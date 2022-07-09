@@ -1,16 +1,18 @@
-import { getUserInfoLimitFalse, getUserInfoLimitStart, getUserInfoLimitSuccess } from "src/stores/userSlice";
 import axiosClient from "./axiosClient";
+import { getCookieData } from "./cookies";
 
 
 
 export const infoUserApi = {
-    validate(accessToken) {
-        return axiosClient().post('/auth/validate', {
-            token: accessToken
-        })
+    validate() {
+        const token = getCookieData('token');
+        const refreshToken = getCookieData('refreshToken');
+        return axiosClient(token, refreshToken).post('/auth/validate')
     },
 
-    info(token,refreshToken) {
+    info() {
+        const token = getCookieData('token');
+        const refreshToken = getCookieData('refreshToken');
         return axiosClient(token, refreshToken).get('users/info')
     }
 }
