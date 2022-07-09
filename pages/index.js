@@ -1,27 +1,44 @@
 import { useGoogleOneTapLogin } from "@react-oauth/google";
 import LandingPage from "src/components/landing/pages/landing";
 import { getCookieData } from "src/services/cookies";
-import { accessApi, categoryApi, postApi } from "src/services";
+import { accessApi, infoUserApi, categoryApi, postApi } from "src/services";
 import Page from "../src/components/landing/main";
 import { setCookieData } from "src/services/cookies";
 import { ReaderLayout } from "src/components/layouts";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
 
 export default function Landing(props) {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  function getInfoUser(token, refreshToken) {
+    (async () => {
+      await infoUserApi
+        .info(token, refreshToken)
+        .then((response) => {
+          dispatch(setUserInfoSuccess(response.data));
+          router.push("/");
+        })
+        .catch(function (error) {
+          dispatch(setUserInfoFailed());
+        });
+    })();
+  }
   if (!getCookieData("token")) {
     useGoogleOneTapLogin({
       onSuccess: (response) => {
         const user = {
           credential: response.credential,
         };
-        accessApi.googleUser(newUser, null);
         (async () => {
-          await accessApi
-            .loginByGoogle(user)
+          await accessApi.loginByGoogle(user)
             .then(function (response) {
-              setCookieData("token", response.data.token);
-              setCookieData("refreshToken", response.data.refreshToken);
-
-              window.location.reload();
+              const token = response.data.token;
+              const refreshToken = response.data.refreshToken;
+              setCookieData("token", token);
+              setCookieData("refreshToken", refreshToken);
+              getInfoUser(token, refreshToken);
             })
             .catch(function (error) {
               console.log(error.response.status); // 401
