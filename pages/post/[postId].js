@@ -14,7 +14,7 @@ import { RelatedCards } from "src/components/post/RelatedCard";
 import { CommentCard } from "src/components/post/CommentCard";
 import { useSelector } from "react-redux";
 import SendIcon from "@mui/icons-material/Send";
-import { dateFormat } from "src/utils/FormatDateHelper";
+import { dateFormat } from "src/utils/formatDateHelper";
 import { getCookieData } from "src/services/cookies";
 
 function PostDetailPage(props) {

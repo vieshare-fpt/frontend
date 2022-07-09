@@ -1,6 +1,6 @@
 import React from "react";
 import { AboutLayout } from "src/components/layouts";
-import { convert } from "src/utils/ConvertClassName";
+import { convert } from "src/utils/convertClassName";
 
 export default function About() {
   return (
