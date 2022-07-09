@@ -16,10 +16,7 @@ import { removeCookieData } from "src/services/cookies";
 import { accessApi } from "src/services";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import {
-  clearInfoStart,
-  clearInfoSuccess,
-} from "src/stores/userSlice";
+import { clearInfoStart, clearInfoSuccess } from "src/stores/userSlice";
 import { useRouter } from "next/router";
 import catchError from "src/utils/catchError";
 
@@ -81,10 +78,11 @@ export function UserPopup({ fullname, email, avatar, type }) {
         .logout()
         .then(function (response) {
           console.log(response);
-          router.push("/login");
-          dispatch(clearInfoSuccess());
           removeCookieData("token");
           removeCookieData("refreshToken");
+          
+          router.push("/login");
+          dispatch(clearInfoSuccess());
         })
         .catch((error) => {
           catchError(error, dispatch, router);
