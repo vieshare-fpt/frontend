@@ -1,14 +1,21 @@
-import { Box, Button, Divider, IconButton, Toolbar, Typography } from "@mui/material";
-import React from "react";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { devTeamPage } from "./link-page";
 import { Search, SearchIconWrapper, StyledInputBase } from "./styles-searchbox";
 import SearchIcon from "@mui/icons-material/Search";
 import Logo from "./logo";
 
-
 export function ToolBarDesktop(props) {
-  const { onClick, access, onSubmit, router } = props;
+  const { onClick, access, onSubmit, router, onChange, value } = props;
+
   const searchForm = (
     <form onSubmit={onSubmit} style={{ marginRight: "10px" }}>
       <Search>
@@ -17,7 +24,12 @@ export function ToolBarDesktop(props) {
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Tìm kiếm..."
-          inputProps={{ "aria-label": "search" }}
+          inputProps={{
+            "aria-label": "search",
+            name: "search",
+            value: value,
+            onChange: onChange,
+          }}
         />
       </Search>
     </form>
@@ -25,7 +37,7 @@ export function ToolBarDesktop(props) {
 
   const handleClick = (e, url) => {
     e.preventDefault();
-    router.push(url)
+    router.push(url);
   };
 
   const linkPage = devTeamPage.map((subpage) => {
@@ -53,7 +65,12 @@ export function ToolBarDesktop(props) {
           <MenuIcon color="success" />
         </IconButton>
         <Logo />
-        <Divider sx={{ml: 3, mr: 2}} orientation="vertical" variant="middle" flexItem />
+        <Divider
+          sx={{ ml: "34px", mr: 2 }}
+          orientation="vertical"
+          variant="middle"
+          flexItem
+        />
         {linkPage}
       </Box>
       <Box sx={{ flexGrow: { xs: "none", md: 2 } }} />

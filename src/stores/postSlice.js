@@ -1,20 +1,27 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const postSlice = createSlice({
-    name: 'post',
-    initialState: {
-        data: {
-            currentPost: null
-        }
-    },  
-    reducers: {
-        setCurrentPost: (state, data) => {
-            state.data.currentPost = data;
-        }
+  name: "post",
+  initialState: {
+    data: {
+      currentPost: null,
     },
-})
+  },
+  name: "searhValue",
+  initialState: {
+    data: {
+      currentSearchValue: "",
+    },
+  },
+  reducers: {
+    setCurrentPost: (state, data) => {
+      state.data.currentPost = data;
+    },
+    setCurrentSearchValue: (state, data) => {
+      state.data.currentSearchValue = data;
+    },
+  },
+});
 
-export const {
-    setCurrentPost,
-} = postSlice.actions
-export default postSlice.reducer
+export const { setCurrentPost, setCurrentSearchValue } = postSlice.actions;
+export default postSlice.reducer;
