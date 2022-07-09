@@ -1,7 +1,188 @@
-import React from 'react'
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlined";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Card, Toolbar } from "@mui/material";
+import styles from "src/styles/Contact.module.css";
+import { MainLayout } from "src/components/layouts";
+import AddReactionOutlinedIcon from "@mui/icons-material/AddReactionOutlined";
+import { useRouter } from "next/router";
+import { green } from "@mui/material/colors";
+const theme = createTheme();
 
-export default function ContentWriter() {
+export default function RegisterWriter() {
+  const [sendSuccess, setSendSuccess] = useState(false);
+
+  const router = useRouter();
+
+  const handleSubmit = (event) => {};
+  function ContactForm() {
+    return (
+      <Card
+        sx={{
+          width: "100%",
+          padding: "20px 20px !important",
+          borderRadius: "20px",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ mt: 1, textAlign: "center" }}>
+            <Typography variant="h2" sx={{ fontSize: 40 }}>
+              Trở thành tác giả
+            </Typography>
+            <Typography component="p" sx={{ py: 2 }}>
+              Chúng tôi rất chân thành cảm ơn về sự đóng góp của bạn dành cho
+              Vieshare
+            </Typography>
+          </Box>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  color="success"
+                  required
+                  fullWidth
+                  id="fullname"
+                  label="Họ và tên"
+                  name="fullname"
+                  autoComplete="name"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  color="success"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  color="success"
+                  required
+                  fullWidth
+                  id="phone"
+                  label="Số điện thoại"
+                  name="phone"
+                  autoComplete="phone"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  color="success"
+                  required
+                  fullWidth
+                  id="subject"
+                  name="subject"
+                  label="Chủ đề"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  color="success"
+                  id="message"
+                  name="message"
+                  label="Tin nhắn"
+                  multiline
+                  rows={4}
+                />
+              </Grid>
+            </Grid>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                type="submit"
+                color="success"
+                variant="contained"
+                sx={{ mt: 3, mb: 2, textTransform: "none" }}
+              >
+                Summit
+              </Button>
+            </div>
+          </Box>
+        </Box>
+      </Card>
+    );
+  }
+  function SendSuccess() {
+    return (
+      <div className={styles.paddingTop}>
+        <div className={styles.flexCenter}>
+          <CheckCircleOutlineOutlinedIcon
+            sx={{ width: "20%", height: "30%" }}
+            color="success"
+          />
+        </div>
+        <p className={styles.text}>
+          &ldquo;Đã gửi thành công ! Chúng tôi sẽ cố gắng liện hệ với bạn sớm
+          nhất !&ldquo;
+        </p>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            onClick={() => router.push("/")}
+            variant="outlined"
+            color="success"
+          >
+            Trở lại trang chủ
+          </Button>
+        </Box>
+      </div>
+    );
+  }
   return (
-    <div>ContentWriter</div>
-  )
+    <ThemeProvider theme={theme}>
+      <Container
+        component="main"
+        maxWidth="lg"
+        sx={{ minHeight: "calc(100vh - 96px)" }}
+      >
+        <CssBaseline />
+        <Toolbar />
+
+        {sendSuccess ? (
+          <SendSuccess />
+        ) : (
+          <Grid container className={styles.container}>
+            <Grid item md={6} order={{ xs: 2, md: 1 }}>
+              <ContactForm />
+            </Grid>
+            <Grid item md={6} order={{ xs: 1, md: 2 }}>
+              <div className={styles.paddingTop}>
+                <div className={styles.flexCenter}>
+                  <AddReactionOutlinedIcon
+                    sx={{ width: "80%", height: "50%", color: green[300] }}
+                  />
+                </div>
+              </div>
+            </Grid>
+          </Grid>
+        )}
+      </Container>
+    </ThemeProvider>
+  );
 }
+
+RegisterWriter.getLayout = MainLayout;
