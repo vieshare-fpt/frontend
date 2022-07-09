@@ -2,7 +2,7 @@ import { Box, IconButton } from "@mui/material";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import EmojiPeopleRoundedIcon from "@mui/icons-material/EmojiPeopleRounded";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Logo from "./logo";
 
 export function ToolBarMobile(props) {
@@ -42,7 +42,7 @@ export function ToolBarMobile(props) {
       >
         <Box sx={{ height: 40, width: 40 }}></Box>
         <IconButton onClick={onClickDrawerContacts}>
-          <EmojiPeopleRoundedIcon color="success" />
+          <InfoOutlinedIcon color="success" />
         </IconButton>
         {access}
       </Box>

@@ -2,13 +2,13 @@ import axiosClient from "./axiosClient";
 
 export const accessApi = {
   login(payload) {
-    return axiosClient.post("/auth/login", payload);
+    return axiosClient().post("/auth/login", payload);
   },
   loginByGoogle(credential) {
-    return axiosClient.post("/auth/google", credential);
+    return axiosClient().post("/auth/google", credential);
   },
-  logout(refreshToken) {
-    return axiosClient.post(
+  logout(refreshToken, token) {
+    return axiosClient(token, refreshToken).post(
       "/auth/logout",
       {
         "refreshToken": refreshToken,
@@ -17,7 +17,7 @@ export const accessApi = {
     );
   },
   register(payload) {
-    return axiosClient.post("/users/register", payload);
+    return axiosClient().post("/users/register", payload);
   },
 };
 

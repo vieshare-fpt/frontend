@@ -1,12 +1,11 @@
 
-import { Box, Button, Checkbox, FormControlLabel, Grid, MenuItem, TextField, Typography } from '@mui/material';
-import * as yup from 'yup';
+import { Button, Grid, MenuItem, TextField } from '@mui/material';
 import Image from 'next/image'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export default function FormRegistration({ formik, dob, setDob, handleAvatar, avatar }) {
+export default function FormRegistration({ formik, dob, setDob , error}) {
 
     return (
         <div>
@@ -77,19 +76,20 @@ export default function FormRegistration({ formik, dob, setDob, handleAvatar, av
                             name="email"
                             autoComplete="email"
                             value={formik.values.email}
+                            onChange={formik.handleChange}
                             error={formik.touched.email && Boolean(formik.errors.email)}
                             helperText={formik.touched.email && formik.errors.email}
 
-                            onChange={formik.handleChange}
 
                         />
                     </Grid>
+                    {error ? (<p style={{color: 'red'}}>Email đã tồn tại</p>) : (<></>)}
                     <Grid item xs={12}>
                         <TextField
                             required
                             fullWidth
                             name="password"
-                            label="Mật Khẩu"
+                            label="Mật khẩu"
                             type="password"
                             id="password"
                             autoComplete="new-password"
@@ -104,7 +104,7 @@ export default function FormRegistration({ formik, dob, setDob, handleAvatar, av
                             required
                             fullWidth
                             name="passwordConfirmation"
-                            label="Xác nhận Mật Khẩu"
+                            label="Xác nhận mật khẩu"
                             type="password"
                             id="passwordConfirmation"
                             autoComplete="new-password"
@@ -115,37 +115,10 @@ export default function FormRegistration({ formik, dob, setDob, handleAvatar, av
 
                         />
                     </Grid>
-                    <Grid item xs={3}>
-                        <input
-                            style={{ display: 'none' }}
-                            id="raised-button-file"
-                            type="file"
-                            onChange={handleAvatar}
-                        />
-                        <label htmlFor="raised-button-file">
-                            <Button variant="raised" component="span" >
-                                Upload
-                            </Button>
-                        </label>
-
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Typography variant='h5' sx={{ lineHeight: '35px' }}>Hình đại diện</Typography>
-                    </Grid>
-                    <Grid item xs={3}>
-                        {avatar && (
-                            <Image
-                                src={avatar.preview} alt={avatar} width="80%"
-                            />
-                        )}
-                    </Grid>
-                    <Grid item xs={12}>
-                        <FormControlLabel
-                            control={<Checkbox value="allowExtraEmails" color="primary" />}
-                            label="Tôi muốn nhận các cập nhật mới qua email"
-                            //I want to receive inspiration, marketing promotions and updates via email.
-                        />
-                    </Grid>
+                 
+                  
+                  
+               
 
                 </Grid>
             </LocalizationProvider>

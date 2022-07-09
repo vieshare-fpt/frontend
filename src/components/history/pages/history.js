@@ -3,6 +3,7 @@ import { Button, Container, Typography } from "@mui/material";
 import { Table } from "../components";
 import { historyApi } from "src/services";
 import { useRouter } from "next/router";
+import { getCookieData } from "src/services/cookies";
 
 export default function DislayHistory() {
   const [data, setData] = useState([]);
@@ -64,9 +65,9 @@ export default function DislayHistory() {
       field: "action",
       headerName: "Hành động",
       sortable: false,
-      headerClassName: 'super-app-theme--header',
+      headerClassName: "super-app-theme--header",
       align: "center",
-      headerAlign: 'center',
+      headerAlign: "center",
       width: 150,
       renderCell: (params) => (
         <Button
@@ -83,9 +84,14 @@ export default function DislayHistory() {
 
   useEffect(() => {
     (async () => {
-      await historyApi.getHistory().then((response) => {
+      const token = getCookieData("token");
+      const refreshToken = getCookieData("refreshToken");
+      await historyApi.getHistory(token, refreshToken)
+      .then((response) => {
         setData(response.data);
-      });
+      }).catch((error) => {
+        console.log(error);
+      })
     })();
   }, []);
   return (

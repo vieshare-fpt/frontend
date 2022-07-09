@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Box, TextField, Link, Typography, Toolbar, Button, IconButton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid'
 import { postApi } from 'src/services';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRouter } from 'next/router';
 
 const columns = [
@@ -109,7 +109,7 @@ const handleEdit = (event, cellValue) => {
 // Handle post Operations
 const handleRemove = (event, cellValue) => {
     const id = cellValue.row.postId;
-    console.log(id);
+    // console.log(id);
     if(confirm("Bài viết: " + cellValue.row.title + "\n" + "Bạn có chắc chắn muốn xóa bài viết này không?")){
         (async () => {
             await postApi.removePost(id);
@@ -135,7 +135,6 @@ export default function MyContents(props) {
     const navigate = useRouter()
     // ----------------------------------------------------------------
     //Get author Id from localStorage
-    const dispatch = useDispatch();
     const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
     );

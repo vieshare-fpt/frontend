@@ -18,13 +18,12 @@ export const profileAPI = {
         return url;
     },
     updateAvatar: (avatar) => {
-        return axiosClient.patch('/users/avatar', { avatar })
+        return axiosClient().patch('/users/avatar', { avatar })
     },
     updateUserInfo: (newInfoRequest) => {
-        return axiosClient.patch('/users/info', newInfoRequest)
+        return axiosClient().patch('/users/info', newInfoRequest)
     },
     updatePassword: (newPasswordRequest) => {
-        return axiosClient.patch('/users/password', newPasswordRequest )
+        return axiosClient().patch('/users/password', newPasswordRequest )
     }
 };
-
