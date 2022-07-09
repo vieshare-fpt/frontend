@@ -20,10 +20,14 @@ const ENTER_YOUR_TITLE_VALIDATION = "Nhập tiêu đề ";
 const ENTER_YOUR_CONTENT_VALIDATION = "Nhập nội dung";
 const TITLE_REQUIRED = "Tiêu đề là bắt buộc"
 const CONTENT_REQUIRED = "Nội dung là bắt buộc"
+const MESSAGE_REQUIRED = "Tin nhắn là bắt buộc"
+const ENTER_YOUR_MESSAGE = "Nhập tin nhắn"
 
 export {
     ENTER_YOUR_TITLE_VALIDATION,
     ENTER_YOUR_CONTENT_VALIDATION,
+    MESSAGE_REQUIRED,
+    ENTER_YOUR_MESSAGE,
     CONTENT_REQUIRED,
     TITLE_REQUIRED,
     ENTER_YOUR_NAME,

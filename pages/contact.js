@@ -15,8 +15,37 @@ import { MainLayout } from "src/components/layouts";
 import emailjs from "@emailjs/browser";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-const theme = createTheme();
+import { useFormik } from "formik";
+import * as yup from "yup";
+import {
+  EMAIL_REQUIRED,
+  ENTER_PHONENUMBER,
+  ENTER_VALID_EMAIL,
+  ENTER_YOUR_EMAIL_VALIDATION,
+  ENTER_YOUR_MESSAGE,
+  ENTER_YOUR_NAME,
+  ENTER_YOUR_TITLE_VALIDATION,
+  MESSAGE_REQUIRED,
+  MIN_LENGHT_PHONENUMBER,
+  NAME_REQUIRED,
+  PHONENUMBER_REQUIRED,
+  TITLE_REQUIRED,
+} from "src/locales/errors";
 
+const theme = createTheme();
+const validationSchema = yup.object({
+  fullname: yup.string(ENTER_YOUR_NAME).required(NAME_REQUIRED),
+  subject: yup.string(ENTER_YOUR_TITLE_VALIDATION).required(TITLE_REQUIRED),
+  phone: yup
+    .string(ENTER_PHONENUMBER)
+    .min(10, MIN_LENGHT_PHONENUMBER)
+    .required(PHONENUMBER_REQUIRED),
+  message: yup.string(ENTER_YOUR_MESSAGE).required(MESSAGE_REQUIRED),
+  email: yup
+    .string(ENTER_YOUR_EMAIL_VALIDATION)
+    .email(ENTER_VALID_EMAIL)
+    .required(EMAIL_REQUIRED),
+});
 export default function Contact() {
   const [sendSuccess, setSendSuccess] = useState(false);
 
@@ -24,7 +53,35 @@ export default function Contact() {
   const user = useSelector(
     (state) => state.persistedReducer.user.currentUserInfoFull.userInfo
   );
-
+  const formik = useFormik({
+    initialValues: {
+      fullname: "",
+      subject: "",
+      phone: "",
+      message: "",
+      email: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+      // emailjs
+      //   .send(
+      //     "service_5dk3h8h",
+      //     "template_d9y3dqq",
+      //     values,
+      //     "lkpWgIxYPz1foBwIm"
+      //   )
+      //   .then(
+      //     (result) => {
+      //       console.log(result);
+      //       setSendSuccess(true);
+      //     },
+      //     (error) => {
+      //       console.log(error.text);
+      //     }
+      //   );
+    },
+  });
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -52,113 +109,129 @@ export default function Contact() {
       );
     event.target.reset();
   };
-  const ContactForm =  (
-      <Card
+  const ContactForm = (
+    <Card
+      sx={{
+        width: "100%",
+        padding: "20px 20px !important",
+        borderRadius: "20px",
+      }}
+    >
+      <Box
         sx={{
-          width: "100%",
-          padding: "20px 20px !important",
-          borderRadius: "20px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Box sx={{ mt: 1, textAlign: "center" }}>
-            <Typography variant="h2" sx={{ fontSize: 40 }}>
-              Liên hệ chúng tôi
-            </Typography>
-            <Typography component="p" sx={{ py: 2 }}>
-              Chúng tôi luôn sẵn sàng hỗ trợ, dù bạn ở bất cứ nơi đâu!
-            </Typography>
-          </Box>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              {user ? (
-                <></>
-              ) : (
-                <>
-                  <Grid item xs={12} md={6}>
-                    <TextField
-                      color="success"
-                      required
-                      fullWidth
-                      id="fullname"
-                      label="Họ và tên"
-                      name="fullname"
-                      autoComplete="name"
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <TextField
-                      color="success"
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email"
-                      name="email"
-                      autoComplete="email"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      color="success"
-                      required
-                      fullWidth
-                      id="phone"
-                      label="Số điện thoại"
-                      name="phone"
-                      autoComplete="phone"
-                    />
-                  </Grid>
-                </>
-              )}
-
-              <Grid item xs={12}>
-                <TextField
-                  color="success"
-                  required
-                  fullWidth
-                  id="subject"
-                  name="subject"
-                  label="Chủ đề"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  color="success"
-                  id="message"
-                  name="message"
-                  label="Tin nhắn"
-                  multiline
-                  rows={4}
-                />
-              </Grid>
-            </Grid>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <Button
-                type="submit"
-                color="success"
-                variant="contained"
-                sx={{ mt: 3, mb: 2, textTransform: "none" }}
-              >
-                Gửi
-              </Button>
-            </div>
-          </Box>
+        <Box sx={{ mt: 1, textAlign: "center" }}>
+          <Typography variant="h2" sx={{ fontSize: 40 }}>
+            Liên hệ chúng tôi
+          </Typography>
+          <Typography component="p" sx={{ py: 2 }}>
+            Chúng tôi luôn sẵn sàng hỗ trợ, dù bạn ở bất cứ nơi đâu!
+          </Typography>
         </Box>
-      </Card>
-    )
+        <Box
+          component="form"
+          noValidate
+          onSubmit={formik.handleSubmit}
+          sx={{ mt: 3 }}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                color="success"
+                required
+                fullWidth
+                id="fullname"
+                label="Họ và tên"
+                name="fullname"
+                autoComplete="name"
+                value={formik.values.fullname}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.fullname && Boolean(formik.errors.fullname)
+                }
+                helperText={formik.touched.fullname && formik.errors.fullname}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                color="success"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                color="success"
+                required
+                fullWidth
+                id="phone"
+                label="Số điện thoại"
+                name="phone"
+                autoComplete="phone"
+                value={formik.values.phone}
+                onChange={formik.handleChange}
+                error={formik.touched.phone && Boolean(formik.errors.phone)}
+                helperText={formik.touched.phone && formik.errors.phone}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                color="success"
+                required
+                fullWidth
+                id="subject"
+                name="subject"
+                label="Tiêu đề"
+                value={formik.values.subject}
+                onChange={formik.handleChange}
+                error={formik.touched.subject && Boolean(formik.errors.subject)}
+                helperText={formik.touched.subject && formik.errors.subject}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                color="success"
+                id="message"
+                name="message"
+                label="Tin nhắn"
+                multiline
+                rows={4}
+                value={formik.values.message}
+                onChange={formik.handleChange}
+                error={formik.touched.message && Boolean(formik.errors.message)}
+                helperText={formik.touched.message && formik.errors.message}
+              />
+            </Grid>
+          </Grid>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              type="submit"
+              color="success"
+              variant="contained"
+              sx={{ mt: 3, mb: 2, textTransform: "none" }}
+            >
+              Gửi
+            </Button>
+          </div>
+        </Box>
+      </Box>
+    </Card>
+  );
   function SendSuccess() {
     return (
       <div className={styles.paddingTop}>
