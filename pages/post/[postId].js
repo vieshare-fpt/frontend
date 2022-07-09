@@ -4,17 +4,21 @@ import { ReaderLayout } from "src/components/layouts";
 import { postApi, commentApi } from "src/services";
 import { FormControl, TextField, Container, CssBaseline, Button} from "@mui/material";
 import { Grid, Box, Avatar } from "@mui/material";
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import Rating from '@mui/material/Rating';
 import { RelatedCards } from "src/components/post/RelatedCard";
 import { CommentCard } from "src/components/post/CommentCard";
 import { useSelector } from "react-redux";
-import SendIcon from '@mui/icons-material/Send';
+import { StarIcon } from '@mui/icons-material/Star';
+import { StarBorderIcon } from '@mui/icons-material/StarBorder';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import { dateFormat } from 'src/utils/FormatDateHelper';
-
-
 
 function PostDetailPage(props) {
   const [content, setContent] = useState();
-  const user = useSelector(
+  const [value, setValue] = React.useState(2);
+    const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
     );
   const router = useRouter();
@@ -33,15 +37,18 @@ function PostDetailPage(props) {
   }
   // console.log('related : ', related)
 
+  //Voting function
+
   return (
     <React.Fragment>
+      
       <Grid 
         container
         columns={{ xs: 4, sm: 8, md: 12 }}
         sx={{ paddingTop: 15, paddingBottom: 5}}
       >
         {/* Author Information */}
-        <Grid item xs={12} sm={12} md={2} key={1}>
+        <Grid item xs={12} sm={12} md={2} key={1} >
           
         </Grid>
 
@@ -49,7 +56,7 @@ function PostDetailPage(props) {
         <Grid item xs={12} sm={12} md={8} key={2}>
           <CssBaseline />
           <Container maxWidth="md" sx={{ paddingLeft: 2,marginBottom: 10, textAlign: 'justify', textAlignLast: 'left' }}>
-            <h1 style={{marginTop: 0}}>{post.data.title}</h1>
+            <h1 style={{marginTop: 10}}>{post.data.title}</h1>
             <div style={{ fontSize:'small', color: 'gray'}}>Tác giả: {post.data.author.name} <br/> Cập nhật lúc: {dateFormat(post.data.publishDate)}</div>
             <h4>{post.data.description}</h4>
             <div dangerouslySetInnerHTML={{ __html: post.data.content }}></div>
@@ -62,7 +69,25 @@ function PostDetailPage(props) {
               margin: 'auto',
               padding: 2,
               borderRadius: 2,
-            }} xs={12} sm={12} md={12} key={4}>
+            }} xs={12} sm={12} md={12} key={4}
+          >
+            <h3 style={{margin: 0,}}>Đánh giá bài viết</h3 >
+            <hr/>
+            <Box 
+            sx={{
+              display: 'flex', 
+              marginBottom: 1,
+            }}
+            >
+              <Rating
+                name="simple-controlled"
+                value={value}
+                onChange={(event, newValue) => {
+                  setValue(newValue);
+                }}
+              />
+              <div style={{marginLeft: 10}}>{value} sao</div>
+            </Box>
             <h3 style={{margin: 0,}}>Bình luận</h3 >
             <hr/>
             <Box sx={{ display: 'flex' }}>
@@ -142,16 +167,15 @@ function PostDetailPage(props) {
             : <></>
           }
         </Grid>
-
-
-
       </Grid>
+      
       {/* <CssBaseline />
       <Container maxWidth="md" sx={{ paddingTop: 15, paddingBottom: 5, textAlign: 'justify', textAlignLast: 'left' }}>
         <h2>{post.data.title}</h2>
         <h4>{post.data.description}</h4>
         <div dangerouslySetInnerHTML={{ __html: post.data.content }}></div>
       </Container> */}
+      
     </React.Fragment>
   )
 }
