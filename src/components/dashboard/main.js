@@ -17,7 +17,6 @@ import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import Link from 'next/link';
 import { styled } from '@mui/material';
-
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
