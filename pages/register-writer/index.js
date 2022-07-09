@@ -119,7 +119,7 @@ export default function RegisterWriter() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2, textTransform: "none" }}
               >
-                Summit
+                Gửi
               </Button>
             </div>
           </Box>
