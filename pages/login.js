@@ -14,6 +14,7 @@ import { setCookieData } from "src/services/cookies";
 import { useRouter } from "next/router";
 import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
 import { useDispatch } from "react-redux";
+import catchError from "src/utils/catchError";
 
 const validationSchema = yup.object({
   email: yup
@@ -37,6 +38,7 @@ export default function LoginPage() {
         })
         .catch(function (error) {
           dispatch(setUserInfoFailed());
+          catchError(error, dispatch, router)
         });
     })();
   }

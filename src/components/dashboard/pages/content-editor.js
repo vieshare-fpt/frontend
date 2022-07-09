@@ -3,7 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Box, TextField, Typography, Toolbar, Button, IconButton, Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
 import CategorySelector from 'src/components/common/category-selector'
 import { creatorApi } from 'src/services';
-import { uploadImage } from 'src/utils/UploadImage';
+import { uploadImage } from 'src/utils/uploadImage';
 import { useRouter } from "next/router";
 
 import { useQuill } from 'react-quilljs';

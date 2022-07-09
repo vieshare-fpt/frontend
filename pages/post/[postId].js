@@ -1,24 +1,45 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ReaderLayout } from "src/components/layouts";
 import { postApi, commentApi } from "src/services";
-import { FormControl, TextField, Container, CssBaseline, Button} from "@mui/material";
+import {
+  FormControl,
+  TextField,
+  Container,
+  CssBaseline,
+  Button,
+} from "@mui/material";
 import { Grid, Box, Avatar } from "@mui/material";
 import { RelatedCards } from "src/components/post/RelatedCard";
 import { CommentCard } from "src/components/post/CommentCard";
 import { useSelector } from "react-redux";
-import SendIcon from '@mui/icons-material/Send';
-import { dateFormat } from 'src/utils/FormatDateHelper';
-
-
+import SendIcon from "@mui/icons-material/Send";
+import { dateFormat } from "src/utils/formatDateHelper";
+import { getCookieData } from "src/services/cookies";
 
 function PostDetailPage(props) {
   const [content, setContent] = useState();
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
-    );
+  );
   const router = useRouter();
   const { post, related, commentData } = props;
+  useEffect(() => {
+    const fetchData = async () => {
+      const postId = router.query.postId;
+      const token = getCookieData("token");
+      const refreshToken = getCookieData("refreshToken");
+      await postApi
+        .getPostDetail(postId, token, refreshToken)
+        .then((res) => console.log(res))
+        .catch((e) => console.error(e));
+    };
+
+    const timer = setTimeout(() => {
+      fetchData();
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [router.query.postId]);
   // console.log(commentData);
   // console.log(post);
   if (router.isFallback) {
@@ -29,122 +50,132 @@ function PostDetailPage(props) {
   if (!post) return null;
 
   if (post.statusCode === "USER_NOT_PREMIUM") {
-    return <div style={{ marginTop: '100px' }}>card</div>;
+    return <div style={{ marginTop: "100px" }}>card</div>;
   }
   // console.log('related : ', related)
 
   return (
     <React.Fragment>
-      <Grid 
+      <Grid
         container
         columns={{ xs: 4, sm: 8, md: 12 }}
-        sx={{ paddingTop: 15, paddingBottom: 5}}
+        sx={{ paddingTop: 15, paddingBottom: 5 }}
       >
         {/* Author Information */}
-        <Grid item xs={12} sm={12} md={2} key={1}>
-          
-        </Grid>
+        <Grid item xs={12} sm={12} md={2} key={1}></Grid>
 
         {/* Post detail contents */}
         <Grid item xs={12} sm={12} md={8} key={2}>
           <CssBaseline />
-          <Container maxWidth="md" sx={{ paddingLeft: 2,marginBottom: 10, textAlign: 'justify', textAlignLast: 'left' }}>
-            <h1 style={{marginTop: 0}}>{post.data.title}</h1>
-            <div style={{ fontSize:'small', color: 'gray'}}>Tác giả: {post.data.author.name} <br/> Cập nhật lúc: {dateFormat(post.data.publishDate)}</div>
+          <Container
+            maxWidth="md"
+            sx={{
+              paddingLeft: 2,
+              marginBottom: 10,
+              textAlign: "justify",
+              textAlignLast: "left",
+            }}
+          >
+            <h1 style={{ marginTop: 0 }}>{post.data.title}</h1>
+            <div style={{ fontSize: "small", color: "gray" }}>
+              Tác giả: {post.data.author.name} <br /> Cập nhật lúc:{" "}
+              {dateFormat(post.data.publishDate)}
+            </div>
             <h4>{post.data.description}</h4>
             <div dangerouslySetInnerHTML={{ __html: post.data.content }}></div>
           </Container>
 
           {/* Comments */}
-          <Grid item 
+          <Grid
+            item
             sx={{
-              backgroundColor: '#e4e4e4',
-              margin: 'auto',
+              backgroundColor: "#e4e4e4",
+              margin: "auto",
               padding: 2,
               borderRadius: 2,
-            }} xs={12} sm={12} md={12} key={4}>
-            <h3 style={{margin: 0,}}>Bình luận</h3 >
-            <hr/>
-            <Box sx={{ display: 'flex' }}>
-              
-              <Avatar alt={user?.name} src={user?.avatar}/>
-              <FormControl 
-              sx={{
-                marginLeft: 1, 
-                // marginRight: 2, 
-                width: "100%",
-                textAlign: "center"
-              }} 
+            }}
+            xs={12}
+            sm={12}
+            md={12}
+            key={4}
+          >
+            <h3 style={{ margin: 0 }}>Bình luận</h3>
+            <hr />
+            <Box sx={{ display: "flex" }}>
+              <Avatar alt={user?.name} src={user?.avatar} />
+              <FormControl
+                sx={{
+                  marginLeft: 1,
+                  // marginRight: 2,
+                  width: "100%",
+                  textAlign: "center",
+                }}
               >
-                <TextField 
-                  style={{ backgroundColor: 'white' }}
-                  id="commentContents" 
-                  // variant="filled" 
+                <TextField
+                  style={{ backgroundColor: "white" }}
+                  id="commentContents"
+                  // variant="filled"
                   onChange={(event) => {
                     setContent(event.target.value);
                   }}
                   multiline
                 />
-                <div style={{display: 'flex', justifyContent: 'flex-end',}}>
-                <Button 
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button
                     variant="contained"
                     color="success"
-                    sx={{marginTop: 1,}}
+                    sx={{ marginTop: 1 }}
                     onClick={async () => {
-                      if(content != "" || content != null){
-                        if(!user){
+                      if (content != "" || content != null) {
+                        if (!user) {
                           alert("Đăng nhập trước khi bình luận");
-                        }
-                        else{
+                        } else {
                           const postId = post.data.id;
-                          try{
+                          try {
                             await commentApi.postComments({
                               postId,
                               content,
-                            })
+                            });
                             window.location.reload();
-                          }
-                          catch(err){
-                              console.log(err);
+                          } catch (err) {
+                            console.log(err);
                           }
                         }
                       }
-                                              
                     }}
-                >Gửi</Button>
-              </div>
+                  >
+                    Gửi
+                  </Button>
+                </div>
               </FormControl>
             </Box>
-            
-            <hr/>
+
+            <hr />
             <Box>
-              {commentData.length ?
+              {commentData.length ? (
                 commentData.map((element) => {
                   return (
                     <CommentCard key={element.id} data={element}></CommentCard>
-                  )
+                  );
                 })
-                : <></>
-              }
+              ) : (
+                <></>
+              )}
             </Box>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={2} key={3} sx={{padding:'0px'}}>
+        <Grid item xs={12} sm={12} md={2} key={3} sx={{ padding: "0px" }}>
           <h3>Bài viết liên quan</h3>
-          {related.length ?
+          {related.length ? (
             related.map((element) => {
               return (
-                <RelatedCards key={element.id} note={element}>
-
-                </RelatedCards>
-              )
+                <RelatedCards key={element.id} note={element}></RelatedCards>
+              );
             })
-            : <></>
-          }
+          ) : (
+            <></>
+          )}
         </Grid>
-
-
-
       </Grid>
       {/* <CssBaseline />
       <Container maxWidth="md" sx={{ paddingTop: 15, paddingBottom: 5, textAlign: 'justify', textAlignLast: 'left' }}>
@@ -153,23 +184,29 @@ function PostDetailPage(props) {
         <div dangerouslySetInnerHTML={{ __html: post.data.content }}></div>
       </Container> */}
     </React.Fragment>
-  )
+  );
 }
 
 export default PostDetailPage;
 PostDetailPage.getLayout = ReaderLayout;
 
 export async function getServerSideProps(context) {
-  const postId = context.params?.postId
+  const postId = context.params?.postId;
   if (!postId) return { notFound: true };
   const response = await postApi.getPostDetail(postId);
-  const postRelated = await postApi.getPostsRelated(postId, { page: 1, per_page: 5 });
-  const comments = await commentApi.getComments(postId, {order_by: "publishDate", sort: "DESC"});
+  const postRelated = await postApi.getPostsRelated(postId, {
+    page: 1,
+    per_page: 5,
+  });
+  const comments = await commentApi.getComments(postId, {
+    order_by: "publishDate",
+    sort: "DESC",
+  });
   return {
     props: {
       post: response,
       related: postRelated.data,
-      commentData: comments.data
+      commentData: comments.data,
     },
   };
 }

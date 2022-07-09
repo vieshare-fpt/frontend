@@ -2,7 +2,7 @@ import React from 'react'
 import 'moment/locale/vi' 
 import { Box, Avatar } from "@mui/material"
 import { Paper, Grid } from "@mui/material"
-import { dateFormat } from 'src/utils/FormatDateHelper';
+import { dateFormat } from 'src/utils/formatDateHelper';
 
 
 export function CommentCard({ data }) {

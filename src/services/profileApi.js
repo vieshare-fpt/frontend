@@ -18,12 +18,15 @@ export const profileAPI = {
         return url;
     },
     updateAvatar: (avatar) => {
-        return axiosClient().patch('/users/avatar', { avatar })
+        const token = getCookieData('token')
+        return axiosClient(token).patch('/users/avatar', { avatar })
     },
     updateUserInfo: (newInfoRequest) => {
-        return axiosClient().patch('/users/info', newInfoRequest)
+        const token = getCookieData('token')
+        return axiosClient(token).patch('/users/info', newInfoRequest)
     },
     updatePassword: (newPasswordRequest) => {
-        return axiosClient().patch('/users/password', newPasswordRequest )
+        const token = getCookieData('token')
+        return axiosClient(token).patch('/users/password', newPasswordRequest )
     }
 };

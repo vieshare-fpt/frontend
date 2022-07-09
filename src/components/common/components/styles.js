@@ -61,7 +61,7 @@ export const styles = {
     width: "95%",
 
     [`& fieldset`]: {
-      borderRadius: 8,
+      borderRadius: "0 6px 6px 0",
     },
     [`&:hover fieldset`]: {},
   },
