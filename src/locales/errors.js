@@ -16,9 +16,20 @@ const MIN_SYMBOLS = "Mật khẩu ít nhất 1 kí tự đặc biệt";
 const PASSWORD_REQUIRED = "Mật khẩu là bắt buộc";
 const NEW_PASSWORD_REQUIRED = "Mật khẩu mới là bắt buộc";
 const PASSWORD_CONFIRM_FAILED = "Xác nhận mật khẩu không hợp lệ"
-
+const ENTER_YOUR_TITLE_VALIDATION = "Nhập tiêu đề ";
+const ENTER_YOUR_CONTENT_VALIDATION = "Nhập nội dung";
+const TITLE_REQUIRED = "Tiêu đề là bắt buộc"
+const CONTENT_REQUIRED = "Nội dung là bắt buộc"
+const MESSAGE_REQUIRED = "Tin nhắn là bắt buộc"
+const ENTER_YOUR_MESSAGE = "Nhập tin nhắn"
 
 export {
+    ENTER_YOUR_TITLE_VALIDATION,
+    ENTER_YOUR_CONTENT_VALIDATION,
+    MESSAGE_REQUIRED,
+    ENTER_YOUR_MESSAGE,
+    CONTENT_REQUIRED,
+    TITLE_REQUIRED,
     ENTER_YOUR_NAME,
     NAME_REQUIRED,
     ENTER_PHONENUMBER,

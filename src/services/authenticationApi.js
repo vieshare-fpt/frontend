@@ -8,8 +8,9 @@ export const accessApi = {
   loginByGoogle(credential) {
     return axiosClient().post("/auth/google", credential);
   },
-  logout(refreshToken) {
+  logout() {
     const token = getCookieData('token');
+    const refreshToken = getCookieData('refreshToken');
     return axiosClient(token, refreshToken).post(
       "/auth/logout",
       {
