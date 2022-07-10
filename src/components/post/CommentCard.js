@@ -2,11 +2,12 @@ import React from 'react'
 import 'moment/locale/vi' 
 import { Box, Avatar } from "@mui/material"
 import { Paper, Grid } from "@mui/material"
-import { dateFormat } from 'src/utils/formatDateHelper';
+import Moment from 'moment';
 
 
 export function CommentCard({ data }) {
-    const publishDate = dateFormat(data.publishDate);
+    const publishDate = Moment(data.publishDate).format('DD/MM/YYYY - h:mm a');
+    
 //   console.log(data);
     return (
         <Box 

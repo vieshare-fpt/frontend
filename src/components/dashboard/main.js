@@ -37,6 +37,7 @@ export default function ResponsiveDrawer(props) {
   ]
 
   const MyLogo = styled(Typography)({
+    color: "forestgreen",
     fontFamily: 'Salsa',
     fontSize: '36px',
     fontWeight: '400',

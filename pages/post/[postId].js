@@ -4,27 +4,25 @@ import { ReaderLayout } from "src/components/layouts";
 import { postApi, commentApi } from "src/services";
 import { FormControl, TextField, Container, CssBaseline, Button} from "@mui/material";
 import { Grid, Box, Avatar } from "@mui/material";
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
 import Rating from '@mui/material/Rating';
 import { RelatedCards } from "src/components/post/RelatedCard";
 import { CommentCard } from "src/components/post/CommentCard";
 import { useSelector } from "react-redux";
-import { StarIcon } from '@mui/icons-material/Star';
-import { StarBorderIcon } from '@mui/icons-material/StarBorder';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import { dateFormat } from 'src/utils/FormatDateHelper';
+
+
 
 function PostDetailPage(props) {
   const [content, setContent] = useState();
-  const [value, setValue] = React.useState(2);
-    const user = useSelector(
+  const [value, setValue] = React.useState(0);
+  // const [avgRating, setAvgRating] = React.useState();
+  const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
-    );
+  );
+  
   const router = useRouter();
-  const { post, related, commentData } = props;
-  // console.log(commentData);
-  // console.log(post);
+  const { post, related, commentData, avgRating } = props;
+  
   if (router.isFallback) {
     return (
       <div style={{ fontSize: "2rem", textAlign: "center" }}>Đang tải...</div>
@@ -39,6 +37,61 @@ function PostDetailPage(props) {
 
   //Voting function
 
+  async function postRatingApi(id, rating) {
+    await postApi.postRatingScore({
+      postId: id,
+      point: rating,
+    });
+  }
+
+  const PostRate = () => {
+    // if(post.data.postType == 'Premium') {
+      
+      return (
+        <Box>
+          <h3 style={{margin: 0,}}>Đánh giá bài viết</h3 >
+            <hr/>
+            <Box 
+            sx={{
+              display: 'flex', 
+              marginBottom: 1,
+            }}
+            >
+              <Rating
+                name = "simple-controlled"
+                value = {value}
+                onChange={(event, newValue) => {
+                  console.log(newValue);
+                  setValue(newValue);
+                  const id = post.data.id;
+                  postRatingApi(id, newValue);
+                  // console.log(value);s
+                }}
+              />
+              <div style={{marginLeft: 10}}>{value} sao</div>
+            </Box>
+        </Box>
+      );
+    // }
+  };
+  const AverageRating = () => {
+    // if(post.data.postType == 'Premium'){
+      const value = parseInt(avgRating.averageVote);
+      // console.log(avgRating);
+      return (
+        
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20, fontSize:'small', color: 'gray'}}>
+             Đánh giá: 
+            <Rating 
+              name="half-rating-read" 
+              defaultValue={value} 
+              precision={0.5} readOnly
+              size="small" />
+          </div>
+        
+      );
+    // }
+  }
   return (
     <React.Fragment>
       
@@ -56,7 +109,8 @@ function PostDetailPage(props) {
         <Grid item xs={12} sm={12} md={8} key={2}>
           <CssBaseline />
           <Container maxWidth="md" sx={{ paddingLeft: 2,marginBottom: 10, textAlign: 'justify', textAlignLast: 'left' }}>
-            <h1 style={{marginTop: 10}}>{post.data.title}</h1>
+            <h1 style={{margin: 0}}>{post.data.title}</h1>
+            <AverageRating/>
             <div style={{ fontSize:'small', color: 'gray'}}>Tác giả: {post.data.author.name} <br/> Cập nhật lúc: {dateFormat(post.data.publishDate)}</div>
             <h4>{post.data.description}</h4>
             <div dangerouslySetInnerHTML={{ __html: post.data.content }}></div>
@@ -71,23 +125,7 @@ function PostDetailPage(props) {
               borderRadius: 2,
             }} xs={12} sm={12} md={12} key={4}
           >
-            <h3 style={{margin: 0,}}>Đánh giá bài viết</h3 >
-            <hr/>
-            <Box 
-            sx={{
-              display: 'flex', 
-              marginBottom: 1,
-            }}
-            >
-              <Rating
-                name="simple-controlled"
-                value={value}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                }}
-              />
-              <div style={{marginLeft: 10}}>{value} sao</div>
-            </Box>
+            <PostRate/>
             <h3 style={{margin: 0,}}>Bình luận</h3 >
             <hr/>
             <Box sx={{ display: 'flex' }}>
@@ -189,11 +227,13 @@ export async function getServerSideProps(context) {
   const response = await postApi.getPostDetail(postId);
   const postRelated = await postApi.getPostsRelated(postId, { page: 1, per_page: 5 });
   const comments = await commentApi.getComments(postId, {order_by: "publishDate", sort: "DESC"});
+  const rating = await postApi.getAvgRating(postId);
   return {
     props: {
       post: response,
       related: postRelated.data,
-      commentData: comments.data
+      commentData: comments.data,
+      avgRating: rating,
     },
   };
 }
