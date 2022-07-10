@@ -8,7 +8,7 @@ import Rating from '@mui/material/Rating';
 import { RelatedCards } from "src/components/post/RelatedCard";
 import { CommentCard } from "src/components/post/CommentCard";
 import { useSelector } from "react-redux";
-import { dateFormat } from 'src/utils/FormatDateHelper';
+import { dateFormat } from 'src/utils/formatDateHelper';
 
 
 
