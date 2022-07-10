@@ -16,6 +16,8 @@ import {
   MenuItem,
   Select,
   Toolbar,
+  ImageListTile,
+  ListSubheader,
 } from "@mui/material";
 import styles from "src/styles/Contact.module.css";
 import { MainLayout } from "src/components/layouts";
@@ -40,14 +42,15 @@ const validationSchema = yup.object({
 });
 export default function RegisterWriter() {
   const [sendSuccess, setSendSuccess] = useState(false);
-
+  const [error, setError] = useState(false);
+  const [otherError, setOtherError] = useState(false);
   const router = useRouter();
   const user = useSelector(
     (state) => state.persistedReducer.user.currentUserInfoFull.userInfo
   );
   const formik = useFormik({
     initialValues: {
-      positionApply: "",
+      positionApply: "Author",
       title: "",
       content: "",
     },
@@ -63,7 +66,20 @@ export default function RegisterWriter() {
               console.log(response);
               setSendSuccess(true);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+              const message = error.response?.data?.statusCode;
+              console.log(error);
+              switch (message) {
+                case "PREVIOUS_COVER_LETTER_NOT_PROCESSED":
+                  setError(true);
+                  break;
+                case "UNEXPECTED":
+                  setOtherError(true);
+                  break;
+                default:
+                  break;
+              }
+            });
         })();
       }
     },
@@ -149,6 +165,19 @@ export default function RegisterWriter() {
                 multiline
                 rows={4}
               />
+            </Grid>
+            <Grid item xs={12} sx={{ textAlign: "center" }}>
+              {error && (
+                <Typography variant="h7" color="error">
+                  Đơn của bạn đã được gửi, xin vui lòng chờ phản hồi.
+                </Typography>
+              )}
+              {otherError && (
+                <Typography variant="h7" color="error">
+                  Hình như bạn đã gửi yêu cầu trước đó, xin vui lòng chờ phản
+                  hồi.
+                </Typography>
+              )}
             </Grid>
           </Grid>
           <div style={{ display: "flex", justifyContent: "center" }}>
