@@ -27,4 +27,14 @@ export const postApi = {
     const refreshToken = getCookieData("refreshToken");
     return axiosClient(token,refreshToken).delete(url, { id });
   },
+  getAvgRating: (id) => {
+    const url = "/votes/post/" + id;
+    return axiosClient().get(url);
+  },
+  postRatingScore: (params) => {
+    const url = "/votes";
+    const token = getCookieData("token");
+    const refreshToken = getCookieData("refreshToken");
+    return axiosClient(token, refreshToken).post(url, params);
+  }
 };
