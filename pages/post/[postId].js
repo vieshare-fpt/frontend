@@ -233,7 +233,7 @@ export async function getServerSideProps(context) {
       post: response,
       related: postRelated.data,
       commentData: comments.data,
-      avgRating: avgRating,
+      avgRating: avgRating.data,
     },
   };
 }
