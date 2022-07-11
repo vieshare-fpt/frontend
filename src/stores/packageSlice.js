@@ -4,20 +4,26 @@ const packageSlice = createSlice({
     name: 'package',
     initialState: {
         packages: {
-            data: [],
+            data: null,
             isFetching: false,
             error: false
+        },
+        payment: {
+            package: null
         }
     },
     reducers: {
-        getPackages: (state, action) => {
+        setPackages: (state, action) => {
             state.packages.data = action.payload;
+        },
+        setPackagePayment: (state, action) => {
+            state.payment.package = action.payload;
         }
     }
 })
 
 export const  {
-    getPackages
+    setPackages, setPackagePayment
 } = packageSlice.actions;
 
 export default packageSlice.reducer

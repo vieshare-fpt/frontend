@@ -4,7 +4,7 @@ import { Typography, styled, Grid } from '@mui/material';
 import "animate.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Container } from '@mui/material';
-import { getPackages } from 'src/stores/packageSlice';
+import { setPackages } from 'src/stores/packageSlice';
 import PricingCard from "src/components/pricing/PricingCard";
 import Loader from 'src/components/common/Loader';
 import styles from "../../src/styles/Package.module.css";
@@ -21,11 +21,10 @@ export default function Packages() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     }
-    const dispatch = useDispatch();
-    const packages = useSelector(
+    const dispatch = useDispatch(); //setter redux
+    const packages = useSelector(  //getter redux
         (state) => state.package.packages.data
     );
-
     useEffect(() => {
         if (!packages)
             (async () => {
@@ -36,7 +35,7 @@ export default function Packages() {
                     page: 1
                 }).then((response) => {
                     console.log('response: ', response.data);
-                    dispatch(getPackages(response.data));
+                    dispatch(setPackages(response.data));
                 });
             })();
     });

@@ -29,7 +29,7 @@ body {
   color: white !important;
 }
 .animate__animated.animate__fadeInUp {
-  --animate-duration: 1.5s;
+  --animate-duration:  1s;
 }
 a {
   color: inherit;

@@ -7,10 +7,25 @@ import Container from '@mui/material/Container';
 import 'animate.css';
 import styles from "../../styles/Package.module.css";
 import Button from '@mui/material/Button'
+import { useDispatch } from "react-redux";
+import {  setPackagePayment } from 'src/stores/packageSlice';
+import { useRouter } from 'next/router'
+
 
 
 
 function PricingContent({ item }) {
+    const dispatch = useDispatch();
+    const router = useRouter();
+
+
+    const handerPayment = (item)  => {
+        console.log(item);
+        dispatch(setPackagePayment(item));
+        router.push("/payment")
+    }
+
+  
     console.log(item)
     return (
         <Container spacing={10} alignItems="flex-end">
@@ -50,7 +65,7 @@ function PricingContent({ item }) {
                             <br />
                             {item.price} VNĐ
                         </Typography>
-                        <Button className={styles["button"]}>
+                        <Button className={styles["button"]}   variant="contained" onClick={() => handerPayment(item)}>
                             Thanh toán
                         </Button>
                     </CardContent>
