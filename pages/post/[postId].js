@@ -227,13 +227,13 @@ export async function getServerSideProps(context) {
   const response = await postApi.getPostDetail(postId);
   const postRelated = await postApi.getPostsRelated(postId, { page: 1, per_page: 5 });
   const comments = await commentApi.getComments(postId, {order_by: "publishDate", sort: "DESC"});
-  const rating = await postApi.getAvgRating(postId);
+  const avgRating = await postApi.getAvgRating(postId);
   return {
     props: {
       post: response,
       related: postRelated.data,
       commentData: comments.data,
-      avgRating: rating,
+      avgRating: avgRating,
     },
   };
 }
