@@ -32,10 +32,8 @@ export default function EditAvatar({ open, handleEditAvatar, oldAvatar }) {
             const update = await (await profileAPI.updateAvatar(url)).data;
 
             if (update) {
-                const token = getCookieData('token');
-                const refreshToken = getCookieData('refreshToken');
                 await infoUserApi
-                    .info(token, refreshToken)
+                    .info()
                     .then((response) => {
                         dispatch(setUserInfoSuccess(response.data));
                     })
