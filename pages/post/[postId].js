@@ -8,9 +8,11 @@ import Rating from '@mui/material/Rating';
 import { RelatedCards } from "src/components/post/RelatedCard";
 import { CommentCard } from "src/components/post/CommentCard";
 import { useSelector } from "react-redux";
-import { dateFormat } from 'src/utils/formatDateHelper';
-
-
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import Moment from "moment";
 
 function PostDetailPage(props) {
   const [content, setContent] = useState();
@@ -32,8 +34,37 @@ function PostDetailPage(props) {
   }
   // console.log('related : ', related)
 
-  //Voting function
+  //Censor function
+  function CensorHandleDelete() {
+    if(user?.roles == "Censor"){
+      return(
+        <SpeedDial
+          ariaLabel="SpeedDial basic example"
+          sx={{ position: 'fixed', bottom: 16, left: 16 }}
+          icon={<SpeedDialIcon />}
+        >
+          <SpeedDialAction
+            key="Delete"
+            icon={<DeleteIcon sx={{color: 'red'}} />}
+            tooltipTitle="Xóa bài viết này"
+            onClick={() => {
+              const postId = post.data.id;
+              if(confirm("Bài viết: " + post.data.title + "\n" + "Bạn có chắc chắn muốn xóa bài viết này không?")){
+                (async () => {
+                  await postApi.removePost(postId);
+                })();
+                setTimeout(() => {
+                  location.href = (`/`);
+                }, 500);
+              }
+            }}
+          />
+        </SpeedDial>
+      );
+    }
+  }
 
+  //Voting function
   async function postRatingApi(id, rating) {
     await postApi.postRatingScore({
       postId: id,
@@ -109,9 +140,9 @@ function PostDetailPage(props) {
         columns={{ xs: 4, sm: 8, md: 12 }}
         sx={{ paddingTop: 15, paddingBottom: 5}}
       >
-        {/* Author Information */}
+        {/* Censor handle delete post */}
         <Grid item xs={12} sm={12} md={2} key={1} >
-          
+          <CensorHandleDelete/>
         </Grid>
 
         {/* Post detail contents */}
@@ -119,7 +150,7 @@ function PostDetailPage(props) {
           <CssBaseline />
           <Container maxWidth="md" sx={{ paddingLeft: 2,marginBottom: 10, textAlign: 'justify', textAlignLast: 'left' }}>
             <h1 style={{margin: 0}}>{post.data.title}</h1>
-            <div style={{ fontSize:'small', color: 'gray'}}>Tác giả: {post.data.author.name} <br/> Cập nhật lúc: {dateFormat(post.data.publishDate)}</div>
+            <div style={{ fontSize:'small', color: 'gray'}}>Tác giả: {post.data.author.name} <br/> Cập nhật lúc: {Moment(post.data.publishDate).format('DD/MM/YYYY - h:mm a')}</div>
             <AverageRating/>
             <h4>{post.data.description}</h4>
             <div dangerouslySetInnerHTML={{ __html: post.data.content }}></div>

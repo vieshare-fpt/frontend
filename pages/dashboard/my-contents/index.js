@@ -9,13 +9,8 @@ export default function DashBoard(props) {
   />;
 }
 
-export async function getStaticProps() {
-  const posts = await postApi.getPosts({
-    order_by: "publishDate",
-    sort: "DESC",
-    per_page: 999999999,
-    page: 1,
-  });
+export async function getServerSideProps() {
+  const posts = await postApi.getPosts();
   return {
     props: {
       title: "Bài viết của tôi",
