@@ -40,6 +40,7 @@ export default function ResponsiveDrawer(props) {
   }
 
   const roles = user?.roles;
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -71,11 +72,12 @@ export default function ResponsiveDrawer(props) {
 
   const drawer = (
     <div>
-      <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
-        <MyLogo>
-          <Link href="/" sx={{ textDecoration: "auto", color: "forestgreen" }}>
+
+      <Toolbar sx={{ display:"flex", justifyContent:"center" }}>
+        <MyLogo >
+          <Box sx={{ textDecoration:'auto', color: "forestgreen",}}>
             VieShare
-          </Link>
+          </Box>
         </MyLogo>
       </Toolbar>
       <Divider />

@@ -11,10 +11,7 @@ export default function DraftContents(props) {
 }
 
 export async function getServerSideProps() {
-  const posts = await postApi.getPosts({
-    per_page: 9,
-    page: 1,
-  });
+  const posts = await postApi.getPosts();
   return {
     props: {
       title: "Bản nháp",
