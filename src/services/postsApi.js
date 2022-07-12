@@ -2,9 +2,9 @@ import axiosClient from "./axiosClient";
 import { getCookieData } from "./cookies";
 
 export const postApi = {
-  getPosts: (params) => {
+  getPosts: () => {
     const url = "/posts";
-    return axiosClient().get(url, { params });
+    return axiosClient().get(url);
   },
   getPostDetail: (id) => {
     const token = getCookieData('token');
