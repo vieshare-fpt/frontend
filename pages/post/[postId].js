@@ -21,8 +21,8 @@ function PostDetailPage(props) {
   );
   
   const router = useRouter();
-  const { post, related, commentData, avgRating } = props;
-  
+  const { post, related, commentData, avgRating} = props;
+  console.log(avgRating);
   if (router.isFallback) {
     return (
       <div style={{ fontSize: "2rem", textAlign: "center" }}>Đang tải...</div>
@@ -76,8 +76,9 @@ function PostDetailPage(props) {
   };
   const AverageRating = () => {
     // if(post.data.postType == 'Premium'){
-      const value = parseInt(avgRating.averageVote);
+      const value = avgRating.averageVote;
       // console.log(avgRating);
+      
       return (
         
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20, fontSize:'small', color: 'gray'}}>
@@ -233,7 +234,7 @@ export async function getServerSideProps(context) {
       post: response,
       related: postRelated.data,
       commentData: comments.data,
-      avgRating: avgRating.data,
+      avgRating: avgRating,
     },
   };
 }
