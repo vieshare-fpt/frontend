@@ -25,8 +25,8 @@ const paper = {
   sx: {
     overflow: "visible",
     filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-    width: '456px',
-    height: {xs: '280px',sm:'255px'},
+    width: "456px",
+    height: { xs: "280px", sm: "255px" },
     mt: 1.5,
     borderRadius: 3,
     "& .MuiAvatar-root": {
@@ -60,7 +60,7 @@ const features = [
     url: "/",
   },
 ];
-export function UserPopup({ fullname, email, avatar, type }) {
+export function UserMenu({ fullname, email, avatar, type }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
@@ -82,8 +82,8 @@ export function UserPopup({ fullname, email, avatar, type }) {
           console.log(response);
           removeCookieData("token");
           removeCookieData("refreshToken");
-          
           router.push("/login");
+
           dispatch(clearInfoSuccess());
         })
         .catch((error) => {

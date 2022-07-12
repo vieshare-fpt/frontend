@@ -141,8 +141,9 @@ export default function MyContents(props) {
     const authorID = user.id;
     // console.log(props);
     const { post } = props.props.props;
-    // console.log(post);
+    console.log(post);
     const { postStatus, title } = props.props.props;
+    console.log();
     var listPosts = [];
     for(let i = 0; i < post.length; i++) {
         if(post[i].author.id == authorID && post[i].status == postStatus && post[i].status != 'Delete') {

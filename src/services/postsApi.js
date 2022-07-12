@@ -7,8 +7,8 @@ export const postApi = {
     return axiosClient().get(url, { params });
   },
   getPostDetail: (id) => {
-    const token = getCookieData('token');
-    const refreshToken = getCookieData('refreshToken');
+    const token = getCookieData("token");
+    const refreshToken = getCookieData("refreshToken");
     const url = "/posts/" + id;
     return axiosClient(token, refreshToken).get(url);
   },
@@ -18,14 +18,14 @@ export const postApi = {
   },
   searchPosts: (params) => {
     const url = `/posts/search`;
-    
+
     return axiosClient().get(url, params);
   },
   removePost: (id) => {
     const url = "/posts/" + id;
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token,refreshToken).delete(url, { id });
+    return axiosClient(token, refreshToken).delete(url, { id });
   },
   getAvgRating: (id) => {
     const url = "/votes/average/post/" + id;
@@ -42,5 +42,5 @@ export const postApi = {
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
     return axiosClient(token, refreshToken).get(url);
-  }
+  },
 };

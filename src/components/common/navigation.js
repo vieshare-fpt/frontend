@@ -12,8 +12,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LoginIcon from "@mui/icons-material/Login";
 import Link from "next/link";
-import { devTeamPage, pageNotDrawer, styles, ToolBarDesktop } from "./components";
-import { UserPopup } from "./components";
+import { devTeamPage, pageNotDrawer, styles, ToolBarDesktop, UserMenu } from "./components";
 import {
   Button,
   IconButton,
@@ -114,7 +113,7 @@ export function Navigation({ children }) {
   const access = (
     <>
       {user ? (
-        <UserPopup
+        <UserMenu
           type={user.isPremium}
           fullname={user.name}
           avatar={user.avatar}
