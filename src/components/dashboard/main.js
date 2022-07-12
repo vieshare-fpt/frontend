@@ -24,7 +24,7 @@ const drawerWidth = 240;
 export default function ResponsiveDrawer(props) {
   const { window, CurrentComponent } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  console.log(CurrentComponent);
+  // console.log(CurrentComponent);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -50,9 +50,9 @@ export default function ResponsiveDrawer(props) {
     <div>
       <Toolbar sx={{ display:"flex", justifyContent:"center" }}>
         <MyLogo >
-          <Link href='/' sx={{ textDecoration:'auto', color: "forestgreen",}}>
+          <Box sx={{ textDecoration:'auto', color: "forestgreen",}}>
             VieShare
-          </Link>
+          </Box>
         </MyLogo>
       </Toolbar>
       <Divider />

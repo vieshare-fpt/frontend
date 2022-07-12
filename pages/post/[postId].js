@@ -14,15 +14,12 @@ import { dateFormat } from 'src/utils/formatDateHelper';
 
 function PostDetailPage(props) {
   const [content, setContent] = useState();
-  const [value, setValue] = React.useState(0);
-  // const [avgRating, setAvgRating] = React.useState();
+  const [rateValue, setRateValue] = React.useState(0);
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
-  
   const router = useRouter();
   const { post, related, commentData, avgRating } = props;
-  
   if (router.isFallback) {
     return (
       <div style={{ fontSize: "2rem", textAlign: "center" }}>Đang tải...</div>
@@ -44,6 +41,13 @@ function PostDetailPage(props) {
     });
   }
 
+  async function getRateScoreApi(id) {
+    await postApi.getRating(id).then((response) => {
+      // console.log(response);
+      setRateValue(response.point);
+    })
+  }
+
   const PostRate = () => {
     // if(post.data.postType == 'Premium') {
       
@@ -59,24 +63,29 @@ function PostDetailPage(props) {
             >
               <Rating
                 name = "simple-controlled"
-                value = {value}
+                value = {rateValue}
                 onChange={(event, newValue) => {
                   console.log(newValue);
-                  setValue(newValue);
-                  const id = post.data.id;
-                  postRatingApi(id, newValue);
-                  // console.log(value);s
+                  if(newValue != null){
+                    setRateValue(newValue);
+                    const id = post.data.id;
+                    postRatingApi(id, newValue);
+                  }
+                  
                 }}
               />
-              <div style={{marginLeft: 10}}>{value} sao</div>
+              <div style={{marginLeft: 10}}>{rateValue} sao</div>
             </Box>
         </Box>
       );
     // }
   };
+
   const AverageRating = () => {
     // if(post.data.postType == 'Premium'){
-      const value = parseInt(avgRating.averageVote);
+      const postId = post.data.id;
+      getRateScoreApi(postId);
+      const avgRate = parseFloat(avgRating.averageVote);
       // console.log(avgRating);
       return (
         
@@ -84,7 +93,7 @@ function PostDetailPage(props) {
              Đánh giá: 
             <Rating 
               name="half-rating-read" 
-              defaultValue={value} 
+              defaultValue={avgRate} 
               precision={0.5} readOnly
               size="small" />
           </div>
@@ -110,8 +119,8 @@ function PostDetailPage(props) {
           <CssBaseline />
           <Container maxWidth="md" sx={{ paddingLeft: 2,marginBottom: 10, textAlign: 'justify', textAlignLast: 'left' }}>
             <h1 style={{margin: 0}}>{post.data.title}</h1>
-            <AverageRating/>
             <div style={{ fontSize:'small', color: 'gray'}}>Tác giả: {post.data.author.name} <br/> Cập nhật lúc: {dateFormat(post.data.publishDate)}</div>
+            <AverageRating/>
             <h4>{post.data.description}</h4>
             <div dangerouslySetInnerHTML={{ __html: post.data.content }}></div>
           </Container>
@@ -222,7 +231,7 @@ export default PostDetailPage;
 PostDetailPage.getLayout = ReaderLayout;
 
 export async function getServerSideProps(context) {
-  const postId = context.params?.postId
+  const postId = context.params?.postId;
   if (!postId) return { notFound: true };
   const response = await postApi.getPostDetail(postId);
   const postRelated = await postApi.getPostsRelated(postId, { page: 1, per_page: 5 });

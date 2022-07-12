@@ -144,10 +144,12 @@ export default function MyContents(props) {
     // console.log(post);
     const { postStatus, title } = props.props.props;
     var listPosts = [];
+    let count = 0;
     for(let i = 0; i < post.length; i++) {
         if(post[i].author.id == authorID && post[i].status == postStatus && post[i].status != 'Delete') {
+            count++; 
             const postObj = {   
-                id:(i), 
+                id:(count), 
                 postId: post[i].id, 
                 title: post[i].title, 
                 description: post[i].description, 
