@@ -75,9 +75,7 @@ export default function ResponsiveDrawer(props) {
 
       <Toolbar sx={{ display:"flex", justifyContent:"center" }}>
         <MyLogo >
-          <Box sx={{ textDecoration:'auto', color: "forestgreen",}}>
             VieShare
-          </Box>
         </MyLogo>
       </Toolbar>
       <Divider />
