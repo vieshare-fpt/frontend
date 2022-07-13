@@ -7,8 +7,10 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import Head from "next/head";
 import { EmptyLayout } from "src/components/layouts";
 import { PersistGate } from "redux-persist/integration/react";
+
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import { BaseOptionChartStyle } from "src/components/chart/BaseOptionChart";
 const theme = createTheme({
   typography: {
     fontFamily: "Roboto:ital",
@@ -30,6 +32,7 @@ function App({ Component, pageProps }) {
             <ScopedCssBaseline>
               <ThemeProvider theme={theme}>
                 <Layout>
+                  <BaseOptionChartStyle/>
                   <Component {...pageProps} />
                 </Layout>
               </ThemeProvider>

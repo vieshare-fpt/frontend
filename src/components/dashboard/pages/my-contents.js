@@ -141,8 +141,9 @@ export default function MyContents(props) {
     const authorID = user.id;
     // console.log(props);
     const { post } = props.props.props;
-    // console.log(post);
+    console.log(post);
     const { postStatus, title } = props.props.props;
+    console.log();
     var listPosts = [];
     let count = 0;
     for(let i = 0; i < post.length; i++) {
