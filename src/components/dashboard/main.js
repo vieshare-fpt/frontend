@@ -27,16 +27,16 @@ const drawerWidth = 240;
 export default function ResponsiveDrawer(props) {
   const { window, CurrentComponent } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const router = useRouter()
+  const router = useRouter();
   const user = useSelector(
     (state) => state.persistedReducer.user.currentUserInfoFull.userInfo
   );
-  
+
   console.log(CurrentComponent);
 
-  if(user === null) {
-     router.push('/login')
-     return <></>
+  if (user === null) {
+    router.push("/login");
+    return <></>;
   }
 
   const roles = user?.roles;
@@ -72,11 +72,8 @@ export default function ResponsiveDrawer(props) {
 
   const drawer = (
     <div>
-
-      <Toolbar sx={{ display:"flex", justifyContent:"center" }}>
-        <MyLogo >
-            VieShare
-        </MyLogo>
+      <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
+        <MyLogo>VieShare</MyLogo>
       </Toolbar>
       <Divider />
       <List>
@@ -123,12 +120,12 @@ export default function ResponsiveDrawer(props) {
             <MenuIcon color="success" />
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />
-            <UserMenu
-              type={user.isPremium}
-              fullname={user.name}
-              avatar={user.avatar}
-              email={user.email}
-            />
+          <UserMenu
+            type={user.isPremium}
+            fullname={user.name}
+            avatar={user.avatar}
+            email={user.email}
+          />
         </Toolbar>
       </AppBar>
       <Box
@@ -167,11 +164,14 @@ export default function ResponsiveDrawer(props) {
           {drawer}
         </Drawer>
       </Box>
-      <CurrentComponent
-        handleDrawerToggle={handleDrawerToggle}
-        props={props}
-        roles={roles}
-      ></CurrentComponent>
+      <Box>
+        <Toolbar/>
+        <CurrentComponent
+          handleDrawerToggle={handleDrawerToggle}
+          props={props}
+          roles={roles}
+        ></CurrentComponent>
+      </Box>
     </Box>
   );
 }
