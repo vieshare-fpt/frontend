@@ -14,7 +14,7 @@ export function CategoryBar({ categories }) {
     return (
       <div
         className={className}
-        style={{ ...style, display: "block", }}
+        style={{ ...style, display: "block" }}
         onClick={onClick}
       />
     );
@@ -41,16 +41,15 @@ export function CategoryBar({ categories }) {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 5,
+          slidesToShow: 2,
           slidesToScroll: 2,
         },
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 0,
-
+          slidesToShow: 2,
+          slidesToScroll: 2,
         },
       },
     ],
@@ -72,10 +71,9 @@ export function CategoryBar({ categories }) {
         <Toolbar
           variant="dense"
           disableGutters
-        sx={{
-                    width: { md: open ? "88.39%" : "100%", sm: "100%" },
-
-        }}
+          sx={{
+            width: { md: open ? "88.39%" : "100%", sm: "100%" },
+          }}
         >
           <div className={styles.container}>
             <Slider {...settings}>
