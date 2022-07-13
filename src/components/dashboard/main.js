@@ -164,7 +164,7 @@ export default function ResponsiveDrawer(props) {
           {drawer}
         </Drawer>
       </Box>
-      <Box>
+      <Box sx={{width: "100%"}}>
         <Toolbar/>
         <CurrentComponent
           handleDrawerToggle={handleDrawerToggle}
