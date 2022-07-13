@@ -279,22 +279,15 @@ export async function getServerSideProps(context) {
   try {
     const response = await postApi.getPostDetail(postId);
 
-    if (response.status >= 200 && response.status < 300) {
-      const postRelated = await postApi.getPostsRelated(postId, { page: 1, per_page: 5 });
-      const comments = await commentApi.getComments(postId, { order_by: "publishDate", sort: "DESC" });
-      const avgRating = await postApi.getAvgRating(postId);
-      return {
-        props: {
-          post: response,
-          related: postRelated.data,
-          commentData: comments.data,
-          avgRating: avgRating,
-        },
-      };
-    }
+    const postRelated = await postApi.getPostsRelated(postId, { page: 1, per_page: 5 });
+    const comments = await commentApi.getComments(postId, { order_by: "publishDate", sort: "DESC" });
+    const avgRating = await postApi.getAvgRating(postId);
     return {
       props: {
-        unknownError: true
+        post: response,
+        related: postRelated.data,
+        commentData: comments.data,
+        avgRating: avgRating,
       },
     };
   } catch (error) {
