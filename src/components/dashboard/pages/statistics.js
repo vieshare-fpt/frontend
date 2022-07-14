@@ -229,7 +229,7 @@ export default function Statistic(props) {
                   value: totalData ? totalData.users.userPremium : 0,
                 },
                 {
-                  label: "Tác giả",
+                  label: "Nhà văn",
                   value: totalData ? totalData.users.writer : 0,
                 },
                 {
@@ -237,7 +237,7 @@ export default function Statistic(props) {
                   value: totalData ? totalData.users.admin : 0,
                 },
                 {
-                  label: "Kiểm duyệt viên",
+                  label: "Giám sát viên",
                   value: totalData ? totalData.users.sensor : 0,
                 },
               ]}
@@ -274,6 +274,7 @@ export default function Statistic(props) {
             onChangeDensity={handleChangeDensity}
             onClick={handleTimeFrame}
             roles={roles}
+            valueDensity={density}
             value={categoryOfChart}
             chartLabels={labels}
             chartData={chartData}
