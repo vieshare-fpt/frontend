@@ -68,10 +68,9 @@ export default function Statistic(props) {
             } else {
               data.name =
                 data.name.charAt(0).toUpperCase() + data.name.slice(1);
-                data.type = "column";
-                data.fill = "linear";
+              data.type = "column";
+              data.fill = "solid";
             }
-          
           });
           setChartData(datas);
         })
@@ -86,9 +85,15 @@ export default function Statistic(props) {
     setCategoryOfChart(event.target.value);
   };
   const handleChangeDensity = (event) => {
-    console.log(event.target.value);
-    setDensity(event.target.value);
-    
+    const value = event.target.value;
+    const limit = 15;
+    if (value > limit) {
+      setDensity(limit);
+    } else if (value < 1) {
+      setDensity(1);
+    } else {
+      setDensity(value);
+    }
   };
   const handleTimeFrame = (e) => {
     e.preventDefault();
@@ -224,11 +229,15 @@ export default function Statistic(props) {
                   value: totalData ? totalData.users.userPremium : 0,
                 },
                 {
+                  label: "Tác giả",
+                  value: totalData ? totalData.users.writer : 0,
+                },
+                {
                   label: "Quản trị viên",
                   value: totalData ? totalData.users.admin : 0,
                 },
                 {
-                  label: "Người kiểm duyệt",
+                  label: "Kiểm duyệt viên",
                   value: totalData ? totalData.users.sensor : 0,
                 },
               ]}
@@ -242,6 +251,7 @@ export default function Statistic(props) {
               onChange={handleChangeCategoryOfChart}
               onChangeDensity={handleChangeDensity}
               onClick={handleTimeFrame}
+              valueDensity={density}
               value={categoryOfChart}
               roles={roles}
               chartLabels={labels}
