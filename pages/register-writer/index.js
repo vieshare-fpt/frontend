@@ -3,22 +3,12 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
-import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlined";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {
-  Card,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Toolbar,
-  ImageListTile,
-  ListSubheader,
-} from "@mui/material";
+import { Card, Toolbar } from "@mui/material";
 import styles from "src/styles/Contact.module.css";
 import { MainLayout } from "src/components/layouts";
 import AddReactionOutlinedIcon from "@mui/icons-material/AddReactionOutlined";
@@ -114,28 +104,6 @@ export default function RegisterWriter() {
           sx={{ mt: 3 }}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel color="success" id="positionApplyLb">
-                  Vị trí
-                </InputLabel>
-                <Select
-                  color="success"
-                  labelId="positionApplyLb"
-                  id="positionApply"
-                  label="Vị trí"
-                  value={formik.values.positionApply}
-                  onChange={(e) => {
-                    formik.setFieldValue("positionApply", e.target.value);
-                  }}
-                >
-                  <MenuItem value="Author">Tác giả</MenuItem>
-                  <MenuItem value="Censor">Kiểm duyệt</MenuItem>
-                  <MenuItem value="Admin">Quản trị</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
             <Grid item xs={12}>
               <TextField
                 color="success"

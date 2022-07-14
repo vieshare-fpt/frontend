@@ -13,7 +13,7 @@ import Page from "../src/components/login/main";
 import { setCookieData } from "src/services/cookies";
 import { useRouter } from "next/router";
 import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import catchError from "src/utils/catchError";
 
 const validationSchema = yup.object({
@@ -28,17 +28,27 @@ export default function LoginPage() {
   const [error, setError] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
+
   function getInfoUser() {
     (async () => {
       await infoUserApi
         .info()
         .then((response) => {
           dispatch(setUserInfoSuccess(response.data));
-          router.push("/");
+          if (
+            response.data.roles.includes("Admin") ||
+            response.data.roles.includes("Writer")
+          ) {
+            router.push("/dashboard");
+          } else if (response.data.roles.includes("Censor")) {
+            router.push("/censor");
+          } else {
+            router.push("/");
+          }
         })
         .catch(function (error) {
           dispatch(setUserInfoFailed());
-          catchError(error, dispatch, router)
+          catchError(error, dispatch, router);
         });
     })();
   }

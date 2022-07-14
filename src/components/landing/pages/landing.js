@@ -34,6 +34,7 @@ export default function LandingPage({ props }) {
             page: 1,
           })
           .then((response) => {
+            console.log(response);
             setData(response.data);
             setHasMore(!isHasMore(response));
             setSpinner(false);

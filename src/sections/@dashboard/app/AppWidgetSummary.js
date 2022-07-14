@@ -20,13 +20,7 @@ const IconWrapperStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-AppWidgetSummary.propTypes = {
-  color: PropTypes.string,
-  icon: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  total: PropTypes.number.isRequired,
-  sx: PropTypes.object,
-};
+
 
 export default function AppWidgetSummary({
   title,
@@ -58,10 +52,15 @@ export default function AppWidgetSummary({
             )} 0%, ${alpha(theme.palette[color].dark, 0.24)} 100%)`,
         }}
       >
-        a
+        {icon}
       </IconWrapperStyle>
 
-      <Typography variant="h3">{total}</Typography>
+      <Typography
+        variant="h3"
+        sx={{ color: (theme) => theme.palette[color].dark }}
+      >
+        {total}
+      </Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
