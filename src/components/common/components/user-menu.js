@@ -19,7 +19,9 @@ import { useDispatch } from "react-redux";
 import { clearInfoStart, clearInfoSuccess } from "src/stores/userSlice";
 import { useRouter } from "next/router";
 import catchError from "src/utils/catchError";
-
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import AttributionTwoToneIcon from "@mui/icons-material/AttributionTwoTone";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 const paper = {
   elevation: 0,
   sx: {
@@ -60,15 +62,56 @@ const features = [
     url: "/",
   },
 ];
-export function UserMenu({ fullname, email, avatar, type }) {
+export function UserMenu({ fullname, email, avatar, type, roles }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
   const dispatch = useDispatch();
+
+  let userType = (
+    <Image
+      src={type ? "/premium.svg" : "/free.svg"}
+      alt=""
+      width={100}
+      height={30}
+    />
+  );
+  if (roles != null) {
+    if (roles.includes("Admin")) {
+      userType = (
+        <>
+          <AdminPanelSettingsIcon sx={{ mx: 1 }} color="success" />
+          <Typography>Quản trị viên</Typography>
+        </>
+      );
+    } else if (roles.includes("Writer")) {
+      userType = (
+        <>
+          <AttributionTwoToneIcon sx={{ mx: 1 }} color="success" />
+          <Typography>Nhà văn</Typography>
+        </>
+      );
+    } else if (roles.includes("Censor")) {
+      userType = (
+        <>
+          <SupervisedUserCircleIcon sx={{ mx: 1 }} color="success" />
+          <Typography>Giám sát viên</Typography>
+        </>
+      );
+    }
+  }
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  const handleProfile = () => {
+    if (roles.includes("Admin") || roles.includes("Writer")) {
+      router.push("/dashboard/writer-info");
+    } else if (roles.includes("Censor")) {
+      router.push("/censor/profile");
+    } else {
+      router.push("/profile");
+    }
+  };
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -121,12 +164,7 @@ export function UserMenu({ fullname, email, avatar, type }) {
               margin: "10px 10px",
             }}
           >
-            <Image
-              src={type ? "/premium.svg" : "/free.svg"}
-              alt=""
-              width={100}
-              height={30}
-            />
+            {userType}
             <Box sx={{ flexGrow: 1 }} />
             <Typography
               sx={{
@@ -145,7 +183,7 @@ export function UserMenu({ fullname, email, avatar, type }) {
             </Typography>
           </div>
           <Divider />
-          <MenuItem onClick={() => router.push("/profile")} sx={{ mt: 1 }}>
+          <MenuItem onClick={handleProfile} sx={{ mt: 1 }}>
             <Avatar src={avatar} />
             <div style={{ marginLeft: 10 }}>
               <Typography
