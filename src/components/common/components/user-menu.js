@@ -20,51 +20,56 @@ import { clearInfoStart, clearInfoSuccess } from "src/stores/userSlice";
 import { useRouter } from "next/router";
 import catchError from "src/utils/catchError";
 
-const paper = {
-  elevation: 0,
-  sx: {
-    overflow: "visible",
-    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-    width: "456px",
-    height: { xs: "280px", sm: "255px" },
-    mt: 1.5,
-    borderRadius: 3,
-    "& .MuiAvatar-root": {
-      width: 70,
-      height: 70,
-      ml: -0.5,
-      mr: 1,
-    },
-    "&:before": {
-      content: '""',
-      display: "block",
-      position: "absolute",
-      top: 0,
-      right: 14,
-      width: 10,
-      height: 10,
-      bgcolor: "background.paper",
-      transform: "translateY(-50%) rotate(45deg)",
-      zIndex: 0,
-    },
-  },
-};
-
-const features = [
-  {
-    name: "Lịch sử giao dịch",
-    url: "/",
-  },
-  {
-    name: "Gia hạn Premium",
-    url: "/",
-  },
-];
-export function UserMenu({ fullname, email, avatar, type }) {
+export function UserMenu({ fullname, email, avatar, type, roles }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const isAdminOrCensor = roles.includes("Admin") || roles.includes("Censor")
+  const isWriter = roles.includes("Writer")
+
+  const features = [
+    {
+      name: "Lịch sử giao dịch",
+      url: "/",
+    },
+    {
+      name: "Gia hạn Premium",
+      url: "/",
+    },
+  ];
+
+  const paper = {
+    elevation: 0,
+    sx: {
+      overflow: "visible",
+      filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+      width: "456px",
+      height: isAdminOrCensor ? {xs: "164px", sm: "164px"} : {xs: "280px", sm: "255px"},
+      mt: 1.5,
+      borderRadius: 3,
+      "& .MuiAvatar-root": {
+        width: 70,
+        height: 70,
+        ml: -0.5,
+        mr: 1,
+      },
+      "&:before": {
+        content: '""',
+        display: "block",
+        position: "absolute",
+        top: 0,
+        right: 14,
+        width: 10,
+        height: 10,
+        bgcolor: "background.paper",
+        transform: "translateY(-50%) rotate(45deg)",
+        zIndex: 0,
+      },
+    },
+  };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -121,12 +126,14 @@ export function UserMenu({ fullname, email, avatar, type }) {
               margin: "10px 10px",
             }}
           >
-            <Image
-              src={type ? "/premium.svg" : "/free.svg"}
-              alt=""
-              width={100}
-              height={30}
-            />
+            {
+              !(isAdminOrCensor || isWriter) && <Image
+                src={type ? "/premium.svg" : "/free.svg"}
+                alt=""
+                width={100}
+                height={30}
+              />
+            }
             <Box sx={{ flexGrow: 1 }} />
             <Typography
               sx={{
@@ -145,7 +152,7 @@ export function UserMenu({ fullname, email, avatar, type }) {
             </Typography>
           </div>
           <Divider />
-          <MenuItem onClick={() => router.push("/profile")} sx={{ mt: 1 }}>
+          <MenuItem onClick={() => (isAdminOrCensor || isWriter) ? router.push("/dashboard/info") : router.push("/profile")} sx={{ mt: 1 }}>
             <Avatar src={avatar} />
             <div style={{ marginLeft: 10 }}>
               <Typography
@@ -163,7 +170,7 @@ export function UserMenu({ fullname, email, avatar, type }) {
             </div>
           </MenuItem>
           <Divider />
-          {features.map((feature) => (
+          {!isAdminOrCensor && features.map((feature) => (
             <MenuItem key={feature.name}>
               <Link href={feature.url}>{feature.name}</Link>
             </MenuItem>
