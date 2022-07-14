@@ -53,17 +53,18 @@ export default function Landing(props) {
       },
     });
   }
-  if (user.roles.includes("Admin") || user.roles.includes("Writer")) {
-    router.push("/dashboard");
-    return null;
-  } else if (response.data.roles.includes("Censor")) {
-    router.push("/censor");
-    return null;
-  } else {
-    return <Page CurrentComponent={LandingPage} prop={props} />;
+  if (user !== null) {
+    if (user.roles.includes("Admin") || user.roles.includes("Writer")) {
+      router.push("/dashboard");
+      return null;
+    } else if (response.data.roles.includes("Censor")) {
+      router.push("/censor");
+      return null;
+    } else {
+      return <Page CurrentComponent={LandingPage} prop={props} />;
+    }
   }
-
-  // return <Page CurrentComponent={{ props, history }} />;
+  return <Page CurrentComponent={LandingPage} prop={props} />;
 }
 Landing.getLayout = ReaderLayout;
 
