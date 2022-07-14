@@ -37,6 +37,7 @@ export default function AppStatistics({
   chartData,
   onChange,
   onChangeDensity,
+  valueDensity,
   value,
   roles,
   onClick,
@@ -136,15 +137,18 @@ export default function AppStatistics({
         <Box>
           <TextField
             type="number"
-            placeholder="Mật độ"
+            label="Mật độ"
             color="success"
             InputProps={{
-              inputProps: { min: 0, max: 30 },
-              onChange: onChangeDensity,
+              inputProps: {
+                min: 1,
+                max: 15,
+                value: valueDensity,
+                onChange: onChangeDensity,
+              },
             }}
             sx={{
-              p: 2,
-              mt: "3.4px",
+              mt: "19px", mr: 2,
               width: "140px",
               ".MuiInputBase-input": {
                 height: "5px",
