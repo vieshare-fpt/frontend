@@ -49,12 +49,34 @@ export default function AppStatistics({
       intersect: false,
       y: {
         formatter: (y) => {
+          let text = y;
+
           if (typeof y !== "undefined") {
-            if (category === "Views") {
-              return `${y.toFixed(0)} lượt xem`;
+            switch (category) {
+              case "Views":
+                text = `${y.toFixed(0)} lượt xem`;
+                break;
+              case "Incomes":
+                text = new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(y.toFixed(0));
+                break;
+              case "Posts":
+                text = `${y.toFixed(0)} bài viết`;
+                break;
+              case "Comments":
+                text = `${y.toFixed(0)} bình luận`;
+                break;
+              case "Packages":
+                text = `${y.toFixed(0)} gói`;
+                break;
+              default:
+                text = `${y.toFixed(0)} undefined`;
+                break;
             }
           }
-          return y;
+          return text;
         },
       },
     },
