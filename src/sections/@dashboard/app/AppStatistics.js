@@ -6,14 +6,11 @@ import {
   CardHeader,
   Box,
   FormControl,
-  InputLabel,
   Select,
   MenuItem,
   ButtonGroup,
   Button,
   TextField,
-  Input,
-  InputBase,
 } from "@mui/material";
 // components
 import dynamic from "next/dynamic";
@@ -76,6 +73,9 @@ export default function AppStatistics({
                 break;
               case "Packages":
                 text = `${y.toFixed(0)} gói`;
+                break;
+              case "Follows":
+                text = `${y.toFixed(0)} người`;
                 break;
               default:
                 text = `${y.toFixed(0)} undefined`;
@@ -148,7 +148,8 @@ export default function AppStatistics({
               },
             }}
             sx={{
-              mt: "19px", mr: 2,
+              mt: "19px",
+              mr: 2,
               width: "140px",
               ".MuiInputBase-input": {
                 height: "5px",
