@@ -25,7 +25,7 @@ export default function Statistic(props) {
   const [dateTo, setDateTo] = useState(formatDate(new Date()));
   const [chartData, setChartData] = useState([]);
   const [labels, setLabels] = useState([]);
-
+  const [density, setDensity] = useState(10);
   console.log(dateFrom);
   console.log(chartData);
 
@@ -57,17 +57,21 @@ export default function Statistic(props) {
           time_frame: timeFrame,
         })
         .then((response) => {
-          console.log("a", response.labels);
+          console.log(response);
           setLabels(response.labels);
           const datas = response.data;
           datas.forEach((data) => {
-            if(data.name === "total") {
-              data.name = 'Tổng'
+            if (data.name === "total") {
+              data.name = "Tổng";
+              data.type = "area";
+              data.fill = "gradient";
             } else {
-              data.name = data.name.charAt(0).toUpperCase() + data.name.slice(1)
+              data.name =
+                data.name.charAt(0).toUpperCase() + data.name.slice(1);
+                data.type = "column";
+                data.fill = "linear";
             }
-            data.type = "area";
-            data.fill = "gradient";
+          
           });
           setChartData(datas);
         })
@@ -75,26 +79,31 @@ export default function Statistic(props) {
           console.log(error);
         });
     })();
-  }, [categoryOfChart, dateFrom, dateTo, timeFrame]);
+  }, [density, categoryOfChart, dateFrom, dateTo, timeFrame]);
 
   const handleChangeCategoryOfChart = (event) => {
     console.log(event.target.value);
     setCategoryOfChart(event.target.value);
+  };
+  const handleChangeDensity = (event) => {
+    console.log(event.target.value);
+    setDensity(event.target.value);
+    
   };
   const handleTimeFrame = (e) => {
     e.preventDefault();
     console.log(e.target.value);
     switch (e.target.value) {
       case "OneDay":
-        setDateFrom(formatOneDay(new Date(), 7));
+        setDateFrom(formatOneDay(new Date(), density));
         setDateTo(formatDate(new Date()));
         break;
       case "OneMonth":
-        setDateFrom(formatOneMonth(new Date(), 12));
+        setDateFrom(formatOneMonth(new Date(), density));
         setDateTo(formatDate(new Date()));
         break;
       case "OneYear":
-        setDateFrom(formatOneYear(new Date()), 7);
+        setDateFrom(formatOneYear(new Date(), density));
         setDateTo(formatDate(new Date()));
         break;
       default:
@@ -102,6 +111,7 @@ export default function Statistic(props) {
     }
     setTimeFrame(e.target.value);
   };
+
   const admin = (
     <>
       <Container maxWidth="xl" sx={{ mt: 2 }}>
@@ -230,8 +240,10 @@ export default function Statistic(props) {
               title="Thống kê"
               // subheader="(+43%) than last year"
               onChange={handleChangeCategoryOfChart}
+              onChangeDensity={handleChangeDensity}
               onClick={handleTimeFrame}
               value={categoryOfChart}
+              roles={roles}
               chartLabels={labels}
               chartData={chartData}
               category={categoryOfChart}
@@ -241,7 +253,26 @@ export default function Statistic(props) {
       </Container>
     </>
   );
-  const writer = <>writer</>;
+  const writer = (
+    <Container maxWidth="xl" sx={{ mt: 2 }}>
+      <Grid container>
+        <Grid item xs={12} md={6} lg={12}>
+          <AppStatistics
+            title="Thống kê"
+            // subheader="(+43%) than last year"
+            onChange={handleChangeCategoryOfChart}
+            onChangeDensity={handleChangeDensity}
+            onClick={handleTimeFrame}
+            roles={roles}
+            value={categoryOfChart}
+            chartLabels={labels}
+            chartData={chartData}
+            category={categoryOfChart}
+          />
+        </Grid>
+      </Grid>
+    </Container>
+  );
 
   if (roles.includes("Admin")) {
     statistic = admin;

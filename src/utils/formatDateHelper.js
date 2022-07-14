@@ -12,10 +12,12 @@ export  function formatDate(date) {
 }
 
 export  function formatOneDay(date, number) {
+  date.setDate(date.getDate() - number);
+
   return [
     date.getFullYear(),
     padTo2Digits(date.getMonth() + 1),
-    padTo2Digits(date.getDate() - number),
+    padTo2Digits(date.getDate()),
   ].join("-");
 }
 
@@ -28,7 +30,9 @@ export  function formatOneMonth(date, number) {
 }
 
 export  function formatOneYear(date, number) {
+  date.setFullYear(date.getFullYear() - number);
+
   return [
-    date.getFullYear() - number,
+    date.getFullYear(),
   ].join("-");
 }
