@@ -9,6 +9,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  ButtonGroup,
+  Button,
 } from "@mui/material";
 // components
 import dynamic from "next/dynamic";
@@ -18,34 +20,39 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 // ----------------------------------------------------------------------
 
-AppWebsiteVisits.propTypes = {
+AppStatistics.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   chartData: PropTypes.array.isRequired,
   chartLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default function AppWebsiteVisits({
+export default function AppStatistics({
   title,
   subheader,
   chartLabels,
   chartData,
   onChange,
   value,
+  onClick,
+  category,
   ...other
 }) {
   const chartOptions = merge(BaseOptionChart(), {
     plotOptions: { bar: { columnWidth: "16%" } },
+
     fill: { type: chartData.map((i) => i.fill) },
     labels: chartLabels,
-    xaxis: { type: "datetime" },
+    // xaxis: { type: "datetime" },
     tooltip: {
       shared: true,
       intersect: false,
       y: {
         formatter: (y) => {
           if (typeof y !== "undefined") {
-            return `${y.toFixed(0)} visits`;
+            if (category === "Views") {
+              return `${y.toFixed(0)} lượt xem`;
+            }
           }
           return y;
         },
@@ -57,29 +64,47 @@ export default function AppWebsiteVisits({
     <FormControl sx={{ p: 2, minWidth: 120 }} size="small">
       <Select
         color="success"
-        sx={{ borderRadius: 8, '&.Mui-selected': {
-          backgroundColor: 'red'
-        }}}
-     
+        sx={{
+          borderRadius: 8,
+          "&.Mui-selected": {
+            backgroundColor: "red",
+          },
+        }}
         labelId="demo-select-small"
         id="demo-select-small"
         value={value}
         onChange={onChange}
       >
-        <MenuItem value="Income">Thu nhập</MenuItem>
-        <MenuItem value={20}>Lượt xem của toàn bộ bài viết</MenuItem>
-        <MenuItem value={10}>Số lượng người dùng</MenuItem>
-        <MenuItem value={10}>Số lượng tác giả</MenuItem>
-        <MenuItem value={30}>Số lượng người đã mua gói premium</MenuItem>
+        <MenuItem value="Incomes">Thu nhập</MenuItem>
+        <MenuItem value="Views">Lượt xem của toàn bộ bài viết</MenuItem>
+        <MenuItem value="Posts">Số lượng bài viết</MenuItem>
+        <MenuItem value="Comments">Số lượng bình luận</MenuItem>
+        <MenuItem value="Packages">Số lượng gói premium đã bán</MenuItem>
       </Select>
     </FormControl>
+  );
+  const groupButton = (
+    <ButtonGroup
+      variant="outlined"
+      sx={{ py: "19px" }}
+      color="success"
+      aria-label="outlined button group"
+      onClick={onClick}
+    >
+      <Button value="OneDay">ngày</Button>
+      <Button value="OneMonth">1 tháng</Button>
+      <Button value="OneYear">1 năm</Button>
+    </ButtonGroup>
   );
 
   return (
     <Card {...other} sx={{ borderRadius: 8, height: "100%" }}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <CardHeader title={title} subheader={subheader} />
-        {select}
+        <Box>
+          {groupButton}
+          {select}
+        </Box>
       </Box>
 
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">

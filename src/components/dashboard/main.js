@@ -12,9 +12,11 @@ import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
+import EqualizerIcon from '@mui/icons-material/Equalizer';
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import Link from "next/link";
 import { IconButton, styled } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -45,7 +47,13 @@ export default function ResponsiveDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const subPages = [
+  let subPages = [];
+  const subPagesWriter = [
+    {
+      name: "Thống kê",
+      icon: EqualizerIcon,
+      link: "/dashboard",
+    },
     {
       name: "Bài viết của tôi",
       icon: TextSnippetIcon,
@@ -59,6 +67,26 @@ export default function ResponsiveDrawer(props) {
     },
     { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/writer-info" },
   ];
+
+  const subPagesAdmin = [
+    {
+      name: "Thống kê",
+      icon: EqualizerIcon,
+      link: "/dashboard",
+    },
+    {
+      name: "Người dùng", 
+      icon: PeopleAltIcon,
+      link: "/dashboard/my-contents",
+    },
+    { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/writer-info" },
+  ];
+
+  if (roles.includes("Admin")) {
+    subPages = subPagesAdmin;
+  } else {
+    subPages = subPagesWriter;
+  }
 
   const MyLogo = styled(Typography)({
     color: "forestgreen",
@@ -164,8 +192,8 @@ export default function ResponsiveDrawer(props) {
           {drawer}
         </Drawer>
       </Box>
-      <Box sx={{width: "100%"}}>
-        <Toolbar/>
+      <Box sx={{ width: "100%" }}>
+        <Toolbar />
         <CurrentComponent
           handleDrawerToggle={handleDrawerToggle}
           props={props}

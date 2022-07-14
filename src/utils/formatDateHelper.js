@@ -3,7 +3,7 @@ function padTo2Digits(num) {
   return num.toString().padStart(2, "0");
 }
 
-export default function formatDate(date) {
+export  function formatDate(date) {
   return [
     date.getFullYear(),
     padTo2Digits(date.getMonth() + 1),
@@ -11,11 +11,24 @@ export default function formatDate(date) {
   ].join("-");
 }
 
-export const dateFormat = (date) => {
- const options = {
-    year: 'numeric', month: 'numeric', day: 'numeric',
-    hour: 'numeric', minute: 'numeric', second: 'numeric',
+export  function formatOneDay(date) {
+  return [
+    date.getFullYear(),
+    padTo2Digits(date.getMonth() + 1),
+    padTo2Digits(date.getDate() - 7),
+  ].join("-");
+}
 
-  };
-  return new Intl.DateTimeFormat("en-US",options).format(new Date(date));
-};
+export  function formatOneMonth(date) {
+  date.setMonth(date.getMonth() - 12);
+  return [
+    date.getFullYear(),
+    padTo2Digits(date.getMonth() + 1 ),
+  ].join("-");
+}
+
+export  function formatOneYear(date) {
+  return [
+    date.getFullYear() - 7,
+  ].join("-");
+}
