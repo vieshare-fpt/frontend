@@ -7,7 +7,7 @@ export default function IncomeStats(props) {
             component="main"
             sx={{ flexGrow: 1, pl: 1, pr: 1, pb: 1, width: { sm: `100%` } }}
         >
-            Income Stats
+            Rút tiền tại đây
         </Box>
     );
 }

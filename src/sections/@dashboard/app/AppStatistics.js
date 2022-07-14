@@ -109,9 +109,9 @@ export default function AppStatistics({
         <MenuItem value="Posts"> Bài viết</MenuItem>
 
         {roles.includes("Admin") ? (
-          <MenuItem value="Packages">Gói premium đã bán</MenuItem>
+          <MenuItem value="Packages">Số Gói Premium đã bán</MenuItem>
         ) : (
-          <MenuItem value="Follows"> Theo dỗi</MenuItem>
+          <MenuItem value="Follows"> Theo dõi</MenuItem>
         )}
       </Select>
     </FormControl>
