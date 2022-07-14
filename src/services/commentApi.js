@@ -5,7 +5,6 @@ export const commentApi = {
   //Comment Api
   postComments: (params) => {
     const url = "/comments";
-    console.log(params);
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
     return axiosClient(token, refreshToken).post(url, params);

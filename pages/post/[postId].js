@@ -14,15 +14,35 @@ import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import Moment from "moment";
+import { render } from "@testing-library/react";
+import { useEffect } from "react";
 
 function PostDetailPage(props) {
-  const [content, setContent] = useState();
+  const [content, setContent] = useState(null);
   const [rateValue, setRateValue] = React.useState(0);
+  const [comments, setComments] = useState();
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
   const router = useRouter();
-  const { premiumLimit, unknownError, post, related, commentData, avgRating } = props;
+
+  const postId = router.query.postId;
+  // console.log(postId);
+  useEffect(() => {
+    (async () => {
+      await postApi
+        .getPostDetail(postId)
+        .then((response) => {
+          // console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })();
+    getAllComments(postId);
+  }),[postId];
+
+  const { premiumLimit, unknownError, post, related, avgRating } = props;
   if (premiumLimit) {
     return <Container maxWidth="sm"
       sx={{ paddingTop: 15, paddingBottom: 5 }}
@@ -47,6 +67,13 @@ function PostDetailPage(props) {
   if (!post) return null;
 
   // console.log('related : ', related)
+
+  async function getAllComments(postId) {
+    await commentApi.getComments(postId, {order_by: "publishDate", sort: "DESC"})
+    .then((response) => {
+      setComments(response.data);
+    });
+  }
 
   //Censor function
   function CensorHandleDelete() {
@@ -86,11 +113,14 @@ function PostDetailPage(props) {
     });
   }
 
+  
   async function getRateScoreApi(id) {
-    await postApi.getRating(id).then((response) => {
-      // console.log(response);
-      setRateValue(response.point);
-    })
+    if(user){
+      await postApi.getRating(id).then((response) => {
+        // console.log(response);
+        setRateValue(response.point);
+      })
+    }
   }
 
   const PostRate = () => {
@@ -128,22 +158,23 @@ function PostDetailPage(props) {
 
   const AverageRating = () => {
     // if(post.data.postType == 'Premium'){
-    const postId = post.data.id;
-    getRateScoreApi(postId);
-    const avgRate = parseFloat(avgRating.averageVote);
-    // console.log(avgRating);
-    return (
 
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20, fontSize: 'small', color: 'gray' }}>
-        Đánh giá:
-        <Rating
-          name="half-rating-read"
-          defaultValue={avgRate}
-          precision={0.5} readOnly
-          size="small" />
-      </div>
+      const postId = post.data.id;
+      getRateScoreApi(postId);
+      const avgRate = parseFloat(avgRating.averageVote);
 
-    );
+      return (
+        
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20, fontSize:'small', color: 'gray'}}>
+             Đánh giá: 
+            <Rating 
+              name="half-rating-read" 
+              defaultValue={avgRate} 
+              precision={0.5} readOnly
+              size="small" />
+          </div>
+        
+      );
     // }
   }
   return (
@@ -196,6 +227,7 @@ function PostDetailPage(props) {
                   style={{ backgroundColor: 'white' }}
                   id="commentContents"
                   // variant="filled" 
+                  defaultValue = ""
                   onChange={(event) => {
                     setContent(event.target.value);
                   }}
@@ -207,25 +239,26 @@ function PostDetailPage(props) {
                     color="success"
                     sx={{ marginTop: 1, }}
                     onClick={async () => {
-                      if (content != "" || content != null) {
-                        if (!user) {
-                          alert("Đăng nhập trước khi bình luận");
+                      if(!user){
+                        alert("Đăng nhập trước khi bình luận");
+                      }
+                      else if(content == "" || content == null){
+                        console.log("No comments content"); 
+                      }
+                      else{
+                        console.log(content);
+                        try{
+                          await commentApi.postComments({
+                            postId,
+                            content,
+                          })
+                          getAllComments(postId);
+                          setContent(null);
                         }
-                        else {
-                          const postId = post.data.id;
-                          try {
-                            await commentApi.postComments({
-                              postId,
-                              content,
-                            })
-                            window.location.reload();
-                          }
-                          catch (err) {
+                        catch(err){
                             console.log(err);
-                          }
                         }
                       }
-
                     }}
                   >Gửi</Button>
                 </div>
@@ -234,8 +267,8 @@ function PostDetailPage(props) {
 
             <hr />
             <Box>
-              {commentData.length ?
-                commentData.map((element) => {
+              {comments?.length ?
+                comments.map((element) => {
                   return (
                     <CommentCard key={element.id} data={element}></CommentCard>
                   )
@@ -245,13 +278,12 @@ function PostDetailPage(props) {
             </Box>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={2} key={3} sx={{ padding: '0px' }}>
+        <Grid item xs={12} sm={12} md={2} key={3} sx={{padding:1.5}}>
           <h3>Bài viết liên quan</h3>
           {related.length ?
             related.map((element) => {
               return (
                 <RelatedCards key={element.id} note={element}>
-
                 </RelatedCards>
               )
             })
@@ -280,13 +312,11 @@ export async function getServerSideProps(context) {
     const response = await postApi.getPostDetail(postId);
 
     const postRelated = await postApi.getPostsRelated(postId, { page: 1, per_page: 5 });
-    const comments = await commentApi.getComments(postId, { order_by: "publishDate", sort: "DESC" });
     const avgRating = await postApi.getAvgRating(postId);
     return {
       props: {
         post: response,
         related: postRelated.data,
-        commentData: comments.data,
         avgRating: avgRating,
       },
     };

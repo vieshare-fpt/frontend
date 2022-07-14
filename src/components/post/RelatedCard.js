@@ -89,7 +89,6 @@ export function RelatedCards({ note }) {
               margin: "10px 0 10px 0",
             }}
           />
-          <p>{note.description}</p>
           <div className={styles["read-more"]}>
             <Link href={`/post/${note.id}`}>
               <a>Đọc thêm</a>
