@@ -34,8 +34,6 @@ const ChartWrapperStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-
-
 export default function AppTotalUser({
   title,
   subheader,
@@ -45,11 +43,10 @@ export default function AppTotalUser({
   const theme = useTheme();
   const chartLabels = chartData.map((i) => i.label);
 
-  
   const chartSeries = chartData.map((i) => i.value);
 
   const chartOptions = merge(BaseOptionChart(), {
-    colors: ['#05ff48', '#ffe100'],
+    colors: ["#05ff48", "#ffe100", "#f20049"],
     labels: chartLabels,
     stroke: { colors: [theme.palette.background.paper] },
     legend: { floating: true, horizontalAlign: "center" },
