@@ -65,7 +65,7 @@ export default function InfomationTab({ formik, profile }) {
             const token = getCookieData('token');
             const refreshToken = getCookieData('refreshToken');
             await infoUserApi
-                .info(token,refreshToken)
+                .info(token, refreshToken)
                 .then((response) => {
                     dispatch(setUserInfoSuccess(response.data));
                 })
@@ -107,7 +107,10 @@ export default function InfomationTab({ formik, profile }) {
                     <ItemTab icon={<WcIcon />} name="Giới tính" value={displayProfile.gender} divider={true}></ItemTab>
                     <ItemTab icon={<LocalPhoneIcon />} name="Số điện thoại" value={displayProfile.phone} divider={true}></ItemTab>
                     <ItemTab icon={<CelebrationIcon />} name="Ngày sinh" value={displayProfile.dateOfBirth} divider={true}></ItemTab>
-                    <ItemTab icon={<BookmarksIcon />} name="Gói" value={displayProfile.type}></ItemTab>
+                    {
+                        profile.roles.includes("User") &&
+                        <ItemTab icon={<BookmarksIcon />} name="Gói" value={displayProfile.type}></ItemTab>
+                    }
                 </List>
                 <CardActions sx={{ borderTop: 1, borderColor: 'grey.500', justifyContent: "flex-end" }}  >
                     <Button onClick={handleOpen} size="small" color="primary" >

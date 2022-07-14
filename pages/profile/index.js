@@ -158,11 +158,7 @@ export default function Profile() {
 
                                 </Avatar>
                             </Tooltip>
-
-
                         </>
-
-
                     }
                     title={user?.name}
                     titleTypographyProps={{ variant: 'h4' }}

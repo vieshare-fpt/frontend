@@ -22,52 +22,16 @@ import catchError from "src/utils/catchError";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AttributionTwoToneIcon from "@mui/icons-material/AttributionTwoTone";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
-const paper = {
-  elevation: 0,
-  sx: {
-    overflow: "visible",
-    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-    width: "456px",
-    height: { xs: "280px", sm: "255px" },
-    mt: 1.5,
-    borderRadius: 3,
-    "& .MuiAvatar-root": {
-      width: 70,
-      height: 70,
-      ml: -0.5,
-      mr: 1,
-    },
-    "&:before": {
-      content: '""',
-      display: "block",
-      position: "absolute",
-      top: 0,
-      right: 14,
-      width: 10,
-      height: 10,
-      bgcolor: "background.paper",
-      transform: "translateY(-50%) rotate(45deg)",
-      zIndex: 0,
-    },
-  },
-};
 
-const features = [
-  {
-    name: "Lịch sử giao dịch",
-    url: "/",
-  },
-  {
-    name: "Gia hạn Premium",
-    url: "/",
-  },
-];
 export function UserMenu({ fullname, email, avatar, type, roles }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const isAdmin = roles.includes("Admin");
+  const isWriter = roles.includes("Writer");
+  const isCensor = roles.includes("Censor");
+  const isAdminOrCensor = roles.includes("Admin") || roles.includes("Censor");
   let userType = (
     <Image
       src={type ? "/premium.svg" : "/free.svg"}
@@ -76,22 +40,23 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
       height={30}
     />
   );
+
   if (roles != null) {
-    if (roles.includes("Admin")) {
+    if (isAdmin) {
       userType = (
         <>
           <AdminPanelSettingsIcon sx={{ mx: 1 }} color="success" />
           <Typography>Quản trị viên</Typography>
         </>
       );
-    } else if (roles.includes("Writer")) {
+    } else if (isWriter) {
       userType = (
         <>
           <AttributionTwoToneIcon sx={{ mx: 1 }} color="success" />
           <Typography>Nhà văn</Typography>
         </>
       );
-    } else if (roles.includes("Censor")) {
+    } else if (isCensor) {
       userType = (
         <>
           <SupervisedUserCircleIcon sx={{ mx: 1 }} color="success" />
@@ -100,12 +65,56 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
       );
     }
   }
+
+  const features = [
+    {
+      name: "Lịch sử giao dịch",
+      url: "/",
+    },
+    {
+      name: "Gia hạn Premium",
+      url: "/",
+    },
+  ];
+
+  const paper = {
+    elevation: 0,
+    sx: {
+      overflow: "visible",
+      filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+      width: "456px",
+      height: isAdminOrCensor
+        ? { xs: "164px", sm: "164px" }
+        : { xs: "280px", sm: "255px" },
+      mt: 1.5,
+      borderRadius: 3,
+      "& .MuiAvatar-root": {
+        width: 70,
+        height: 70,
+        ml: -0.5,
+        mr: 1,
+      },
+      "&:before": {
+        content: '""',
+        display: "block",
+        position: "absolute",
+        top: 0,
+        right: 14,
+        width: 10,
+        height: 10,
+        bgcolor: "background.paper",
+        transform: "translateY(-50%) rotate(45deg)",
+        zIndex: 0,
+      },
+    },
+  };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleProfile = () => {
     if (roles.includes("Admin") || roles.includes("Writer")) {
-      router.push("/dashboard/writer-info");
+      router.push("/dashboard/info");
     } else if (roles.includes("Censor")) {
       router.push("/censor/profile");
     } else {
@@ -165,6 +174,7 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
             }}
           >
             {userType}
+
             <Box sx={{ flexGrow: 1 }} />
             <Typography
               sx={{
@@ -201,11 +211,12 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
             </div>
           </MenuItem>
           <Divider />
-          {features.map((feature) => (
-            <MenuItem key={feature.name}>
-              <Link href={feature.url}>{feature.name}</Link>
-            </MenuItem>
-          ))}
+          {!isAdminOrCensor &&
+            features.map((feature) => (
+              <MenuItem key={feature.name}>
+                <Link href={feature.url}>{feature.name}</Link>
+              </MenuItem>
+            ))}
         </Box>
       </Menu>
     </div>

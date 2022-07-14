@@ -115,6 +115,7 @@ export function Navigation({ children }) {
       {user ? (
         <UserMenu
           type={user.isPremium}
+          roles={user.roles}
           fullname={user.name}
           avatar={user.avatar}
           email={user.email}

@@ -65,7 +65,7 @@ export default function ResponsiveDrawer(props) {
       icon: DesignServicesIcon,
       link: "/dashboard/draft-contents",
     },
-    { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/writer-info" },
+    { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/info" },
   ];
 
   const subPagesAdmin = [
@@ -79,7 +79,7 @@ export default function ResponsiveDrawer(props) {
       icon: PeopleAltIcon,
       link: "/dashboard/my-contents",
     },
-    { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/writer-info" },
+    { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/info" },
   ];
 
   if (roles.includes("Admin")) {
@@ -150,6 +150,7 @@ export default function ResponsiveDrawer(props) {
           <Box sx={{ flexGrow: 1 }} />
           <UserMenu
             type={user.isPremium}
+            roles={user.roles}
             fullname={user.name}
             avatar={user.avatar}
             email={user.email}
