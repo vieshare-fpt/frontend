@@ -229,7 +229,7 @@ export default function Statistic(props) {
                   value: totalData ? totalData.users.userPremium : 0,
                 },
                 {
-                  label: "Nhà văn",
+                  label: "Người sáng tạo",
                   value: totalData ? totalData.users.writer : 0,
                 },
                 {

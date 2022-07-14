@@ -22,7 +22,7 @@ export default function About() {
                       <p className={convert("lead  mb-4 textColor p")}>
                         Nền tảng chia sẻ nội dung giữa người viết và người đọc.
                         <br />
-                        Đọc giả sẽ nhận được các bài báo chất lượng cao. Nhà văn
+                        Đọc giả sẽ nhận được các bài báo chất lượng cao. Người sáng tạo
                         sẽ nhận được tiền dựa trên lượng người đã đọc bài viết.
                       </p>
                     </div>

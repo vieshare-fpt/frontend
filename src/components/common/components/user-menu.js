@@ -53,7 +53,7 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
       userType = (
         <>
           <AttributionTwoToneIcon sx={{ mx: 1 }} color="success" />
-          <Typography>Nhà văn</Typography>
+          <Typography>Người sáng tạo</Typography>
         </>
       );
     } else if (isCensor) {
