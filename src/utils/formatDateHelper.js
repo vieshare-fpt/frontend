@@ -11,24 +11,24 @@ export  function formatDate(date) {
   ].join("-");
 }
 
-export  function formatOneDay(date) {
+export  function formatOneDay(date, number) {
   return [
     date.getFullYear(),
     padTo2Digits(date.getMonth() + 1),
-    padTo2Digits(date.getDate() - 7),
+    padTo2Digits(date.getDate() - number),
   ].join("-");
 }
 
-export  function formatOneMonth(date) {
-  date.setMonth(date.getMonth() - 12);
+export  function formatOneMonth(date, number) {
+  date.setMonth(date.getMonth() - number);
   return [
     date.getFullYear(),
     padTo2Digits(date.getMonth() + 1 ),
   ].join("-");
 }
 
-export  function formatOneYear(date) {
+export  function formatOneYear(date, number) {
   return [
-    date.getFullYear() - 7,
+    date.getFullYear() - number,
   ].join("-");
 }

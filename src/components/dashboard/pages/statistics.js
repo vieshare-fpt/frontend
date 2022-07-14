@@ -21,7 +21,7 @@ export default function Statistic(props) {
   const [totalData, setTotalData] = useState(null);
   const [categoryOfChart, setCategoryOfChart] = useState("Views");
   const [timeFrame, setTimeFrame] = useState("OneDay");
-  const [dateFrom, setDateFrom] = useState(formatOneDay(new Date()));
+  const [dateFrom, setDateFrom] = useState(formatOneDay(new Date(), 7));
   const [dateTo, setDateTo] = useState(formatDate(new Date()));
   const [chartData, setChartData] = useState([]);
   const [labels, setLabels] = useState([]);
@@ -86,15 +86,15 @@ export default function Statistic(props) {
     console.log(e.target.value);
     switch (e.target.value) {
       case "OneDay":
-        setDateFrom(formatOneDay(new Date()));
+        setDateFrom(formatOneDay(new Date(), 7));
         setDateTo(formatDate(new Date()));
         break;
       case "OneMonth":
-        setDateFrom(formatOneMonth(new Date()));
+        setDateFrom(formatOneMonth(new Date(), 12));
         setDateTo(formatDate(new Date()));
         break;
       case "OneYear":
-        setDateFrom(formatOneYear(new Date()));
+        setDateFrom(formatOneYear(new Date()), 7);
         setDateTo(formatDate(new Date()));
         break;
       default:
