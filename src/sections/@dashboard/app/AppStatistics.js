@@ -11,6 +11,9 @@ import {
   MenuItem,
   ButtonGroup,
   Button,
+  TextField,
+  Input,
+  InputBase,
 } from "@mui/material";
 // components
 import dynamic from "next/dynamic";
@@ -33,7 +36,9 @@ export default function AppStatistics({
   chartLabels,
   chartData,
   onChange,
+  onChangeDensity,
   value,
+  roles,
   onClick,
   category,
   ...other
@@ -98,10 +103,15 @@ export default function AppStatistics({
         onChange={onChange}
       >
         <MenuItem value="Incomes">Thu nhập</MenuItem>
-        <MenuItem value="Views">Lượt xem của toàn bộ bài viết</MenuItem>
-        <MenuItem value="Posts">Số lượng bài viết</MenuItem>
-        <MenuItem value="Comments">Số lượng bình luận</MenuItem>
-        <MenuItem value="Packages">Số lượng gói premium đã bán</MenuItem>
+        <MenuItem value="Views">Lượt xem </MenuItem>
+        <MenuItem value="Comments">Bình luận</MenuItem>
+        <MenuItem value="Posts"> Bài viết</MenuItem>
+
+        {roles.includes("Admin") ? (
+          <MenuItem value="Packages">Gói premium đã bán</MenuItem>
+        ) : (
+          <MenuItem value="Follows"> Theo dỗi</MenuItem>
+        )}
       </Select>
     </FormControl>
   );
@@ -114,8 +124,8 @@ export default function AppStatistics({
       onClick={onClick}
     >
       <Button value="OneDay">ngày</Button>
-      <Button value="OneMonth">1 tháng</Button>
-      <Button value="OneYear">1 năm</Button>
+      <Button value="OneMonth">tháng</Button>
+      <Button value="OneYear">năm</Button>
     </ButtonGroup>
   );
 
@@ -124,6 +134,23 @@ export default function AppStatistics({
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <CardHeader title={title} subheader={subheader} />
         <Box>
+          <TextField
+            type="number"
+            placeholder="Mật độ"
+            color="success"
+            InputProps={{
+              inputProps: { min: 0, max: 30 },
+              onChange: onChangeDensity,
+            }}
+            sx={{
+              p: 2,
+              mt: "3.4px",
+              width: "140px",
+              ".MuiInputBase-input": {
+                height: "5px",
+              },
+            }}
+          />
           {groupButton}
           {select}
         </Box>
