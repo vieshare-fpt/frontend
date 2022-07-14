@@ -5,7 +5,7 @@ import { postApi } from 'src/services'
 
 export default function DashBoard(props) {
   return <Page CurrentComponent={MyContents} 
-  props={props}
+               props={props}
   />;
 }
 
