@@ -22,6 +22,13 @@ export default function Landing(props) {
       return <Page CurrentComponent={LandingPage} prop={props} />;
     }
   }
+  if (user.roles.includes("Admin") || user.roles.includes("Writer")) {
+    router.push("/dashboard");
+    return null;
+  } else {
+    return <Page CurrentComponent={LandingPage} prop={props} />;
+  }
+
   // return <Page CurrentComponent={{ props, history }} />;
   return <Page CurrentComponent={LandingPage} prop={props} />;
 }
