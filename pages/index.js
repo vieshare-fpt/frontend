@@ -1,34 +1,26 @@
-import { useGoogleOneTapLogin } from "@react-oauth/google";
 import LandingPage from "src/components/landing/pages/landing";
-import { getCookieData } from "src/services/cookies";
-import { accessApi, categoryApi, postApi } from "src/services";
+import { categoryApi, postApi } from "src/services";
 import Page from "../src/components/landing/main";
-import { setCookieData } from "src/services/cookies";
 import { ReaderLayout } from "src/components/layouts";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+
 
 export default function Landing(props) {
-  if (!getCookieData("token")) {
-    useGoogleOneTapLogin({
-      onSuccess: (response) => {
-        const user = {
-          credential: response.credential,
-        };
-        accessApi.googleUser(newUser, null);
-        (async () => {
-          await accessApi
-            .loginByGoogle(user)
-            .then(function (response) {
-              setCookieData("token", response.data.token);
-              setCookieData("refreshToken", response.data.refreshToken);
-
-              window.location.reload();
-            })
-            .catch(function (error) {
-              console.log(error.response.status); // 401
-            });
-        })();
-      },
-    });
+  const router = useRouter();
+  const user = useSelector(
+    (state) => state.persistedReducer.user.currentUserInfoFull.userInfo
+  );
+  if (user !== null) {
+    if (user.roles.includes("Admin") || user.roles.includes("Writer")) {
+      router.push("/dashboard");
+      return null;
+    } else if (user.roles.includes("Censor")) {
+      router.push("/censor");
+      return null;
+    } else {
+      return <Page CurrentComponent={LandingPage} prop={props} />;
+    }
   }
   if (user.roles.includes("Admin") || user.roles.includes("Writer")) {
     router.push("/dashboard");

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { convert } from "src/utils/ConvertClassName";
+import { convert } from "src/utils/convertClassName";
 
 export function Footer() {
   return (

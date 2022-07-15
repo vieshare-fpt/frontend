@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100;0,300;1,100;1,300&family=Salsa&display=swap');
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css");
 
 html,
 body {
@@ -28,7 +29,7 @@ body {
   color: white !important;
 }
 .animate__animated.animate__fadeInUp {
-  --animate-duration: 1.5s;
+  --animate-duration:  1s;
 }
 a {
   color: inherit;
@@ -71,4 +72,7 @@ a {
 
 .slick-prev:before, .slick-next:before {
   color: #3e9c31 !important;
+}
+.Mui-selected{
+  background-color: rgba(79, 210, 25, 0.08) !important;
 }

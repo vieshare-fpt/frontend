@@ -3,7 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Box, TextField, Typography, Toolbar, Button, IconButton, Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
 import CategorySelector from 'src/components/common/category-selector'
 import { creatorApi } from 'src/services';
-import { uploadImage } from 'src/utils/UploadImage';
+import { uploadImage } from 'src/utils/uploadImage';
 import { useRouter } from "next/router";
 
 import { useQuill } from 'react-quilljs';
@@ -183,8 +183,8 @@ export default function ContentEditor(props) {
             </div>
 
             <Typography sx={{ p: 1 }}>Chủ đề bài viết</Typography>
-            <CategorySelector value={category} categories={categories} onSelect={(e) => {
-                setCategory(categories.find(c => c.name = e.target.value))
+            <CategorySelector currentCategory={category} categories={categories} onClick={(selected) => {
+                setCategory(selected)
             }} />
             <Typography sx={{ p: 1 }}>Loại bài viết</Typography>
             <FormControl>

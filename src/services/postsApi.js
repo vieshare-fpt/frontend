@@ -1,13 +1,16 @@
 import axiosClient from "./axiosClient";
+import { getCookieData } from "./cookies";
 
 export const postApi = {
   getPosts: (params) => {
     const url = "/posts";
-    return axiosClient().get(url, { params });
+    return axiosClient().get(url, {params});
   },
   getPostDetail: (id) => {
+    const token = getCookieData("token");
+    const refreshToken = getCookieData("refreshToken");
     const url = "/posts/" + id;
-    return axiosClient().get(url);
+    return axiosClient(token, refreshToken).get(url);
   },
   getPostsRelated: (id, params) => {
     const url = "/posts/related/" + id;
@@ -15,10 +18,29 @@ export const postApi = {
   },
   searchPosts: (params) => {
     const url = `/posts/search`;
+
     return axiosClient().get(url, params);
   },
   removePost: (id) => {
     const url = "/posts/" + id;
-    return axiosClient().delete(url, { id });
+    const token = getCookieData("token");
+    const refreshToken = getCookieData("refreshToken");
+    return axiosClient(token, refreshToken).delete(url, { id });
+  },
+  getAvgRating: (id) => {
+    const url = "/votes/average/post/" + id;
+    return axiosClient().get(url);
+  },
+  postRatingScore: (params) => {
+    const url = "/votes";
+    const token = getCookieData("token");
+    const refreshToken = getCookieData("refreshToken");
+    return axiosClient(token, refreshToken).post(url, params);
+  },
+  getRating: (id) => {
+    const url = "/votes/post/" + id;
+    const token = getCookieData("token");
+    const refreshToken = getCookieData("refreshToken");
+    return axiosClient(token, refreshToken).get(url);
   },
 };

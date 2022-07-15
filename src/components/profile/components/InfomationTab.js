@@ -15,8 +15,9 @@ import HeadersTab from './HeaderTab';
 import { profileAPI } from 'src/services/profileApi';
 import { infoUserApi } from 'src/services';
 import { useDispatch } from 'react-redux';
-import { getUserInfoFullFalse, setUserInfoSuccess } from 'src/stores/userSlice';
+import { setUserInfoSuccess, setUserInfoFailed } from 'src/stores/userSlice';
 import { toast } from 'react-toastify';
+import { getCookieData } from 'src/services/cookies';
 
 export default function InfomationTab({ formik, profile }) {
 
@@ -58,15 +59,21 @@ export default function InfomationTab({ formik, profile }) {
             "phone": formik.values.phone
         }
         const update = await (await profileAPI.updateUserInfo(newInfo)).data;
-        if (update)
+
+
+        if (update) {
+            const token = getCookieData('token');
+            const refreshToken = getCookieData('refreshToken');
             await infoUserApi
-                .info()
+                .info(token, refreshToken)
                 .then((response) => {
                     dispatch(setUserInfoSuccess(response.data));
                 })
                 .catch((error) => {
-                    dispatch(getUserInfoFullFalse());
+                    dispatch(setUserInfoFailed());
                 });
+
+        }
 
         toast.success("Success", {
             position: "top-right",
@@ -100,7 +107,10 @@ export default function InfomationTab({ formik, profile }) {
                     <ItemTab icon={<WcIcon />} name="Giới tính" value={displayProfile.gender} divider={true}></ItemTab>
                     <ItemTab icon={<LocalPhoneIcon />} name="Số điện thoại" value={displayProfile.phone} divider={true}></ItemTab>
                     <ItemTab icon={<CelebrationIcon />} name="Ngày sinh" value={displayProfile.dateOfBirth} divider={true}></ItemTab>
-                    <ItemTab icon={<BookmarksIcon />} name="Gói" value={displayProfile.type}></ItemTab>
+                    {
+                        profile.roles.includes("User") &&
+                        <ItemTab icon={<BookmarksIcon />} name="Gói" value={displayProfile.type}></ItemTab>
+                    }
                 </List>
                 <CardActions sx={{ borderTop: 1, borderColor: 'grey.500', justifyContent: "flex-end" }}  >
                     <Button onClick={handleOpen} size="small" color="primary" >

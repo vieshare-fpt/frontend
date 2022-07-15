@@ -32,11 +32,11 @@ const axiosClient = (token, refreshToken) => {
       // Handle errors
       const config = error?.config;
 
-      const message = error.response?.data?.message;
-      if (message !== "Token invalid or expired.") {
+      const message = error.response?.data?.statusCode;
+      if (message !== "INVALID_CREDENTIALS") {
         throw error;
       }
-      if (error?.response?.status === 401) {
+      if (error?.response?.status === 401 || error?.response?.status === 400) {
         if (refreshToken) {
           let result = result || refreshAccessToken(refreshToken);
           const newToken = await result;

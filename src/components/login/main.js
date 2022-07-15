@@ -47,15 +47,9 @@ export default function LoginComponent({ CurrentComponent }) {
             <FormLogin formik={handleLogin} onError={error} />
 
             <Grid container>
-              <Grid item xs={6}>
-                <Link href="#" variant="body2">
-                  <a > Quên mật khẩu?</a>
-                </Link>
-              </Grid>
-
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Link href="/register-user" variant="body2">
-                  <a>Chưa có tài khoản ?</a>
+                  <a>Chưa có tài khoản? Đăng ký ngay</a>
                 </Link>
               </Grid>
             </Grid>

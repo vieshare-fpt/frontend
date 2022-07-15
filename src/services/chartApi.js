@@ -1,17 +1,18 @@
 import axiosClient from "./axiosClient";
 import { getCookieData } from "./cookies";
 
-export const creatorApi = {
-  createPost: (params) => {
-    const url = "/posts";
+export const chartApi = {
+  getTotal: () => {
+    const url = "/charts/total";
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token,refreshToken).post(url, params);
+    return axiosClient(token, refreshToken).get(url);
   },
-  editPost: (params) => {
-    const url = "/posts";
+  getData: (params) => {
+    console.log(params);
+    const url = "/charts";
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token,refreshToken).patch(url, params);
+    return axiosClient(token, refreshToken).get(url, {params});
   },
 };

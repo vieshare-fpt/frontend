@@ -2,17 +2,20 @@ import axiosClient from "./axiosClient";
 import { getCookieData } from "./cookies";
 
 
-
-export const infoUserApi = {
-    validate() {
+export const walletApi = {
+    getWallet: () => {
+        const url = "/wallet/info";
         const token = getCookieData('token');
         const refreshToken = getCookieData('refreshToken');
-        return axiosClient(token, refreshToken).post('/auth/validate')
+
+        return axiosClient(token, refreshToken).get(url)
     },
-
-    info() {
+    updateWallet: (params) => {
+        const url = "/wallet/info";
         const token = getCookieData('token');
         const refreshToken = getCookieData('refreshToken');
-        return axiosClient(token, refreshToken).get('users/info')
+
+        return axiosClient(token, refreshToken).patch(url, { params })
+
     }
 }

@@ -77,11 +77,10 @@ export default function Profile() {
     const checkUser = useSelector(
         (state) => state.user
     );
-    console.log('checkUser : ', checkUser);
     const user = useSelector(
         (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
     );
-
+        
     useEffect(() => {
         if (!user)
             (async () => {
@@ -159,11 +158,7 @@ export default function Profile() {
 
                                 </Avatar>
                             </Tooltip>
-
-
                         </>
-
-
                     }
                     title={user?.name}
                     titleTypographyProps={{ variant: 'h4' }}

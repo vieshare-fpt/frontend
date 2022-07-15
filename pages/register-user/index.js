@@ -5,7 +5,7 @@ import Link from "next/link";
 import FormRegistration from "src/components/register-user/FormRegistration";
 import * as yup from "yup";
 import YupPassword from "yup-password";
-import formatDate from "src/utils/FormatDateHelper.js";
+import {formatDate} from "src/utils/formatDateHelper.js";
 import { useRouter } from "next/router";
 import SignupStyle from "src/styles/Signup.module.css";
 import styles from "src/styles/Logo.module.css";
