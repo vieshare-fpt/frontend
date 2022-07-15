@@ -33,7 +33,14 @@ export default function LoginPage() {
         .info(token, refreshToken)
         .then((response) => {
           dispatch(setUserInfoSuccess(response.data));
-          router.push("/");
+          if (
+            response.data.roles.includes("Admin") ||
+            response.data.roles.includes("Writer")
+          ) {
+            router.push("/dashboard");
+          } else {
+            router.push("/");
+          }
         })
         .catch(function (error) {
           dispatch(setUserInfoFailed());

@@ -29,12 +29,46 @@ export default function ResponsiveDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const subPages = [
-    { name: 'Bài viết của tôi', icon: TextSnippetIcon, link: '/dashboard/my-contents' },
-    { name: 'Thu nhập', icon: AttachMoneyIcon, link: '/dashboard/income' },
-    { name: 'Bản nháp', icon: DesignServicesIcon, link: '/dashboard/draft-contents' },
-    { name: 'Hồ sơ', icon: AccountBoxIcon, link: '/dashboard/writer-info' }
-  ]
+  let subPages = [];
+  const subPagesWriter = [
+    {
+      name: "Thống kê",
+      icon: EqualizerIcon,
+      link: "/dashboard",
+    },
+    {
+      name: "Bài viết của tôi",
+      icon: TextSnippetIcon,
+      link: "/dashboard/my-contents",
+    },
+    { name: "Thu nhập", icon: AttachMoneyIcon, link: "/dashboard/income" },
+    {
+      name: "Bản nháp",
+      icon: DesignServicesIcon,
+      link: "/dashboard/draft-contents",
+    },
+    { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/writer-info" },
+  ];
+
+  const subPagesAdmin = [
+    {
+      name: "Thống kê",
+      icon: EqualizerIcon,
+      link: "/dashboard",
+    },
+    {
+      name: "Người dùng", 
+      icon: PeopleAltIcon,
+      link: "/dashboard/admin-features",
+    },
+    { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/writer-info" },
+  ];
+
+  if (roles.includes("Admin")) {
+    subPages = subPagesAdmin;
+  } else {
+    subPages = subPagesWriter;
+  }
 
   const MyLogo = styled(Typography)({
     fontFamily: 'Salsa',

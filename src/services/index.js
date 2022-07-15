@@ -5,3 +5,7 @@ export * from './historyApi'
 export * from './postsApi'
 export * from './categoryApi'
 export * from './commentApi'
+export * from './coverLetterApi'
+export * from './chartApi'
+export * from './adminApi'
+
