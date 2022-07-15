@@ -20,15 +20,15 @@ function PricingContent({ item }) {
 
 
     const handerPayment = (item)  => {
-        console.log(item);
+        // console.log(item);
         dispatch(setPackagePayment(item));
         router.push("/payment")
     }
 
   
-    console.log(item)
+    // console.log(item)
     return (
-        <Container spacing={10} alignItems="flex-end">
+        <Container spacing={10} alignitems="flex-end">
             <div className="animate__animated animate__fadeInUp">
                 <Card className={styles["card"]} >
                     <CardHeader
@@ -44,25 +44,24 @@ function PricingContent({ item }) {
                                     ? theme.palette.grey[300]
                                     : theme.palette.grey[700],
                         }}
-                        classname={styles["card-header"]}
+                        className={styles["card-header"]}
                     />
                     <CardContent className={styles["card-content"]}>
-                        <Typography gutterBottom component="h2" variant="h4" color="text.primary" sx={{
+                        <Typography gutterBottom component="h2" alignItems={'baseline'} variant="h4" color="text.primary" sx={{
                             display: 'flex',
                             justifyContent: 'center',
-                            alignItems: 'baseline',
                             mb: 2,
                         }}>
                             {item.expiresAfterNumberOfDays} Ngày
                         </Typography>
-                        <Typography component="h4" variant="h5" color="textSecondary" sx={{
+                        <br />
+                        <Typography component="h4" variant="h5" alignItems={'baseline'} color="textSecondary" sx={{
                             display: 'flex',
                             justifyContent: 'center',
-                            alignItems: 'baseline',
+                           
                             mb: 2,
 
                         }}>
-                            <br />
                             {item.price} VNĐ
                         </Typography>
                         <Button className={styles["button"]}   variant="contained" onClick={() => handerPayment(item)}>

@@ -10,7 +10,7 @@ const packageSlice = createSlice({
         },
         payment: {
             package: null
-        }
+        },
     },
     reducers: {
         setPackages: (state, action) => {

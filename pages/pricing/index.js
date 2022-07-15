@@ -34,7 +34,7 @@ export default function Packages() {
                     per_page: 9,
                     page: 1
                 }).then((response) => {
-                    console.log('response: ', response.data);
+                    // console.log('response: ', response.data);
                     dispatch(setPackages(response.data));
                 });
             })();
@@ -48,7 +48,7 @@ export default function Packages() {
     return (
         <>
             <Container
-                disableGutters
+           
                 maxWidth="sm"
                 component="main"
                 sx={{
