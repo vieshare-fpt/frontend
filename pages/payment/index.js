@@ -1,5 +1,5 @@
-import React from 'react';
-import { Typography, styled, Grid, Container, TextField, Card, Button, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Typography, styled, Grid, Container, TextField, Card, Button, IconButton, InputLabel, Select, MenuItem } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,8 +10,14 @@ import Paper from '@mui/material/Paper';
 import { CardHeader, CardContent } from '@mui/material';
 import "animate.css";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { walletApi } from 'src/services/walletApi';
+import { bankApi } from 'src/services/bankApi';
+import { setWallet } from 'src/stores/walletSlice';
+import { setBanks } from 'src/stores/bankSlice'
+import { Box } from '@mui/system';
+import { subscriptionApi } from 'src/services/subsciptionApi';
+import { useRouter } from 'next/router';
 
 
 
@@ -19,11 +25,18 @@ import { useSelector } from 'react-redux';
 
 export default function PaymentInput() {
 
+    const [bank, setBank] = React.useState('');
+    const [paymentSuccess, setPaymentSuccess] = useState(false);
+    const router = useRouter();
+
+
+
+
     //get package
     const packagePayment = useSelector(
         (state) => state.package.payment.package
     );
-    
+
     //get info user
     const userInfo = useSelector(
         (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
@@ -31,28 +44,89 @@ export default function PaymentInput() {
 
 
 
-    const vat = parseInt(packagePayment.price) * 0.1;
-    const total = vat + parseInt(packagePayment.price);
+    let vat = 0;
+    let total = 0;
+    let price = 0;
+    if (packagePayment) {
+        price = packagePayment.price;
+        vat = parseInt(packagePayment.price) * 0.1;
+        total = vat + parseInt(packagePayment.price);
+    }
 
 
-    console.log(userInfo);
-    console.log(packagePayment)
 
 
-    
 
-    // const splitName = (userInfo) => {
-    //     var name = userInfo.name;
-    //     var split = name.split(" ");
-    //     return split;
-    // }
-    
-   
+
+    const dispatch = useDispatch();
+    const banks = useSelector(
+        (state) => state.bank.banks
+    );
+    const wallet = useSelector(
+        (state) => state.wallet.wallet
+    );
+
+    useEffect(() => {
+        if (banks.length == 0) {
+            (async () => {
+                console.log("check")
+                await bankApi.getListBank()
+                    .then((response) => {
+                        // console.log("58", response)
+                        dispatch(setBanks(response.data));
+                    });
+            })();
+        }
+        if (!wallet) {
+            (async () => {
+                await walletApi.getWallet()
+                    .then((response) => {
+                        // console.log("66", response)
+                        dispatch(setWallet(response.data));
+                    });
+            })();
+        }
+
+    });
+
+    const handleCheckOut = async () => {
+        const id = await packagePayment.id;
+        console.log("93", id);
+
+        const balance = await wallet.balance;
+        console.log("94", balance);
+
+        await subscriptionApi.createSubsciptions(id)
+            .then((response) => {
+                console.log("107", response);
+                setPaymentSuccess(true);
+            })
+            .catch((error) => {
+                console.log("111", error);
+            })
+
+
+
+    }
+
+    const handleChange = (event) => {
+        setBank(event.target.value);
+    };
+
+
+
+    // console.log("user infor",userInfo);
+    // console.log("packagepayment",packagePayment);
+    // console.log("wallet", getBalance());
+
+
+
+
 
     return (
         <React.Fragment>
             <Container
-               
+
                 maxWidth="lg"
                 component="main"
                 sx={{ pb: 10 }}
@@ -104,7 +178,7 @@ export default function PaymentInput() {
                                     required
                                     fullWidth
                                     sx={{ maxWidth: "95%" }}
-                                    
+
                                 />
                             </Grid>
                             <Grid
@@ -162,7 +236,7 @@ export default function PaymentInput() {
 
                     </Grid>
                     {/* info */}
-                    <Grid item md={6} xs={12} >
+                    <Grid item md={6}  >
                         <Grid xs={12}>
                             <Typography
                                 variant="h5"
@@ -195,7 +269,7 @@ export default function PaymentInput() {
                                     <TableBody>
                                         <TableRow>
                                             <TableCell>Subtotal</TableCell>
-                                            <TableCell>{packagePayment.price} VNĐ</TableCell>
+                                            <TableCell>{price} VNĐ</TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>VAT</TableCell>
@@ -209,21 +283,23 @@ export default function PaymentInput() {
                                 </Table>
                             </TableContainer>
                         </Grid>
-                        <Grid xs={12} sx={{ mt: 5 }}>
+                        <Grid item sx={{ mt: 5 }}>
                             <Card component={Paper}>
                                 <CardHeader
                                     title="Credit card"
                                     variant="h5"
                                     sx={{ fontSize: 25, ml: 2 }}
-                                    gutterBottom component="div"
+                                    gutterbottom="true"
+                                    component="div"
                                 />
                                 <CardContent
                                     title="Credit card"
                                     variant="h5"
-                                    sx={{ fontSize: 25, mt: 2, ml: 2 }}
-                                    gutterBottom component="div"
+                                    sx={{ fontSize: 25, ml: 2 }}
+                                    guttertbottom="true"
+                                    component="div"
                                 >
-                                    <Grid item xs={12}>
+                                    <Grid item xs={12} >
                                         <TextField
                                             required
                                             fullWidth
@@ -271,6 +347,32 @@ export default function PaymentInput() {
                                                 sx={{ maxWidth: "100%" }}
                                             />
                                         </Grid>
+
+                                        <Box sx={{ minWidth: 150, mt: 2 }}>
+                                            <InputLabel id="bankLabel">Bank</InputLabel>
+                                            <Select
+                                                labelId="bankLabel"
+                                                id="bankLabel"
+                                                label="Bank"
+                                                value={bank}
+                                                onChange={handleChange}
+                                                fullWidth
+
+                                            >
+                                                {banks.map((bank) => {
+                                                    return (
+                                                        <MenuItem key={bank.id} value={bank.id}>
+                                                            {bank.name}
+                                                        </MenuItem>
+
+                                                    )
+                                                }
+                                                )}
+
+                                            </Select>
+                                        </Box>
+
+
                                     </Grid>
                                 </CardContent>
                             </Card>
@@ -285,6 +387,8 @@ export default function PaymentInput() {
                                     <Button
                                         variant="contained"
                                         sx={{ pl: 3 }}
+                                        onClick={handleCheckOut}
+
                                     >
                                         Checkout
                                         <IconButton color="default" aria-label="add to shopping cart"  >

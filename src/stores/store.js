@@ -5,6 +5,9 @@ import postReducer from "src/stores/postSlice";
 import categoryReducer from "src/stores/categorySlice";
 import drawerReducer from "src/stores/drawerSlice";
 import packageReducer from "src/stores/packageSlice";
+import bankReducer from "src/stores/bankSlice";
+import walletReducer from "src/stores/walletSlice";
+import paymentReducer from "src/stores/paymentSlice";
 import {
   persistStore,
   persistReducer,
@@ -36,6 +39,9 @@ const store = configureStore({
     category: categoryReducer,
     drawer: drawerReducer,
     package: packageReducer,
+    bank: bankReducer,
+    wallet: walletReducer,
+    payment: paymentReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
