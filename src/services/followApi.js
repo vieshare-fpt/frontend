@@ -1,19 +1,17 @@
 import axiosClient from "./axiosClient";
 import { getCookieData } from "./cookies";
 
-export const infoUserApi = {
-  validate() {
+export const followApi = {
+  follow: (params) => {
+    const url = "/follows";
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token, refreshToken).post("/auth/validate");
+    return axiosClient(token,refreshToken).post(url, params);
   },
-
-  info() {
+  unFollow: (params) => {
+    const url = "/follows";
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token, refreshToken).get("/users/info");
-  },
-  infoId(id) {
-    return axiosClient().get(`/users/info/${id}`);
+    return axiosClient(token,refreshToken).delete(url, params);
   },
 };

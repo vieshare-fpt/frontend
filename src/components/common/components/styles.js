@@ -68,7 +68,7 @@ export const styles = {
   appBar: {
     background: "rgba(255, 255, 255, 0.98)",
     boxShadow: "none",
-    // borderBottom: "1px solid #E7EBF0",
+    borderBottom: "1px solid #E7EBF0",
   },
 };
 

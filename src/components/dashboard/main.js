@@ -12,11 +12,11 @@ import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
-import EqualizerIcon from '@mui/icons-material/Equalizer';
+import EqualizerIcon from "@mui/icons-material/Equalizer";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import Link from "next/link";
 import { IconButton, styled } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -35,13 +35,17 @@ export default function ResponsiveDrawer(props) {
   );
 
   console.log(CurrentComponent);
+  const roles = user?.roles;
 
   if (user === null) {
     router.push("/login");
-    return <></>;
+    return;
+  } else {
+    if (!(roles.includes("Admin") || roles.includes("Writer"))) {
+      router.push("/");
+      return;
+    }
   }
-
-  const roles = user?.roles;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -75,7 +79,7 @@ export default function ResponsiveDrawer(props) {
       link: "/dashboard",
     },
     {
-      name: "Người dùng", 
+      name: "Người dùng",
       icon: PeopleAltIcon,
       link: "/dashboard/admin-features",
     },
@@ -84,7 +88,7 @@ export default function ResponsiveDrawer(props) {
 
   const subPagesCensor = [
     {
-      name: "Quản lý bài viết", 
+      name: "Quản lý bài viết",
       icon: TextSnippetIcon,
       link: "/dashboard/posts-manage",
     },

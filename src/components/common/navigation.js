@@ -12,7 +12,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LoginIcon from "@mui/icons-material/Login";
 import Link from "next/link";
-import { devTeamPage, pageNotDrawer, styles, ToolBarDesktop, UserMenu } from "./components";
+import {
+  devTeamPage,
+  pageNotDrawer,
+  styles,
+  ToolBarDesktop,
+  UserMenu,
+} from "./components";
 import {
   Button,
   IconButton,
@@ -41,34 +47,38 @@ export function Navigation({ children }) {
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
-  const searchValue = useSelector(
-    (state) => state.post?.data.currentSearchValue
-  );
+  // const searchValue = useSelector(
+  //   (state) => state.post?.data.currentSearchValue
+  // );
   const [openDrawerMobile, setOpenDrawerMobile] = useState(false);
   const [openDrawerTemporary, setOpenDrawerTemporary] = useState(false);
   const [openMobileSearchBox, setOpenMobileSearchBox] = useState(false);
   const [openDrawerContact, setOpenDrawerContact] = useState(false);
+  const [trackingSearchValue, setTrackingSearchValue] = useState("");
   console.log();
 
   const handleChange = (e) => {
-    dispatch(setCurrentSearchValue(e.target.value));
+    setTrackingSearchValue(e.target.value);
+    console.log(e.target.value);
   };
   const handleSubmit = (e) => {
-    if (searchValue.payload !== "") {
-      setOpenMobileSearchBox(false);
-      router.push(`/results?search=${searchValue.payload}`);
-    }
     e.preventDefault();
+    if (trackingSearchValue !== "") {
+      setOpenMobileSearchBox(false);
+      router.push(`/results?search=${trackingSearchValue}`);
+    }
   };
 
   const open = useSelector((state) => state.drawer.data?.open);
   let result = pages;
   const url = {
     post: "/post/",
+    profileWriter: "/profile-writer/",
   };
 
   const asPath =
     router.asPath.includes(url.post) ||
+    router.asPath.includes(url.profileWriter) ||
     pageNotDrawer.some((element) => element.url === router.asPath);
 
   //close drawer when clicked a button of drawer
@@ -221,15 +231,20 @@ export function Navigation({ children }) {
       <Divider />
       <List sx={{ textAlign: "center" }}>
         <form onSubmit={handleSubmit}>
-          <Stack direction="row" sx={{px:2}}>
-            <Button type="submit" variant="contained" color="success" sx={{boxShadow: "none", borderRadius: "6px 0 0 6px"}}>
+          <Stack direction="row" sx={{ px: 2 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              sx={{ boxShadow: "none", borderRadius: "6px 0 0 6px" }}
+            >
               <SearchIcon />
             </Button>
             <TextField
               color="success"
               placeholder="Search"
               InputProps={{
-                value: searchValue.payload,
+                value: trackingSearchValue,
                 onChange: handleChange,
               }}
               sx={styles.drawerSearchMobile}
@@ -270,7 +285,7 @@ export function Navigation({ children }) {
             onSubmit={handleSubmit}
             onChange={handleChange}
             onClick={handleDrawer}
-            value={searchValue.payload}
+            value={trackingSearchValue}
             access={access}
             router={router}
           />

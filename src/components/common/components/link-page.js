@@ -57,4 +57,8 @@ export const pageNotDrawer  = [
     key: 3,
     url: "/register-writer",
   },
+  {
+    key: 4,
+    url: "/profile-writer/:path*",
+  },
 ]
