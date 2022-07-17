@@ -3,6 +3,7 @@ import { setCookieData } from "src/services/cookies";
 const axiosClient = (token, refreshToken) => {
   const axiosClient = axios.create({
     baseURL: "https://backend-vieshare-stg.vi-vu.vn/api",
+    // baseURL: "http://localhost:8081/api/",
     "Content-Type": "application/json",
   });
 
