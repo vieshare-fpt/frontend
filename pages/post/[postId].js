@@ -55,13 +55,38 @@ function PostDetailPage(props) {
   const [openComment, setOpenComment] = useState(false);
   const [showFAB, setShowFAB] = useState("none");
   const [scrollTop, setScrollTop] = useState("none");
+  const [rateValue, setRateValue] = useState(
+    parseFloat(avgRating ? avgRating.averageVote : 0.0)
+  );
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
   const router = useRouter();
-
   const postId = router.query.postId;
-
+  useEffect(() => {
+    const myScrollFunc = function () {
+      if (router.asPath.includes("/post/")) {
+        const height = document.querySelector("#content")?.offsetHeight;
+        const y = window.scrollY;
+        if (y >= 200) {
+          setScrollTop("block");
+        } else {
+          setScrollTop("none");
+        }
+        if (y >= 500 && y <= height) {
+          setShowFAB("block");
+        } else {
+          setShowFAB("none");
+        }
+      }
+    };
+    window.addEventListener("scroll", myScrollFunc);
+  }, [router.asPath]);
+  if (router.isFallback) {
+    return (
+      <div style={{ fontSize: "2rem", textAlign: "center" }}>Đang tải...</div>
+    );
+  }
   if (premiumLimit) {
     return (
       <Container maxWidth="sm" sx={{ paddingTop: 15, paddingBottom: 5 }}>
@@ -88,15 +113,9 @@ function PostDetailPage(props) {
     );
   }
 
-  if (router.isFallback) {
-    return (
-      <div style={{ fontSize: "2rem", textAlign: "center" }}>Đang tải...</div>
-    );
-  }
-  if (!post) return null;
+  if (!post) return;
+  // const avgRate = parseFloat(avgRating.averageVote);
 
-  const avgRate = parseFloat(avgRating.averageVote);
-  const [rateValue, setRateValue] = React.useState(avgRate);
   // console.log('related : ', related)
   //Censor function
   function CensorHandleDelete() {
@@ -152,26 +171,6 @@ function PostDetailPage(props) {
 
     setOpenComment(!openComment);
   }
-
-  useEffect(() => {
-    const myScrollFunc = function () {
-      if (router.asPath.includes("/post/")) {
-        const height = document.querySelector("#content")?.offsetHeight;
-        const y = window.scrollY;
-        if (y >= 200) {
-          setScrollTop("block");
-        } else {
-          setScrollTop("none");
-        }
-        if (y >= 500 && y <= height) {
-          setShowFAB("block");
-        } else {
-          setShowFAB("none");
-        }
-      }
-    };
-    window.addEventListener("scroll", myScrollFunc);
-  }, [router.asPath]);
 
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -295,7 +294,7 @@ function PostDetailPage(props) {
               >
                 <Rating
                   name="half-rating-read"
-                  defaultValue={avgRate}
+                  defaultValue={rateValue}
                   precision={0.5}
                   readOnly
                   size="small"
@@ -353,7 +352,7 @@ function PostDetailPage(props) {
                 sx={{
                   display: "flex",
                   justifyContent: "center",
-                  pt:4
+                  pt: 4,
                 }}
               >
                 <img src="/phone.png" width={400} height="100%" />
@@ -367,7 +366,7 @@ function PostDetailPage(props) {
                   flexDirection: "column",
                   justifyContent: "center",
                   padding: 4,
-                  my:5
+                  my: 5,
                 }}
               >
                 <div>
