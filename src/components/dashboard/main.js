@@ -82,8 +82,19 @@ export default function ResponsiveDrawer(props) {
     { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/info" },
   ];
 
+  const subPagesCensor = [
+    {
+      name: "Quản lý bài viết", 
+      icon: TextSnippetIcon,
+      link: "/dashboard/posts-manage",
+    },
+    { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/info" },
+  ];
+
   if (roles.includes("Admin")) {
     subPages = subPagesAdmin;
+  } else if (roles.includes("Censor")) {
+    subPages = subPagesCensor;
   } else {
     subPages = subPagesWriter;
   }
