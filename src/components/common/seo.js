@@ -7,7 +7,7 @@ export function Seo({data}) {
     <Head>
       <title>{title}</title>
       <meta name="title" content={title}/>
-      <link rel="icon" type="image/png" href="/huy.jpg"/>
+      <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
       <meta name="description" content={description} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={url} />
