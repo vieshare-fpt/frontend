@@ -18,31 +18,17 @@ import { render } from "@testing-library/react";
 import { useEffect } from "react";
 
 function PostDetailPage(props) {
+  const { premiumLimit, unknownError, post, related, avgRating, comments } = props;
+
   const [content, setContent] = useState(null);
-  const [rateValue, setRateValue] = React.useState(0);
-  const [comments, setComments] = useState();
+  const [commentsData, setCommentsData] = useState(comments);
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
   const router = useRouter();
 
   const postId = router.query.postId;
-  // console.log(postId);
-  useEffect(() => {
-    (async () => {
-      await postApi
-        .getPostDetail(postId)
-        .then((response) => {
-          // console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })();
-    getAllComments(postId);
-  }),[postId];
 
-  const { premiumLimit, unknownError, post, related, avgRating } = props;
   if (premiumLimit) {
     return <Container maxWidth="sm"
       sx={{ paddingTop: 15, paddingBottom: 5 }}
@@ -66,14 +52,9 @@ function PostDetailPage(props) {
   }
   if (!post) return null;
 
+  const avgRate = parseFloat(avgRating.averageVote);
+  const [rateValue, setRateValue] = React.useState(avgRate);
   // console.log('related : ', related)
-
-  async function getAllComments(postId) {
-    await commentApi.getComments(postId, {order_by: "publishDate", sort: "DESC"})
-    .then((response) => {
-      setComments(response.data);
-    });
-  }
 
   //Censor function
   function CensorHandleDelete() {
@@ -113,70 +94,6 @@ function PostDetailPage(props) {
     });
   }
 
-  
-  async function getRateScoreApi(id) {
-    if(user){
-      await postApi.getRating(id).then((response) => {
-        // console.log(response);
-        setRateValue(response.point);
-      })
-    }
-  }
-
-  const PostRate = () => {
-    // if(post.data.postType == 'Premium') {
-
-    return (
-      <Box>
-        <h3 style={{ margin: 0, }}>Đánh giá bài viết</h3 >
-        <hr />
-        <Box
-          sx={{
-            display: 'flex',
-            marginBottom: 1,
-          }}
-        >
-          <Rating
-            name="simple-controlled"
-            value={rateValue}
-            onChange={(event, newValue) => {
-              console.log(newValue);
-              if (newValue != null) {
-                setRateValue(newValue);
-                const id = post.data.id;
-                postRatingApi(id, newValue);
-              }
-
-            }}
-          />
-          <div style={{ marginLeft: 10 }}>{rateValue} sao</div>
-        </Box>
-      </Box>
-    );
-    // }
-  };
-
-  const AverageRating = () => {
-    // if(post.data.postType == 'Premium'){
-
-      const postId = post.data.id;
-      getRateScoreApi(postId);
-      const avgRate = parseFloat(avgRating.averageVote);
-
-      return (
-        
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20, fontSize:'small', color: 'gray'}}>
-             Đánh giá: 
-            <Rating 
-              name="half-rating-read" 
-              defaultValue={avgRate} 
-              precision={0.5} readOnly
-              size="small" />
-          </div>
-        
-      );
-    // }
-  }
   return (
     <React.Fragment>
       <Grid
@@ -195,7 +112,16 @@ function PostDetailPage(props) {
           <Container maxWidth="md" sx={{ paddingLeft: 2, marginBottom: 10, textAlign: 'justify', textAlignLast: 'left' }}>
             <h1 style={{ margin: 0 }}>{post.data.title}</h1>
             <div style={{ fontSize: 'small', color: 'gray' }}>Tác giả: {post.data.author.name} <br /> Cập nhật lúc: {Moment(post.data.publishDate).format('DD/MM/YYYY - h:mm a')}</div>
-            <AverageRating />
+
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20, fontSize: 'small', color: 'gray' }}>
+              Đánh giá:
+              <Rating
+                name="half-rating-read"
+                defaultValue={avgRate}
+                precision={0.5} readOnly
+                size="small" />
+            </div>
+
             <h4>{post.data.description}</h4>
             <div dangerouslySetInnerHTML={{ __html: post.data.content }}></div>
           </Container>
@@ -209,7 +135,31 @@ function PostDetailPage(props) {
               borderRadius: 2,
             }} xs={12} sm={12} md={12} key={4}
           >
-            <PostRate />
+            <Box>
+              <h3 style={{ margin: 0, }}>Đánh giá bài viết</h3 >
+              <hr />
+              <Box
+                sx={{
+                  display: 'flex',
+                  marginBottom: 1,
+                }}
+              >
+                <Rating
+                  name="rating-controlled"
+                  value={rateValue}
+                  disabled={!user}
+                  onChange={(_event, newValue) => {
+                    console.log(newValue);
+                    if (newValue != null) {
+                      setRateValue(newValue);
+                      const id = post.data.id;
+                      postRatingApi(id, newValue);
+                    }
+                  }}
+                />
+                <div style={{ marginLeft: 10 }}>{rateValue} sao</div>
+              </Box>
+            </Box>
             <h3 style={{ margin: 0, }}>Bình luận</h3 >
             <hr />
             <Box sx={{ display: 'flex' }}>
@@ -226,8 +176,9 @@ function PostDetailPage(props) {
                 <TextField
                   style={{ backgroundColor: 'white' }}
                   id="commentContents"
+                  disabled={!user}
                   // variant="filled" 
-                  defaultValue = ""
+                  defaultValue=""
                   onChange={(event) => {
                     setContent(event.target.value);
                   }}
@@ -237,26 +188,30 @@ function PostDetailPage(props) {
                   <Button
                     variant="contained"
                     color="success"
+                    disabled={!user}
                     sx={{ marginTop: 1, }}
                     onClick={async () => {
-                      if(!user){
+                      if (!user) {
                         alert("Đăng nhập trước khi bình luận");
                       }
-                      else if(content == "" || content == null){
-                        console.log("No comments content"); 
+                      else if (content == "" || content == null) {
+                        console.log("No comments content");
                       }
-                      else{
+                      else {
                         console.log(content);
-                        try{
+                        try {
                           await commentApi.postComments({
                             postId,
                             content,
                           })
-                          getAllComments(postId);
+                          await commentApi.getComments(postId, { order_by: "publishDate", sort: "DESC" })
+                            .then((response) => {
+                              setCommentsData(response.data);
+                            });
                           setContent(null);
                         }
-                        catch(err){
-                            console.log(err);
+                        catch (err) {
+                          console.log(err);
                         }
                       }
                     }}
@@ -267,8 +222,8 @@ function PostDetailPage(props) {
 
             <hr />
             <Box>
-              {comments?.length ?
-                comments.map((element) => {
+              {commentsData?.length ?
+                commentsData.map((element) => {
                   return (
                     <CommentCard key={element.id} data={element}></CommentCard>
                   )
@@ -278,7 +233,7 @@ function PostDetailPage(props) {
             </Box>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={2} key={3} sx={{padding:1.5}}>
+        <Grid item xs={12} sm={12} md={2} key={3} sx={{ padding: 1.5 }}>
           <h3>Bài viết liên quan</h3>
           {related.length ?
             related.map((element) => {
@@ -310,14 +265,15 @@ export async function getServerSideProps(context) {
   if (!postId) return { notFound: true };
   try {
     const response = await postApi.getPostDetail(postId);
-
     const postRelated = await postApi.getPostsRelated(postId, { page: 1, per_page: 5 });
     const avgRating = await postApi.getAvgRating(postId);
+    const comments = await commentApi.getComments(postId, { order_by: "publishDate", sort: "DESC" });
     return {
       props: {
         post: response,
         related: postRelated.data,
         avgRating: avgRating,
+        comments: comments.data,
       },
     };
   } catch (error) {
