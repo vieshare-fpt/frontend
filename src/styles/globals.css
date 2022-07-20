@@ -10,14 +10,14 @@ body {
 }
 body {
   height:100vh;
-  background: rgb(0,0,0, 0.02) !important;
+  background: rgb(255,255,255, 0.02) !important;
 }
 #__next {
   height : 100%;
 }
 #__next .MuiScopedCssBaseline-root {
   height : 100%;
-  background: rgb(0,0,0, 0.001)!important;
+  background: rgb(255,255,255, 0.02) !important;
 } 
 
 .bg-green {

@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import catchError from "src/utils/catchError";
+import { Seo } from "src/components/common";
 
 const validationSchema = yup.object({
   email: yup
@@ -111,6 +112,15 @@ export default function LoginPage() {
 
   return (
     <>
+      <Seo
+        data={{
+          title: "VieShare | Đăng nhập", 
+          description: "VieShare vạn tuế",
+          url: "https://vieshare-stg.vi-vu.vn/login",
+          thumbnail:
+            "https://cdnb.artstation.com/p/assets/images/images/040/129/561/large/ric-pastor-3.jpg?1627952777",
+        }}
+      />
       <Page
         CurrentComponent={{
           handleLogin,

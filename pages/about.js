@@ -1,10 +1,20 @@
 import React from "react";
+import { Seo } from "src/components/common";
 import { MainLayout } from "src/components/layouts";
 import { convert } from "src/utils/convertClassName";
 
 export default function About() {
   return (
     <>
+     <Seo
+        data={{
+          title: "VieShare | Về chúng tôi",
+          description: "VieShare vạn tuế",
+          url: "https://vieshare-stg.vi-vu.vn/about",
+          thumbnail:
+            "https://cdnb.artstation.com/p/assets/images/images/040/129/561/large/ric-pastor-3.jpg?1627952777",
+        }}
+      />
       <header className={convert("bgHeader")}>
         <div className={convert("bg-img")}>
           <div className={convert("blur")}>

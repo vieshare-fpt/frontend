@@ -17,7 +17,7 @@ export function ToolBarDesktop(props) {
   const { onClick, access, onSubmit, router, onChange, value } = props;
 
   const searchForm = (
-    <form onSubmit={onSubmit} style={{ marginRight: "10px" }}>
+    <Box component="form" onSubmit={onSubmit} style={{ marginRight: "10px" }}>
       <Search>
         <SearchIconWrapper>
           <SearchIcon />
@@ -32,7 +32,7 @@ export function ToolBarDesktop(props) {
           }}
         />
       </Search>
-    </form>
+    </Box>
   );
 
   const handleClick = (e, url) => {
