@@ -13,6 +13,6 @@ export const subscriptionApi = {
         const url = '/subscriptions';
         const token = getCookieData("token");
         const refreshToken = getCookieData("refreshToken");
-        return axiosClient(token).post(url, { packageId });
+        return axiosClient(token, refreshToken).post(url, { packageId });
     }
 };
