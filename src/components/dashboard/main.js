@@ -81,7 +81,7 @@ export default function ResponsiveDrawer(props) {
     {
       name: "Người dùng",
       icon: PeopleAltIcon,
-      link: "/dashboard/admin-features",
+      link: "/dashboard/user-management",
     },
     { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/info" },
   ];

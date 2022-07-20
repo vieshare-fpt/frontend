@@ -9,7 +9,7 @@ export const adminApi = {
         return axiosClient(token, refreshToken).get("/users");
     },
 
-    removeUser(id, params) {
+    userManage(id, params) {
         const url = "/users/" + id;
         return axiosClient(token, refreshToken).patch( url, params )  
     }
