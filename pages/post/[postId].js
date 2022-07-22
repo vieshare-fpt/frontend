@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import React, { useState } from "react";
-import { ReaderLayout } from "src/components/layouts";
+import { MainLayout, ReaderLayout } from "src/components/layouts";
 import { postApi, commentApi } from "src/services";
 import {
   FormControl,
@@ -73,7 +73,7 @@ function PostDetailPage(props) {
         } else {
           setScrollTop("none");
         }
-        if (y >= 500 && y <= height) {
+        if (y >= 500 && y <= height + 230) {
           setShowFAB("block");
         } else {
           setShowFAB("none");
@@ -185,6 +185,9 @@ function PostDetailPage(props) {
           bottom: 20,
           left: { xs: 5, sm: 50, md: 100, lg: 300, xl: 500 },
           display: showFAB,
+          ".MuiFab-root:hover": {
+            background: green[200],
+          },
         }}
       >
         <Fab
@@ -206,6 +209,9 @@ function PostDetailPage(props) {
           bottom: 20,
           right: { xs: 5, sm: 50, md: 100 },
           display: scrollTop,
+          ".MuiFab-root:hover": {
+            background: green[200],
+          },
         }}
       >
         <Fab
@@ -215,7 +221,6 @@ function PostDetailPage(props) {
           onClick={scrollToTop}
           sx={{
             background: green[100],
-            ":hover": { background: green[500] },
             boxShadow: "none",
           }}
         >
@@ -310,22 +315,23 @@ function PostDetailPage(props) {
           </Container>
           <Container
             maxWidth="lg"
-            sx={{ justifyContent: "center", height: { xs: 250, sm: 555 } }}
+            sx={{ justifyContent: "center", height: { xs: 360, sm: 540 } }}
           >
-            <div
+            <img
+              src={post.data.thumbnail}
+              width="100%"
+              height="100%"
               style={{
-                backgroundImage: `url("${post.data.thumbnail}")`,
-                width: "100%",
+                // borderRadius: "10px",
+                imageRendering: "pixelated",
+                backgroundColor: "rgba(0,0,0,0.5)",
+                border: "1px solid #E7EBF0",
                 height: "100%",
-                backgroundSize: "100% 100%",
-                backgroundRepeat: "no-repeat",
+                objectFit: "contain",
               }}
-            ></div>
+            />
           </Container>
-          <Container
-            maxWidth="md"
-            sx={{ display: "flex", justifyContent: "center" }}
-          ></Container>
+
           {/* Post detail contents */}
           <Container
             maxWidth="sm"
@@ -372,20 +378,22 @@ function PostDetailPage(props) {
                 <div>
                   <Typography variant="h4">
                     <span style={{ color: green[700], fontWeight: "bold" }}>
-                      5 tin tức
+                      VieShare
                     </span>{" "}
-                    bạn cần biết mỗi tuần
+                    banner
                   </Typography>
                   <Typography sx={{ mb: 3, fontWeight: "light" }}>
-                    Mỗi thứ Tư, bạn sẽ nhận được email tổng hợp những tin tức
-                    nổi bật tuần qua một cách súc tích, dễ hiểu, và hoàn toàn
-                    miễn phí!
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco
                   </Typography>
                 </div>
                 <div>
                   <Grid container spacing={2}>
                     <Grid item xs={8}>
                       <TextField
+                        disabled={true}
                         color="success"
                         placeholder="Nhập địa chỉ email của bạn"
                         sx={{
@@ -399,6 +407,7 @@ function PostDetailPage(props) {
                     </Grid>
                     <Grid item xs={4}>
                       <Button
+                        disabled={true}
                         color="success"
                         sx={{ width: "100%" }}
                         variant="contained"
@@ -438,6 +447,7 @@ function PostDetailPage(props) {
         anchor="right"
         open={openComment}
         onClose={handleOpenComment}
+        disableScrollLock={true}
         sx={{ ".MuiPaper-root": { width: { xs: "100%", sm: "500px" } } }}
       >
         <Box sx={{ display: "flex", justifyContent: "right", mx: 1 }}>
@@ -559,7 +569,7 @@ function PostDetailPage(props) {
 }
 
 export default PostDetailPage;
-PostDetailPage.getLayout = ReaderLayout;
+PostDetailPage.getLayout = MainLayout;
 
 export async function getServerSideProps(context) {
   const postId = context.params?.postId;
