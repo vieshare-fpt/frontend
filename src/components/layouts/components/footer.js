@@ -14,7 +14,24 @@ import { useRouter } from "next/router";
 import { green } from "@mui/material/colors";
 export function Footer() {
   const router = useRouter();
-  console.log(router.asPath);
+  console.log();
+  const isLandingPage = router.asPath === "/";
+
+  const styleLandingPage = {
+    mb:1, mt: 2,
+    display: "flex",
+    flexDirection: { xs: "", sm: "column" },
+    justifyContent: "center",
+  }
+
+  const styleOtherPage = {
+    mt: 1,
+    display: "flex",
+    flexDirection: { xs: "", sm: "column" },
+    flexWrap: "wrap",
+    alignContent: "flex-end",
+    justifyContent: "center",
+  }
   return (
     <footer
       style={{
@@ -23,7 +40,7 @@ export function Footer() {
         height: "90vh",
       }}
     >
-      <Container sx={{ py: 5 }} maxWidth="lg">
+      <Container sx={{ py: 5 }} maxWidth={isLandingPage ? "" : "lg"}>
         <Grid container>
           <Grid
             item
@@ -45,26 +62,23 @@ export function Footer() {
           <Grid
             item
             xs={12}
-            sm={6}
-            sx={{
-              mt: 1,
-              display: "flex",
-              flexDirection: { xs: "", sm: "column" },
-              flexWrap: "wrap",
-              alignContent: "flex-end",
-              justifyContent: "center",
-            }}
+            sm={isLandingPage ? 12 : 6}
+            sx={isLandingPage ? styleLandingPage : styleOtherPage}
           >
             <Link href="/about">
-              <Box sx={{".MuiButton-root:hover": {
-                background: green[600],
-                boxShadow: 0,
-              }}}>
+              <Box
+                sx={{
+                  ".MuiButton-root:hover": {
+                    background: green[600],
+                    boxShadow: 0,
+                  },
+                }}
+              >
                 <Button
                   variant="contained"
                   color="success"
                   sx={{
-                    borderRadius: 20,
+                    borderRadius: isLandingPage ? 1 : 20,
                     boxShadow: 0,
                     background: green[500],
                   }}
@@ -75,10 +89,16 @@ export function Footer() {
             </Link>
           </Grid>
         </Grid>
-
-        <Divider sx={{ mb: 3, mt: { xs: 1, sm: 0 } }} />
-        <Grid container sx={{ justifyContent: "center", display: "flex" }}>
-          <Box sx={{ textAlign: "center" }}>
+        
+        <Divider  sx={{ mb: 3, mt: { xs: 1, sm: 0 } }} />
+        <Grid
+          container
+          sx={{
+            justifyContent: isLandingPage ? "left" : "center",
+            display: "flex",
+          }}
+        >
+          <Box sx={{ textAlign: isLandingPage ? "left" : "center" }}>
             <Typography>
               <strong> Điện thoại:</strong> 0939568941 <strong>Email:</strong>{" "}
               vie.share.platform@gmail.com{" "}
@@ -90,6 +110,7 @@ export function Footer() {
             </Typography>
           </Box>
         </Grid>
+   
       </Container>
     </footer>
   );
