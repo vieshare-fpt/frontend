@@ -1,7 +1,7 @@
 import LandingPage from "src/components/landing/pages/landing";
 import { categoryApi, postApi } from "src/services";
 import Page from "../src/components/landing/main";
-import { ReaderLayout } from "src/components/layouts";
+import { MainLayout, ReaderLayout } from "src/components/layouts";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { Seo } from "src/components/common";
@@ -29,7 +29,7 @@ export default function Landing(props) {
   page = authorization(user, page, router)
   return page;
 }
-Landing.getLayout = ReaderLayout;
+Landing.getLayout = MainLayout;
 
 export async function getServerSideProps() {
   const posts = await postApi.getPosts({
