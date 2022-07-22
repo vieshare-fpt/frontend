@@ -4,7 +4,9 @@ import { getCookieData } from "./cookies";
 export const postApi = {
   getPosts: (params) => {
     const url = "/posts";
-    return axiosClient().get(url, {params});
+    const token = getCookieData("token");
+    const refreshToken = getCookieData("refreshToken");
+    return axiosClient(token, refreshToken).get(url, { params });
   },
   getPostDetail: (id) => {
     const token = getCookieData("token");
