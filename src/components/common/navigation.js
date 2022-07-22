@@ -36,7 +36,6 @@ import { DrawerDesktop } from "./components";
 
 import { useRouter } from "next/router";
 import { setOpen } from "src/stores/drawerSlice";
-import { setCurrentSearchValue } from "src/stores/postSlice";
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
 }));
