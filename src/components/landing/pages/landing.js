@@ -96,7 +96,7 @@ export default function LandingPage({ props }) {
                 ".MuiGrid-item": {
                   paddingTop: 1,
                 },
-              }}
+              py:2 }}
             >
               {data.map((post) => (
                 <Grid item xs={12} sm={12} md={4} key={post.id} sx={{ pt: 0 }}>
