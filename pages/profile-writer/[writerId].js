@@ -34,6 +34,7 @@ export default function WriterProfile() {
           .infoId(writerId)
           .then((response) => {
             setInfo(response);
+            console.log(response);
           })
           .catch((error) => {
             console.log(error);
@@ -53,7 +54,7 @@ export default function WriterProfile() {
           });
       })();
     }
-  }, [writerId]);
+  }, [isFollow, writerId]);
 
   const handleClick = (event) => {
     if (user === null) {

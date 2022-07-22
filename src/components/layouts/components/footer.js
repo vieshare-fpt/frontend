@@ -98,7 +98,7 @@ export function Footer() {
             display: "flex",
           }}
         >
-          <Box sx={{ textAlign: isLandingPage ? "left" : "center" }}>
+          <Box sx={{ textAlign: isLandingPage ? {xs:"center", sm:"center",md: "left"} : "center" }}>
             <Typography>
               <strong> Điện thoại:</strong> 0939568941 <strong>Email:</strong>{" "}
               vie.share.platform@gmail.com{" "}
