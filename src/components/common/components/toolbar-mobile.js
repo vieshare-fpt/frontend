@@ -32,7 +32,7 @@ export function ToolBarMobile(props) {
           justifyContent: "center",
         }}
       >
-        <Logo />
+        <Logo size="28px"/>
       </Box>
       <Box
         sx={{

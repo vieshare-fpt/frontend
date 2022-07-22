@@ -64,7 +64,7 @@ export function ToolBarDesktop(props) {
         <IconButton onClick={onClick} sx={{ marginRight: "5px" }}>
           <MenuIcon color="success" />
         </IconButton>
-        <Logo />
+        <Logo size="28px"/>
         <Divider
           sx={{ ml: "34px", mr: 2 }}
           orientation="vertical"
