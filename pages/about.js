@@ -5,7 +5,7 @@ import { convert } from "src/utils/convertClassName";
 
 export default function About() {
   return (
-    <>
+    <div>
      <Seo
         data={{
           title: "VieShare | Về chúng tôi",
@@ -129,7 +129,7 @@ export default function About() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 About.getLayout = MainLayout;
