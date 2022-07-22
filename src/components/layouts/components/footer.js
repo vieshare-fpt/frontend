@@ -1,36 +1,96 @@
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Link from "next/link";
 import React from "react";
-import { convert } from "src/utils/convertClassName";
-
+import Logo from "src/components/common/components/logo";
+import { useRouter } from "next/router";
+import { green } from "@mui/material/colors";
 export function Footer() {
+  const router = useRouter();
+  console.log(router.asPath);
   return (
-    <footer className={convert("bg-dark py-4 mt-auto bg-white")}>
-      <div className={convert("container px-5")}>
-        <div
-          className={convert(
-            "row align-items-center justify-content-between flex-column flex-sm-row"
-          )}
-        >
-          <div className={convert("col-auto")}>
-            <div className={convert("small m-0 text-white")}>
-              Copyright &copy; VieShare 2022
-            </div>
-          </div>
-          <div className={convert("col-auto")}>
-            <Link href="/">
-              <a>Privacy</a>
+    <footer
+      style={{
+        backgroundImage: 'url("/footer1.png")',
+        backgroundColor: "rgb(246 ,246, 246, 0.5)",
+        height: "90vh",
+      }}
+    >
+      <Container sx={{ py: 5 }} maxWidth="lg">
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            lg={6}
+            sx={{
+              display: "flex",
+              justifyContent: { xs: "center", sm: "left" },
+            }}
+          >
+            <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
+              <Logo size="50px" lineHeight={1} />
+              <Typography sx={{ color: "rgb(85,85,85)", fontSize: 16 }}>
+                Nền tảng chia sẻ kiến thức dành cho người Việt
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            sx={{
+              mt: 1,
+              display: "flex",
+              flexDirection: { xs: "", sm: "column" },
+              flexWrap: "wrap",
+              alignContent: "flex-end",
+              justifyContent: "center",
+            }}
+          >
+            <Link href="/about">
+              <Box sx={{".MuiButton-root:hover": {
+                background: green[600],
+                boxShadow: 0,
+              }}}>
+                <Button
+                  variant="contained"
+                  color="success"
+                  sx={{
+                    borderRadius: 20,
+                    boxShadow: 0,
+                    background: green[500],
+                  }}
+                >
+                  <a>Về chúng tôi</a>
+                </Button>
+              </Box>
             </Link>
-            <span className={convert("text-white mx-1")}>&middot;</span>
-            <Link href="/">
-              <a href="#!">Terms</a>
-            </Link>
-            <span className={convert("text-white mx-1")}>&middot;</span>
-            <Link href="/">
-              <a href="#!">Contact</a>
-            </Link>
-          </div>
-        </div>
-      </div>
+          </Grid>
+        </Grid>
+
+        <Divider sx={{ mb: 3, mt: { xs: 1, sm: 0 } }} />
+        <Grid container sx={{ justifyContent: "center", display: "flex" }}>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography>
+              <strong> Điện thoại:</strong> 0939568941 <strong>Email:</strong>{" "}
+              vie.share.platform@gmail.com{" "}
+            </Typography>
+
+            <Typography>
+              © Vieshare 2022 . All Rights Reserved. |{" "}
+              <a>Chính Sách Bảo Mật Thỏa</a> | <a>Thuận Người Dùng</a>
+            </Typography>
+          </Box>
+        </Grid>
+      </Container>
     </footer>
   );
 }
