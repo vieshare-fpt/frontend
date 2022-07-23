@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import React, { useState } from "react";
-import { MainLayout, ReaderLayout } from "src/components/layouts";
+import { MainLayout } from "src/components/layouts";
 import { postApi, commentApi } from "src/services";
 import {
   FormControl,
@@ -11,14 +11,7 @@ import {
   Button,
   Typography,
   Toolbar,
-  Chip,
   Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemButton,
-  ListItemText,
-  Divider,
   styled,
   IconButton,
   Fab,
@@ -33,7 +26,6 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import CloseIcon from "@mui/icons-material/Close";
-import { render } from "@testing-library/react";
 import { useEffect } from "react";
 import moment from "moment";
 import "moment/locale/vi"; // without this line it didn't work
@@ -42,7 +34,19 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CommentIcon from "@mui/icons-material/Comment";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import Logo from "src/components/common/components/logo";
+
+import Lottie from 'react-lottie';
+import * as animationData from 'lottie/post_not_found_animation.json'
+import * as animationDataPremium from 'lottie/post_premium_animation.json'
 moment.locale("vi");
+
+const defaultAnimationOptions = {
+  loop: true,
+  autoplay: true,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice'
+  }
+}
 
 const MuiDrawer = styled(Drawer)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
@@ -108,11 +112,15 @@ function PostDetailPage(props) {
   if (premiumLimit) {
     return (
       <Container maxWidth="sm" sx={{ paddingTop: 15, paddingBottom: 5 }}>
-        <Typography>
+        <Lottie options={{ ...defaultAnimationOptions, ...{ animationData: animationDataPremium } }}
+          isClickToPauseDisabled={true}
+          height={350}
+          width={350} />
+        <Typography sx={{ marginTop: 18 }} variant={"h5"}>
           Oops! Đây là nội dung giới hạn chỉ dành cho người dùng Premium!
         </Typography>
-        <Typography>
-          Mua gói Premium <Link href="/pricing">tại đây</Link>
+        <Typography sx={{ marginTop: 2 }}>
+          Mua gói Premium <Link href="/pricing">tại đây</Link>.
         </Typography>
       </Container>
     );
@@ -121,11 +129,15 @@ function PostDetailPage(props) {
   if (unknownError) {
     return (
       <Container maxWidth="sm" sx={{ paddingTop: 15, paddingBottom: 5 }}>
-        <Typography>
+        <Lottie options={{ ...defaultAnimationOptions, ...{ animationData } }}
+          isClickToPauseDisabled={true}
+          height={200}
+          width={600} />
+        <Typography sx={{ marginTop: 18 }} variant={"h5"}>
           Không thể tải bài viết này, chúng tôi đang tìm hiểu lý do...
         </Typography>
-        <Typography>
-          Trở về trang chủ <Link href="/">tại đây</Link>
+        <Typography sx={{ marginTop: 2 }}>
+          Trở về trang chủ <Link href="/">tại đây</Link>.
         </Typography>
       </Container>
     );
@@ -153,9 +165,9 @@ function PostDetailPage(props) {
               if (
                 confirm(
                   "Bài viết: " +
-                    post.data.title +
-                    "\n" +
-                    "Bạn có chắc chắn muốn xóa bài viết này không?"
+                  post.data.title +
+                  "\n" +
+                  "Bạn có chắc chắn muốn xóa bài viết này không?"
                 )
               ) {
                 (async () => {
@@ -572,7 +584,7 @@ PostDetailPage.getLayout = MainLayout;
 
 export async function getServerSideProps(context) {
   const postId = context.params?.postId;
-  const {token, refreshToken} = context.req?.cookies
+  const { token, refreshToken } = context.req?.cookies
   if (!postId) return { notFound: true };
   try {
     const response = await postApi.getPostDetail(postId, token, refreshToken);
