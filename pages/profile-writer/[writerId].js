@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Chip,
+  CircularProgress,
   Divider,
   Stack,
   Toolbar,
@@ -22,6 +23,8 @@ export default function WriterProfile() {
   const [info, setInfo] = useState([]);
   const [posts, setPosts] = useState([]);
   const [isFollow, setIsFollow] = useState(false);
+  const [isLoadingInfo, setIsLoadingInfo] = useState(true);
+  const [isLoadingPost, setIsLoadingPost] = useState(true);
   const router = useRouter();
   const writerId = router.query.writerId;
   const user = useSelector(
@@ -34,7 +37,9 @@ export default function WriterProfile() {
           .infoId(writerId)
           .then((response) => {
             setInfo(response);
-            console.log(response);
+            setIsLoadingInfo(false);
+            console.log(response.isFollow);
+            setIsFollow(response.isFollow);
           })
           .catch((error) => {
             console.log(error);
@@ -48,6 +53,7 @@ export default function WriterProfile() {
           })
           .then((response) => {
             setPosts(response.data);
+            setIsLoadingPost(false);
           })
           .catch((error) => {
             console.log(error);
@@ -64,9 +70,7 @@ export default function WriterProfile() {
     if (isFollow) {
       (async () => {
         await followApi
-          .unFollow({
-            followerId: writerId,
-          })
+          .unFollow(writerId)
           .then((response) => {
             console.log(response);
             setIsFollow(false);
@@ -91,11 +95,15 @@ export default function WriterProfile() {
       })();
     }
   };
-
+  const Loading = ({ number }) => (
+    <Box sx={{ display: "flex", justifyContent: "center", my: number }}>
+      <CircularProgress color="success" />
+    </Box>
+  );
   return (
     <>
       <Toolbar />
-      <Container maxWidth="md">
+      <Container maxWidth="md" sx={{minHeight: "100vh"}}>
         <Stack direction="column" spacing={2}>
           <Box
             sx={{
@@ -116,20 +124,26 @@ export default function WriterProfile() {
             </Box>
             <Box sx={{ ml: 1 }}>
               <p style={{ margin: 0, fontSize: 20 }}>Tác giả</p>
-              <Typography
-                variant="h4"
-                fontSize="40px"
-                fontWeight="bold"
-                sx={{ color: green[500], mb: 1 }}
-              >
-                {info.name}
-              </Typography>
-              <Chip
-                label={isFollow ? "Unfollow" : "Follow"}
-                size="medium"
-                variant="outlined"
-                onClick={handleClick}
-              />
+              {isLoadingInfo ? (
+                <Loading />
+              ) : (
+                <>
+                  <Typography
+                    variant="h4"
+                    fontSize="40px"
+                    fontWeight="bold"
+                    sx={{ color: green[500], mb: 1 }}
+                  >
+                    {info.name}
+                  </Typography>
+                  <Chip
+                    label={isFollow ? "Unfollow" : "Follow"}
+                    size="medium"
+                    variant="outlined"
+                    onClick={handleClick}
+                  />
+                </>
+              )}
             </Box>
           </Box>
 
@@ -139,14 +153,20 @@ export default function WriterProfile() {
             </Typography>
             <Divider />
             <Box>
-              {posts &&
-                posts.map((post) => {
-                  return (
-                    <div key={post.id}>
-                      <RelatedCards note={post}></RelatedCards>
-                    </div>
-                  );
-                })}
+              {isLoadingPost ? (
+                <Loading number={40} />
+              ) : (
+                <>
+                  {posts &&
+                    posts.map((post) => {
+                      return (
+                        <div key={post.id}>
+                          <RelatedCards note={post}></RelatedCards>
+                        </div>
+                      );
+                    })}
+                </>
+              )}
             </Box>
           </Box>
         </Stack>

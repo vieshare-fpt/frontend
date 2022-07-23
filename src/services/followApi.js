@@ -6,12 +6,12 @@ export const followApi = {
     const url = "/follows";
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token,refreshToken).post(url, params);
+    return axiosClient(token, refreshToken).post(url, params);
   },
   unFollow: (params) => {
-    const url = "/follows";
+    const url = "/follows/" + params;
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token,refreshToken).delete(url, params);
+    return axiosClient(token, refreshToken).delete(url);
   },
 };
