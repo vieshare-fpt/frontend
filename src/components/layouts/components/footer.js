@@ -35,8 +35,9 @@ export function Footer() {
   return (
     <footer
       style={{
+        backgroundPosition: isLandingPage ? '80% 20%' : "25% 100%",
         backgroundImage: 'url("/footer1.png")',
-        backgroundColor: "rgb(246 ,246, 246, 0.5)",
+        backgroundColor: "rgb(246 ,246, 246, 1 )",
         height: "90vh",
       }}
     >
@@ -90,7 +91,7 @@ export function Footer() {
           </Grid>
         </Grid>
         
-        <Divider  sx={{ mb: 3, mt: { xs: 1, sm: 0 } }} />
+        <Divider  sx={{ mb: 3, mt: { xs: 1, sm: 0 }, mr: isLandingPage ? '62%' : "0" }} />
         <Grid
           container
           sx={{
@@ -98,7 +99,7 @@ export function Footer() {
             display: "flex",
           }}
         >
-          <Box sx={{ textAlign: isLandingPage ? {xs:"center", sm:"center",md: "left"} : "center" }}>
+          <Box sx={{ textAlign: isLandingPage ? {xs:"center", sm:"left",md: "left"} : "center" }}>
             <Typography>
               <strong> Điện thoại:</strong> 0939568941 <strong>Email:</strong>{" "}
               vie.share.platform@gmail.com{" "}
