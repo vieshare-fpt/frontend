@@ -9,13 +9,15 @@ export default function EditContent(props) {
 }
 
 export async function getServerSideProps(context) {
+    const { token, refreshToken } = context.req.cookies
     const categories = await categoryApi.getCategory({
         per_page: 99,
         page:1
       })
     const postId = context.params?.id
     if (!postId) return { notFound: true };
-    const response = await postApi.getPostDetail(postId);
+    const response = await postApi.getPostDetail(postId, token, refreshToken);
+    console.log(response)
     return {
         props: {
             initialPost: response.data,

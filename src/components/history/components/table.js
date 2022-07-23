@@ -7,6 +7,7 @@ import {
 } from "@mui/x-data-grid";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
+
 const styles = {
   borderRadius: "16px",
   padding: "16px",
@@ -23,11 +24,13 @@ const styles = {
     outline: "solid green 1px;",
   },
 };
+
 const logo = {
   ".MuiSvgIcon-root": {
     color: "green",
   },
 };
+
 export function Table(props) {
   const { data, columns, isLoading } = props;
   console.log(data);
