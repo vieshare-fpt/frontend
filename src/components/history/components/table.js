@@ -5,7 +5,7 @@ import {
   GridToolbarContainer,
   GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 const styles = {
   borderRadius: "16px",
@@ -29,8 +29,8 @@ const logo = {
   },
 };
 export function Table(props) {
-  const { data, columns } = props;
-
+  const { data, columns, isLoading } = props;
+  console.log(data);
   function CustomToolbar() {
     return (
       <GridToolbarContainer sx={{ my: 2 }}>
@@ -47,7 +47,18 @@ export function Table(props) {
   function customNoRowsOverlay() {
     return (
       <GridOverlay>
-        <Typography variant="h5">Chưa xem bài gì :(</Typography>
+        {isLoading ? (
+          <>
+            <CircularProgress color="success" />
+          </>
+          
+        ) : (
+          <>
+            {data !== null && data.length === 0 && (
+              <Typography>Chưa xem bài nào :(</Typography>
+            )}
+          </>
+        )}
       </GridOverlay>
     );
   }
@@ -65,7 +76,7 @@ export function Table(props) {
       }}
     >
       <DataGrid
-        rows={data}
+        rows={data === null ? [] : data}
         columns={columns}
         sx={styles}
         components={compontents}

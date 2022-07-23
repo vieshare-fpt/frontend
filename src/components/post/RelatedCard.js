@@ -110,7 +110,7 @@ export function RelatedCards({ note }) {
                     borderRadius: "10px",
                     border: "1px solid #E7EBF0",
                     height: "100%",
-                    objectFit: "scale-down",
+                    objectFit: "contain",
                   }}
                 />
               </Box>

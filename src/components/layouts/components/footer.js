@@ -35,7 +35,7 @@ export function Footer() {
   return (
     <footer
       style={{
-        backgroundPosition: isLandingPage ? '80% 20%' : "25% 100%",
+        backgroundPosition: isLandingPage ? '80% 20%' : "25% 30%",
         backgroundImage: 'url("/footer1.png")',
         backgroundColor: "rgb(246 ,246, 246, 1 )",
         height: "90vh",

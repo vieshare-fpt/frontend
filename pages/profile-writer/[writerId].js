@@ -30,6 +30,15 @@ export default function WriterProfile() {
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
+  let isCensor = false
+  let isWriter = false
+
+  if(user !== null) {
+     isCensor = user.roles.includes("Censor");
+     isWriter = user.roles.includes("Writer");
+  }
+
+
   useEffect(() => {
     if (writerId) {
       (async () => {
@@ -103,7 +112,7 @@ export default function WriterProfile() {
   return (
     <>
       <Toolbar />
-      <Container maxWidth="md" sx={{minHeight: "100vh"}}>
+      <Container maxWidth="md" sx={{ minHeight: "100vh" }}>
         <Stack direction="column" spacing={2}>
           <Box
             sx={{
@@ -136,12 +145,14 @@ export default function WriterProfile() {
                   >
                     {info.name}
                   </Typography>
-                  <Chip
-                    label={isFollow ? "Unfollow" : "Follow"}
-                    size="medium"
-                    variant="outlined"
-                    onClick={handleClick}
-                  />
+                  {!(isCensor || isWriter) && (
+                    <Chip
+                      label={isFollow ? "Unfollow" : "Follow"}
+                      size="medium"
+                      variant="outlined"
+                      onClick={handleClick}
+                    />
+                  )}
                 </>
               )}
             </Box>

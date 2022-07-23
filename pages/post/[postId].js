@@ -41,6 +41,7 @@ import { green } from "@mui/material/colors";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CommentIcon from "@mui/icons-material/Comment";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import Logo from "src/components/common/components/logo";
 moment.locale("vi");
 
 const MuiDrawer = styled(Drawer)(({ theme }) => ({
@@ -50,7 +51,8 @@ const MuiDrawer = styled(Drawer)(({ theme }) => ({
 function PostDetailPage(props) {
   const { premiumLimit, unknownError, post, related, avgRating, comments } =
     props;
-
+  const router = useRouter();
+  const postId = router.query.postId;
   const [content, setContent] = useState(null);
   const [commentsData, setCommentsData] = useState(comments);
   const [openComment, setOpenComment] = useState(false);
@@ -62,8 +64,22 @@ function PostDetailPage(props) {
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
-  const router = useRouter();
-  const postId = router.query.postId;
+
+  // useEffect(() => {
+  //   if (user !== null) {
+  //     (async () => {
+  //       await postApi
+  //         .getPostDetail(postId)
+  //         .then((response) => {
+  //           console.log(response);
+  //         })
+  //         .catch((error) => {
+  //           console.log(error);
+  //         });
+  //     })();
+  //   }
+  // }, [postId, user]);
+
   useEffect(() => {
     const myScrollFunc = function () {
       if (router.asPath.includes("/post/")) {
@@ -88,6 +104,7 @@ function PostDetailPage(props) {
       <div style={{ fontSize: "2rem", textAlign: "center" }}>Đang tải...</div>
     );
   }
+
   if (premiumLimit) {
     return (
       <Container maxWidth="sm" sx={{ paddingTop: 15, paddingBottom: 5 }}>
@@ -362,7 +379,7 @@ function PostDetailPage(props) {
                   pt: 4,
                 }}
               >
-                <img src="/phone.png" width={400} height="100%" />
+                <img src="/phone.png" width={300} height="100%" />
               </Grid>
               <Grid
                 item
@@ -376,53 +393,17 @@ function PostDetailPage(props) {
                   my: 5,
                 }}
               >
-                <div>
-                  <Typography variant="h4">
-                    <span style={{ color: green[700], fontWeight: "bold" }}>
-                      VieShare
-                    </span>{" "}
-                    banner
+                <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
+                  <Logo size="50px" />
+                  <Typography fontSize={20}>
+                    Nền tảng chia sẻ kiến thức dành cho người Việt
                   </Typography>
-                  <Typography sx={{ mb: 3, fontWeight: "light" }}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco
-                  </Typography>
-                </div>
-                <div>
-                  <Grid container spacing={2}>
-                    <Grid item xs={8}>
-                      <TextField
-                        disabled={true}
-                        color="success"
-                        placeholder="Nhập địa chỉ email của bạn"
-                        sx={{
-                          backgroundColor: "white",
-                          width: "100%",
-                          ".MuiInputBase-input": {
-                            height: "5px !important",
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Button
-                        disabled={true}
-                        color="success"
-                        sx={{ width: "100%" }}
-                        variant="contained"
-                      >
-                        Đăng ký
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </div>
+                </Box>
               </Grid>
             </Grid>
           </Container>
           <Container maxWidth="md">
-            <Box>
+            <Box sx={{ mb: 20 }}>
               <Grid item xs={2} sm={3}>
                 <Typography variant="h3" sx={{ my: 4 }}>
                   Bài viết liên quan
@@ -431,22 +412,23 @@ function PostDetailPage(props) {
               {related.length ? (
                 related.map((element) => {
                   return (
-                    <div key={element.id}>
+                    <Box key={element.id}>
                       <RelatedCards note={element}></RelatedCards>
-                    </div>
+                    </Box>
                   );
                 })
               ) : (
                 <Box
                   sx={{
                     textAlign: "center",
-                    mb: 30, mt: 10
+                    mb: 30,
+                    mt: 10,
                   }}
                 >
-                  <SentimentVeryDissatisfiedIcon 
+                  <SentimentVeryDissatisfiedIcon
                     sx={{ height: 200, width: 200, color: green[300] }}
                   />
-                  <Typography variant="h5" sx={{color:'#757575'}}>
+                  <Typography variant="h5" sx={{ color: "#757575" }}>
                     Không tìm thấy, vui lòng quay lại sau!{" "}
                   </Typography>
                 </Box>
@@ -590,9 +572,10 @@ PostDetailPage.getLayout = MainLayout;
 
 export async function getServerSideProps(context) {
   const postId = context.params?.postId;
+  const {token, refreshToken} = context.req?.cookies
   if (!postId) return { notFound: true };
   try {
-    const response = await postApi.getPostDetail(postId);
+    const response = await postApi.getPostDetail(postId, token, refreshToken);
     const postRelated = await postApi.getPostsRelated(postId, {
       page: 1,
       per_page: 5,
@@ -610,6 +593,7 @@ export async function getServerSideProps(context) {
         comments: comments.data,
       },
     };
+
   } catch (error) {
     if (error.response.data.statusCode === "USER_NOT_PREMIUM") {
       return {

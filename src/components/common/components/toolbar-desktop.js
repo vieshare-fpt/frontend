@@ -8,10 +8,10 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import { devTeamPage } from "./link-page";
 import { Search, SearchIconWrapper, StyledInputBase } from "./styles-searchbox";
 import SearchIcon from "@mui/icons-material/Search";
 import Logo from "./logo";
+import { subPageSupport } from "./link-page";
 
 export function ToolBarDesktop(props) {
   const { onClick, access, onSubmit, router, onChange, value } = props;
@@ -40,7 +40,7 @@ export function ToolBarDesktop(props) {
     router.push(url);
   };
 
-  const linkPage = devTeamPage.map((subpage) => {
+  const linkPage = subPageSupport.map((subpage) => {
     return (
       <div key={subpage.key}>
         <Button

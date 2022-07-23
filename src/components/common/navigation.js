@@ -13,9 +13,15 @@ import ListItemText from "@mui/material/ListItemText";
 import LoginIcon from "@mui/icons-material/Login";
 import Link from "next/link";
 import {
-  devTeamPage,
   pageNotDrawer,
   styles,
+  subPageCensor,
+  subPageSupport,
+  subPageUser,
+  subPageUserFree,
+  subPageUserPremium,
+  subPageWriter,
+  supportSubPage,
   ToolBarDesktop,
   UserMenu,
 } from "./components";
@@ -36,16 +42,24 @@ import { DrawerDesktop } from "./components";
 
 import { useRouter } from "next/router";
 import { setOpen } from "src/stores/drawerSlice";
+import { getCookieData, setCookieData } from "src/services/cookies";
+import { useGoogleOneTapLogin } from "@react-oauth/google";
+import { accessApi, infoUserApi } from "src/services";
+import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
+import useLoginByGoogle from "src/hook/useLoginByGoogle";
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
 }));
 
 export function Navigation({ children }) {
   const dispatch = useDispatch();
+
   const router = useRouter();
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
+  const open = useSelector((state) => state.drawer.data?.open);
+
   // const searchValue = useSelector(
   //   (state) => state.post?.data.currentSearchValue
   // );
@@ -54,7 +68,29 @@ export function Navigation({ children }) {
   const [openMobileSearchBox, setOpenMobileSearchBox] = useState(false);
   const [openDrawerContact, setOpenDrawerContact] = useState(false);
   const [trackingSearchValue, setTrackingSearchValue] = useState("");
-  console.log();
+  let result = subPageUserFree;
+
+  const url = {
+    post: "/post/",
+    profileWriter: "/profile-writer/",
+  };
+  const asPath =
+    router.asPath.includes(url.post) ||
+    router.asPath.includes(url.profileWriter) ||
+    pageNotDrawer.some((element) => element.url === router.asPath);
+
+
+  if (user?.isPremium) {
+    result = subPageUserPremium;
+  } else if (user?.roles.includes("Writer")) {
+    result = subPageWriter;
+  } else if (user?.roles.includes("Censor")) {
+    result = subPageCensor;
+  }
+
+
+
+
 
   const handleChange = (e) => {
     setTrackingSearchValue(e.target.value);
@@ -67,19 +103,6 @@ export function Navigation({ children }) {
       router.push(`/results?search=${trackingSearchValue}`);
     }
   };
-
-  const open = useSelector((state) => state.drawer.data?.open);
-  let result = pages;
-  const url = {
-    post: "/post/",
-    profileWriter: "/profile-writer/",
-  };
-
-  const asPath =
-    router.asPath.includes(url.post) ||
-    router.asPath.includes(url.profileWriter) ||
-    pageNotDrawer.some((element) => element.url === router.asPath);
-
   //close drawer when clicked a button of drawer
   const handleClick = (url) => {
     if (asPath) setOpenDrawerTemporary(!openDrawerTemporary);
@@ -112,13 +135,7 @@ export function Navigation({ children }) {
     setOpenDrawerMobile(false);
     setOpenMobileSearchBox(false);
   };
-  if (user?.isPremium) {
-    result = pages.filter((page) => page.key !== 2);
-  }
 
-  if (user?.roles.includes("Writer")) {
-    result = pages.filter((page) => page.key !== 1);
-  }
   const access = (
     <>
       {user ? (
@@ -258,7 +275,7 @@ export function Navigation({ children }) {
       <Toolbar />
       <Divider />
       <List>
-        {devTeamPage.map((text) => (
+        {subPageSupport.map((text) => (
           <ListItem key={text.key} disablePadding>
             <Link href={text.url}>
               <ListItemButton>

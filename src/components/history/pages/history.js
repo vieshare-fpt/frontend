@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import { getCookieData } from "src/services/cookies";
 
 export default function DislayHistory() {
-  const [data, setData] = useState([]);
-
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   function handleClick(event, id) {
     event.preventDefault();
@@ -89,7 +89,9 @@ export default function DislayHistory() {
       await historyApi.getHistory(token, refreshToken)
       .then((response) => {
         setData(response.data);
+        setIsLoading(false)
       }).catch((error) => {
+        setIsLoading(false)
         console.log(error);
       })
     })();
@@ -103,7 +105,7 @@ export default function DislayHistory() {
         Lịch sử
       </Typography>
       <div style={{ width: "100%" }}>
-        <Table data={data} columns={columns} />
+        <Table data={data} isLoading={isLoading} columns={columns} />
       </div>
     </Container>
   );
