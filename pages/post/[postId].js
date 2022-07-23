@@ -40,6 +40,7 @@ import "moment/locale/vi"; // without this line it didn't work
 import { green } from "@mui/material/colors";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CommentIcon from "@mui/icons-material/Comment";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 moment.locale("vi");
 
 const MuiDrawer = styled(Drawer)(({ theme }) => ({
@@ -436,7 +437,19 @@ function PostDetailPage(props) {
                   );
                 })
               ) : (
-                <></>
+                <Box
+                  sx={{
+                    textAlign: "center",
+                    mb: 30, mt: 10
+                  }}
+                >
+                  <SentimentVeryDissatisfiedIcon 
+                    sx={{ height: 200, width: 200, color: green[300] }}
+                  />
+                  <Typography variant="h5" sx={{color:'#757575'}}>
+                    Không tìm thấy, vui lòng quay lại sau!{" "}
+                  </Typography>
+                </Box>
               )}
             </Box>
           </Container>
@@ -559,7 +572,11 @@ function PostDetailPage(props) {
                 );
               })
             ) : (
-              <></>
+              <>
+                <Typography>
+                  Chưa có bình luận, hãy là người đầu tiên!
+                </Typography>
+              </>
             )}
           </Box>
         </Box>
