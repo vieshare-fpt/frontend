@@ -41,7 +41,7 @@ export default function ResponsiveDrawer(props) {
     router.push("/login");
     return;
   } else {
-    if (!(roles.includes("Admin") || roles.includes("Writer"))) {
+    if (!(roles.includes("Admin") || roles.includes("Writer") || roles.includes("Censor"))) {
       router.push("/");
       return;
     }
@@ -90,7 +90,7 @@ export default function ResponsiveDrawer(props) {
     {
       name: "Quản lý bài viết",
       icon: TextSnippetIcon,
-      link: "/dashboard/posts-manage",
+      link: "/dashboard/posts-management",
     },
     { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/info" },
   ];

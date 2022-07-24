@@ -4,7 +4,7 @@ export default function authorization(user, page, router) {
       router.push("/dashboard");
       return;
     } else if (user.roles.includes("Censor")) {
-      router.push("/censor");
+      router.push("/dashboard/posts-management");
       return;
     } else {
       return page;
