@@ -41,7 +41,11 @@ export default function LoginPage() {
             response.data.roles.includes("Writer")
           ) {
             router.push("/dashboard");
-          } else {
+          }
+          else if( response.data.roles.includes("Censor") ) {
+            router.push("/dashboard/posts-management");
+          }
+          else {
             router.push("/");
           }
         })

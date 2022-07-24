@@ -116,7 +116,7 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
     if (roles.includes("Admin") || roles.includes("Writer")) {
       router.push("/dashboard/info");
     } else if (roles.includes("Censor")) {
-      router.push("/censor/profile");
+      router.push("/dashboard/info");
     } else {
       router.push("/profile");
     }

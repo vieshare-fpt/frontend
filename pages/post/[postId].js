@@ -174,7 +174,7 @@ function PostDetailPage(props) {
                   await postApi.removePost(postId);
                 })();
                 setTimeout(() => {
-                  location.href = `/`;
+                  location.href = `/dashboard/posts-management`;
                 }, 500);
               }
             }}

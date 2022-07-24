@@ -3,9 +3,9 @@ export default function authorization(user, page, router) {
     if (user.roles.includes("Admin") || user.roles.includes("Writer")) {
       router.push("/dashboard");
       return;
-    // } else if (user.roles.includes("Censor")) {
-    //   router.push("/censor");
-    //   return;
+    } else if (user.roles.includes("Censor")) {
+      router.push("/dashboard/posts-management");
+      return;
     } else {
       return page;
     }
