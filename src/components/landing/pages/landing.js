@@ -81,7 +81,7 @@ export default function LandingPage({ props }) {
             </Container>
           </div>
         )}
-        <Box sx={{ mt: "25px", mx: 2 }}>
+        <Box sx={{ mt: "25px", mx: 2, mb: 10 }}>
           <InfiniteScroll
             dataLength={data.length}
             next={fetchMoreData}
@@ -94,7 +94,7 @@ export default function LandingPage({ props }) {
               columns={{ xs: 4, sm: 8, md: 12 }}
               sx={{
                 ".MuiGrid-item": {
-                  paddingTop: 1,
+                  paddingTop: 0,
                 },
               }}
             >

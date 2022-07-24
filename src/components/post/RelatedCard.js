@@ -104,8 +104,14 @@ export function RelatedCards({ note }) {
               <Box sx={{ height: { xs: 250, sm: 150 } }}>
                 <img
                   src={note.thumbnail}
-                  width="100%"
-                  style={{ borderRadius: "10px", height: "100%" }}
+                  width="99%"
+                  style={{
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    borderRadius: "10px",
+                    border: "1px solid #E7EBF0",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
                 />
               </Box>
             </a>
@@ -152,7 +158,7 @@ export function RelatedCards({ note }) {
                     fontSize: "15px",
                     display: "-webkit-box",
                     overflow: "hidden",
-                    WebkitLineClamp: 3,
+                    WebkitLineClamp: 2,
                     WebkitBoxOrient: "vertical",
                   }}
                   color="initial"

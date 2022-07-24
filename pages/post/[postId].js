@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import React, { useState } from "react";
-import { ReaderLayout } from "src/components/layouts";
+import { MainLayout } from "src/components/layouts";
 import { postApi, commentApi } from "src/services";
 import {
   FormControl,
@@ -11,14 +11,7 @@ import {
   Button,
   Typography,
   Toolbar,
-  Chip,
   Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemButton,
-  ListItemText,
-  Divider,
   styled,
   IconButton,
   Fab,
@@ -33,14 +26,27 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import CloseIcon from "@mui/icons-material/Close";
-import { render } from "@testing-library/react";
 import { useEffect } from "react";
 import moment from "moment";
 import "moment/locale/vi"; // without this line it didn't work
 import { green } from "@mui/material/colors";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CommentIcon from "@mui/icons-material/Comment";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import Logo from "src/components/common/components/logo";
+
+import Lottie from 'react-lottie';
+import * as animationData from 'lottie/post_not_found_animation.json'
+import * as animationDataPremium from 'lottie/post_premium_animation.json'
 moment.locale("vi");
+
+const defaultAnimationOptions = {
+  loop: true,
+  autoplay: true,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice'
+  }
+}
 
 const MuiDrawer = styled(Drawer)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
@@ -49,7 +55,8 @@ const MuiDrawer = styled(Drawer)(({ theme }) => ({
 function PostDetailPage(props) {
   const { premiumLimit, unknownError, post, related, avgRating, comments } =
     props;
-
+  const router = useRouter();
+  const postId = router.query.postId;
   const [content, setContent] = useState(null);
   const [commentsData, setCommentsData] = useState(comments);
   const [openComment, setOpenComment] = useState(false);
@@ -61,8 +68,22 @@ function PostDetailPage(props) {
   const user = useSelector(
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
-  const router = useRouter();
-  const postId = router.query.postId;
+
+  // useEffect(() => {
+  //   if (user !== null) {
+  //     (async () => {
+  //       await postApi
+  //         .getPostDetail(postId)
+  //         .then((response) => {
+  //           console.log(response);
+  //         })
+  //         .catch((error) => {
+  //           console.log(error);
+  //         });
+  //     })();
+  //   }
+  // }, [postId, user]);
+
   useEffect(() => {
     const myScrollFunc = function () {
       if (router.asPath.includes("/post/")) {
@@ -73,7 +94,7 @@ function PostDetailPage(props) {
         } else {
           setScrollTop("none");
         }
-        if (y >= 500 && y <= height) {
+        if (y >= 500 && y <= height + 230) {
           setShowFAB("block");
         } else {
           setShowFAB("none");
@@ -87,14 +108,19 @@ function PostDetailPage(props) {
       <div style={{ fontSize: "2rem", textAlign: "center" }}>Đang tải...</div>
     );
   }
+
   if (premiumLimit) {
     return (
       <Container maxWidth="sm" sx={{ paddingTop: 15, paddingBottom: 5 }}>
-        <Typography>
+        <Lottie options={{ ...defaultAnimationOptions, ...{ animationData: animationDataPremium } }}
+          isClickToPauseDisabled={true}
+          height={350}
+          width={350} />
+        <Typography sx={{ marginTop: 18 }} variant={"h5"}>
           Oops! Đây là nội dung giới hạn chỉ dành cho người dùng Premium!
         </Typography>
-        <Typography>
-          Mua gói Premium <Link href="/pricing">tại đây</Link>
+        <Typography sx={{ marginTop: 2 }}>
+          Mua gói Premium <Link href="/pricing">tại đây</Link>.
         </Typography>
       </Container>
     );
@@ -103,11 +129,15 @@ function PostDetailPage(props) {
   if (unknownError) {
     return (
       <Container maxWidth="sm" sx={{ paddingTop: 15, paddingBottom: 5 }}>
-        <Typography>
+        <Lottie options={{ ...defaultAnimationOptions, ...{ animationData } }}
+          isClickToPauseDisabled={true}
+          height={200}
+          width={600} />
+        <Typography sx={{ marginTop: 18 }} variant={"h5"}>
           Không thể tải bài viết này, chúng tôi đang tìm hiểu lý do...
         </Typography>
-        <Typography>
-          Trở về trang chủ <Link href="/">tại đây</Link>
+        <Typography sx={{ marginTop: 2 }}>
+          Trở về trang chủ <Link href="/">tại đây</Link>.
         </Typography>
       </Container>
     );
@@ -135,9 +165,9 @@ function PostDetailPage(props) {
               if (
                 confirm(
                   "Bài viết: " +
-                    post.data.title +
-                    "\n" +
-                    "Bạn có chắc chắn muốn xóa bài viết này không?"
+                  post.data.title +
+                  "\n" +
+                  "Bạn có chắc chắn muốn xóa bài viết này không?"
                 )
               ) {
                 (async () => {
@@ -185,6 +215,9 @@ function PostDetailPage(props) {
           bottom: 20,
           left: { xs: 5, sm: 50, md: 100, lg: 300, xl: 500 },
           display: showFAB,
+          ".MuiFab-root:hover": {
+            background: green[200],
+          },
         }}
       >
         <Fab
@@ -206,6 +239,9 @@ function PostDetailPage(props) {
           bottom: 20,
           right: { xs: 5, sm: 50, md: 100 },
           display: scrollTop,
+          ".MuiFab-root:hover": {
+            background: green[200],
+          },
         }}
       >
         <Fab
@@ -215,7 +251,6 @@ function PostDetailPage(props) {
           onClick={scrollToTop}
           sx={{
             background: green[100],
-            ":hover": { background: green[500] },
             boxShadow: "none",
           }}
         >
@@ -310,22 +345,23 @@ function PostDetailPage(props) {
           </Container>
           <Container
             maxWidth="lg"
-            sx={{ justifyContent: "center", height: { xs: 250, sm: 555 } }}
+            sx={{ justifyContent: "center", height: { xs: 360, sm: 540 } }}
           >
-            <div
+            <img
+              src={post.data.thumbnail}
+              width="100%"
+              height="100%"
               style={{
-                backgroundImage: `url("${post.data.thumbnail}")`,
-                width: "100%",
+                // borderRadius: "10px",
+                imageRendering: "pixelated",
+                backgroundColor: "rgba(0,0,0,0.5)",
+                border: "1px solid #E7EBF0",
                 height: "100%",
-                backgroundSize: "100% 100%",
-                backgroundRepeat: "no-repeat",
+                objectFit: "contain",
               }}
-            ></div>
+            />
           </Container>
-          <Container
-            maxWidth="md"
-            sx={{ display: "flex", justifyContent: "center" }}
-          ></Container>
+
           {/* Post detail contents */}
           <Container
             maxWidth="sm"
@@ -355,7 +391,7 @@ function PostDetailPage(props) {
                   pt: 4,
                 }}
               >
-                <img src="/phone.png" width={400} height="100%" />
+                <img src="/phone.png" width={300} height="100%" />
               </Grid>
               <Grid
                 item
@@ -369,50 +405,17 @@ function PostDetailPage(props) {
                   my: 5,
                 }}
               >
-                <div>
-                  <Typography variant="h4">
-                    <span style={{ color: green[700], fontWeight: "bold" }}>
-                      5 tin tức
-                    </span>{" "}
-                    bạn cần biết mỗi tuần
+                <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
+                  <Logo size="50px" />
+                  <Typography fontSize={20}>
+                    Nền tảng chia sẻ kiến thức dành cho người Việt
                   </Typography>
-                  <Typography sx={{ mb: 3, fontWeight: "light" }}>
-                    Mỗi thứ Tư, bạn sẽ nhận được email tổng hợp những tin tức
-                    nổi bật tuần qua một cách súc tích, dễ hiểu, và hoàn toàn
-                    miễn phí!
-                  </Typography>
-                </div>
-                <div>
-                  <Grid container spacing={2}>
-                    <Grid item xs={8}>
-                      <TextField
-                        color="success"
-                        placeholder="Nhập địa chỉ email của bạn"
-                        sx={{
-                          backgroundColor: "white",
-                          width: "100%",
-                          ".MuiInputBase-input": {
-                            height: "5px !important",
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Button
-                        color="success"
-                        sx={{ width: "100%" }}
-                        variant="contained"
-                      >
-                        Đăng ký
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </div>
+                </Box>
               </Grid>
             </Grid>
           </Container>
           <Container maxWidth="md">
-            <Box>
+            <Box sx={{ mb: 20 }}>
               <Grid item xs={2} sm={3}>
                 <Typography variant="h3" sx={{ my: 4 }}>
                   Bài viết liên quan
@@ -421,13 +424,26 @@ function PostDetailPage(props) {
               {related.length ? (
                 related.map((element) => {
                   return (
-                    <div key={element.id}>
+                    <Box key={element.id}>
                       <RelatedCards note={element}></RelatedCards>
-                    </div>
+                    </Box>
                   );
                 })
               ) : (
-                <></>
+                <Box
+                  sx={{
+                    textAlign: "center",
+                    mb: 30,
+                    mt: 10,
+                  }}
+                >
+                  <SentimentVeryDissatisfiedIcon
+                    sx={{ height: 200, width: 200, color: green[300] }}
+                  />
+                  <Typography variant="h5" sx={{ color: "#757575" }}>
+                    Không tìm thấy, vui lòng quay lại sau!{" "}
+                  </Typography>
+                </Box>
               )}
             </Box>
           </Container>
@@ -438,6 +454,7 @@ function PostDetailPage(props) {
         anchor="right"
         open={openComment}
         onClose={handleOpenComment}
+        disableScrollLock={true}
         sx={{ ".MuiPaper-root": { width: { xs: "100%", sm: "500px" } } }}
       >
         <Box sx={{ display: "flex", justifyContent: "right", mx: 1 }}>
@@ -549,7 +566,11 @@ function PostDetailPage(props) {
                 );
               })
             ) : (
-              <></>
+              <>
+                <Typography>
+                  Chưa có bình luận, hãy là người đầu tiên!
+                </Typography>
+              </>
             )}
           </Box>
         </Box>
@@ -559,13 +580,14 @@ function PostDetailPage(props) {
 }
 
 export default PostDetailPage;
-PostDetailPage.getLayout = ReaderLayout;
+PostDetailPage.getLayout = MainLayout;
 
 export async function getServerSideProps(context) {
   const postId = context.params?.postId;
+  const { token, refreshToken } = context.req?.cookies
   if (!postId) return { notFound: true };
   try {
-    const response = await postApi.getPostDetail(postId);
+    const response = await postApi.getPostDetail(postId, token, refreshToken);
     const postRelated = await postApi.getPostsRelated(postId, {
       page: 1,
       per_page: 5,
@@ -583,6 +605,7 @@ export async function getServerSideProps(context) {
         comments: comments.data,
       },
     };
+
   } catch (error) {
     if (error.response.data.statusCode === "USER_NOT_PREMIUM") {
       return {

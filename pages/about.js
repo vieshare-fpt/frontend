@@ -5,8 +5,8 @@ import { convert } from "src/utils/convertClassName";
 
 export default function About() {
   return (
-    <>
-     <Seo
+    <div>
+      <Seo
         data={{
           title: "VieShare | Về chúng tôi",
           description: "VieShare vạn tuế",
@@ -24,16 +24,18 @@ export default function About() {
                   <div className={convert("text-center my-5")}>
                     <h1 className={convert("fw-bolder mb-3 textColor h1")}>
                       <strong style={{ color: "#62c667", fontSize: "33px" }}>
-                        VieShare  
-                      </strong> <br/>
-                      Nền tảng chia sẻ thông tin <br/> dành cho người Việt
+                        VieShare
+                      </strong>{" "}
+                      <br />
+                      Nền tảng chia sẻ kiến thức <br /> dành cho người Việt
                     </h1>
                     <div className={convert("container px-5")}>
                       <p className={convert("lead  mb-4 textColor p")}>
                         Nền tảng chia sẻ nội dung giữa người viết và người đọc.
                         <br />
-                        Đọc giả sẽ nhận được các bài báo chất lượng cao. Người sáng tạo
-                        sẽ nhận được tiền dựa trên lượng người đã đọc bài viết.
+                        Đọc giả sẽ nhận được các bài báo chất lượng cao. Người
+                        sáng tạo sẽ nhận được tiền dựa trên lượng người đã đọc
+                        bài viết.
                       </p>
                     </div>
                   </div>
@@ -44,7 +46,6 @@ export default function About() {
         </div>
       </header>
 
-     
       <section className={convert("py-5 bg-light")}>
         <div className={convert("container px-5 my-5")}>
           <div className={convert("text-center")}>
@@ -100,7 +101,6 @@ export default function About() {
             <div className={convert("col mb-5 mb-5 mb-sm-0")}>
               <div className={convert("text-center")}>
                 <picture>
-                  
                   <img
                     className={convert("img-fluid rounded-circle mb-4 px-4")}
                     src="/chu.jpg"
@@ -129,7 +129,7 @@ export default function About() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 About.getLayout = MainLayout;

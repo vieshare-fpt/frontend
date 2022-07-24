@@ -99,8 +99,9 @@ export default function ContentEditor(props) {
                         type,
                         thumbnail: imagePath ? imagePath : 'https://vieshare-stg.vi-vu.vn/default.jpg'
                     })
-                    if (result.data.id) {
-                        router.replace('/dashboard/my-contents')
+
+                    if (result.data) {
+                        router.back()
                     } else {
                         if (result.statusCode === "INVALID_CREDENTIALS") {
                             return
@@ -110,7 +111,6 @@ export default function ContentEditor(props) {
                     }
                     // TODO
                 }}>Lưu bài viết</Button> : <>
-                    <Button sx={{ float: 'right' }}>Phát hành</Button>
                     <Button sx={{ float: 'right' }} onClick={async () => {
                         const categoryId = category.id
                         const result = await creatorApi.createPost({
@@ -122,7 +122,8 @@ export default function ContentEditor(props) {
                             thumbnail: imagePath ? imagePath : 'https://vieshare-stg.vi-vu.vn/default.jpg'
                         })
                         if (result.data.id) {
-                            router.replace('/dashboard/my-contents')
+                            router.replace('/dashboard/draft-contents')
+                            alert("Đã lưu bài viết vào bản nháp. Hãy phát hành bài viết khi bạn đã chắc chắn rằng nó đã hoàn thiện nhé!");
                         } else {
                             if (result.statusCode === "INVALID_CREDENTIALS") {
                                 return

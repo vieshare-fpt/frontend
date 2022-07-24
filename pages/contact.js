@@ -46,6 +46,7 @@ const validationSchema = yup.object({
     .email(ENTER_VALID_EMAIL)
     .required(EMAIL_REQUIRED),
 });
+
 export default function Contact() {
   const [sendSuccess, setSendSuccess] = useState(false);
 
@@ -259,11 +260,7 @@ export default function Contact() {
   }
   return (
     <ThemeProvider theme={theme}>
-      <Container
-        component="main"
-        maxWidth="lg"
-        sx={{ minHeight: "calc(100vh - 96px)" }}
-      >
+      <Container component="main" maxWidth="lg" sx={{ minHeight: "100vh" }}>
         <CssBaseline />
         <Toolbar />
 

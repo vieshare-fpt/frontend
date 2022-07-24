@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, styled, Grid, Container, TextField, Card, Button, IconButton, InputLabel, Select, MenuItem } from '@mui/material';
+import { Typography, styled, Grid, Container, TextField, Card, Button, IconButton, InputLabel, Select, MenuItem, Modal } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -18,6 +18,8 @@ import { setBanks } from 'src/stores/bankSlice'
 import { Box } from '@mui/system';
 import { subscriptionApi } from 'src/services/subsciptionApi';
 import { useRouter } from 'next/router';
+import { setUserInfoFailed, setUserInfoSuccess } from 'src/stores/userSlice';
+import { infoUserApi } from 'src/services';
 
 
 
@@ -26,11 +28,22 @@ import { useRouter } from 'next/router';
 export default function PaymentInput() {
 
     const [bank, setBank] = React.useState('');
-    const [paymentSuccess, setPaymentSuccess] = useState(false);
     const router = useRouter();
+    const [successModal, setSuccessModal] = useState(false);
+    const [errorModal, setErrorModal] = useState(false);
 
 
-
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
 
     //get package
     const packagePayment = useSelector(
@@ -43,7 +56,7 @@ export default function PaymentInput() {
     );
 
 
-
+    //data payment
     let vat = 0;
     let total = 0;
     let price = 0;
@@ -54,8 +67,29 @@ export default function PaymentInput() {
     }
 
 
+    if (!packagePayment) {
+        router.push("/pricing");
+        return
+    }
 
+    if (!userInfo) {
+        router.push("/login")
+        return
 
+    }
+
+    function getInfoUser() {
+        (async () => {
+          await infoUserApi
+            .info()
+            .then((response) => {
+              dispatch(setUserInfoSuccess(response.data));
+            })
+            .catch(function (error) {
+              dispatch(setUserInfoFailed());
+            });
+        })();
+      }
 
 
     const dispatch = useDispatch();
@@ -91,37 +125,40 @@ export default function PaymentInput() {
 
     const handleCheckOut = async () => {
         const id = await packagePayment.id;
-        console.log("93", id);
-
         const balance = await wallet.balance;
-        console.log("94", balance);
-
+        console.log("105", id, balance);
+        
         await subscriptionApi.createSubsciptions(id)
             .then((response) => {
                 console.log("107", response);
-                setPaymentSuccess(true);
+                getInfoUser();
+                handleSuccessOpen();
             })
             .catch((error) => {
                 console.log("111", error);
             })
-
-
-
     }
 
     const handleChange = (event) => {
+        event.preventDefault();
         setBank(event.target.value);
     };
 
+    // handleSuccess
+    const handleSuccessOpen = () => {
+        setSuccessModal(true);
+    };
+    const handleSucessClose = () => {
+        setSuccessModal(false);
+    };
 
-
-    // console.log("user infor",userInfo);
-    // console.log("packagepayment",packagePayment);
-    // console.log("wallet", getBalance());
-
-
-
-
+    //handleError 
+    const handlerErrorOpen = () => {
+        setErrorModal(true);
+    };
+    const handleErrorClose = () => {
+        setErrorModal(false);
+    }
 
     return (
         <React.Fragment>
@@ -283,8 +320,8 @@ export default function PaymentInput() {
                                 </Table>
                             </TableContainer>
                         </Grid>
-                        <Grid item sx={{ mt: 5 }}>
-                            <Card component={Paper}>
+                        <Grid item sx={{ mt: 5 }} >
+                            <Card component={Paper}  >
                                 <CardHeader
                                     title="Credit card"
                                     variant="h5"
@@ -307,6 +344,7 @@ export default function PaymentInput() {
                                             label="Card number"
                                             name="card"
                                             helperText="Please enter your cardnumber"
+                                            disabled
                                         />
                                     </Grid>
                                     <Grid
@@ -330,6 +368,7 @@ export default function PaymentInput() {
                                                 required
                                                 fullWidth
                                                 sx={{ maxWidth: "95%" }}
+                                                disabled
                                             />
                                         </Grid>
                                         <Grid
@@ -345,6 +384,7 @@ export default function PaymentInput() {
                                                 required
                                                 fullWidth
                                                 sx={{ maxWidth: "100%" }}
+                                                disabled
                                             />
                                         </Grid>
 
@@ -357,6 +397,7 @@ export default function PaymentInput() {
                                                 value={bank}
                                                 onChange={handleChange}
                                                 fullWidth
+                                                disabled
 
                                             >
                                                 {banks.map((bank) => {
@@ -388,7 +429,6 @@ export default function PaymentInput() {
                                         variant="contained"
                                         sx={{ pl: 3 }}
                                         onClick={handleCheckOut}
-
                                     >
                                         Checkout
                                         <IconButton color="default" aria-label="add to shopping cart"  >
@@ -401,6 +441,61 @@ export default function PaymentInput() {
                     </Grid>
                 </Grid>
             </Container>
+            <div>
+                {/* ModalProps */}
+                {
+                    successModal ? (
+                        <div>
+                            <Modal
+                                hideBackdrop
+                                open={open}
+                                onClose={handleSucessClose}
+                                aria-labelledby="child-modal-title"
+                                aria-describedby="child-modal-description"
+                            >
+                                <Box sx={{ ...style, width: 400 }}>
+                                    <h2 id="child-modal-title">Thanh toán thành công</h2>
+                                    <Typography id="child-modal-description">
+                                        Chúc mừng bạn đã thanh toán thành công gói premium
+                                        có thời hạn sử dụng là {packagePayment.expiresAfterNumberOfDays}, trị giá {total} VNĐ <br />
+                                        (Đã bao gồm VAT)
+                                    </Typography>
+                                    <Button onClick={() => {
+                                        router.push("/")
+                                    }}>Trở về trang chủ</Button>
+                                </Box>
+                            </Modal>
+                        </div>
+
+                    ) : null
+                }
+            </div>
+            <div>
+                {
+                    errorModal ? (
+                        <div>
+                            <Modal
+                                hideBackdrop
+                                open={open}
+                                onClose={handleSucessClose}
+                                aria-labelledby="child-modal-title"
+                                aria-describedby="child-modal-description"
+                            >
+                                <Box sx={{ ...style, width: 400 }}>
+                                    <h2 id="child-modal-title">Thanh toán thất bại</h2>
+                                    <Typography id="child-modal-description">
+                                        Thanh toán thất bại vui lòng kiểm tra lại số dư hiện tại.
+                                    </Typography>
+                                    <Button onClick={() => {
+                                        router.push("/")
+                                    }}>Trở về trang chủ</Button>
+                                </Box>
+                            </Modal>
+                        </div>
+
+                    ) : null
+                }
+            </div>
         </React.Fragment>
     )
 

@@ -14,6 +14,8 @@ export const infoUserApi = {
     return axiosClient(token, refreshToken).get("/users/info");
   },
   infoId(id) {
-    return axiosClient().get(`/users/info/${id}`);
+    const token = getCookieData("token");
+    const refreshToken = getCookieData("refreshToken");
+    return axiosClient(token,refreshToken).get(`/users/info/${id}`);
   },
 };

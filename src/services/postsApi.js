@@ -1,16 +1,21 @@
 import axiosClient from "./axiosClient";
 import { getCookieData } from "./cookies";
-
+// const token = getCookieData("token");
+// const refreshToken = getCookieData("refreshToken");
+// console.log(token);
 export const postApi = {
   getPosts: (params) => {
     const url = "/posts";
-    return axiosClient().get(url, {params});
-  },
-  getPostDetail: (id) => {
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
+    return axiosClient(token, refreshToken).get(url, { params });
+  },
+  getPostDetail: (id, token, refreshToken) => {
+    const tokenT = token || getCookieData("token");
+    const refreshTokenT = refreshToken || getCookieData("refreshToken");
+    console.log(tokenT);
     const url = "/posts/" + id;
-    return axiosClient(token, refreshToken).get(url);
+    return axiosClient(tokenT, refreshTokenT).get(url);
   },
   getPostsRelated: (id, params) => {
     const url = "/posts/related/" + id;

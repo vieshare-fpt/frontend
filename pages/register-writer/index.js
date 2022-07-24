@@ -193,7 +193,7 @@ export default function RegisterWriter() {
       <Container
         component="main"
         maxWidth="lg"
-        sx={{ minHeight: "calc(100vh - 96px)" }}
+        sx={{ minHeight: "100vh"}}
       >
         <CssBaseline />
         <Toolbar />

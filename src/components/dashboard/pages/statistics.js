@@ -21,7 +21,7 @@ export default function Statistic(props) {
   const [totalData, setTotalData] = useState(null);
   const [categoryOfChart, setCategoryOfChart] = useState("Views");
   const [timeFrame, setTimeFrame] = useState("OneDay");
-  const [dateFrom, setDateFrom] = useState(formatOneDay(new Date(), 7));
+  const [dateFrom, setDateFrom] = useState(formatOneDay(new Date(), 10));
   const [dateTo, setDateTo] = useState(formatDate(new Date()));
   const [chartData, setChartData] = useState([]);
   const [labels, setLabels] = useState([]);
@@ -244,7 +244,7 @@ export default function Statistic(props) {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={12}>
+          <Grid item xs={12}>
             <AppStatistics
               title="Thống kê"
               // subheader="(+43%) than last year"

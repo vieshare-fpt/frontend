@@ -87,7 +87,7 @@ export function DrawerDesktop(props) {
             <IconButton onClick={onClose} sx={{ marginRight: "5px" }}>
               <MenuIcon color="success" />
             </IconButton>
-            <Logo />
+            <Logo size="29px" />
             <Box
               sx={{
                 marginLeft: "25px",

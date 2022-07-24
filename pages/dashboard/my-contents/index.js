@@ -14,8 +14,9 @@ export async function getServerSideProps() {
   return {
     props: {
       title: "Bài viết của tôi",
+      type: 0,
       post: posts.data,
-      postStatus: "Publish",
+      postStatus: ["Publish", "Delete"],
     },
   };
 } 
