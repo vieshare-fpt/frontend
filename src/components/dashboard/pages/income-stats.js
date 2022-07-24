@@ -15,6 +15,7 @@ import { bankApi } from 'src/services/bankApi';
 export default function IncomeStats(props) {
     const [bank, setBank] = React.useState('');
     const [withdrawModal, setWithdrawModal] = useState(false);
+    const [amount, setAmount] = useState(0);
     const dispatch = useDispatch();
     const wallet = useSelector(
         (state) => state.wallet.wallet
@@ -53,13 +54,26 @@ export default function IncomeStats(props) {
     }
 
 
-    console.log("wallet", wallet);
 
     const balance = wallet.balance;
 
     const handleWithdraw = async () => {
-        const type = "DEPOSIT";
-        setWithdrawModal(true);
+        const updateWallet = {
+            type: "WITHDRAW",
+            amount: 10,
+            bankId: bank
+        }
+
+        await walletApi.updateWallet(updateWallet)
+        const wallet = await walletApi.getWallet();
+        if (wallet.data.balance) {
+            dispatch(setWallet(wallet.data.balance));
+        }
+
+
+        setWithdrawModal(false);
+
+
 
     };
 
@@ -72,6 +86,7 @@ export default function IncomeStats(props) {
         setWithdrawModal(false);
 
     }
+
     const handleOpenWithdrawForm = (event) => {
         setWithdrawModal(true);
 
@@ -152,6 +167,8 @@ export default function IncomeStats(props) {
                                         fullWidth
                                         sx={{ maxWidth: "100%" }}
                                         helperText="VNĐ"
+                                        value={amount}
+                                        onChange={(event) => { setAmount(event.target.value) }}
                                     />
                                 </Grid>
 
@@ -183,7 +200,7 @@ export default function IncomeStats(props) {
                             </DialogContent>
                             <DialogActions>
                                 <Button onClick={handleCloseWithdrawForm}>Huỷ bỏ</Button>
-                                <Button onClick={handleCloseWithdrawForm}>Rút tiền</Button>
+                                <Button onClick={handleWithdraw}>Rút tiền</Button>
 
                             </DialogActions>
                         </Dialog>
