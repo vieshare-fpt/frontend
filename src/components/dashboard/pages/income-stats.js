@@ -10,12 +10,15 @@ import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { useState } from 'react';
 import { setBanks } from 'src/stores/bankSlice';
 import { bankApi } from 'src/services/bankApi';
+import { toast } from "react-toastify";
 
 
 export default function IncomeStats(props) {
+
+
     const [bank, setBank] = React.useState('');
     const [withdrawModal, setWithdrawModal] = useState(false);
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = React.useState(0);
     const dispatch = useDispatch();
     const wallet = useSelector(
         (state) => state.wallet.wallet
@@ -49,6 +52,34 @@ export default function IncomeStats(props) {
         }
     });
 
+
+    const showMessageError = (msgError) => {
+        toast.error(msgError, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
+
+
+    const showMessageSuccess = (msgSuccess) => {
+        toast.success(msgSuccess, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+
+
+
     if (!wallet) {
         return <Loader />
     }
@@ -57,30 +88,44 @@ export default function IncomeStats(props) {
 
     const balance = wallet.balance;
 
+    const handleChangeBank = (event) => {
+        event.preventDefault();
+        setBank(event.target.value);
+    };
+
+    const handleChangeAmount = (event) => {
+        event.preventDefault();
+        setAmount(event.target.value);
+    }
+
     const handleWithdraw = async () => {
         const updateWallet = {
             type: "WITHDRAW",
-            amount: 10,
+            amount: parseFloat(amount),
             bankId: bank
         }
 
         await walletApi.updateWallet(updateWallet)
         const wallet = await walletApi.getWallet();
-        if (wallet.data.balance) {
-            dispatch(setWallet(wallet.data.balance));
+
+        walletApi.updateWallet(updateWallet).then((response) => {
+            dispatch(setWallet(wallet.balance));
+            showMessageSuccess("GIAO DỊCH THÀNH CÔNG");
+            console.log("115")
+        }).catch(() => {
+            showMessageError("GIAO DỊCH THẤT BẠI VUI LÒNG KIỂM TRA SỐ DƯ!!");
+
+        })
+
+
+        if (wallet) {
+            dispatch(setWallet(wallet.balance));
+            setWithdrawModal(false);
         }
 
-
-        setWithdrawModal(false);
-
-
-
     };
 
-    const handleChangeBank = (event) => {
-        event.preventDefault();
-        setBank(event.target.value);
-    };
+
 
     const handleCloseWithdrawForm = (event) => {
         setWithdrawModal(false);
@@ -88,13 +133,17 @@ export default function IncomeStats(props) {
     }
 
     const handleOpenWithdrawForm = (event) => {
+
         setWithdrawModal(true);
 
     }
 
+
+
     return (
 
         <React.Fragment>
+
             <Box
                 component="main"
                 sx={{ flexGrow: 10, pl: 1, pr: 1, pb: 1, width: { sm: `100%` } }}
@@ -168,7 +217,7 @@ export default function IncomeStats(props) {
                                         sx={{ maxWidth: "100%" }}
                                         helperText="VNĐ"
                                         value={amount}
-                                        onChange={(event) => { setAmount(event.target.value) }}
+                                        onChange={handleChangeAmount}
                                     />
                                 </Grid>
 
@@ -186,7 +235,7 @@ export default function IncomeStats(props) {
                                     >
                                         {banks.map((bank) => {
                                             return (
-                                                <MenuItem key={bank.id} value={bank.id}>
+                                                <MenuItem key={bank.id} value={bank.id} onChange={handleChangeBank}>
                                                     {bank.name}
                                                 </MenuItem>
 
@@ -207,6 +256,7 @@ export default function IncomeStats(props) {
                     </div>
                 ) : null
                 }
+
             </div>
         </React.Fragment>
 
