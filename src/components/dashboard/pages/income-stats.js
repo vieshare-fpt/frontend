@@ -10,7 +10,7 @@ import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { useState } from 'react';
 import { setBanks } from 'src/stores/bankSlice';
 import { bankApi } from 'src/services/bankApi';
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 
 export default function IncomeStats(props) {
@@ -53,30 +53,6 @@ export default function IncomeStats(props) {
     });
 
 
-    const showMessageError = (msgError) => {
-        toast.error(msgError, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-    };
-
-
-    const showMessageSuccess = (msgSuccess) => {
-        toast.success(msgSuccess, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-    }
 
 
 
@@ -105,37 +81,44 @@ export default function IncomeStats(props) {
             bankId: bank
         }
 
+    
+
         await walletApi.updateWallet(updateWallet)
-        const wallet = await walletApi.getWallet();
-
-        walletApi.updateWallet(updateWallet).then((response) => {
-            dispatch(setWallet(wallet.balance));
-            showMessageSuccess("GIAO DỊCH THÀNH CÔNG");
-            console.log("115")
-        }).catch(() => {
-            showMessageError("GIAO DỊCH THẤT BẠI VUI LÒNG KIỂM TRA SỐ DƯ!!");
-
-        })
-
-
-        if (wallet) {
-            dispatch(setWallet(wallet.balance));
+       .catch(() => {
+            toast.error("Giao dịch thất bại vui lòng kiểm tra lại số dư", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
             setWithdrawModal(false);
-        }
+        })
+        toast.success("Giao dịch thành công", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+
+        const wallet = await walletApi.getWallet();
+        dispatch(setWallet(wallet.balance));
+        setWithdrawModal(false);
+        
 
     };
 
 
-
     const handleCloseWithdrawForm = (event) => {
         setWithdrawModal(false);
-
     }
-
     const handleOpenWithdrawForm = (event) => {
-
         setWithdrawModal(true);
-
     }
 
 
@@ -143,7 +126,7 @@ export default function IncomeStats(props) {
     return (
 
         <React.Fragment>
-
+         
             <Box
                 component="main"
                 sx={{ flexGrow: 10, pl: 1, pr: 1, pb: 1, width: { sm: `100%` } }}
