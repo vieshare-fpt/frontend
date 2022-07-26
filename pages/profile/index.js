@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { infoUserApi } from "src/services/infoUserApi";
 import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from "react-toastify";
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { useFormik } from 'formik';
@@ -148,7 +147,7 @@ export default function Profile() {
 
     return (
         <>
-            <ToastContainer />
+            
             <Container sx={{ mt: 6 }}>
                 <CardHeader
                     avatar={

@@ -136,6 +136,7 @@ export default function PaymentInput() {
             })
             .catch((error) => {
                 console.log("111", error);
+                handlerErrorOpen();
             })
     }
 
@@ -430,7 +431,7 @@ export default function PaymentInput() {
                                         sx={{ pl: 3 }}
                                         onClick={handleCheckOut}
                                     >
-                                        Checkout
+                                        Thanh toán
                                         <IconButton color="default" aria-label="add to shopping cart"  >
                                             <AddShoppingCartIcon />
                                         </IconButton>

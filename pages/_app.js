@@ -11,6 +11,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { BaseOptionChartStyle } from "src/components/chart/BaseOptionChart";
+import { ToastContainer } from "react-toastify";
 const theme = createTheme({
   typography: {
     fontFamily: "Roboto:ital",
@@ -23,6 +24,7 @@ function App({ Component, pageProps }) {
 
   return (
     <>
+    <ToastContainer />
       <Head>
         <title>VieShare - {component}</title>
       </Head>
