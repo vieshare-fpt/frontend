@@ -46,7 +46,7 @@ export default function About() {
         </div>
       </header>
 
-      <section className={convert("py-5 bg-light")}>
+      <section className={convert("py-5 bg-light views")}>
         <div className={convert("container px-5 my-5")}>
           <div className={convert("text-center")}>
             <h2 className={convert("fw-bolder green")}>Nhóm chúng tôi</h2>
