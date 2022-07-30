@@ -11,7 +11,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useDispatch, useSelector } from "react-redux";
 import { infoUserApi } from "src/services/infoUserApi";
 import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
-import 'react-toastify/dist/ReactToastify.css';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { useFormik } from 'formik';
@@ -24,6 +23,7 @@ import {
 import Loader from "src/components/common/Loader";
 import EditAvatar from "src/components/profile/components/EditAvatar";
 import { ReaderLayout } from "src/components/layouts";
+import WalletTab from "src/components/profile/components/WalletTab";
 
 
 YupPassword(yup)
@@ -171,6 +171,7 @@ export default function Profile() {
                             <TabList onChange={handleChange} aria-label="lab API tabs example">
                                 <Tab label="Thông tin" value="infomation" />
                                 <Tab label="Bảo mật" value="security" />
+                                <Tab label="Nạp tiền" value="wallet" />
                             </TabList>
                         </Box>
                         <TabPanel sx={{ p: 0 }} value="infomation">
@@ -179,6 +180,10 @@ export default function Profile() {
                         <TabPanel sx={{ p: 0 }} value="security">
                             <SecurityTab formik={formikSecurity} profile={user} />
                         </TabPanel>
+                        <TabPanel sx={{ p: 0 }} value="wallet">
+                            <WalletTab profile={user}/>
+                        </TabPanel>
+                        
                     </TabContext>
                 </Box>
             </Container>
