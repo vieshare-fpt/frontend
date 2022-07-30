@@ -54,8 +54,6 @@ export default function IncomeStats(props) {
 
 
 
-
-
     if (!wallet) {
         return <Loader />
     }
@@ -81,7 +79,7 @@ export default function IncomeStats(props) {
             bankId: bank
         }
 
-    
+
 
         await walletApi.updateWallet(updateWallet).then(() => {
             toast.success("Giao dịch thành công", {
@@ -94,24 +92,24 @@ export default function IncomeStats(props) {
                 progress: undefined,
             });
         })
-       .catch(() => {
-            toast.error("Giao dịch thất bại vui lòng kiểm tra lại số dư", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            setWithdrawModal(false);
-        })
-        
+            .catch(() => {
+                toast.error("Giao dịch thất bại vui lòng kiểm tra lại số dư", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                setWithdrawModal(false);
+            })
+
 
         const wallet = await walletApi.getWallet();
         dispatch(setWallet(wallet.balance));
         setWithdrawModal(false);
-        
+
 
     };
 
@@ -128,7 +126,7 @@ export default function IncomeStats(props) {
     return (
 
         <React.Fragment>
-         
+
             <Box
                 component="main"
                 sx={{ flexGrow: 10, pl: 1, pr: 1, pb: 1, width: { sm: `100%` } }}
