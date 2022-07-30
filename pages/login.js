@@ -27,6 +27,8 @@ const validationSchema = yup.object({
 
 export default function LoginPage() {
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -68,6 +70,7 @@ export default function LoginPage() {
         password: values.password,
       };
       (async () => {
+        setLoading(true);
         await accessApi
           .login(user)
           .then(function (response) {
@@ -78,6 +81,7 @@ export default function LoginPage() {
             getInfoUser();
           })
           .catch(function (error) {
+            setLoading(false);
             console.log(error.response.status); // 401
             if (error.response.status == 401) {
               setError(true);
@@ -127,6 +131,7 @@ export default function LoginPage() {
       />
       <Page
         CurrentComponent={{
+          loading,
           handleLogin,
           handleLoginByGoogle,
           handleError,
