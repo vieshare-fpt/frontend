@@ -78,7 +78,7 @@ function PostDetailPage(props) {
         element.style.width = "100%";
       });
     }
-  }, [post.data.id]);
+  }, [post?.data.id]);
 
   // useEffect(() => {
   //   if (user !== null) {
