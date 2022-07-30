@@ -70,7 +70,7 @@ function PostDetailPage(props) {
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
 
-  const isCensor = user.roles.includes("Censor");
+  const isCensor = user?.roles.includes("Censor");
   useEffect(() => {
     if (document.querySelector(".render-content img") !== null) {
       const img = document.querySelectorAll(".render-content img");
