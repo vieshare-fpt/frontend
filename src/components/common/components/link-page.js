@@ -101,4 +101,12 @@ export const pageNotDrawer  = [
     key: 4,
     url: "/profile-writer/:path*",
   },
+  {
+    key: 5,
+    url: "/pricing",
+  },
+  {
+    key: 5,
+    url: "/payment",
+  },
 ]

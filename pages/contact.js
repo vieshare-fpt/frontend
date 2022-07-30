@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
-import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlined";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -17,6 +17,9 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import Lottie from "react-lottie";
+import * as animationData from "lottie/question.json";
+
 import {
   EMAIL_REQUIRED,
   ENTER_PHONENUMBER,
@@ -46,14 +49,18 @@ const validationSchema = yup.object({
     .email(ENTER_VALID_EMAIL)
     .required(EMAIL_REQUIRED),
 });
-
+const defaultAnimationOptions = {
+  loop: true,
+  autoplay: true,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 export default function Contact() {
   const [sendSuccess, setSendSuccess] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const user = useSelector(
-    (state) => state.persistedReducer.user.currentUserInfoFull.userInfo
-  );
+
   const formik = useFormik({
     initialValues: {
       fullname: "",
@@ -64,52 +71,53 @@ export default function Contact() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      setLoading(true)
       console.log(values);
-      // emailjs
-      //   .send(
-      //     "service_5dk3h8h",
-      //     "template_d9y3dqq",
-      //     values,
-      //     "lkpWgIxYPz1foBwIm"
-      //   )
-      //   .then(
-      //     (result) => {
-      //       console.log(result);
-      //       setSendSuccess(true);
-      //     },
-      //     (error) => {
-      //       console.log(error.text);
-      //     }
-      //   );
+      emailjs
+        .send(
+          "service_5dk3h8h",
+          "template_d9y3dqq",
+          values,
+          "lkpWgIxYPz1foBwIm"
+        )
+        .then(
+          (result) => {
+            console.log(result);
+            setSendSuccess(true);
+          },
+        ).catch((error) => {
+          setLoading(false)
+          console.log(error.text);
+        })
     },
   });
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    emailjs
-      .send(
-        "service_5dk3h8h",
-        "template_d9y3dqq",
-        {
-          fullname: user ? user.name : data.get("fullname"),
-          subject: data.get("subject"),
-          phone: user ? user.phone : data.get("phone"),
-          message: data.get("message"),
-          email: user ? user.email : data.get("email"),
-        },
-        "lkpWgIxYPz1foBwIm"
-      )
-      .then(
-        (result) => {
-          console.log(result);
-          setSendSuccess(true);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
-    event.target.reset();
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   emailjs
+  //     .send(
+  //       "service_5dk3h8h",
+  //       "template_d9y3dqq",
+  //       {
+  //         fullname: user ? user.name : data.get("fullname"),
+  //         subject: data.get("subject"),
+  //         phone: user ? user.phone : data.get("phone"),
+  //         message: data.get("message"),
+  //         email: user ? user.email : data.get("email"),
+  //       },
+  //       "lkpWgIxYPz1foBwIm"
+  //     )
+  //     .then(
+  //       (result) => {
+  //         console.log(result);
+  //         setSendSuccess(true);
+  //       },
+  //       (error) => {
+  //         console.log(error.text);
+  //       }
+  //     );
+  //   event.target.reset();
+  // };
   const ContactForm = (
     <Card
       sx={{
@@ -220,14 +228,15 @@ export default function Contact() {
             </Grid>
           </Grid>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button
+            <LoadingButton
+              loading={loading}
               type="submit"
               color="success"
               variant="contained"
               sx={{ mt: 3, mb: 2, textTransform: "none" }}
             >
               Gửi
-            </Button>
+            </LoadingButton>
           </div>
         </Box>
       </Box>
@@ -274,8 +283,14 @@ export default function Contact() {
             <Grid item md={6} order={{ xs: 1, md: 2 }}>
               <div className={styles.paddingTop}>
                 <div className={styles.flexCenter}>
-                  <ContactSupportOutlinedIcon
-                    sx={{ width: "50%", height: "50%" }}
+                  <Lottie
+                    options={{
+                      ...defaultAnimationOptions,
+                      ...{ animationData: animationData },
+                    }}
+                    isClickToPauseDisabled={true}
+                    height={350}
+                    width={350}
                   />
                 </div>
                 <h3 className={styles.text}>

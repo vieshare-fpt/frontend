@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
+import LoadingButton from '@mui/lab/LoadingButton';
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
@@ -11,9 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Card, Toolbar } from "@mui/material";
 import styles from "src/styles/Contact.module.css";
 import { MainLayout } from "src/components/layouts";
-import AddReactionOutlinedIcon from "@mui/icons-material/AddReactionOutlined";
 import { useRouter } from "next/router";
-import { green } from "@mui/material/colors";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import {
@@ -24,16 +23,26 @@ import {
 } from "src/locales/errors";
 import { coverLetterApi } from "src/services";
 import { useSelector } from "react-redux";
-
+import Lottie from "react-lottie";
+import * as animationData from "lottie/creator.json";
 const theme = createTheme();
 const validationSchema = yup.object({
   title: yup.string(ENTER_YOUR_TITLE_VALIDATION).required(TITLE_REQUIRED),
   content: yup.string(ENTER_YOUR_CONTENT_VALIDATION).required(CONTENT_REQUIRED),
 });
+
+const defaultAnimationOptions = {
+  loop: true,
+  autoplay: true,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 export default function RegisterWriter() {
   const [sendSuccess, setSendSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [otherError, setOtherError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const user = useSelector(
     (state) => state.persistedReducer.user.currentUserInfoFull.userInfo
@@ -50,6 +59,7 @@ export default function RegisterWriter() {
         alert("Vui lòng đăng nhập !!!");
       } else {
         (async () => {
+          setLoading(true)
           await coverLetterApi
             .sendCoverLetter(values)
             .then((response) => {
@@ -57,6 +67,7 @@ export default function RegisterWriter() {
               setSendSuccess(true);
             })
             .catch((error) => {
+              setLoading(false)
               const message = error.response?.data?.statusCode;
               console.log(error);
               switch (message) {
@@ -92,9 +103,6 @@ export default function RegisterWriter() {
         <Box sx={{ mt: 1, textAlign: "center" }}>
           <Typography variant="h2" sx={{ fontSize: 40 }}>
             Trở thành tác giả
-          </Typography>
-          <Typography component="p" sx={{ py: 2 }}>
-            Chúng tôi rất vui khi đồng hành cùng bạn !!
           </Typography>
         </Box>
         <Box
@@ -149,14 +157,15 @@ export default function RegisterWriter() {
             </Grid>
           </Grid>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button
+            <LoadingButton
               type="submit"
+              loading={loading}
               color="success"
               variant="contained"
               sx={{ mt: 3, mb: 2, textTransform: "none" }}
             >
               Gửi
-            </Button>
+            </LoadingButton>
           </div>
         </Box>
       </Box>
@@ -190,11 +199,7 @@ export default function RegisterWriter() {
   }
   return (
     <ThemeProvider theme={theme}>
-      <Container
-        component="main"
-        maxWidth="lg"
-        sx={{ minHeight: "100vh"}}
-      >
+      <Container component="main" maxWidth="lg" sx={{ minHeight: "100vh" }}>
         <CssBaseline />
         <Toolbar />
 
@@ -208,10 +213,20 @@ export default function RegisterWriter() {
             <Grid item md={6} order={{ xs: 1, md: 2 }}>
               <div className={styles.paddingTop}>
                 <div className={styles.flexCenter}>
-                  <AddReactionOutlinedIcon
-                    sx={{ width: "80%", height: "50%", color: green[300] }}
+                  <Lottie
+                    options={{
+                      ...defaultAnimationOptions,
+                      ...{ animationData: animationData },
+                    }}
+                    isClickToPauseDisabled={true}
+                    height={400}
+                    width={400}
                   />
+                  
                 </div>
+                <Typography variant="h6" sx={{ textAlign: "center" }}>
+                  Chúng tôi rất vui khi đồng hành cùng bạn !!
+                </Typography>
               </div>
             </Grid>
           </Grid>
