@@ -19,7 +19,7 @@ import { accessApi } from "src/services";
 import { FormLogin } from "src/components/login";
 
 export default function LoginComponent({ CurrentComponent }) {
-  const { handleLogin, handleLoginByGoogle, handleError, error } =
+  const { loading, handleLogin, handleLoginByGoogle, handleError, error } =
     CurrentComponent;
   return (
     <div className={LoginStyles.setBackground}>
@@ -44,7 +44,7 @@ export default function LoginComponent({ CurrentComponent }) {
               Đăng Nhập
             </Typography>
 
-            <FormLogin formik={handleLogin} onError={error} />
+            <FormLogin formik={handleLogin} onError={error} loading={loading}/>
 
             <Grid container>
               <Grid item xs={12}>

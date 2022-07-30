@@ -24,7 +24,7 @@ export const postApi = {
   searchPosts: (params) => {
     const url = `/posts/search`;
 
-    return axiosClient().get(url, params);
+    return axiosClient().get(url, {params});
   },
   removePost: (id) => {
     const url = "/posts/" + id;

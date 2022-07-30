@@ -20,6 +20,7 @@ import { subscriptionApi } from 'src/services/subsciptionApi';
 import { useRouter } from 'next/router';
 import { setUserInfoFailed, setUserInfoSuccess } from 'src/stores/userSlice';
 import { infoUserApi } from 'src/services';
+import { MainLayout } from 'src/components/layouts';
 
 
 
@@ -501,3 +502,5 @@ export default function PaymentInput() {
     )
 
 }
+
+PaymentInput.getLayout = MainLayout
