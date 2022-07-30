@@ -22,7 +22,7 @@ export function CommentCard({ data }) {
             <Avatar alt={data.user.name} src={data.user.avatar}/>
             <Grid 
             style={{
-                backgroundColor: 'white', 
+                backgroundColor: 'rgba(255,255,255,0.75)', 
                 marginLeft: 5,
                 padding:10, 
                 borderRadius:5,
