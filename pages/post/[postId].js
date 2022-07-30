@@ -38,6 +38,7 @@ import Logo from "src/components/common/components/logo";
 import Lottie from "react-lottie";
 import * as animationData from "lottie/post_not_found_animation.json";
 import * as animationDataPremium from "lottie/post_premium_animation.json";
+import * as animationDataComment from "lottie/comment.json";
 moment.locale("vi");
 
 const defaultAnimationOptions = {
@@ -69,6 +70,7 @@ function PostDetailPage(props) {
     (state) => state.persistedReducer.user?.currentUserInfoFull?.userInfo
   );
 
+  const isCensor = user.roles.includes("Censor");
   useEffect(() => {
     if (document.querySelector(".render-content img") !== null) {
       const img = document.querySelectorAll(".render-content img");
@@ -476,6 +478,19 @@ function PostDetailPage(props) {
         disableScrollLock={true}
         sx={{ ".MuiPaper-root": { width: { xs: "100%", sm: "500px" } } }}
       >
+         <Lottie
+          style={{
+            position: "absolute",
+            bottom: "0",
+            zIndex: -2021,
+            width: "100%",
+          }}
+          options={{
+            ...defaultAnimationOptions,
+            ...{ animationData: animationDataComment },
+          }}
+          isClickToPauseDisabled={true}
+        />
         <Box sx={{ display: "flex", justifyContent: "right", mx: 1 }}>
           <IconButton onClick={handleOpenComment}>
             <CloseIcon />
@@ -483,100 +498,104 @@ function PostDetailPage(props) {
         </Box>
         <Box
           sx={{
-            backgroundColor: "white",
+            // backgroundColor: "white",
             padding: 2,
             borderRadius: 2,
             mx: 1,
           }}
         >
-          <Box>
-            <h3 style={{ margin: 0 }}>Đánh giá bài viết</h3>
-            <hr />
-            <Box
-              sx={{
-                display: "flex",
-                marginBottom: 1,
-              }}
-            >
-              <Rating
-                name="rating-controlled"
-                value={rateValue}
-                disabled={!user}
-                onChange={(_event, newValue) => {
-                  console.log(newValue);
-                  if (newValue != null) {
-                    setRateValue(newValue);
-                    const id = post.data.id;
-                    postRatingApi(id, newValue);
-                  }
+          <Box sx={{ display: isCensor && "none" }}>
+            <Box>
+              <h3 style={{ margin: 0 }}>Đánh giá bài viết</h3>
+              <hr />
+              <Box
+                sx={{
+                  display: "flex",
+                  marginBottom: 1,
                 }}
-              />
-              <div style={{ marginLeft: 10 }}>{rateValue} sao</div>
-            </Box>
-          </Box>
-
-          <h3 style={{ margin: 0 }}>Bình luận</h3>
-          <hr />
-          <Box sx={{ display: "flex" }}>
-            <Avatar alt={user?.name} src={user?.avatar} />
-            <FormControl
-              sx={{
-                marginLeft: 1,
-                // marginRight: 2,
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              <TextField
-                style={{ backgroundColor: "white" }}
-                id="commentContents"
-                disabled={!user}
-                // variant="filled"
-                defaultValue=""
-                onChange={(event) => {
-                  setContent(event.target.value);
-                }}
-                multiline
-              />
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
-                  variant="contained"
-                  color="success"
+              >
+                <Rating
+                  name="rating-controlled"
+                  value={rateValue}
                   disabled={!user}
-                  sx={{ marginTop: 1 }}
-                  onClick={async () => {
-                    if (!user) {
-                      alert("Đăng nhập trước khi bình luận");
-                    } else if (content == "" || content == null) {
-                      console.log("No comments content");
-                    } else {
-                      console.log(content);
-                      try {
-                        await commentApi.postComments({
-                          postId,
-                          content,
-                        });
-                        await commentApi
-                          .getComments(postId, {
-                            order_by: "publishDate",
-                            sort: "DESC",
-                          })
-                          .then((response) => {
-                            setCommentsData(response.data);
-                          });
-                        setContent(null);
-                      } catch (err) {
-                        console.log(err);
-                      }
+                  onChange={(_event, newValue) => {
+                    console.log(newValue);
+                    if (newValue != null) {
+                      setRateValue(newValue);
+                      const id = post.data.id;
+                      postRatingApi(id, newValue);
                     }
                   }}
-                >
-                  Gửi
-                </Button>
-              </div>
-            </FormControl>
+                />
+                <div style={{ marginLeft: 10 }}>{rateValue} sao</div>
+              </Box>
+            </Box>
+
+            <h3 style={{ margin: 0 }}>Bình luận</h3>
+            <hr />
+            <Box sx={{ display: "flex" }}>
+              <Avatar alt={user?.name} src={user?.avatar} />
+              <FormControl
+                sx={{
+                  marginLeft: 1,
+                  // marginRight: 2,
+                  width: "100%",
+                  textAlign: "center",
+                }}
+              >
+                <TextField
+                  style={{ backgroundColor: "white" }}
+                  id="commentContents"
+                  disabled={!user}
+                  // variant="filled"
+                  defaultValue=""
+                  onChange={(event) => {
+                    setContent(event.target.value);
+                  }}
+                  multiline
+                />
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    disabled={!user}
+                    sx={{ marginTop: 1 }}
+                    onClick={async () => {
+                      if (!user) {
+                        alert("Đăng nhập trước khi bình luận");
+                      } else if (content == "" || content == null) {
+                        console.log("No comments content");
+                      } else {
+                        console.log(content);
+                        try {
+                          await commentApi.postComments({
+                            postId,
+                            content,
+                          });
+                          await commentApi
+                            .getComments(postId, {
+                              order_by: "publishDate",
+                              sort: "DESC",
+                            })
+                            .then((response) => {
+                              setCommentsData(response.data);
+                            });
+                          setContent(null);
+                        } catch (err) {
+                          console.log(err);
+                        }
+                      }
+                    }}
+                  >
+                    Gửi
+                  </Button>
+                </div>
+              </FormControl>
+            </Box>
+            <hr />
           </Box>
-          <hr />
+          <h3 style={{ marginBottom: 20, display: isCensor ? "block" : "none" }}>Bình luận</h3>
+
           <Box>
             {commentsData?.length ? (
               commentsData.map((element) => {
