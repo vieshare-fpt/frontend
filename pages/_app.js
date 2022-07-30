@@ -12,6 +12,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BaseOptionChartStyle } from "src/components/chart/BaseOptionChart";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 const theme = createTheme({
   typography: {
     fontFamily: "Roboto:ital",

@@ -83,7 +83,17 @@ export default function IncomeStats(props) {
 
     
 
-        await walletApi.updateWallet(updateWallet)
+        await walletApi.updateWallet(updateWallet).then(() => {
+            toast.success("Giao dịch thành công", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        })
        .catch(() => {
             toast.error("Giao dịch thất bại vui lòng kiểm tra lại số dư", {
                 position: "top-right",
@@ -96,15 +106,7 @@ export default function IncomeStats(props) {
             });
             setWithdrawModal(false);
         })
-        toast.success("Giao dịch thành công", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
+        
 
         const wallet = await walletApi.getWallet();
         dispatch(setWallet(wallet.balance));
