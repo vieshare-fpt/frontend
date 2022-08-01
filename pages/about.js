@@ -1,10 +1,17 @@
+import { useRouter } from "next/router";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Seo } from "src/components/common";
 import { MainLayout } from "src/components/layouts";
+import { authorization } from "src/utils/authorization";
 import { convert } from "src/utils/convertClassName";
 
 export default function About() {
-  return (
+  const router = useRouter();
+  const user = useSelector(
+    (state) => state.persistedReducer.user.currentUserInfoFull.userInfo
+  );
+  let page = (
     <div>
       <Seo
         data={{
@@ -131,5 +138,7 @@ export default function About() {
       </section>
     </div>
   );
+
+  return page
 }
 About.getLayout = MainLayout;

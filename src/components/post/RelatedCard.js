@@ -131,7 +131,22 @@ export function RelatedCards({ note }) {
           <Link href={`/post/${note.id}`}>
             <a>
               <Typography variant="h2" fontSize="20px">
-                Thể loại | {note.category.name}
+                Thể loại | {note.category.name} 
+                {note.type === "Premium" && (
+                  <span
+                    style={{
+                      fontSize: "6px",
+                      color: "#ffc107",
+                      lineHeight: "0px",
+                      marginLeft: 5
+                    }}
+                  >
+                    <WorkspacePremiumIcon
+                      fontSize="medium"
+                      sx={{ color: "#ffc107" }}
+                    />
+                  </span>
+                )}
               </Typography>
 
               <Typography

@@ -33,7 +33,6 @@ const logo = {
 
 export function Table(props) {
   const { data, columns, isLoading } = props;
-  console.log(data);
   function CustomToolbar() {
     return (
       <GridToolbarContainer sx={{ my: 2 }}>

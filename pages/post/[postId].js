@@ -15,6 +15,7 @@ import {
   styled,
   IconButton,
   Fab,
+  Divider,
 } from "@mui/material";
 import { Grid, Box, Avatar } from "@mui/material";
 import Rating from "@mui/material/Rating";
@@ -478,7 +479,7 @@ function PostDetailPage(props) {
         disableScrollLock={true}
         sx={{ ".MuiPaper-root": { width: { xs: "100%", sm: "500px" } } }}
       >
-         <Lottie
+        <Lottie
           style={{
             position: "absolute",
             bottom: "0",
@@ -505,9 +506,8 @@ function PostDetailPage(props) {
           }}
         >
           <Box sx={{ display: isCensor && "none" }}>
-            <Box>
-              <h3 style={{ margin: 0 }}>Đánh giá bài viết</h3>
-              <hr />
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <h3 style={{ margin: 0 }}>Bình luận</h3>
               <Box
                 sx={{
                   display: "flex",
@@ -530,9 +530,7 @@ function PostDetailPage(props) {
                 <div style={{ marginLeft: 10 }}>{rateValue} sao</div>
               </Box>
             </Box>
-
-            <h3 style={{ margin: 0 }}>Bình luận</h3>
-            <hr />
+            <Divider sx={{ mb: 2 }} />
             <Box sx={{ display: "flex" }}>
               <Avatar alt={user?.name} src={user?.avatar} />
               <FormControl
@@ -546,8 +544,9 @@ function PostDetailPage(props) {
                 <TextField
                   style={{ backgroundColor: "white" }}
                   id="commentContents"
+                  placeholder="Suy nghĩ của bạn..."
                   disabled={!user}
-                  // variant="filled"
+                  color="success"
                   defaultValue=""
                   onChange={(event) => {
                     setContent(event.target.value);
@@ -592,11 +591,15 @@ function PostDetailPage(props) {
                 </div>
               </FormControl>
             </Box>
-            <hr />
+            {/* <Divider sx={{my: 2}}/> */}
           </Box>
-          <h3 style={{ marginBottom: 20, display: isCensor ? "block" : "none" }}>Bình luận</h3>
+          <h3
+            style={{ marginBottom: 20, display: isCensor ? "block" : "none" }}
+          >
+            Bình luận
+          </h3>
 
-          <Box>
+          <Box sx={{ my: 5 }}>
             {commentsData?.length ? (
               commentsData.map((element) => {
                 return (

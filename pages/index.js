@@ -5,7 +5,7 @@ import { MainLayout, ReaderLayout } from "src/components/layouts";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { Seo } from "src/components/common";
-import authorization from "src/utils/authorization";
+import { authorization } from "src/utils/authorization";
 
 export default function Landing(props) {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function Landing(props) {
       <Page CurrentComponent={LandingPage} prop={props} />
     </>
   )
-  page = authorization(user, page, router)
+  page = authorization.reader(user, page,router)
   return page;
 }
 Landing.getLayout = MainLayout;

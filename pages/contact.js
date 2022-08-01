@@ -34,6 +34,7 @@ import {
   PHONENUMBER_REQUIRED,
   TITLE_REQUIRED,
 } from "src/locales/errors";
+import { authorization } from "src/utils/authorization";
 
 const theme = createTheme();
 const validationSchema = yup.object({
@@ -60,7 +61,9 @@ export default function Contact() {
   const [sendSuccess, setSendSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
+  const user = useSelector(
+    (state) => state.persistedReducer.user.currentUserInfoFull.userInfo
+  );
   const formik = useFormik({
     initialValues: {
       fullname: "",
@@ -91,33 +94,7 @@ export default function Contact() {
         })
     },
   });
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   emailjs
-  //     .send(
-  //       "service_5dk3h8h",
-  //       "template_d9y3dqq",
-  //       {
-  //         fullname: user ? user.name : data.get("fullname"),
-  //         subject: data.get("subject"),
-  //         phone: user ? user.phone : data.get("phone"),
-  //         message: data.get("message"),
-  //         email: user ? user.email : data.get("email"),
-  //       },
-  //       "lkpWgIxYPz1foBwIm"
-  //     )
-  //     .then(
-  //       (result) => {
-  //         console.log(result);
-  //         setSendSuccess(true);
-  //       },
-  //       (error) => {
-  //         console.log(error.text);
-  //       }
-  //     );
-  //   event.target.reset();
-  // };
+ 
   const ContactForm = (
     <Card
       sx={{
@@ -267,7 +244,7 @@ export default function Contact() {
       </div>
     );
   }
-  return (
+  let page = (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="lg" sx={{ minHeight: "100vh" }}>
         <CssBaseline />
@@ -304,6 +281,8 @@ export default function Contact() {
       </Container>
     </ThemeProvider>
   );
+
+  return page
 }
 
 Contact.getLayout = MainLayout;

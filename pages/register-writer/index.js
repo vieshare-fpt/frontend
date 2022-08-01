@@ -25,6 +25,7 @@ import { coverLetterApi } from "src/services";
 import { useSelector } from "react-redux";
 import Lottie from "react-lottie";
 import * as animationData from "lottie/creator.json";
+import { authorization } from "src/utils/authorization";
 const theme = createTheme();
 const validationSchema = yup.object({
   title: yup.string(ENTER_YOUR_TITLE_VALIDATION).required(TITLE_REQUIRED),
@@ -197,7 +198,7 @@ export default function RegisterWriter() {
       </div>
     );
   }
-  return (
+  let page = (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="lg" sx={{ minHeight: "100vh" }}>
         <CssBaseline />
@@ -234,6 +235,8 @@ export default function RegisterWriter() {
       </Container>
     </ThemeProvider>
   );
+  page = authorization.reader(user, page, router)
+  return page
 }
 
 RegisterWriter.getLayout = MainLayout;

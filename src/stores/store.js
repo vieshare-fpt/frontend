@@ -8,6 +8,7 @@ import packageReducer from "src/stores/packageSlice";
 import bankReducer from "src/stores/bankSlice";
 import walletReducer from "src/stores/walletSlice";
 import paymentReducer from "src/stores/paymentSlice";
+import tabReducer from "src/stores/tabSlice";
 import {
   persistStore,
   persistReducer,
@@ -42,6 +43,7 @@ const store = configureStore({
     bank: bankReducer,
     wallet: walletReducer,
     payment: paymentReducer,
+    tab: tabReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

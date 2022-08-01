@@ -56,7 +56,7 @@ export default function WalletTab({ profile }) {
                 }
             )();
         }
-    })
+    },[banks.length, dispatch, wallet])
 
     if (!wallet) {
         return <Loader />
@@ -194,8 +194,9 @@ export default function WalletTab({ profile }) {
                 margin={2}
             >
                 <Button
+                    color="success"
                     variant="contained"
-                    sx={{ pl: 3 }}
+                    sx={{mx: 2}}
                     onClick={handleOpenWithdrawForm}
                 >Rút tiền
                     <IconButton color="default">
@@ -205,6 +206,7 @@ export default function WalletTab({ profile }) {
                 <Button
                     variant="contained"
                     sx={{ pl: 3 }}
+                    color="success"
                     onClick={handleOpenDepositForm}
                 >Nạp Tiền
                     <IconButton color="default">
@@ -263,8 +265,8 @@ export default function WalletTab({ profile }) {
 
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleCloseWithdrawForm}>Huỷ bỏ</Button>
-                                <Button onClick={handleWithdraw}>Rút tiền</Button>
+                                <Button color="success" onClick={handleCloseWithdrawForm}>Huỷ bỏ</Button>
+                                <Button color="success" onClick={handleWithdraw}>Rút tiền</Button>
                             </DialogActions>
                         </Dialog>
                     </div>

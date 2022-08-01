@@ -8,9 +8,10 @@ import ItemTab from './ItemTab';
 import HeadersTab from './HeaderTab';
 import { profileAPI } from 'src/services/profileApi';
 import { toast } from 'react-toastify';
+import { useFormik } from 'formik';
 
 
-export default function SecurityTab({ formik, profile }) {
+export default function SecurityTab({ profile, yup }) {
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -18,6 +19,26 @@ export default function SecurityTab({ formik, profile }) {
     const handleCancel = () => {
         handleClose();
     }
+
+     const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      oldPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    },
+    initialErrors: {
+      oldPassword: " ",
+      newPassword: " ",
+      confirmNewPassword: " ",
+    },
+    touched: {
+      oldPassword: false,
+      newPassword: false,
+      confirmNewPassword: false,
+    },
+    validationSchema: yup,
+  });
     const updatePasswordSuccess = (message) => {
         toast.success(message, {
             position: "top-right",

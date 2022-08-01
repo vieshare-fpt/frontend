@@ -17,11 +17,12 @@ import { accessApi } from "src/services";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { clearInfoStart, clearInfoSuccess } from "src/stores/userSlice";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import catchError from "src/utils/catchError";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AttributionTwoToneIcon from "@mui/icons-material/AttributionTwoTone";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import { setTab } from "src/stores/tabSlice";
 
 export function UserMenu({ fullname, email, avatar, type, roles }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -69,12 +70,14 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
   const features = [
     {
       name: "Lịch sử giao dịch",
-      url: "/",
+      url: "/profile",
+      value: "history"
     },
     {
-      name: "Gia hạn Premium",
-      url: "/",
-    },
+      name: "Ví tiền",
+      url: "/profile",
+      value: "wallet"
+    }
   ];
 
   const paper = {
@@ -85,7 +88,7 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
       width: "456px",
       height: isAdminOrCensor
         ? { xs: "164px", sm: "164px" }
-        : { xs: "280px", sm: "255px" },
+        : { xs: "280px", sm: "250px" },
       mt: 1.5,
       borderRadius: 3,
       "& .MuiAvatar-root": {
@@ -118,6 +121,7 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
     } else if (roles.includes("Censor")) {
       router.push("/dashboard/info");
     } else {
+      dispatch(setTab("information"))
       router.push("/profile");
     }
   };
@@ -143,7 +147,11 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
         });
     })();
   };
-
+  const handleFeature = (event, feature, value) => {
+    event.preventDefault();
+    dispatch(setTab(value))
+    router.push(feature)
+  }
   return (
     <div>
       <Tooltip title="Tài khoản" sx={{ p: "4px" }}>
@@ -213,8 +221,8 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
           <Divider />
           {!isAdminOrCensor &&
             features.map((feature) => (
-              <MenuItem key={feature.name}>
-                <Link href={feature.url}>{feature.name}</Link>
+              <MenuItem key={feature.name} onClick={(e)=>handleFeature(e,feature.url, feature.value)}>
+                {feature.name}
               </MenuItem>
             ))}
         </Box>
