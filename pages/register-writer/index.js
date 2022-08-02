@@ -50,7 +50,7 @@ export default function RegisterWriter() {
   );
   const formik = useFormik({
     initialValues: {
-      positionApply: "Author",
+      positionApply: "Writer",
       title: "",
       content: "",
     },

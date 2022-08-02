@@ -23,7 +23,7 @@ import { useSelector } from "react-redux";
 import MenuIcon from "@mui/icons-material/Menu";
 import { UserMenu } from "../common/components";
 import { useRouter } from "next/router";
-
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
@@ -91,6 +91,11 @@ export default function ResponsiveDrawer(props) {
       name: "Quản lý bài viết",
       icon: TextSnippetIcon,
       link: "/dashboard/posts-management",
+    },
+    {
+      name: "Trang bài viết",
+      icon: AutoStoriesIcon,
+      link: "/",
     },
     { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/info" },
   ];

@@ -34,7 +34,6 @@ import {
   PHONENUMBER_REQUIRED,
   TITLE_REQUIRED,
 } from "src/locales/errors";
-import { authorization } from "src/utils/authorization";
 
 const theme = createTheme();
 const validationSchema = yup.object({
@@ -61,9 +60,7 @@ export default function Contact() {
   const [sendSuccess, setSendSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const user = useSelector(
-    (state) => state.persistedReducer.user.currentUserInfoFull.userInfo
-  );
+
   const formik = useFormik({
     initialValues: {
       fullname: "",

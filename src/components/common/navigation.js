@@ -79,18 +79,13 @@ export function Navigation({ children }) {
     router.asPath.includes(url.profileWriter) ||
     pageNotDrawer.some((element) => element.url === router.asPath);
 
-
-  if (user?.isPremium) {
-    result = subPageUserPremium;
-  } else if (user?.roles.includes("Writer")) {
+  if (user?.roles.includes("Writer")) {
     result = subPageWriter;
   } else if (user?.roles.includes("Censor")) {
     result = subPageCensor;
+  } else if (user?.isPremium) {
+    result = subPageUserPremium;
   }
-
-
-
-
 
   const handleChange = (e) => {
     setTrackingSearchValue(e.target.value);

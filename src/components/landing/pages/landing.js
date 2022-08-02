@@ -8,7 +8,6 @@ import { postApi } from "src/services";
 import { Progress } from "../components";
 import { PostCards } from "src/components/common";
 
-
 export default function LandingPage({ props }) {
   const { posts } = props;
   const [data, setData] = useState([]);
@@ -16,13 +15,14 @@ export default function LandingPage({ props }) {
   const [page, setpage] = useState(2);
   const [spinner, setSpinner] = useState(false);
   const categoryId = useSelector((state) => state.category.data);
-  //check page has more 
+  //check page has more
   function isHasMore(data) {
     return data.metaData.page === data.metaData.total_pages;
   }
-  
+
   //loading post when any chip category is clicked
   useEffect(() => {
+    setpage(2);
     if (categoryId.currentCategory) {
       setSpinner(true);
       (async () => {
@@ -48,12 +48,16 @@ export default function LandingPage({ props }) {
 
   //loading more post when scroll
   const fetchMoreData = async () => {
+    const payload = {
+      status: "Publish",
+      per_page: 12,
+      page: page,
+    };
+    if (categoryId.currentCategory) {
+      payload.category_id = categoryId.currentCategory;
+    }
     await postApi
-      .getPosts({
-        status: "Publish",
-        per_page: 12,
-        page: page,
-      })
+      .getPosts(payload)
       .then((response) => {
         console.log(response);
         setData(data.concat(response.data));

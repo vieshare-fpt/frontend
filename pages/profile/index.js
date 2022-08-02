@@ -99,9 +99,11 @@ export default function Profile() {
     setOpenEditAvatar(true);
   };
 
-
+  const isAccess = user?.roles.includes("Admin") || user?.roles.includes("Censor")
+  const styleAccess = {
+    display: isAccess ? "none" : "flex"
+  }
  
-
   if (!user) {
     return <Loader />
   }
@@ -143,8 +145,9 @@ export default function Profile() {
               >
                 <Tab label="Thông tin" value="information" />
                 <Tab label="Bảo mật" value="security" />
-                <Tab label="Nạp tiền" value="wallet" />
-                <Tab label="Lịch sử giao dịch" value="history" />
+                
+                <Tab sx={styleAccess} label="Ví tiền" value="wallet" />
+                <Tab sx={styleAccess} label="Lịch sử giao dịch" value="history" />
               </TabList>
             </Box>
             <TabPanel color="success" sx={{ p: 0 }} value="information">

@@ -3,6 +3,8 @@ import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { green } from "@mui/material/colors";
 import HistoryIcon from "@mui/icons-material/History";
 import HomeIcon from "@mui/icons-material/Home";
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 export const subPageUserFree = [
   {
     key: 0,
@@ -64,10 +66,17 @@ export const subPageWriter = [
 export const subPageCensor = [
   {
     key: 0,
-    name: "Trang chủ",
-    icon: <HomeIcon sx={{ color: green[700] }} />,
+    name: "Quản lý bài viết",
+    icon: <TextSnippetIcon sx={{ color: green[700] }} />,
     url: "/dashboard/posts-management",
   },
+  {
+    key: 1,
+    name: "Trang bài viết",
+    icon: <AutoStoriesIcon sx={{ color: green[700] }} />,
+    url: "/",
+  },
+  
 ];
 
 export const subPageSupport = [

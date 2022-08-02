@@ -20,6 +20,8 @@ export function CategoryBar({ categories }) {
     );
   }
   const handleClick = (e, id) => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     document
       .querySelectorAll(".chip")
       .forEach((el) => el.classList.remove("bg-green"));
