@@ -2,7 +2,6 @@ import React from 'react'
 import UserManagement from 'src/components/dashboard/pages/user-management'
 import Page from 'src/components/dashboard/main'
 import { adminApi } from 'src/services';
-import { getCookieData } from "src/services/cookies";
 
 export default function DashBoard(props) {
   return <Page CurrentComponent={UserManagement} 
@@ -12,7 +11,6 @@ export default function DashBoard(props) {
 
 export async function getServerSideProps(context) {
   const { token, refreshToken } = context.req?.cookies;
-  // console.log(token);
   const users = await adminApi.getUsers(token, refreshToken);
   return {
     props: {

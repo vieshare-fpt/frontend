@@ -9,7 +9,7 @@ export default function EditContent(props) {
 }
 
 export async function getServerSideProps(context) {
-    const { token, refreshToken } = context.req.cookies
+    const { token, refreshToken } = context.req.cookies || {token: null, refreshToken: null}
     const categories = await categoryApi.getCategory({
         per_page: 99,
         page:1

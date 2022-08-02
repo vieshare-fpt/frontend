@@ -4,11 +4,13 @@ import { getCookieData } from "./cookies";
 // const refreshToken = getCookieData("refreshToken");
 // console.log(token);
 export const postApi = {
-  getPosts: (params) => {
+  getPosts: (params, token, refreshToken) => {
+    const tokenT = token || getCookieData("token");
+    const refreshTokenT = refreshToken || getCookieData("refreshToken");
     const url = "/posts";
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token, refreshToken).get(url, { params });
+    return axiosClient(tokenT, refreshTokenT).get(url, { params });
   },
   getPostDetail: (id, token, refreshToken) => {
     const tokenT = token || getCookieData("token");
@@ -17,35 +19,47 @@ export const postApi = {
     const url = "/posts/" + id;
     return axiosClient(tokenT, refreshTokenT).get(url);
   },
-  getPostsRelated: (id, params) => {
+  getPostsRelated: (id, params, token, refreshToken) => {
+    const tokenT = token || getCookieData("token");
+    const refreshTokenT = refreshToken || getCookieData("refreshToken");
     const url = "/posts/related/" + id;
-    return axiosClient().get(url, { params });
+    return axiosClient(tokenT, refreshTokenT).get(url, { params });
   },
-  searchPosts: (params) => {
+  searchPosts: (params, token, refreshToken) => {
+    const tokenT = token || getCookieData("token");
+    const refreshTokenT = refreshToken || getCookieData("refreshToken");
     const url = `/posts/search`;
 
-    return axiosClient().get(url, {params});
+    return axiosClient(tokenT, refreshTokenT).get(url, {params});
   },
-  removePost: (id) => {
+  removePost: (id, token, refreshToken) => {
+    const tokenT = token || getCookieData("token");
+    const refreshTokenT = refreshToken || getCookieData("refreshToken");
     const url = "/posts/" + id;
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token, refreshToken).delete(url, { id });
+    return axiosClient(tokenT, refreshTokenT).delete(url, { id });
   },
-  getAvgRating: (id) => {
+  getAvgRating: (id, token, refreshToken) => {
+    const tokenT = token || getCookieData("token");
+    const refreshTokenT = refreshToken || getCookieData("refreshToken");
     const url = "/votes/average/post/" + id;
-    return axiosClient().get(url);
+    return axiosClient(tokenT, refreshTokenT).get(url);
   },
-  postRatingScore: (params) => {
+  postRatingScore: (params, token, refreshToken) => {
+    const tokenT = token || getCookieData("token");
+    const refreshTokenT = refreshToken || getCookieData("refreshToken");
     const url = "/votes";
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token, refreshToken).post(url, params);
+    return axiosClient(tokenT, refreshTokenT).post(url, params);
   },
-  getRating: (id) => {
+  getRating: (id, token, refreshToken) => {
+    const tokenT = token || getCookieData("token");
+    const refreshTokenT = refreshToken || getCookieData("refreshToken");
     const url = "/votes/post/" + id;
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token, refreshToken).get(url);
+    return axiosClient(tokenT, refreshTokenT).get(url);
   },
 };
