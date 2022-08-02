@@ -13,6 +13,8 @@ import { Box, CardActions, styled } from "@mui/material";
 import { green } from "@mui/material/colors";
 const ColorButton = styled(Button)(({ theme }) => ({
   color: 'white',
+  borderRadius: 25,
+  marginBottom: 10,
   backgroundColor: green[400],
   '&:hover': {
     backgroundColor: green[600],
@@ -21,19 +23,20 @@ const ColorButton = styled(Button)(({ theme }) => ({
 function PricingContent({ item }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  console.log(item);
   const handerPayment = (item) => {
-    // console.log(item);
     dispatch(setPackagePayment(item));
     router.push("/payment");
   };
 
   return (
-    <Card sx={{my: 5}}>
+    <Card 
+    sx={{
+      my: 5,
+    }}
+    >
       <CardHeader
         title={item.name}
         titleTypographyProps={{ align: "center" }}
-        action={item.name === 'Bạc' ? <StarIcon sx={{color: 'gold'}} /> : null}
         subheaderTypographyProps={{
           align: "center",
         }}
@@ -53,18 +56,19 @@ function PricingContent({ item }) {
             mb: 2,
           }}
         >
-          <Typography component="h2" variant="h3" color="text.primary">
+          <Typography component="h3" variant="h4" color="text.primary">
             {item.price}
           </Typography>
           <Typography variant="h6" color="text.secondary">
             VNĐ
           </Typography>
         </Box>
+        <hr color="success"/>
         <Typography variant="subtitle1" align="center">
-          {item.expiresAfterNumberOfDays} Ngày
+          Mở giới hạn đọc các bài viết Premium trong {item.expiresAfterNumberOfDays} Ngày
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions >
         <ColorButton
           fullWidth
           variant="contained"

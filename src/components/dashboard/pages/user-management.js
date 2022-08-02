@@ -58,7 +58,7 @@ export default function UserManagement(props) {
         { 
             field: 'name', 
             headerName: 'Họ và tên', 
-            width: 230, 
+            width: 200, 
             editable: false,
         },
         { 
@@ -78,14 +78,7 @@ export default function UserManagement(props) {
         {
             field: 'role',
             headerName: 'Vai trò',
-            width: 100,
-            editable: false,
-            sortable: true,
-        },
-        { 
-            field: 'status', 
-            headerName: 'Trạng thái', 
-            width: 150, 
+            width: 80,
             editable: false,
             sortable: true,
         },
@@ -95,7 +88,7 @@ export default function UserManagement(props) {
             description: 'Sửa vai trò người dùng',
             editable: false,
             sortable: false,
-            width: 120,
+            width: 100,
             disableClickEventBubbling: true,
             
             renderCell: (CellValue) => {
@@ -116,6 +109,13 @@ export default function UserManagement(props) {
                     </>
                 )
             },
+        },
+        { 
+            field: 'status', 
+            headerName: 'Trạng thái', 
+            width: 150, 
+            editable: false,
+            sortable: true,
         },
         {
             field: 'editStatus', 
@@ -238,7 +238,7 @@ export default function UserManagement(props) {
     return (
         <Box 
         sx={{ 
-            height:650, width:{ sm: '100%', md: '95%', lg: '90%'},
+            height:650, width:{ sm: '100%', md: '95%', lg: '90%'}, marginBottom: 10, display: 'flex', alignItems: 'stretch', flexDirection: 'column', marginLeft: 5,
         }}
         >
             <h2>{title}</h2>

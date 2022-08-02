@@ -182,7 +182,6 @@ export default function PaymentInput() {
                     <Grid
                         md={6} xs={12}
                         item
-
                     >
                         <Grid xs={12}>
                             <Typography
@@ -191,8 +190,9 @@ export default function PaymentInput() {
                                 align="center"
                                 color="text.primary"
                                 component="p"
-                                margin-top="40px">
-                                Billing detail
+                                margin-top="40px"
+                            >
+                                Điền thông tin
                             </Typography>
                         </Grid>
 
@@ -211,9 +211,9 @@ export default function PaymentInput() {
 
                             >
                                 <TextField
-                                    helperText="Please enter your first name"
-                                    id="firstName"
-                                    label="FirstName"
+                                    helperText="Nhập Họ và Tên vào 2 trường trên"
+                                    id="lastName"
+                                    label="Họ"
                                     required
                                     fullWidth
                                     sx={{ maxWidth: "95%" }}
@@ -226,9 +226,8 @@ export default function PaymentInput() {
                                 alignItems="left"
                             >
                                 <TextField
-                                    helperText="Please enter your last name"
-                                    id="lastName"
-                                    label="LastName"
+                                    id="firstName"
+                                    label="Tên"
                                     required
                                     fullWidth
                                     sx={{ maxWidth: "100%" }}
@@ -241,9 +240,9 @@ export default function PaymentInput() {
                             sx={{ mt: 5 }}
                         >
                             <TextField
-                                helperText="Please enter your address"
+                                helperText="Nhập địa chỉ của bạn"
                                 id="address"
-                                label="Address(Optional)"
+                                label="Địa chỉ (không cần thiết)"
                                 fullWidth
 
                             />
@@ -253,7 +252,7 @@ export default function PaymentInput() {
                             sx={{ mt: 5 }}
                         >
                             <TextField
-                                helperText="Please enter your email"
+                                helperText="Nhập email của bạn"
                                 id="email"
                                 label="Email"
                                 required
@@ -265,11 +264,11 @@ export default function PaymentInput() {
                                 required
                                 fullWidth
                                 id="phone"
-                                label="Phone number"
+                                label="Số điện thoại"
                                 name="phone"
                                 autoComplete="phone"
                                 sx={{ mt: 5 }}
-                                helperText="Please enter your phonenumber"
+                                helperText="Nhập số điện thoại"
                             />
                         </Grid>
 
@@ -284,9 +283,8 @@ export default function PaymentInput() {
                                 color="text.primary"
                                 component="p"
                                 margin-top="40px"
-
                             >
-                                Your order
+                                Đơn hàng Premium của bạn
                             </Typography>
                         </Grid>
                         <Grid xs={12}>
@@ -294,28 +292,28 @@ export default function PaymentInput() {
                                 <Table
                                     sx={{ minWidth: 300 }} aria-label="spanning table">
                                     <TableHead>
-                                        <TableRow>
+                                        {/* <TableRow>
                                             <TableCell >
                                                 Details
                                             </TableCell>
                                             <TableCell >Price</TableCell>
-                                        </TableRow>
+                                        </TableRow> */}
                                         <TableRow>
-                                            <TableCell>Product</TableCell>
-                                            <TableCell >Subtotal</TableCell>
+                                            <TableCell>Đơn hàng</TableCell>
+                                            <TableCell >Gói Premium</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell>Subtotal</TableCell>
+                                            <TableCell>Đơn giá</TableCell>
                                             <TableCell>{price} VNĐ</TableCell>
                                         </TableRow>
                                         <TableRow>
-                                            <TableCell>VAT</TableCell>
+                                            <TableCell>Thuế</TableCell>
                                             <TableCell>{vat} VNĐ</TableCell>
                                         </TableRow>
                                         <TableRow>
-                                            <TableCell >Total</TableCell>
+                                            <TableCell >Tổng giá</TableCell>
                                             <TableCell >{total} VNĐ</TableCell>
                                         </TableRow>
                                     </TableBody>
@@ -325,7 +323,7 @@ export default function PaymentInput() {
                         <Grid item sx={{ mt: 5 }} >
                             <Card component={Paper}  >
                                 <CardHeader
-                                    title="Credit card"
+                                    title="Thẻ tín dụng"
                                     variant="h5"
                                     sx={{ fontSize: 25, ml: 2 }}
                                     gutterbottom="true"
@@ -343,7 +341,7 @@ export default function PaymentInput() {
                                             required
                                             fullWidth
                                             id="card"
-                                            label="Card number"
+                                            label="Mã Thẻ"
                                             name="card"
                                             helperText="Please enter your cardnumber"
                                             disabled
@@ -366,7 +364,7 @@ export default function PaymentInput() {
                                             <TextField
 
                                                 id="expiryDate"
-                                                label="ExpiryDate"
+                                                label="Ngày hết hạn"
                                                 required
                                                 fullWidth
                                                 sx={{ maxWidth: "95%" }}
@@ -391,7 +389,7 @@ export default function PaymentInput() {
                                         </Grid>
 
                                         <Box sx={{ minWidth: 150, mt: 2 }}>
-                                            <InputLabel id="bankLabel">Bank</InputLabel>
+                                            <InputLabel id="bankLabel">Ngân hàng</InputLabel>
                                             <Select
                                                 labelId="bankLabel"
                                                 id="bankLabel"
@@ -429,7 +427,12 @@ export default function PaymentInput() {
                                 >
                                     <Button
                                         variant="contained"
-                                        sx={{ pl: 3 }}
+                                        sx={{ 
+                                            pl: 3,
+                                            backgroundColor: 'green',
+                                            '&:hover': {
+                                                backgroundColor: 'forestgreen',}
+                                        }}
                                         onClick={handleCheckOut}
                                     >
                                         Thanh toán
