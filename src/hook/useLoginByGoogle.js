@@ -1,10 +1,12 @@
 import { useGoogleOneTapLogin } from "@react-oauth/google";
+import { Router, useRouter } from "next/router";
 import { accessApi, infoUserApi } from "src/services";
 import { getCookieData, setCookieData } from "src/services/cookies";
 
 import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
 
 export default function useLoginByGoogle(dispatch) {
+  const router = useRouter()
     function getInfoUser() {
         (async () => {
           await infoUserApi

@@ -20,18 +20,20 @@
 // }
 
 export const authorization = {
-  censor(user, page, router) {
-  },
+  censor(user, page, router) {},
   admin(user, page, router) {},
-  writer(user, page, router) {
-  },
+  writer(user, page, router) {},
   reader(user, page, router) {
     if (user !== null) {
-      if (!user.roles.includes("User")) {
-        router.push("/not-found");
-        return;
-      } else {
-        return page;
+      switch (user.roles[0]) {
+        case "Writer":
+          router.push("/dashboard");
+          break;
+        case "Admin":
+          router.push("/dashboard");
+          break;
+        default:
+          return page
       }
     } else {
       switch (router?.asPath) {
