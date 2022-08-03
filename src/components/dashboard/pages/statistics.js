@@ -123,7 +123,7 @@ export default function Statistic(props) {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={12}>
             <AppWidgetSummary
-              title="Thu nhập"
+              title="Thu nhập từ việc bán gói premium"
               color="warning"
               icon={<PaidIcon />}
               sx={{ backgroundColor: "rgb(255, 247, 205);" }}
