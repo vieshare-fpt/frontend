@@ -270,7 +270,7 @@ export default function PaymentInput() {
               </TableContainer>
             </Grid>
             <Grid item sx={{ mt: 5 }}>
-              <Card component={Paper}>
+              {/* <Card component={Paper} >
                 <CardHeader
                   title="Thẻ tín dụng"
                   variant="h5"
@@ -357,7 +357,7 @@ export default function PaymentInput() {
                     </Box>
                   </Grid>
                 </CardContent>
-              </Card>
+              </Card> */}
               <Card component={Paper} xs={12} sx={{ mt: 5, p: 2 }}>
                 <Grid xs={12} justifyContent="space-between" align="center">
                   <Button
