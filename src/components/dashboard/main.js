@@ -24,6 +24,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { UserMenu } from "../common/components";
 import { useRouter } from "next/router";
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import WorkIcon from '@mui/icons-material/Work';
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
@@ -82,6 +83,11 @@ export default function ResponsiveDrawer(props) {
       name: "Người dùng",
       icon: PeopleAltIcon,
       link: "/dashboard/user-management",
+    },
+    {
+      name: "Danh sách ứng tuyển",
+      icon: WorkIcon,
+      link: "/dashboard/cover-letter",
     },
     { name: "Hồ sơ", icon: AccountBoxIcon, link: "/dashboard/info" },
   ];
