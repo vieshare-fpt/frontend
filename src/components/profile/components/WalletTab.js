@@ -223,6 +223,7 @@ export default function WalletTab({ profile }) {
                 component="form"
                 onSubmit={(e) => {
                   e.preventDefault();
+                  setWithdrawModal(false);
                   formik.handleSubmit(e.target.value);
                 }}
               >
