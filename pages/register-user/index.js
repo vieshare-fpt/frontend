@@ -5,7 +5,7 @@ import Link from "next/link";
 import FormRegistration from "src/components/register-user/FormRegistration";
 import * as yup from "yup";
 import YupPassword from "yup-password";
-import {formatDate} from "src/utils/formatDateHelper.js";
+import { formatDate } from "src/utils/formatDateHelper.js";
 import { useRouter } from "next/router";
 import SignupStyle from "src/styles/Signup.module.css";
 import styles from "src/styles/Logo.module.css";
@@ -34,6 +34,7 @@ export default function signUp() {
   const router = useRouter();
   const [dob, setDob] = React.useState(new Date());
   const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const validationSchema = yup.object({
     fullname: yup.string(ENTER_YOUR_NAME).required(NAME_REQUIRED),
     phone: yup
@@ -42,7 +43,7 @@ export default function signUp() {
       .required(PHONENUMBER_REQUIRED),
     email: yup
       .string(ENTER_YOUR_EMAIL_VALIDATION)
-      .test("email", "Email đã tồn tại", () => !error)
+      // .test("email", "Email đã tồn tại", () => !error)
       .email(ENTER_VALID_EMAIL)
       .required(EMAIL_REQUIRED),
     password: yup
@@ -56,9 +57,6 @@ export default function signUp() {
       .string()
       .oneOf([yup.ref("password"), null], PASSWORD_CONFIRM_FAILED),
   });
-  
-
-
 
   const formik = useFormik({
     initialValues: {
@@ -79,19 +77,23 @@ export default function signUp() {
         email: values.email,
         password: values.password,
       };
-      accessApi
-        .register(newUser)
-        .then((response) => {
-          console.log(response);
-          setError(false)
-          router.push("/login");
-        })
-        .catch((error) => {
-          console.log(error.response.data.statusCode);
-          if (error.response.data.statusCode === "EMAIL_EXISTED") {
-            setError(true);
-          }
-        });
+      (async () => {
+        setLoading(true)
+        await accessApi
+          .register(newUser)
+          .then((response) => {
+            console.log(response);
+            setError(false);
+            router.push("/login");
+          })
+          .catch((error) => {
+            console.log(error.response.data.statusCode);
+            if (error.response.data.statusCode === "EMAIL_EXISTED") {
+              setError(true);
+              setLoading(false)
+            }
+          });
+      })();
     },
   });
   return (
@@ -116,6 +118,7 @@ export default function signUp() {
             <form onSubmit={formik.handleSubmit} noValidate>
               <FormRegistration
                 formik={formik}
+                loading={loading}
                 dob={dob}
                 setDob={setDob}
                 error={error}

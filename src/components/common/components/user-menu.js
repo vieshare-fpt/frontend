@@ -70,12 +70,12 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
   const features = [
     {
       name: "Lịch sử giao dịch",
-      url: "/profile",
+      url: (isAdmin || isWriter) ? "/dashboard/info":"/profile",
       value: "history"
     },
     {
       name: "Ví tiền",
-      url: "/profile",
+      url: (isAdmin || isWriter) ? "/dashboard/info":"/profile",
       value: "wallet"
     }
   ];
@@ -116,9 +116,9 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
     setAnchorEl(event.currentTarget);
   };
   const handleProfile = () => {
-    if (roles.includes("Admin") || roles.includes("Writer")) {
+    if (isAdmin || isWriter) {
       router.push("/dashboard/info");
-    } else if (roles.includes("Censor")) {
+    } else if (isCensor) {
       router.push("/dashboard/info");
     } else {
       dispatch(setTab("information"))
@@ -139,7 +139,7 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
           removeCookieData("token");
           removeCookieData("refreshToken");
           router.push("/login");
-
+          dispatch(setTab("information"))
           dispatch(clearInfoSuccess());
         })
         .catch((error) => {

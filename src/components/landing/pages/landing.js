@@ -34,7 +34,6 @@ export default function LandingPage({ props }) {
             page: 1,
           })
           .then((response) => {
-            console.log(response);
             setData(response.data);
             setHasMore(!isHasMore(response));
             setSpinner(false);
@@ -59,7 +58,6 @@ export default function LandingPage({ props }) {
     await postApi
       .getPosts(payload)
       .then((response) => {
-        console.log(response);
         setData(data.concat(response.data));
         setHasMore(!isHasMore(response));
         if (!isHasMore(response)) {
