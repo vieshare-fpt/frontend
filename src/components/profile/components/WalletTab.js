@@ -25,7 +25,7 @@ import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import PaidIcon from '@mui/icons-material/Paid';
+import PaidIcon from "@mui/icons-material/Paid";
 const validationSchema = yup.object({
   amount: yup
     .number("Chỉ nhập số")
@@ -88,7 +88,6 @@ export default function WalletTab({ profile }) {
     },
   });
 
-
   // if (!wallet) {
   //   return <Loader />;
   // }
@@ -110,8 +109,6 @@ export default function WalletTab({ profile }) {
 
   //withdrawAction
   const handleWithdraw = async (payload) => {
-    console.log(payload);
-
     (async () => {
       await walletApi
         .updateWallet(payload)
@@ -126,6 +123,7 @@ export default function WalletTab({ profile }) {
             draggable: true,
             progress: undefined,
           });
+          setWithdrawModal(false);
         })
         .catch(() => {
           toast.error("Giao dịch thất bại vui lòng kiểm tra lại số dư", {
@@ -165,6 +163,7 @@ export default function WalletTab({ profile }) {
             draggable: true,
             progress: undefined,
           });
+          setDepositModal(false);
         })
         .catch(() => {
           toast.error("Giao dịch thất bại", {
@@ -179,10 +178,11 @@ export default function WalletTab({ profile }) {
           setDepositModal(false);
         });
     })();
+
     (async () => {
       await walletApi.getWallet().then((response) => {
         dispatch(setWallet(response.balance));
-        setWithdrawModal(false);
+        setDepositModal(false);
       });
     })();
   };
