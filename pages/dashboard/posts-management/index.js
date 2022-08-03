@@ -10,8 +10,7 @@ export default function DashBoard(props) {
 }
 
 export async function getServerSideProps() {
-  const { token, refreshToken } = context.req.cookies || {token: null, refreshToken: null}
-  const posts = await postApi.getPosts(token, refreshToken);
+  const posts = await postApi.getPosts();
   return {
     props: {
       title: 'Quản lý bài viết',
