@@ -420,14 +420,31 @@ export default function PaymentInput() {
               aria-describedby="child-modal-description"
             >
               <Box sx={{ ...style, width: 400 }}>
-                <h2 id="child-modal-title">Thanh toán thành công</h2>
+                <Typography 
+                  sx={{
+                    mb:2,
+                    textAlign: 'center',
+                    fontSize:28,
+                    fontWeight:"bold",
+                  }}
+                  id="child-modal-title"
+                >
+                  Thanh toán thành công
+                </Typography>
                 <Typography id="child-modal-description">
                   Chúc mừng bạn đã thanh toán thành công gói premium có thời hạn
-                  sử dụng là {packagePayment.expiresAfterNumberOfDays}, trị giá{" "}
-                  {total} VNĐ <br />
-                  (Đã bao gồm VAT)
+                  sử dụng là {packagePayment.expiresAfterNumberOfDays}&nbsp;ngày, trị giá{" "}
+                  {total} VNĐ 
                 </Typography>
                 <Button
+                  sx={{
+                    mt:3,
+                    color: "#fff",
+                    backgroundColor:"green",
+                    "&:hover": {
+                      backgroundColor: "forestgreen",
+                    },
+                  }}
                   onClick={() => {
                     router.push("/");
                   }}
@@ -450,11 +467,29 @@ export default function PaymentInput() {
               aria-describedby="child-modal-description"
             >
               <Box sx={{ ...style, width: 400 }}>
-                <h2 id="child-modal-title">Thanh toán thất bại</h2>
+                <Typography 
+                  id="child-modal-title"
+                  sx={{
+                    m:2,
+                    textAlign: 'center',
+                    fontSize:28,
+                    fontWeight:"bold",
+                  }}
+                >
+                  Thanh toán thất bại
+                </Typography>
                 <Typography id="child-modal-description">
                   Thanh toán thất bại vui lòng kiểm tra lại số dư hiện tại.
                 </Typography>
                 <Button
+                  sx={{
+                    mt:3,
+                    color: "#fff",
+                    backgroundColor:"green",
+                    "&:hover": {
+                      backgroundColor: "forestgreen",
+                    },
+                  }}
                   onClick={() => {
                     router.push("/");
                   }}
