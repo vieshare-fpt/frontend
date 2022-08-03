@@ -82,7 +82,6 @@ export default function LoginPage() {
           })
           .catch(function (error) {
             setLoading(false);
-            console.log(error.response.status); // 401
             if (error.response.status == 401) {
               setError(true);
             }
@@ -106,7 +105,6 @@ export default function LoginPage() {
           getInfoUser(token, refreshToken);
         })
         .catch(function (error) {
-          console.log(error.response.status); // 401
           if (error.response.status == 401) {
             setError(true);
           }

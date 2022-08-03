@@ -13,9 +13,8 @@ export const postApi = {
   getPostDetail: (id, token, refreshToken) => {
     const tokenT = token || getCookieData("token");
     const refreshTokenT = refreshToken || getCookieData("refreshToken");
-
     const url = "/posts/" + id;
-    return axiosClient(tokenT, refreshTokenT).get(url);
+    return axiosClient(tokenT, refreshTokenT).get(url, {});
   },
   getPostsRelated: (id, params, token, refreshToken) => {
     const tokenT = token || getCookieData("token");

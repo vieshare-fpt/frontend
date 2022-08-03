@@ -626,9 +626,12 @@ PostDetailPage.getLayout = MainLayout;
 export async function getServerSideProps(context) {
   const postId = context.params?.postId;
   const { token, refreshToken } = context.req?.cookies;
+
+  console.log(postId, token, refreshToken);
   if (!postId) return { notFound: true };
   try {
     const response = await postApi.getPostDetail(postId, token, refreshToken);
+    
     const postRelated = await postApi.getPostsRelated(postId, {
       page: 1,
       per_page: 5,

@@ -72,7 +72,6 @@ export default function Contact() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       setLoading(true)
-      console.log(values);
       emailjs
         .send(
           "service_5dk3h8h",
@@ -82,12 +81,10 @@ export default function Contact() {
         )
         .then(
           (result) => {
-            console.log(result);
             setSendSuccess(true);
           },
         ).catch((error) => {
           setLoading(false)
-          console.log(error.text);
         })
     },
   });
