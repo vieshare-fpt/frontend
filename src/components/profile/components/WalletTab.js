@@ -29,10 +29,11 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 
 const validationSchema = yup.object({
-  amount: yup.number("Chỉ nhập số")
-  .min(10000, "Số tiền tối thiểu là 10,000 đồng")
-  .max(500000, "Số tiền tối đa là 500,000 đồng")
-  .required("Yêu cầu nhập số tiền"),
+  amount: yup
+    .number("Chỉ nhập số")
+    .min(10000, "Số tiền tối thiểu là 10,000 đồng")
+    .max(500000, "Số tiền tối đa là 500,000 đồng")
+    .required("Yêu cầu nhập số tiền"),
   bank: yup.string("Chỉ nhập mã"),
 });
 export default function WalletTab({ profile }) {
@@ -42,6 +43,27 @@ export default function WalletTab({ profile }) {
   const dispatch = useDispatch();
   const wallet = useSelector((state) => state.wallet.wallet);
   const banks = useSelector((state) => state.bank.banks);
+
+  useEffect(() => {
+    (async () => {
+      await bankApi.getListBank().then((response) => {
+        // console.log("58", response)
+        dispatch(setBanks(response.data));
+      });
+    })();
+    (async () => {
+      await walletApi
+        .getWallet()
+        .then((response) => {
+          dispatch(setWallet(response.data.balance));
+          console.log("Response", response);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    })();
+  }, [dispatch, wallet]);
+
   const formik = useFormik({
     initialValues: {
       amount: 10000,
@@ -67,35 +89,11 @@ export default function WalletTab({ profile }) {
       }
     },
   });
-  useEffect(() => {
-    if (banks.length == 0) {
-      (async () => {
-        console.log("check");
-        await bankApi.getListBank().then((response) => {
-          // console.log("58", response)
-          dispatch(setBanks(response.data));
-        });
-      })();
-    }
-    if (!wallet) {
-      (async () => {
-        await walletApi
-          .getWallet()
-          .then((response) => {
-            dispatch(setWallet(response.data));
-            console.log("Response", response);
-          })
-          .catch((error) => {
-            console.log("error", error);
-          });
-      })();
-    }
-  }, [banks.length, dispatch, wallet]);
 
-  if (!wallet) {
-    return <Loader />;
-  }
-  const balance = wallet.balance;
+
+  // if (!wallet) {
+  //   return <Loader />;
+  // }
 
   const handleCloseWithdrawForm = (event) => {
     setWithdrawModal(false);
@@ -115,70 +113,80 @@ export default function WalletTab({ profile }) {
   //withdrawAction
   const handleWithdraw = async (payload) => {
     console.log(payload);
-    await walletApi
-      .updateWallet(payload)
-      .then(() => {
-        console.log("106", payload);
-        toast.success("Giao dịch thành công", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+
+    (async () => {
+      await walletApi
+        .updateWallet(payload)
+        .then(() => {
+          console.log("106", payload);
+          toast.success("Giao dịch thành công", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        })
+        .catch(() => {
+          toast.error("Giao dịch thất bại vui lòng kiểm tra lại số dư", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setWithdrawModal(false);
         });
-      })
-      .catch(() => {
-        toast.error("Giao dịch thất bại vui lòng kiểm tra lại số dư", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+    })();
+    (async () => {
+      await walletApi.getWallet().then((response) => {
+        console.log(response);
+        dispatch(setWallet(response.balance));
         setWithdrawModal(false);
       });
-
-    const wallet = await walletApi.getWallet();
-    dispatch(setWallet(wallet.balance));
-    setWithdrawModal(false);
+    })();
   };
 
   //depositAction
   const handleDeposit = async (payload) => {
-    await walletApi
-      .updateWallet(payload)
-      .then(() => {
-        console.log("144", payload);
-        toast.success("Giao dịch thành công", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+    (async () => {
+      await walletApi
+        .updateWallet(payload)
+        .then(() => {
+          console.log("144", payload);
+          toast.success("Giao dịch thành công", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        })
+        .catch(() => {
+          toast.error("Giao dịch thất bại", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setDepositModal(false);
         });
-      })
-      .catch(() => {
-        toast.error("Giao dịch thất bại", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setDepositModal(false);
+    })();
+    (async () => {
+      await walletApi.getWallet().then((response) => {
+        dispatch(setWallet(response.balance));
+        setWithdrawModal(false);
       });
-
-    const wallet = await walletApi.getWallet();
-    dispatch(setWallet(wallet.balance));
-    setDepositModal(false);
+    })();
   };
 
   return (
@@ -186,7 +194,7 @@ export default function WalletTab({ profile }) {
       <Card sx={{ width: "100%", border: 1, mt: 1, borderColor: "grey.500" }}>
         <HeadersTab title="Ví của bạn" subTitle="Chi tiết ví" />
         <List>
-          <ItemTab name="Số dư khả dụng" value={balance}></ItemTab>
+          <ItemTab name="Số dư khả dụng" value={wallet}></ItemTab>
         </List>
       </Card>
       <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>

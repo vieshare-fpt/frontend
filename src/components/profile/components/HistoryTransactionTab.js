@@ -253,6 +253,6 @@ export default function HistoryTransaction({ profile }) {
       </Container>
     </Box>
   );
-  page = authorization.reader(profile, page, router);
+  // page = authorization.reader(profile, page, router);
   return page;
 }

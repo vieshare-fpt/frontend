@@ -10,7 +10,7 @@ const tabSlice = createSlice({
     reducers: {
         setTab: (state, data) => {
             state.data.value = data.payload;
-        }
+        },
     },
 })
 

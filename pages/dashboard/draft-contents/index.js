@@ -10,9 +10,9 @@ export default function DraftContents(props) {
 
 }
 
-export async function getServerSideProps() {
-  const { token, refreshToken } = context.req.cookies || {token: null, refreshToken: null}
-  const posts = await postApi.getPosts(token, refreshToken);
+export async function getServerSideProps(context) {
+  // const { token, refreshToken } = context.req.cookies || {token: null, refreshToken: null}
+  const posts = await postApi.getPosts();
   return {
     props: {
       title: "Bản nháp",

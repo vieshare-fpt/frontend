@@ -266,7 +266,7 @@ export default function Statistic(props) {
   const writer = (
     <Container maxWidth="xl" sx={{ mt: 2 }}>
       <Grid container>
-        <Grid item xs={12} md={6} lg={12}>
+        <Grid item xs={12}>
           <AppStatistics
             title="Thống kê"
             // subheader="(+43%) than last year"

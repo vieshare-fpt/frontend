@@ -607,11 +607,14 @@ function PostDetailPage(props) {
                 );
               })
             ) : (
-              <>
-                <Typography>
+              <Box sx={{borderRadius: 16, backgroundColor: "rgba(255,255,255,0.5)"}}>
+                <Typography sx={{display: isCensor && "none" }} align="center">
                   Chưa có bình luận, hãy là người đầu tiên!
                 </Typography>
-              </>
+                <Typography sx={{display: isCensor ? "" : "none" }} align="center">
+                  Chưa có người dùng nào bình luận
+                </Typography>
+              </Box>
             )}
           </Box>
         </Box>

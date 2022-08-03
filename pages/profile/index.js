@@ -151,7 +151,7 @@ export default function Profile() {
               </TabList>
             </Box>
             <TabPanel color="success" sx={{ p: 0 }} value="information">
-              <InfomationTab yup={infomationValidationSchema}profile={user} />
+              <InfomationTab yup={infomationValidationSchema} profile={user} />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value="security">
               <SecurityTab yup={securityValidationSchema} profile={user} />
