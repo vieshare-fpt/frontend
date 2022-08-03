@@ -67,7 +67,6 @@ export default function PaymentInput() {
   let price = 0;
   if (packagePayment) {
     price = packagePayment.price;
-    vat = parseInt(packagePayment.price) * 0.1;
     total = vat + parseInt(packagePayment.price);
   }
 
@@ -98,36 +97,20 @@ export default function PaymentInput() {
   const banks = useSelector((state) => state.bank.banks);
   const wallet = useSelector((state) => state.wallet.wallet);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     console.log("check");
-  //     await bankApi.getListBank().then((response) => {
-  //       console.log("58", response);
-  //       dispatch(setBanks(response.data));
-  //     });
-  //   })();
-  //   (async () => {
-  //     await walletApi.getWallet().then((response) => {
-  //       console.log("66", response);
-  //       dispatch(setWallet(response.data.balance));
-  //     });
-  //   })();
-  // }, [dispatch, wallet]);
+
 
   const handleCheckOut = async () => {
     const id = await packagePayment.id;
-    // const balance = await wallet;
-    console.log("105", id);
+
 
     await subscriptionApi
       .createSubsciptions(id)
       .then((response) => {
-        console.log("107", response);
         getInfoUser();
         handleSuccessOpen();
       })
       .catch((error) => {
-        console.log("111", error);
+
         handlerErrorOpen();
       });
   };
@@ -264,12 +247,6 @@ export default function PaymentInput() {
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 300 }} aria-label="spanning table">
                   <TableHead>
-                    {/* <TableRow>
-                                            <TableCell >
-                                                Details
-                                            </TableCell>
-                                            <TableCell >Price</TableCell>
-                                        </TableRow> */}
                     <TableRow>
                       <TableCell>Đơn hàng</TableCell>
                       <TableCell>Gói Premium</TableCell>
@@ -293,7 +270,7 @@ export default function PaymentInput() {
               </TableContainer>
             </Grid>
             <Grid item sx={{ mt: 5 }}>
-              <Card component={Paper}>
+              {/* <Card component={Paper} >
                 <CardHeader
                   title="Thẻ tín dụng"
                   variant="h5"
@@ -380,7 +357,7 @@ export default function PaymentInput() {
                     </Box>
                   </Grid>
                 </CardContent>
-              </Card>
+              </Card> */}
               <Card component={Paper} xs={12} sx={{ mt: 5, p: 2 }}>
                 <Grid xs={12} justifyContent="space-between" align="center">
                   <Button
@@ -420,27 +397,26 @@ export default function PaymentInput() {
               aria-describedby="child-modal-description"
             >
               <Box sx={{ ...style, width: 400 }}>
-                <Typography 
-                  sx={{
-                    mb:2,
-                    textAlign: 'center',
-                    fontSize:28,
-                    fontWeight:"bold",
-                  }}
+                <Typography
+                  sx={{ mb: 2 }} component="h1" variant="h5"
                   id="child-modal-title"
                 >
                   Thanh toán thành công
                 </Typography>
-                <Typography id="child-modal-description">
+                <Typography id="child-modal-description"
+                  sx={{ mb: 2 }} component="h1" variant="h5"
+                  fontFamily="Helvetica,-moz-initial"
+                  variant='h2'
+                  align='center'>
                   Chúc mừng bạn đã thanh toán thành công gói premium có thời hạn
                   sử dụng là {packagePayment.expiresAfterNumberOfDays}&nbsp;ngày, trị giá{" "}
-                  {total} VNĐ 
+                  {total} VNĐ
                 </Typography>
                 <Button
                   sx={{
-                    mt:3,
+                    mt: 3,
                     color: "#fff",
-                    backgroundColor:"green",
+                    backgroundColor: "green",
                     "&:hover": {
                       backgroundColor: "forestgreen",
                     },
@@ -467,25 +443,25 @@ export default function PaymentInput() {
               aria-describedby="child-modal-description"
             >
               <Box sx={{ ...style, width: 400 }}>
-                <Typography 
+                <Typography
                   id="child-modal-title"
-                  sx={{
-                    m:2,
-                    textAlign: 'center',
-                    fontSize:28,
-                    fontWeight:"bold",
-                  }}
+                  sx={{ mb: 2 }} component="h1" variant="h5"
                 >
                   Thanh toán thất bại
                 </Typography>
-                <Typography id="child-modal-description">
+                <Typography id="child-modal-description"
+                  sx={{ color: "red", fontSize: 15, borderRadius: 10}}
+                  fontFamily="Helvetica,-moz-initial"
+                  variant='h2'
+                  align='center'
+                >
                   Thanh toán thất bại vui lòng kiểm tra lại số dư hiện tại.
                 </Typography>
                 <Button
                   sx={{
-                    mt:3,
+                    mt: 3,
                     color: "#fff",
-                    backgroundColor:"green",
+                    backgroundColor: "green",
                     "&:hover": {
                       backgroundColor: "forestgreen",
                     },
