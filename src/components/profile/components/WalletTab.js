@@ -6,7 +6,6 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  IconButton,
   InputLabel,
   List,
   MenuItem,
@@ -16,7 +15,6 @@ import {
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "src/components/common/Loader";
 import { bankApi } from "src/services/bankApi";
 import { walletApi } from "src/services/walletApi";
 import { setBanks } from "src/stores/bankSlice";
@@ -27,7 +25,7 @@ import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as yup from "yup";
-
+import PaidIcon from '@mui/icons-material/Paid';
 const validationSchema = yup.object({
   amount: yup
     .number("Chỉ nhập số")
