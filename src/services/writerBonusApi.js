@@ -1,9 +1,6 @@
 import axiosClient from "./axiosClient";
 import { getCookieData } from "./cookies";
 
-// const token = getCookieData("token");
-// const refreshToken = getCookieData("refreshToken");
-
 export const writerBonusApi = {
     getBonus: (token, refreshToken) => {
         const tokenT = token || getCookieData("token");
@@ -15,6 +12,6 @@ export const writerBonusApi = {
         const tokenT = token || getCookieData("token");
         const refreshTokenT = refreshToken || getCookieData("refreshToken");
         const url = "/bonus-statistics/withdraw/" + id;
-        return axiosClient(tokenT, refreshTokenT).get(url);
+        return axiosClient(tokenT, refreshTokenT).post(url);
     }
 };
