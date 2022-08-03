@@ -1,246 +1,184 @@
 import * as React from 'react';
-import { Box, Button, Card, CardContent, CardHeader, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { walletApi } from 'src/services/walletApi';
+import { Box, Button, IconButton} from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { setWallet } from 'src/stores/walletSlice';
 import Loader from 'src/components/common/Loader';
-import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-import { useState } from 'react';
-import { setBanks } from 'src/stores/bankSlice';
-import { bankApi } from 'src/services/bankApi';
 import { toast, ToastContainer } from "react-toastify";
-
+import {writerBonusApi} from 'src/services'
+import { DataGrid } from '@mui/x-data-grid';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import Moment from 'moment';
 
 export default function IncomeStats(props) {
-
-
-    const [bank, setBank] = React.useState('');
-    const [withdrawModal, setWithdrawModal] = useState(false);
-    const [amount, setAmount] = React.useState(0);
+    const [ bonus, setBonus ] = React.useState(null);
     const dispatch = useDispatch();
-    const wallet = useSelector(
-        (state) => state.wallet.wallet
-    );
-    const banks = useSelector(
-        (state) => state.bank.banks
-    );
     useEffect(() => {
-        if (banks.length == 0) {
-            (async () => {
-                console.log("check")
-                await bankApi.getListBank()
-                    .then((response) => {
-                        // console.log("58", response)
-                        dispatch(setBanks(response.data));
-                    });
-            })();
-        }
-        if (!wallet) {
-            (
-                async () => {
-                    await walletApi.getWallet()
-                        .then(response => {
-                            dispatch(setWallet(response.data));
-                            console.log("Response", response);
-                        }).catch(error => {
-                            console.log("error", error);
-                        });
-                }
-            )();
-        }
-    });
+        getAllBonusStats();
+    },[]);
 
+    const mapBonusData = (data) => {
+        let count = 0;
+        const result = data.map((element) => {
+            count++;
+            let status;
+            if(element.status == "Processing"){
+                status = 'Đang tính toán';
+            }
+            else{
+                status = 'Hoàn thành';
+            }
+            const bonusObj = {   
+                id:(count), 
+                bonusId: element.id, 
+                bonusFormulaId: element.bonusFormulaId, 
+                from: Moment(element.from).format('DD/MM/YYYY'), 
+                postId: element.postId,
+                status: status,
+                to: Moment(element.to).format('DD/MM/YYYY'), 
+                views: element.views,
+            };
+                return bonusObj;   
+        })
+        return result.filter(p => p !== undefined);    
+    }
 
-
-    if (!wallet) {
+    if (!bonus) {
         return <Loader />
     }
 
-
-
-    const balance = wallet.balance;
-
-    const handleChangeBank = (event) => {
-        event.preventDefault();
-        setBank(event.target.value);
-    };
-
-    const handleChangeAmount = (event) => {
-        event.preventDefault();
-        setAmount(event.target.value);
-    }
-
-    const handleWithdraw = async () => {
-        const updateWallet = {
-            type: "WITHDRAW",
-            amount: parseFloat(amount),
-            bankId: bank
-        }
-
-
-
-        await walletApi.updateWallet(updateWallet).then(() => {
-            toast.success("Giao dịch thành công", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
+    async function getAllBonusStats() {
+        await writerBonusApi.getBonus()
+            .then((response) => {
+                console.log("34", response.data)
+                setBonus(mapBonusData(response.data));
             });
-        })
-            .catch(() => {
-                toast.error("Giao dịch thất bại vui lòng kiểm tra lại số dư", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                setWithdrawModal(false);
-            })
+    }
+    //Columns
+    const columns = [
+        { field: 'id', headerName: '#', width: 50, marginLeft: 20, description: 'Thứ tự' },
+        {
+            field: 'bonusId',
+            headerName: 'Mã tiền thưởng',
+            minWidth: 300,
+            flex: 1,
+            editable: false,
+        },
+        {
+            field: 'bonusFormulaId',
+            headerName: 'Mã công thức',
+            minWidth: 300,
+            flex: 1,
+            editable: false,
+        },
+        {
+            field: 'from',
+            headerName: 'Từ ngày',
+            description: 'Ngày bắt đầu tính toán',
+            minWidth:100,
+            maxWidth: 120,
+            flex: 1,
+            editable: false,
+        },
+        {
+            field: 'to',
+            headerName: 'Đến ngày',
+            description: 'Ngày kết thúc tính toán',
+            minWidth:100,
+            maxWidth: 120,
+            flex: 1,
+            editable: false,
+        },
+        {
+            field: 'status',
+            headerName: 'Tình trạng',
+            description: 'Tình trạng tính toán tiền thưởng',
+            width: 150,
+            editable: false,
+            sortable: true,
+        },
+        {
+            field: 'views',
+            headerName: 'Lượt xem',
+            description: 'Số lượt xem của bài viết',
+            width: 100,
+            editable: false,
+            sortable: true,
+        },
+        {
+            field: 'push',
+            headerName: 'Cộng tiền thưởng',
+            description: 'Cộng tiền thưởng vào thu nhập',
+            editable: false,
+            sortable: false,
+            width: 130,
+            renderCell: (cellValue) => {
+                return (
+                    <IconButton
+                        onClick={(event) => {
+                            console.log(cellValue.row.bonusId);
+                            if(cellValue.row.status.includes("Đang tính toán")){
+                                toast.error("Đang trong quá trình tính toán", {
+                                    position: "top-right",
+                                    autoClose: 5000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                });
+                            }
+                            else{
+                                if(confirm("Bạn có chắc muốn cộng tiền thưởng vào thu nhập?")){
+                                    (async () => {
+                                        await writerBonusApi.postBonus(cellValue.row.bonusId,);
+                                    })();
+                                }
+                                toast.success("Cộng tiền thành công", {
+                                    position: "top-right",
+                                    autoClose: 5000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                });
+                            }
+                        }}
+                        color="success">
+                            <AttachMoneyIcon/>
+                    </IconButton>
+                );
+            },
+        },
+        
+    ];
 
-
-        const wallet = await walletApi.getWallet();
-        dispatch(setWallet(wallet.balance));
-        setWithdrawModal(false);
-
-
+    const handleCellClick = (param, event) => {
+        event.stopPropagation();
     };
-
-
-    const handleCloseWithdrawForm = (event) => {
-        setWithdrawModal(false);
-    }
-    const handleOpenWithdrawForm = (event) => {
-        setWithdrawModal(true);
-    }
-
-
-
+      
+    const handleRowClick = (param, event) => {
+        event.stopPropagation();
+    };
+    
     return (
 
         <React.Fragment>
-
             <Box
-                component="main"
-                sx={{ flexGrow: 10, pl: 1, pr: 1, pb: 1, width: { sm: `100%` } }}
-                boxShadow
+                sx={{m:1, height: 700,}}
             >
-                <Grid
-                    md={6} xs={12}
-                    item
-                    spacing={6}
-                    justifyContent="space-evenly"
-                >
-                    <Card component={Paper}>
-                        <CardHeader
-                            title="Tổng quan thu nhập : "
-                            variant="h5"
-                            sx={{ fontSize: 25, ml: 2 }}
-                            gutterbottom="true"
-                            component="h1">
-                        </CardHeader>
-                        <CardContent
-                            guttertbottom="true"
-                        >
-                            <Typography
-                                variant="h5"
-                                sx={{ fontSize: 20 }}
-                                align="center"
-                                color="text.secondary"
-                                component="p"
-                            >Số dư hiện tại {balance} VNĐ</Typography>
-                        </CardContent>
-
-                    </Card>
-                    <Grid
-                        item
-                        md={6}
-                        xs={12}
-                        spacing={6}
-                        justifyContent="space-between"
-                        align="center"
-                        margin={2}
-                    >
-                        <Button
-                            variant="contained"
-                            sx={{ pl: 3 }}
-                            onClick={handleOpenWithdrawForm}
-                        >Rút tiền
-                            <IconButton color="default">
-                                <AttachMoneyOutlinedIcon />
-                            </IconButton>
-                        </Button>
-                    </Grid>
-                </Grid>
+                <h2>Tình trạng tiền thưởng</h2>
+                <DataGrid
+                    disableSelectionOnClick
+                    rows={bonus}
+                    columns={columns}
+                    pageSize={15}
+                    rowsPerPageOptions={[10]}
+                    onCellClick={handleCellClick}
+                    onRowClick={handleRowClick}
+                />
             </Box>
-            <div>
-                {withdrawModal ? (
-                    <div>
-                        <Dialog open={open} onClose={handleCloseWithdrawForm}>
-                            <DialogTitle>Rút tiền</DialogTitle>
-                            <DialogContent>
-                                <Grid
-                                    md={6} xs={12}
-                                    justifyContent="space-evenly"
-                                    alignItems="left"
-                                    sx={{ mt: 1 }}
-                                >
-                                    <TextField
-                                        id="cvv"
-                                        label="Số tiền cần rút: "
-                                        required
-                                        fullWidth
-                                        sx={{ maxWidth: "100%" }}
-                                        helperText="VNĐ"
-                                        value={amount}
-                                        onChange={handleChangeAmount}
-                                    />
-                                </Grid>
-
-                                <Box sx={{ minWidth: 350, mt: 2 }}>
-                                    <InputLabel id="bankLabel">Bank</InputLabel>
-                                    <Select
-                                        labelId="bankLabel"
-                                        id="bankLabel"
-                                        label="Bank"
-                                        value={bank}
-                                        onChange={handleChangeBank}
-                                        fullWidth
-
-
-                                    >
-                                        {banks.map((bank) => {
-                                            return (
-                                                <MenuItem key={bank.id} value={bank.id} onChange={handleChangeBank}>
-                                                    {bank.name}
-                                                </MenuItem>
-
-                                            )
-                                        }
-                                        )}
-
-                                    </Select>
-                                </Box>
-
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleCloseWithdrawForm}>Huỷ bỏ</Button>
-                                <Button onClick={handleWithdraw}>Rút tiền</Button>
-
-                            </DialogActions>
-                        </Dialog>
-                    </div>
-                ) : null
-                }
-
-            </div>
+            
         </React.Fragment>
 
     );
