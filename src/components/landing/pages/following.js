@@ -164,7 +164,7 @@ export default function FollowingPage() {
                     width={1000}
                   />
                   <Typography variant={"h5"} align="center">
-                    Oops! Không có bài viết nào viết nào vui lòng thử lại sau.
+                    Oops! Không có bài viết nào vui lòng thử lại sau.
                   </Typography>
                   <Box sx={{ display: "flex", justifyContent: "center" }}>
                     <Button onClick={() => router.push("/")} color="success">
