@@ -21,7 +21,7 @@ import { Grid, Box, Avatar } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import { RelatedCards } from "src/components/post/RelatedCard";
 import { CommentCard } from "src/components/post/CommentCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -40,6 +40,11 @@ import Lottie from "react-lottie";
 import * as animationData from "lottie/post_not_found_animation.json";
 import * as animationDataPremium from "lottie/post_premium_animation.json";
 import * as animationDataComment from "lottie/comment.json";
+import { setCurrentCategory } from "src/stores/categorySlice";
+import { clearInfoSuccess } from "src/stores/userSlice";
+import { setTab } from "src/stores/tabSlice";
+import { removeCookieData } from "src/services/cookies";
+import { clearInfo } from "src/utils/clearInfo";
 moment.locale("vi");
 
 const defaultAnimationOptions = {
@@ -57,6 +62,19 @@ const MuiDrawer = styled(Drawer)(({ theme }) => ({
 function PostDetailPage(props) {
   const { premiumLimit, unknownError, post, related, avgRating, comments } =
     props;
+  const dispatch = useDispatch();
+  // clearInfo(dispatch, post, useEffect)
+  useEffect(() => {
+    if (post === null) {
+      dispatch(clearInfoSuccess());
+      dispatch(setCurrentCategory(null));
+      dispatch(setTab("information"));
+      removeCookieData("token");
+      removeCookieData("refreshToken");
+      window.location.replace("/login");
+    }
+  }, [post]);
+
   const router = useRouter();
   const postId = router.query.postId;
   const [content, setContent] = useState(null);
@@ -374,7 +392,7 @@ function PostDetailPage(props) {
                 imageRendering: "pixelated",
                 backgroundColor: "rgba(0,0,0,0.5)",
                 border: "1px solid #E7EBF0",
-                width:"100%",
+                width: "100%",
                 height: "100%",
                 objectFit: "contain",
               }}
@@ -607,11 +625,19 @@ function PostDetailPage(props) {
                 );
               })
             ) : (
-              <Box sx={{borderRadius: 16, backgroundColor: "rgba(255,255,255,0.5)"}}>
-                <Typography sx={{display: isCensor && "none" }} align="center">
+              <Box
+                sx={{
+                  borderRadius: 16,
+                  backgroundColor: "rgba(255,255,255,0.5)",
+                }}
+              >
+                <Typography sx={{ display: isCensor && "none" }} align="center">
                   Chưa có bình luận, hãy là người đầu tiên!
                 </Typography>
-                <Typography sx={{display: isCensor ? "" : "none" }} align="center">
+                <Typography
+                  sx={{ display: isCensor ? "" : "none" }}
+                  align="center"
+                >
                   Chưa có người dùng nào bình luận
                 </Typography>
               </Box>
@@ -634,16 +660,26 @@ export async function getServerSideProps(context) {
   if (!postId) return { notFound: true };
   try {
     const response = await postApi.getPostDetail(postId, token, refreshToken);
-    
-    const postRelated = await postApi.getPostsRelated(postId, {
-      page: 1,
-      per_page: 5,
-    }, token, refreshToken);
+
+    const postRelated = await postApi.getPostsRelated(
+      postId,
+      {
+        page: 1,
+        per_page: 5,
+      },
+      token,
+      refreshToken
+    );
     const avgRating = await postApi.getAvgRating(postId, token, refreshToken);
-    const comments = await commentApi.getComments(postId, {
-      order_by: "publishDate",
-      sort: "DESC",
-    }, token, refreshToken);
+    const comments = await commentApi.getComments(
+      postId,
+      {
+        order_by: "publishDate",
+        sort: "DESC",
+      },
+      token,
+      refreshToken
+    );
     return {
       props: {
         post: response,

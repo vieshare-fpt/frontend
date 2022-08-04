@@ -54,19 +54,23 @@ const axiosClient = (token, refreshToken) => {
       }
       if (error?.response?.status === 401 || error?.response?.status === 400) {
         if (refreshToken) {
-          let result = result || refreshAccessToken(refreshToken);
+          let result = refreshAccessToken(refreshToken);
           const newToken = await result;
           result = null;
           if (newToken != null) {
             setCookieData("token", newToken);
             config.headers.Authorization = `Bearer ${newToken}`;
           } else {
-            window.location.replace("/login");
-            dispatch(clearInfoSuccess());
-            dispatch(setCurrentCategory(null));
-            dispatch(setTab("information"))
-            removeCookieData("token");
-            removeCookieData("refreshToken");
+            if (typeof window !== "undefined") {
+              dispatch(clearInfoSuccess());
+              dispatch(setCurrentCategory(null));
+              dispatch(setTab("information"));
+              removeCookieData("token");
+              removeCookieData("refreshToken");
+              window.location.replace("/login");
+            } else {
+              return null
+            }
           }
 
           return axiosClient(config);
