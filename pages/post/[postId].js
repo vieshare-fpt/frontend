@@ -44,7 +44,6 @@ import { setCurrentCategory } from "src/stores/categorySlice";
 import { clearInfoSuccess } from "src/stores/userSlice";
 import { setTab } from "src/stores/tabSlice";
 import { removeCookieData } from "src/services/cookies";
-import { clearInfo } from "src/utils/clearInfo";
 moment.locale("vi");
 
 const defaultAnimationOptions = {
@@ -73,7 +72,7 @@ function PostDetailPage(props) {
       removeCookieData("refreshToken");
       window.location.replace("/login");
     }
-  }, [post]);
+  }, [dispatch, post]);
 
   const router = useRouter();
   const postId = router.query.postId;

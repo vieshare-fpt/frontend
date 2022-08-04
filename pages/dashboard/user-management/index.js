@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import UserManagement from 'src/components/dashboard/pages/user-management'
 import Page from 'src/components/dashboard/main'
 import { adminApi } from 'src/services';
@@ -19,7 +19,10 @@ export default function DashBoard(props) {
       removeCookieData("refreshToken");
       window.location.replace("/login");
     }
-  }, [props.userData]);
+  }, [dispatch, props.userData]);
+  if(props.userData === null) {
+    return null
+  }
   return <Page CurrentComponent={UserManagement} 
                props={props}
   />;
@@ -32,7 +35,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       title: 'Quản lý người dùng',
-      userData : users.data ? users.data : users,
+      userData : users ? users.data : users,
       token: token,
       refreshToken: refreshToken,
     },
