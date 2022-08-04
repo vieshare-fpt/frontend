@@ -16,6 +16,9 @@ import {
   formatOneMonth,
   formatOneYear,
 } from "src/utils/formatDateHelper";
+
+
+
 export default function Statistic(props) {
   const { roles } = props;
   const [totalData, setTotalData] = useState(null);
@@ -26,10 +29,7 @@ export default function Statistic(props) {
   const [chartData, setChartData] = useState([]);
   const [labels, setLabels] = useState([]);
   const [density, setDensity] = useState(10);
-  console.log(dateFrom);
-  console.log(chartData);
 
-  console.log(roles);
   let statistic = <></>;
   useEffect(() => {
     if (roles.includes("Admin")) {
@@ -37,7 +37,6 @@ export default function Statistic(props) {
         await chartApi
           .getTotal()
           .then((response) => {
-            console.log(response.data);
             setTotalData(response.data);
           })
           .catch((error) => {
@@ -57,8 +56,8 @@ export default function Statistic(props) {
           time_frame: timeFrame,
         })
         .then((response) => {
-          console.log(response);
           setLabels(response.labels);
+          console.log(response.data);
           const datas = response.data;
           datas.forEach((data) => {
             if (data.name === "total") {
@@ -78,27 +77,9 @@ export default function Statistic(props) {
           console.log(error);
         });
     })();
-  }, [density, categoryOfChart, dateFrom, dateTo, timeFrame]);
-
-  const handleChangeCategoryOfChart = (event) => {
-    console.log(event.target.value);
-    setCategoryOfChart(event.target.value);
-  };
-  const handleChangeDensity = (event) => {
-    const value = event.target.value;
-    const limit = 15;
-    if (value > limit) {
-      setDensity(limit);
-    } else if (value < 1) {
-      setDensity(1);
-    } else {
-      setDensity(value);
-    }
-  };
-  const handleTimeFrame = (e) => {
-    e.preventDefault();
-    console.log(e.target.value);
-    switch (e.target.value) {
+  }, [categoryOfChart, dateFrom, dateTo, timeFrame]);
+  function handleChangeTimeFrame(value, density) {
+    switch (value) {
       case "OneDay":
         setDateFrom(formatOneDay(new Date(), density));
         setDateTo(formatDate(new Date()));
@@ -114,7 +95,31 @@ export default function Statistic(props) {
       default:
         break;
     }
-    setTimeFrame(e.target.value);
+  }
+  const handleChangeCategoryOfChart = (event) => {
+    setCategoryOfChart(event.target.value);
+  };
+  const handleChangeDensity = (event) => {
+    const value = event.target.value;
+    const limit = 15;
+    if (value > limit) {
+      handleChangeTimeFrame(timeFrame, limit);
+      setDensity(limit);
+    } else if (value < 1) {
+      handleChangeTimeFrame(timeFrame, 1);
+      setDensity(1);
+    } else {
+      handleChangeTimeFrame(timeFrame, value);
+      setDensity(value);
+    }
+  };
+  const handleTimeFrame = (e) => {
+    e.preventDefault();
+    // handleTimeFrame(e.target.value, density);
+
+    handleChangeTimeFrame(e.target.value, density);
+
+    setTimeFrame(e?.target?.value);
   };
 
   const admin = (

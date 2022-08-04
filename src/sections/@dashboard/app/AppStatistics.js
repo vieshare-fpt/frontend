@@ -122,7 +122,7 @@ export default function AppStatistics({
       sx={{ py: "19px" }}
       color="success"
       aria-label="outlined button group"
-      onClick={onClick}
+      onClick={(e) => onClick(e)}
     >
       <Button value="OneDay">ngày</Button>
       <Button value="OneMonth">tháng</Button>
@@ -144,7 +144,7 @@ export default function AppStatistics({
                 min: 1,
                 max: 15,
                 value: valueDensity,
-                onChange: onChangeDensity,
+                onChange: (e) => onChangeDensity(e),
               },
             }}
             sx={{
