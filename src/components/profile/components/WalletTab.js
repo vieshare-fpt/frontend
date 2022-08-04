@@ -26,7 +26,7 @@ import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import PaidIcon from "@mui/icons-material/Paid";
+
 const validationSchema = yup.object({
   amount: yup
     .number("Chỉ nhập số")
@@ -193,7 +193,7 @@ export default function WalletTab({ profile }) {
       <Card sx={{ width: "100%", border: 1, mt: 1, borderColor: "grey.500" }}>
         <HeadersTab title="Ví của bạn" subTitle="Chi tiết ví" />
         <List>
-          <ItemTab name="Số dư khả dụng" value={`${wallet.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ₫`}></ItemTab>
+          <ItemTab name="Số dư khả dụng" value={`${wallet && String(wallet).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ₫`}></ItemTab>
         </List>
       </Card>
       <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
