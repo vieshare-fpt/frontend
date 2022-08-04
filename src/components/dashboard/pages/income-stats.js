@@ -21,23 +21,25 @@ export default function IncomeStats(props) {
         const result = data.map((element) => {
             count++;
             let status;
-            if(element.status == "Processing"){
-                status = 'Đang tính toán';
-            }
-            else{
-                status = 'Hoàn thành';
-            }
-            const bonusObj = {   
-                id:(count), 
-                bonusId: element.id, 
-                bonusFormulaId: element.bonusFormulaId, 
-                from: Moment(element.from).format('DD/MM/YYYY'), 
-                postId: element.postId,
-                status: status,
-                to: Moment(element.to).format('DD/MM/YYYY'), 
-                views: element.views,
-            };
-                return bonusObj;   
+            if(element.status == "Processing" || element.status == "Ready"){
+                if(element.status == "Processing"){
+                    status = 'Đang tính toán';
+                }
+                else{
+                    status = 'Tính thành công';
+                }
+                const bonusObj = {   
+                    id:(count), 
+                    bonusId: element.id, 
+                    bonusFormulaId: element.bonusFormulaId, 
+                    from: Moment(element.from).format('DD/MM/YYYY'), 
+                    postId: element.postId,
+                    status: status,
+                    to: Moment(element.to).format('DD/MM/YYYY'), 
+                    views: element.views,
+                };
+                return bonusObj; 
+            }  
         })
         return result.filter(p => p !== undefined);    
     }
@@ -49,7 +51,6 @@ export default function IncomeStats(props) {
     async function getAllBonusStats() {
         await writerBonusApi.getBonus()
             .then((response) => {
-                console.log("34", response.data)
                 setBonus(mapBonusData(response.data));
             });
     }
@@ -115,7 +116,7 @@ export default function IncomeStats(props) {
                 return (
                     <IconButton
                         onClick={(event) => {
-                            console.log(cellValue.row.bonusId);
+                            // console.log(cellValue.row.bonusId);
                             if(cellValue.row.status.includes("Đang tính toán")){
                                 toast.error("Đang trong quá trình tính toán", {
                                     position: "top-right",
@@ -129,19 +130,35 @@ export default function IncomeStats(props) {
                             }
                             else{
                                 if(confirm("Bạn có chắc muốn cộng tiền thưởng vào thu nhập?")){
-                                    (async () => {
-                                        await writerBonusApi.postBonus(cellValue.row.bonusId,);
-                                    })();
+                                    try{
+                                        
+                                        (async () => {
+                                            await writerBonusApi.postBonus(cellValue.row.bonusId,);
+                                        })().catch((error) => {
+                                            console.log(error);
+                                        });
+                                        toast.success("Cộng tiền thành công", {
+                                            position: "top-right",
+                                            autoClose: 5000,
+                                            hideProgressBar: false,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: true,
+                                            progress: undefined,
+                                        });
+                                    }catch(err){
+                                        toast.error("Cộng tiền thất bại", {
+                                            position: "top-right",
+                                            autoClose: 5000,
+                                            hideProgressBar: false,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: true,
+                                            progress: undefined,
+                                        });
+                                    }
                                 }
-                                toast.success("Cộng tiền thành công", {
-                                    position: "top-right",
-                                    autoClose: 5000,
-                                    hideProgressBar: false,
-                                    closeOnClick: true,
-                                    pauseOnHover: true,
-                                    draggable: true,
-                                    progress: undefined,
-                                });
+                                getAllBonusStats();
                             }
                         }}
                         color="success">
@@ -165,14 +182,14 @@ export default function IncomeStats(props) {
 
         <React.Fragment>
             <Box
-                sx={{m:1, height: 700,}}
+                sx={{m:1, height: 600,}}
             >
                 <h2>Tình trạng tiền thưởng</h2>
                 <DataGrid
                     disableSelectionOnClick
                     rows={bonus}
                     columns={columns}
-                    pageSize={15}
+                    pageSize={10}
                     rowsPerPageOptions={[10]}
                     onCellClick={handleCellClick}
                     onRowClick={handleRowClick}
