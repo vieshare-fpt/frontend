@@ -26,8 +26,6 @@ import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import PaidIcon from "@mui/icons-material/Paid";
-import CurrencyTextField from '@unicef/material-ui-currency-textfield'
-
 const validationSchema = yup.object({
   amount: yup
     .number("Chỉ nhập số")
@@ -240,13 +238,7 @@ export default function WalletTab({ profile }) {
                     alignItems="left"
                     sx={{ mt: 1 }}
                   >
-                    <CurrencyTextField
-                      variant="standard"
-                      currencySymbol="₫"
-                      minimumValue="10000"
-                      outputFormat="string"
-                      decimalCharacter="."
-                      digitGroupSeparator=","
+                    <TextField
                       id="amount"
                       name="amount"
                       label="Số tiền cần rút:"
@@ -254,15 +246,13 @@ export default function WalletTab({ profile }) {
                       fullWidth
                       color="success"
                       sx={{ maxWidth: "100%" }}
-                      // helperText="VNĐ"
-                      // value={amountWithdraw}
-                      // onChange={handleChangeAmountWithdraw}
                       value={formik.values.amount}
                       onChange={formik.handleChange}
                       error={
                         formik.touched.amount && Boolean(formik.errors.amount)
                       }
                       helperText={formik.touched.amount && formik.errors.amount}
+                      startAdornment={<InputAdornment position="start">₫</InputAdornment>}
                     />
                   </Grid>
 
@@ -324,13 +314,7 @@ export default function WalletTab({ profile }) {
                     alignItems="left"
                     sx={{ mt: 1 }}
                   >
-                    <CurrencyTextField
-                      variant="standard"
-                      currencySymbol="₫"
-                      minimumValue="10000"
-                      outputFormat="string"
-                      decimalCharacter="."
-                      digitGroupSeparator=","
+                    <TextField
                       id="amount"
                       name="amount"
                       label="Số tiền cần nạp: "
@@ -338,15 +322,13 @@ export default function WalletTab({ profile }) {
                       fullWidth
                       color="success"
                       sx={{ maxWidth: "100%" }}
-                      // helperText="VNĐ"
-                      // value={amountDeposit}
-                      // onChange={handleChangeAmountDeposit}
                       value={formik.values.amount}
                       onChange={formik.handleChange}
                       error={
                         formik.touched.amount && Boolean(formik.errors.amount)
                       }
                       helperText={formik.touched.amount && formik.errors.amount}
+                      startAdornment={<InputAdornment position="start">₫</InputAdornment>}
                     />
                   </Grid>
 
@@ -364,7 +346,7 @@ export default function WalletTab({ profile }) {
                       value={formik.values.bank}
                       onChange={formik.handleChange}
                       error={formik.touched.bank && Boolean(formik.errors.bank)}
-                    // helperText={formik.touched.bank && formik.errors.bank}
+                      // helperText={formik.touched.bank && formik.errors.bank}
                     >
                       {banks.map((bank) => {
                         return (
