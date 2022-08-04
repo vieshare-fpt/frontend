@@ -165,7 +165,7 @@ export default function InfomationTab({ profile, yup }) {
             justifyContent: "flex-end",
           }}
         >
-          <Button onClick={handleOpen} size="small" color="primary">
+          <Button onClick={handleOpen} size="small" color="success">
             Chỉnh sửa
           </Button>
         </CardActions>

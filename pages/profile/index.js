@@ -142,6 +142,11 @@ export default function Profile() {
                     backgroundColor: "green",
                   },
                 }}
+                sx={{
+                  "& .MuiTab-root.Mui-selected": {
+                    color: 'green'
+                  }
+                }}
               >
                 <Tab label="Thông tin" value="information" />
                 <Tab label="Bảo mật" value="security" />

@@ -18,11 +18,12 @@ export function Footer() {
   const isLandingPage = router.asPath === "/";
 
   const styleLandingPage = {
-    mb:1, mt: 2,
+    mb: 1,
+    mt: 2,
     display: "flex",
     flexDirection: { xs: "", sm: "column" },
     justifyContent: "center",
-  }
+  };
 
   const styleOtherPage = {
     mt: 1,
@@ -31,11 +32,11 @@ export function Footer() {
     flexWrap: "wrap",
     alignContent: "flex-end",
     justifyContent: "center",
-  }
+  };
   return (
     <footer
       style={{
-        backgroundPosition: isLandingPage ? '80% 20%' : "25% 30%",
+        backgroundPosition: isLandingPage ? "80% 20%" : "25% 30%",
         backgroundImage: 'url("/footer1.png")',
         backgroundColor: "rgb(246 ,246, 246, 1 )",
         height: "90vh",
@@ -79,7 +80,7 @@ export function Footer() {
                   variant="contained"
                   color="success"
                   sx={{
-                    borderRadius: isLandingPage ? 1 : 20,
+                    borderRadius: isLandingPage ? 1 : {sx:1, sm:20},
                     boxShadow: 0,
                     background: green[500],
                   }}
@@ -90,8 +91,14 @@ export function Footer() {
             </Link>
           </Grid>
         </Grid>
-        
-        <Divider  sx={{ mb: 3, mt: { xs: 1, sm: 0 }, mr: isLandingPage ? '62%' : "0" }} />
+
+        <Divider
+          sx={{
+            mb: 3,
+            mt: { xs: 1, sm: 0 },
+            mr: isLandingPage ? { xs: "0", sm: "0", md: "62%" } : "0",
+          }}
+        />
         <Grid
           container
           sx={{
@@ -99,7 +106,13 @@ export function Footer() {
             display: "flex",
           }}
         >
-          <Box sx={{ textAlign: isLandingPage ? {xs:"center", sm:"left",md: "left"} : "center" }}>
+          <Box
+            sx={{
+              textAlign: isLandingPage
+                ? { xs: "center", sm: "left", md: "left" }
+                : "center",
+            }}
+          >
             <Typography>
               <strong> Điện thoại:</strong> 0939568941 <strong>Email:</strong>{" "}
               vie.share.platform@gmail.com{" "}
@@ -111,7 +124,6 @@ export function Footer() {
             </Typography>
           </Box>
         </Grid>
-   
       </Container>
     </footer>
   );

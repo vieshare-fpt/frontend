@@ -244,6 +244,7 @@ export default function WalletTab({ profile }) {
                       label="Số tiền cần rút:"
                       required
                       fullWidth
+                      color="success"
                       sx={{ maxWidth: "100%" }}
                       // helperText="VNĐ"
                       // value={amountWithdraw}
@@ -266,6 +267,7 @@ export default function WalletTab({ profile }) {
                       label="Bank"
                       // value={bank}
                       // onChange={handleChangeBank}
+                      color="success"
 
                       value={formik.values.bank}
                       onChange={formik.handleChange}
@@ -320,6 +322,7 @@ export default function WalletTab({ profile }) {
                       label="Số tiền cần nạp: "
                       required
                       fullWidth
+                      color="success"
                       sx={{ maxWidth: "100%" }}
                       // helperText="VNĐ"
                       // value={amountDeposit}
@@ -340,6 +343,7 @@ export default function WalletTab({ profile }) {
                       id="bankLabel"
                       name="bank"
                       label="Bank"
+                      color="success"
                       // value={bank}
                       // onChange={handleChangeBank}
                       fullWidth
@@ -359,9 +363,12 @@ export default function WalletTab({ profile }) {
                   </Box>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleCloseDepositForm}>Huỷ bỏ</Button>
+                  <Button color="success" onClick={handleCloseDepositForm}>
+                    Huỷ bỏ
+                  </Button>
                   <Button
                     type="submit"
+                    color="success"
                     onClick={() => formik.setFieldValue("type", "DEPOSIT")}
                   >
                     Nạp tiền
