@@ -31,12 +31,13 @@ export default function Landing(props) {
 }
 Landing.getLayout = MainLayout;
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const { token, refreshToken } = context.req.cookies || {token: null, refreshToken: null}
   const posts = await postApi.getPosts({
     status: "Publish",
     per_page: 12,
     page: 1,
-  });
+  }, token, refreshToken);
 
   const categories = await categoryApi.getCategory({
     per_page: 10,
