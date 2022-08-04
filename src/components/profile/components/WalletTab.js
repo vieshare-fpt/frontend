@@ -65,7 +65,7 @@ export default function WalletTab({ profile }) {
   const formik = useFormik({
     initialValues: {
       amount: 10000,
-      bank: "54f87bc0-5224-47e4-8859-8e051730f95f",
+      bank: "8f822a84-f814-4f1f-bd6b-b6ed5ca02f25",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
