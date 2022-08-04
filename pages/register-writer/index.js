@@ -57,7 +57,7 @@ export default function RegisterWriter() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       if (!user) {
-        alert("Vui lòng đăng nhập !!!");
+        alert("Vui lòng đăng nhập!");
       } else {
         (async () => {
           setLoading(true)
@@ -183,7 +183,7 @@ export default function RegisterWriter() {
           />
         </div>
         <p className={styles.text}>
-          &ldquo;Đã gửi thành công ! Chúng tôi sẽ cố gắng liện hệ với bạn sớm
+          &ldquo;Đã gửi thành công! Chúng tôi sẽ cố gắng liên hệ với bạn sớm
           nhất !&ldquo;
         </p>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -226,7 +226,7 @@ export default function RegisterWriter() {
                   
                 </div>
                 <Typography variant="h6" sx={{ textAlign: "center" }}>
-                  Chúng tôi rất vui khi đồng hành cùng bạn !!
+                  Chúng tôi rất vui khi được đồng hành cùng bạn!
                 </Typography>
               </div>
             </Grid>

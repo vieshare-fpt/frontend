@@ -26,6 +26,8 @@ import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import PaidIcon from "@mui/icons-material/Paid";
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+
 const validationSchema = yup.object({
   amount: yup
     .number("Chỉ nhập số")
@@ -192,7 +194,7 @@ export default function WalletTab({ profile }) {
       <Card sx={{ width: "100%", border: 1, mt: 1, borderColor: "grey.500" }}>
         <HeadersTab title="Ví của bạn" subTitle="Chi tiết ví" />
         <List>
-          <ItemTab name="Số dư khả dụng" value={wallet}></ItemTab>
+          <ItemTab name="Số dư khả dụng" value={`${wallet.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ₫`}></ItemTab>
         </List>
       </Card>
       <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
@@ -238,7 +240,13 @@ export default function WalletTab({ profile }) {
                     alignItems="left"
                     sx={{ mt: 1 }}
                   >
-                    <TextField
+                    <CurrencyTextField
+                      variant="standard"
+                      currencySymbol="₫"
+                      minimumValue="10000"
+                      outputFormat="string"
+                      decimalCharacter="."
+                      digitGroupSeparator=","
                       id="amount"
                       name="amount"
                       label="Số tiền cần rút:"
@@ -316,7 +324,13 @@ export default function WalletTab({ profile }) {
                     alignItems="left"
                     sx={{ mt: 1 }}
                   >
-                    <TextField
+                    <CurrencyTextField
+                      variant="standard"
+                      currencySymbol="₫"
+                      minimumValue="10000"
+                      outputFormat="string"
+                      decimalCharacter="."
+                      digitGroupSeparator=","
                       id="amount"
                       name="amount"
                       label="Số tiền cần nạp: "
@@ -350,7 +364,7 @@ export default function WalletTab({ profile }) {
                       value={formik.values.bank}
                       onChange={formik.handleChange}
                       error={formik.touched.bank && Boolean(formik.errors.bank)}
-                      // helperText={formik.touched.bank && formik.errors.bank}
+                    // helperText={formik.touched.bank && formik.errors.bank}
                     >
                       {banks.map((bank) => {
                         return (

@@ -119,7 +119,7 @@ export default function FollowingPage() {
             width={500}
           />
           <Typography align="center" variant="h3" fontSize="25px">
-            Vui lòng đăng nhập để sử dụng chức năng này !!
+            Vui lòng đăng nhập để sử dụng chức năng này!
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Button onClick={() => router.push("/login")} color="success">

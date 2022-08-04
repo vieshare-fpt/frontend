@@ -147,7 +147,7 @@ export default function WriterProfile() {
                   </Typography>
                   {!(isCensor || isWriter) && (
                     <Chip
-                      label={isFollow ? "Unfollow" : "Follow"}
+                      label={isFollow ? "Bỏ theo dõi" : "Theo dõi"}
                       size="medium"
                       variant="outlined"
                       onClick={handleClick}

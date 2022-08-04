@@ -108,7 +108,7 @@ export default function SecurityTab({ profile, yup }) {
         <HeadersTab
           image={<SecurityIcon sx={{ fontSize: "48px" }}></SecurityIcon>}
           title="Bảo mật"
-          subTitle="bảo mật"
+          subTitle="Tuỳ chọn mật khẩu cho tài khoản của bạn"
         />
 
         <List sx={{ width: "100%" }}>

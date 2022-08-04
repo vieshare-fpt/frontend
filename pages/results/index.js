@@ -88,7 +88,7 @@ export default function Results() {
                 />
                 <Typography variant={"h5"} align="center">
                   Oops! Hình như bài viết bạn đang tìm kiếm không tồn tại vui
-                  lòng thử lại !!
+                  lòng thử lại.
                 </Typography>
               </Container>
             )}
