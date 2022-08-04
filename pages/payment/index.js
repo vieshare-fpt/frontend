@@ -97,11 +97,8 @@ export default function PaymentInput() {
   const banks = useSelector((state) => state.bank.banks);
   const wallet = useSelector((state) => state.wallet.wallet);
 
-
-
   const handleCheckOut = async () => {
     const id = await packagePayment.id;
-
 
     await subscriptionApi
       .createSubsciptions(id)
@@ -110,7 +107,6 @@ export default function PaymentInput() {
         handleSuccessOpen();
       })
       .catch((error) => {
-
         handlerErrorOpen();
       });
   };
@@ -398,19 +394,24 @@ export default function PaymentInput() {
             >
               <Box sx={{ ...style, width: 400 }}>
                 <Typography
-                  sx={{ mb: 2 }} component="h1" variant="h5"
+                  sx={{ mb: 2 }}
+                  component="h1"
+                  variant="h5"
                   id="child-modal-title"
                 >
                   Thanh toán thành công
                 </Typography>
-                <Typography id="child-modal-description"
-                  sx={{ mb: 2 }} component="h1" variant="h5"
+                <Typography
+                  id="child-modal-description"
+                  sx={{ mb: 2 }}
+                  component="h1"
+                  variant="h2"
                   fontFamily="Helvetica,-moz-initial"
-                  variant='h2'
-                  align='center'>
+                  align="center"
+                >
                   Chúc mừng bạn đã thanh toán thành công gói premium có thời hạn
-                  sử dụng là {packagePayment.expiresAfterNumberOfDays}&nbsp;ngày, trị giá{" "}
-                  {total} VNĐ
+                  sử dụng là {packagePayment.expiresAfterNumberOfDays}
+                  &nbsp;ngày, trị giá {total} VNĐ
                 </Typography>
                 <Button
                   sx={{
@@ -445,15 +446,18 @@ export default function PaymentInput() {
               <Box sx={{ ...style, width: 400 }}>
                 <Typography
                   id="child-modal-title"
-                  sx={{ mb: 2 }} component="h1" variant="h5"
+                  sx={{ mb: 2 }}
+                  component="h1"
+                  variant="h5"
                 >
                   Thanh toán thất bại
                 </Typography>
-                <Typography id="child-modal-description"
-                  sx={{ color: "red", fontSize: 15, borderRadius: 10}}
+                <Typography
+                  id="child-modal-description"
+                  sx={{ color: "red", fontSize: 15, borderRadius: 10 }}
                   fontFamily="Helvetica,-moz-initial"
-                  variant='h2'
-                  align='center'
+                  variant="h2"
+                  align="center"
                 >
                   Thanh toán thất bại vui lòng kiểm tra lại số dư hiện tại.
                 </Typography>
