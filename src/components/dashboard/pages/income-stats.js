@@ -10,7 +10,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Moment from 'moment';
 
 export default function IncomeStats(props) {
-    const [ bonus, setBonus ] = React.useState(null);
+    const [ bonus, setBonus ] = React.useState([]);
     const dispatch = useDispatch();
     useEffect(() => {
         getAllBonusStats();
@@ -28,13 +28,15 @@ export default function IncomeStats(props) {
                 else{
                     status = 'Tính thành công';
                 }
+                const viewBonus = element.bonusPerView + " VNĐ";
                 const bonusObj = {   
                     id:(count), 
                     bonusId: element.id, 
-                    bonusFormulaId: element.bonusFormulaId, 
+                    bonusPerView: viewBonus, 
                     from: Moment(element.from).format('DD/MM/YYYY'), 
-                    postId: element.postId,
+                    postTitle: element.postTitle,
                     status: status,
+                    bonusMoney: element.price + " VNĐ",
                     to: Moment(element.to).format('DD/MM/YYYY'), 
                     views: element.views,
                 };
@@ -58,50 +60,53 @@ export default function IncomeStats(props) {
     const columns = [
         { field: 'id', headerName: '#', width: 50, marginLeft: 20, description: 'Thứ tự' },
         {
-            field: 'bonusId',
-            headerName: 'Mã tiền thưởng',
+            field: 'postTitle',
+            headerName: 'Tên bài viết',
             minWidth: 300,
             flex: 1,
             editable: false,
         },
         {
-            field: 'bonusFormulaId',
-            headerName: 'Mã công thức',
-            minWidth: 300,
-            flex: 1,
+            field: 'bonusPerView',
+            headerName: 'Thưởng mỗi lượt xem',
+            Width: 170,
             editable: false,
         },
         {
             field: 'from',
             headerName: 'Từ ngày',
             description: 'Ngày bắt đầu tính toán',
-            minWidth:100,
-            maxWidth: 120,
-            flex: 1,
+            Width: 130,
             editable: false,
         },
         {
             field: 'to',
             headerName: 'Đến ngày',
             description: 'Ngày kết thúc tính toán',
-            minWidth:100,
-            maxWidth: 120,
-            flex: 1,
+            Width: 130,
             editable: false,
-        },
-        {
-            field: 'status',
-            headerName: 'Tình trạng',
-            description: 'Tình trạng tính toán tiền thưởng',
-            width: 150,
-            editable: false,
-            sortable: true,
         },
         {
             field: 'views',
             headerName: 'Lượt xem',
             description: 'Số lượt xem của bài viết',
             width: 100,
+            editable: false,
+            sortable: true,
+        },
+        {
+            field: 'bonusMoney',
+            headerName: 'Tổng tiền',
+            description: 'Số tiền được cộng theo views',
+            width: 150,
+            editable: false,
+            sortable: true,
+        },
+        {
+            field: 'status',
+            headerName: 'Tình trạng',
+            description: 'Tình trạng tính toán tiền thưởng',
+            width: 150,
             editable: false,
             sortable: true,
         },
