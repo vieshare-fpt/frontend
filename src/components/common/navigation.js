@@ -196,15 +196,6 @@ export function Navigation({ children }) {
 
         <ListItem>
           <Typography sx={styles.footer(open, asPath)}>
-            <span>
-              <Link href="/history">
-                <a>Privacy Policy |</a>
-              </Link>
-              <Link href="/">
-                <a> Terms & Conditions</a>
-              </Link>
-            </span>
-            <br />
             @Copyright © 2022 VieShare.
           </Typography>
         </ListItem>

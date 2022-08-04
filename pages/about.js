@@ -16,7 +16,7 @@ export default function About() {
       <Seo
         data={{
           title: "VieShare | Về chúng tôi",
-          description: "VieShare vạn tuế",
+          description: "Nền tảng chia sẻ kiến thức tiếng Việt",
           url: "https://vieshare-stg.vi-vu.vn/about",
           thumbnail:
             "https://cdnb.artstation.com/p/assets/images/images/040/129/561/large/ric-pastor-3.jpg?1627952777",

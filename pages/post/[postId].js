@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { MainLayout } from "src/components/layouts";
 import { postApi, commentApi } from "src/services";
+import { Seo } from "src/components/common";
 import {
   FormControl,
   TextField,
@@ -244,6 +245,15 @@ function PostDetailPage(props) {
 
   return (
     <React.Fragment>
+      <Seo
+        data={{
+          title: `VieShare | ${post.data.title}`,
+          description: "Nền tảng chia sẻ kiến thức tiếng Việt",
+          url: "https://vieshare-stg.vi-vu.vn/",
+          thumbnail:
+            "https://cdnb.artstation.com/p/assets/images/images/040/129/561/large/ric-pastor-3.jpg?1627952777",
+        }}
+      />
       <Toolbar />
       <Box
         sx={{

@@ -19,7 +19,7 @@ export default function Following(props) {
       <Seo
         data={{
           title: "VieShare | Trang chủ",
-          description: "VieShare vạn tuế",
+          description: "Nền tảng chia sẻ kiến thức tiếng Việt",
           url: "https://vieshare-stg.vi-vu.vn/",
           thumbnail:
             "https://cdnb.artstation.com/p/assets/images/images/040/129/561/large/ric-pastor-3.jpg?1627952777",

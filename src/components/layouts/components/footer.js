@@ -114,13 +114,12 @@ export function Footer() {
             }}
           >
             <Typography>
-              <strong> Điện thoại:</strong> 0939568941 <strong>Email:</strong>{" "}
-              vie.share.platform@gmail.com{" "}
+              <strong> Điện thoại:</strong> 0123456789 <strong>Email:</strong>{" "}
+              support@vieshare.com{" "}
             </Typography>
 
             <Typography>
-              © Vieshare 2022 . All Rights Reserved. |{" "}
-              <a>Chính Sách Bảo Mật Thỏa</a> | <a>Thuận Người Dùng</a>
+              © Vieshare 2022 . All Rights Reserved.
             </Typography>
           </Box>
         </Grid>

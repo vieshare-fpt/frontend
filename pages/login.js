@@ -121,7 +121,7 @@ export default function LoginPage() {
       <Seo
         data={{
           title: "VieShare | Đăng nhập", 
-          description: "VieShare vạn tuế",
+          description: "Nền tảng chia sẻ kiến thức tiếng Việt",
           url: "https://vieshare-stg.vi-vu.vn/login",
           thumbnail:
             "https://cdnb.artstation.com/p/assets/images/images/040/129/561/large/ric-pastor-3.jpg?1627952777",
