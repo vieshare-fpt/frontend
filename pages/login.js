@@ -120,7 +120,7 @@ export default function LoginPage() {
     <>
       <Seo
         data={{
-          title: "VieShare | Đăng nhập", 
+          title: "VieShare - Đăng nhập", 
           description: "Nền tảng chia sẻ kiến thức tiếng Việt",
           url: "https://vieshare-stg.vi-vu.vn/login",
           thumbnail:

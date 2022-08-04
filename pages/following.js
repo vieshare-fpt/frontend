@@ -18,7 +18,7 @@ export default function Following(props) {
     <>
       <Seo
         data={{
-          title: "VieShare | Trang chủ",
+          title: "VieShare",
           description: "Nền tảng chia sẻ kiến thức tiếng Việt",
           url: "https://vieshare-stg.vi-vu.vn/",
           thumbnail:

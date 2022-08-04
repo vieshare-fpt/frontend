@@ -247,7 +247,7 @@ function PostDetailPage(props) {
     <React.Fragment>
       <Seo
         data={{
-          title: `VieShare | ${post.data.title}`,
+          title: `VieShare - ${post.data.title}`,
           description: "Nền tảng chia sẻ kiến thức tiếng Việt",
           url: "https://vieshare-stg.vi-vu.vn/",
           thumbnail:

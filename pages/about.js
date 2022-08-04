@@ -15,7 +15,7 @@ export default function About() {
     <div>
       <Seo
         data={{
-          title: "VieShare | Về chúng tôi",
+          title: "VieShare",
           description: "Nền tảng chia sẻ kiến thức tiếng Việt",
           url: "https://vieshare-stg.vi-vu.vn/about",
           thumbnail:
