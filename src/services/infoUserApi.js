@@ -13,18 +13,20 @@ export const infoUserApi = {
   info() {
     const token = getCookieData("token");
     const refreshToken = getCookieData("refreshToken");
-    return axiosClient(token, refreshToken).get("/users/info");
+    if (token && refreshToken) return axiosClient(token, refreshToken).get("/users/info");
+    else return {data: null}
   },
   infoDynamic(token, refreshToken) {
     const { dispatch } = store;
-    axiosClient(token, refreshToken)
-      .get("/users/info")
-      .then((response) => {
-        dispatch(setUserInfoSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(setUserInfoFailed());
-      });
+    if (token && refreshToken) axiosClient(token, refreshToken)
+    .get("/users/info")
+    .then((response) => {
+      dispatch(setUserInfoSuccess(response.data));
+    })
+    .catch((error) => {
+      dispatch(setUserInfoFailed());
+    });
+    else dispatch(setUserInfoFailed());
   },
   infoId(id) {
     const token = getCookieData("token");
