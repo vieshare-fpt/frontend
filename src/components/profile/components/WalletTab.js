@@ -252,7 +252,9 @@ export default function WalletTab({ profile }) {
                         formik.touched.amount && Boolean(formik.errors.amount)
                       }
                       helperText={formik.touched.amount && formik.errors.amount}
-                      startAdornment={<InputAdornment position="start">₫</InputAdornment>}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start">₫</InputAdornment>,
+                      }}
                     />
                   </Grid>
 
@@ -328,7 +330,9 @@ export default function WalletTab({ profile }) {
                         formik.touched.amount && Boolean(formik.errors.amount)
                       }
                       helperText={formik.touched.amount && formik.errors.amount}
-                      startAdornment={<InputAdornment position="start">₫</InputAdornment>}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start">₫</InputAdornment>,
+                      }}
                     />
                   </Grid>
 
