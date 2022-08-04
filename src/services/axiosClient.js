@@ -1,8 +1,12 @@
 import axios from "axios";
-import { getCookieData, setCookieData } from "src/services/cookies";
+import {
+  removeCookieData,
+  setCookieData,
+} from "src/services/cookies";
 import store from "src/stores/store";
-import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
-import { infoUserApi } from "./infoUserApi";
+import {
+  clearInfoSuccess,
+} from "src/stores/userSlice";
 
 const axiosClient = (token, refreshToken) => {
   const axiosClient = axios.create({
@@ -13,20 +17,26 @@ const axiosClient = (token, refreshToken) => {
 
   axiosClient.interceptors.request.use(async (config) => {
     if (token) {
-  
       // @ts-ignore
       // eslint-disable-next-line no-param-reassign
       config.headers.common = { Authorization: `Bearer ${token}` };
-     
     }
     return config;
   });
 
   const refreshAccessToken = async (refreshToken) => {
-    const response = await axiosClient.post("/auth/token", {
-      refreshToken: refreshToken,
-    });
-    return response.data.token;
+    let token = null;
+    await axiosClient
+      .post("/auth/token", {
+        refreshToken: refreshToken,
+      })
+      .then((response) => {
+        token = response.data.token;
+      })
+      .catch((error) => {
+        token = null;
+      });
+    return token;
   };
   axiosClient.interceptors.response.use(
     (response) => {
@@ -36,6 +46,8 @@ const axiosClient = (token, refreshToken) => {
       return response;
     },
     async (error) => {
+      const { dispatch } = store;
+
       // Handle errors
       const config = error?.config;
 
@@ -48,8 +60,16 @@ const axiosClient = (token, refreshToken) => {
           let result = result || refreshAccessToken(refreshToken);
           const newToken = await result;
           result = null;
-          config.headers.Authorization = `Bearer ${newToken}`;
-          setCookieData("token", newToken);
+          if (newToken != null) {
+            setCookieData("token", newToken);
+            config.headers.Authorization = `Bearer ${newToken}`;
+          } else {
+            window.location.replace("/login");
+            dispatch(clearInfoSuccess());
+            removeCookieData("token");
+            removeCookieData("refreshToken");
+          }
+
           return axiosClient(config);
         }
       }
