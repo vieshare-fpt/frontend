@@ -5,6 +5,7 @@ import HistoryIcon from "@mui/icons-material/History";
 import HomeIcon from "@mui/icons-material/Home";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import PeopleIcon from '@mui/icons-material/People';
 export const subPageUserFree = [
   {
     key: 0,
@@ -14,18 +15,24 @@ export const subPageUserFree = [
   },
   {
     key: 1,
+    name: "Đang theo dõi",
+    icon: <PeopleIcon sx={{ color: green[700] }} />,
+    url: "/following",
+  },
+  {
+    key: 2,
     name: "Trở thành tác giả",
     icon: <AttributionIcon sx={{ color: green[700] }} />,
     url: "/register-writer",
   },
   {
-    key: 2,
+    key: 3,
     name: "Mua Premium",
     icon: <WorkspacePremiumIcon sx={{ color: green[700] }} />,
     url: "/pricing",
   },
   {
-    key: 3,
+    key: 4,
     name: "Bài viết đã đọc",
     icon: <HistoryIcon sx={{ color: green[700] }} />,
     url: "/history",
@@ -41,12 +48,18 @@ export const subPageUserPremium = [
   },
   {
     key: 1,
+    name: "Đang theo dõi",
+    icon: <PeopleIcon sx={{ color: green[700] }} />,
+    url: "/following",
+  },
+  {
+    key: 2,
     name: "Trở thành tác giả",
     icon: <AttributionIcon sx={{ color: green[700] }} />,
     url: "/register-writer",
   },
   {
-    key: 2,
+    key: 3,
     name: "Bài viết đã đọc",
     icon: <HistoryIcon sx={{ color: green[700] }} />,
     url: "/history",

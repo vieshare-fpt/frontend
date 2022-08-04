@@ -42,11 +42,7 @@ import { DrawerDesktop } from "./components";
 
 import { useRouter } from "next/router";
 import { setOpen } from "src/stores/drawerSlice";
-import { getCookieData, setCookieData } from "src/services/cookies";
-import { useGoogleOneTapLogin } from "@react-oauth/google";
-import { accessApi, infoUserApi } from "src/services";
-import { setUserInfoFailed, setUserInfoSuccess } from "src/stores/userSlice";
-import useLoginByGoogle from "src/hook/useLoginByGoogle";
+
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
 }));

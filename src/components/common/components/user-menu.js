@@ -23,6 +23,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AttributionTwoToneIcon from "@mui/icons-material/AttributionTwoTone";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import { setTab } from "src/stores/tabSlice";
+import { setCurrentCategory } from "src/stores/categorySlice";
 
 export function UserMenu({ fullname, email, avatar, type, roles }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -140,6 +141,7 @@ export function UserMenu({ fullname, email, avatar, type, roles }) {
           removeCookieData("refreshToken");
           router.push("/login");
           dispatch(setTab("information"))
+          dispatch(setCurrentCategory(null))
           dispatch(clearInfoSuccess());
         })
         .catch((error) => {

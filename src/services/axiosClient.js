@@ -1,12 +1,9 @@
 import axios from "axios";
-import {
-  removeCookieData,
-  setCookieData,
-} from "src/services/cookies";
+import { removeCookieData, setCookieData } from "src/services/cookies";
+import { setCurrentCategory } from "src/stores/categorySlice";
 import store from "src/stores/store";
-import {
-  clearInfoSuccess,
-} from "src/stores/userSlice";
+import { setTab } from "src/stores/tabSlice";
+import { clearInfoSuccess } from "src/stores/userSlice";
 
 const axiosClient = (token, refreshToken) => {
   const axiosClient = axios.create({
@@ -66,6 +63,8 @@ const axiosClient = (token, refreshToken) => {
           } else {
             window.location.replace("/login");
             dispatch(clearInfoSuccess());
+            dispatch(setCurrentCategory(null));
+            dispatch(setTab("information"))
             removeCookieData("token");
             removeCookieData("refreshToken");
           }
