@@ -392,21 +392,20 @@ export default function PaymentInput() {
               aria-labelledby="child-modal-title"
               aria-describedby="child-modal-description"
             >
-              <Box sx={{ ...style, width: 400 }}>
+              <Box sx={{ ...style, textAlign: 'center', width: 400 }}>
                 <Typography
-                  sx={{ mb: 2 }}
-                  component="h1"
-                  variant="h5"
+                  sx={{
+                    mb:2,
+                    textAlign: 'center',
+                    fontSize:28,
+                    fontWeight:"bold",
+                  }}
                   id="child-modal-title"
                 >
                   Thanh toán thành công
                 </Typography>
                 <Typography
                   id="child-modal-description"
-                  sx={{ mb: 2 }}
-                  component="h1"
-                  variant="h2"
-                  fontFamily="Helvetica,-moz-initial"
                   align="center"
                 >
                   Chúc mừng bạn đã thanh toán thành công gói premium có thời hạn
@@ -443,21 +442,21 @@ export default function PaymentInput() {
               aria-labelledby="child-modal-title"
               aria-describedby="child-modal-description"
             >
-              <Box sx={{ ...style, width: 400 }}>
+              <Box sx={{ ...style, textAlign: 'center', width: 400 }}>
                 <Typography
                   id="child-modal-title"
-                  sx={{ mb: 2 }}
-                  component="h1"
-                  variant="h5"
+                  sx={{
+                    mb:2,
+                    textAlign: 'center',
+                    fontSize:28,
+                    fontWeight:"bold",
+                  }}
                 >
                   Thanh toán thất bại
                 </Typography>
                 <Typography
                   id="child-modal-description"
                   sx={{ color: "red", fontSize: 15, borderRadius: 10 }}
-                  fontFamily="Helvetica,-moz-initial"
-                  variant="h2"
-                  align="center"
                 >
                   Thanh toán thất bại vui lòng kiểm tra lại số dư hiện tại.
                 </Typography>
