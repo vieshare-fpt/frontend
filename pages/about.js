@@ -66,73 +66,7 @@ export default function About() {
               "row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-5 justify-content-center"
             )}
           >
-            <div className={convert("col mb-5 mb-5 mb-xl-0")}>
-              <div className={convert("text-center")}>
-                <img
-                  className={convert("img-fluid rounded-circle mb-4 px-4")}
-                  src="/que.jpg"
-                  alt="Võ Văn Quế"
-                  width={250}
-                  height={250}
-                />
-                <h5 className={convert("fw-bolder")}> Võ Văn Quế</h5>
-                <div className={convert("fst-italic text-muted")}>Member</div>
-              </div>
-            </div>
-            <div className={convert("col mb-5 mb-5 mb-xl-0")}>
-              <div className={convert("text-center")}>
-                <img
-                  className={convert("img-fluid rounded-circle mb-4 px-4")}
-                  src="/huybec.jpg"
-                  alt="Lương Nguyễn Hải Huy"
-                  width={250}
-                  height={250}
-                />
-                <h5 className={convert("fw-bolder")}>Lương Nguyễn Hải Huy</h5>
-                <div className={convert("fst-italic text-muted")}>Member</div>
-              </div>
-            </div>
-            <div className={convert("col mb-5 mb-5 mb-sm-0")}>
-              <div className={convert("text-center")}>
-                <img
-                  className={convert("img-fluid rounded-circle mb-4 px-4")}
-                  src="/khoa.jpg"
-                  alt="Nguyễn Anh Khoa"
-                  width={250}
-                  height={250}
-                />
-                <h5 className={convert("fw-bolder")}>Nguyễn Anh Khoa</h5>
-                <div className={convert("fst-italic text-muted")}>Leader</div>
-              </div>
-            </div>
-            <div className={convert("col mb-5 mb-5 mb-sm-0")}>
-              <div className={convert("text-center")}>
-                <picture>
-                  <img
-                    className={convert("img-fluid rounded-circle mb-4 px-4")}
-                    src="/chu.jpg"
-                    alt="Đỗ Trần Minh Chu"
-                    width={250}
-                    height={250}
-                  />
-                </picture>
-                <h5 className={convert("fw-bolder")}>Đỗ Trần Minh Chu</h5>
-                <div className={convert("fst-italic text-muted")}>Member</div>
-              </div>
-            </div>
-            <div className={convert("col mb-5")}>
-              <div className={convert("text-center")}>
-                <img
-                  className={convert("img-fluid rounded-circle mb-4 px-4")}
-                  src="/huy.jpg"
-                  alt="Triệu Quang Huy"
-                  width={250}
-                  height={250}
-                />
-                <h5 className={convert("fw-bolder")}>Triệu Quang Huy</h5>
-                <div className={convert("fst-italic text-muted")}>Member</div>
-              </div>
-            </div>
+            
           </div>
         </div>
       </section>
